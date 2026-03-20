@@ -1,0 +1,2075 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inference Explorer — Narnia Labs</title>
+<link rel="stylesheet" href="shared/style.css">
+<script src="shared/lib/papaparse.min.js"></script>
+<script src="shared/lib/chart.umd.min.js"></script>
+<style>
+  .gf-label { font-size:9px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1px; }
+  .gf-select { width:100%; background:rgba(255,255,255,0.06); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:6px 10px; font-size:11px; outline:none; margin-top:4px; }
+  .gf-select option { background:#1a1a2e; }
+  .gf-pill { cursor:pointer; padding:3px 10px; font-size:10px; border-radius:6px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); transition:all 0.15s; }
+  .gf-pill.active { background:rgba(167,139,250,0.2); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
+  .gf-pill:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
+
+  /* 3D Viewer */
+  .pc-viewer-container { position:relative; width:100%; border-radius:12px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
+  .pc-viewer-container canvas { display:block; width:100% !important; height:100% !important; }
+  .pc-controls { display:flex; gap:6px; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); flex-wrap:wrap; }
+  .pc-controls label { font-size:9px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; }
+  .pc-sample-strip { display:flex; gap:4px; flex-wrap:wrap; }
+  .pc-sample-btn { width:28px; height:28px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:10px; font-weight:700; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; }
+  .pc-sample-btn.active { background:rgba(167,139,250,0.25); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
+  .pc-sample-btn:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
+  .pc-info { font-size:9px; color:rgba(255,255,255,0.3); padding:6px 14px; display:flex; justify-content:space-between; }
+  .pc-color-btn { padding:2px 8px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:9px; cursor:pointer; transition:all 0.15s; }
+  .pc-color-btn.active { background:rgba(56,189,248,0.2); border-color:rgba(56,189,248,0.4); color:#38bdf8; }
+
+  /* 3D Eval Viewer */
+  .eval3d-viewer-wrap { display:flex; flex-direction:column; gap:8px; }
+  .eval3d-panel { position:relative; border-radius:12px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
+  .eval3d-panel-label { position:absolute; top:8px; left:10px; z-index:10; font-size:10px; font-weight:700; letter-spacing:0.5px; padding:2px 8px; border-radius:4px; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); }
+  .eval3d-panel-label.pred { color:#a78bfa; }
+  .eval3d-panel-label.gt { color:#34d399; }
+  .eval3d-panel-label.error { color:#f59e0b; }
+  .eval3d-canvas-wrap { width:100%; height:500px; position:relative; }
+  .eval3d-stats { position:absolute; bottom:8px; right:10px; z-index:10; font-size:9px; color:rgba(255,255,255,0.5); background:rgba(0,0,0,0.5); padding:2px 8px; border-radius:4px; backdrop-filter:blur(4px); }
+  .eval3d-controls { display:flex; gap:6px; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:10px; flex-wrap:wrap; }
+  .eval3d-controls label { font-size:9px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; }
+  .eval3d-channel-btn { padding:2px 10px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:9px; cursor:pointer; transition:all 0.15s; }
+  .eval3d-channel-btn.active { background:rgba(167,139,250,0.25); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
+  .eval3d-channel-btn:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
+  .eval3d-colorbar { position:absolute; right:10px; top:50%; transform:translateY(-50%); width:14px; height:60%; z-index:10; border-radius:3px; border:1px solid rgba(255,255,255,0.1); }
+  .eval3d-colorbar-label { position:absolute; right:10px; z-index:10; font-size:7px; color:rgba(255,255,255,0.4); text-align:right; }
+  @media (max-width: 900px) { .eval3d-canvas-wrap { height:300px; } }
+
+  /* ── Comparisons ── */
+  .cmp-model-pill {
+    padding: 5px 12px; border-radius: 6px; font-size: 11px; font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.15s;
+  }
+  .cmp-model-pill:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .cmp-model-pill.active-a { background: rgba(56,189,248,0.2); border-color: rgba(56,189,248,0.5); color: #38bdf8; }
+  .cmp-model-pill.active-b { background: rgba(244,114,182,0.2); border-color: rgba(244,114,182,0.5); color: #f472b6; }
+  .cmp-card {
+    flex: 1; min-width: 100px; padding: 14px 16px; border-radius: 10px;
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: center;
+  }
+  .cmp-card-value { font-size: 24px; font-weight: 900; letter-spacing: -0.5px; }
+  .cmp-card-label { font-size: 9px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+  .cmp-metric-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .cmp-metric-table th { padding: 6px 8px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.4); border-bottom: 1px solid rgba(255,255,255,0.08); text-align: left; }
+  .cmp-metric-table td { padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .cmp-metric-table .metric-name { color: rgba(255,255,255,0.6); font-weight: 600; font-size: 10px; }
+  .cmp-metric-table .val-a { color: #38bdf8; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  .cmp-metric-table .val-b { color: #f472b6; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  .cmp-metric-table .val-diff { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; }
+  .cmp-metric-table .cat-row td { padding: 6px 8px 3px; font-size: 8px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; border-bottom: none; }
+  .diff-better { color: #34d399; }
+  .diff-worse  { color: #f87171; }
+  .diff-tie    { color: rgba(255,255,255,0.3); }
+  .cmp-bar-wrap { position: relative; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.04); overflow: hidden; }
+  .cmp-bar-a { position: absolute; left: 0; top: 0; height: 100%; border-radius: 4px 0 0 4px; background: rgba(56,189,248,0.4); transition: width 0.3s; }
+  .cmp-bar-b { position: absolute; right: 0; top: 0; height: 100%; border-radius: 0 4px 4px 0; background: rgba(244,114,182,0.4); transition: width 0.3s; }
+  .cmp-grid { display: flex; gap: 16px; }
+  .cmp-half { flex: 1; min-width: 0; }
+  .cmp-img-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .cmp-img-row img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); background: #08051a; }
+  @media (max-width: 900px) { .cmp-grid { flex-direction: column; } }
+</style>
+</head>
+<body>
+<div class="glow1"></div>
+<div class="glow2"></div>
+
+<script src="shared/nav.js"></script>
+<script>initNav('inference');</script>
+<script src="shared/data-loader.js"></script>
+
+<div class="page-content">
+
+<!-- Page Header -->
+<div style="margin-bottom:20px;">
+  <div style="font-size:22px; font-weight:900; color:#fff; letter-spacing:-0.3px;">Inference Explorer</div>
+  <div style="font-size:12px; color:rgba(255,255,255,0.4); margin-top:4px;">모델별 추론 결과 탐색 · 생성 이미지 · 성능 메트릭</div>
+</div>
+
+<!-- Layout: Sidebar + Main -->
+<div class="flex gap-16" style="align-items:flex-start;">
+
+  <!-- Sidebar: Directory Tree -->
+  <div class="glass explorer-sidebar" style="padding:16px;">
+    <div class="section-label section-label-purple" style="margin-bottom:12px;">Experiments</div>
+
+    <!-- 2D Generation -->
+    <div class="tree-item" onclick="toggleTree('2d-gen')" style="font-weight:700;">
+      <span class="icon">▸</span> dimension_2d / generation
+    </div>
+    <div class="tree-children" id="tree-2d-gen"></div>
+
+    <!-- 3D Evaluation -->
+    <div class="tree-item" onclick="toggleTree('3d-eval')" style="font-weight:700;">
+      <span class="icon">▸</span> dimension_3d / evaluation
+    </div>
+    <div class="tree-children" id="tree-3d-eval"></div>
+
+    <!-- 3D Generation -->
+    <div class="tree-item" onclick="toggleTree('3d-gen')" style="font-weight:700;">
+      <span class="icon">▸</span> dimension_3d / generation
+    </div>
+    <div class="tree-children" id="tree-3d-gen"></div>
+
+    <div style="margin-top:16px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.06);">
+      <div class="section-label" style="color:rgba(255,255,255,0.3); margin-bottom:8px;">Comparisons</div>
+      <div class="tree-item" onclick="showComparisons('mathematical')" style="font-weight:700;" id="sidebar-cmp-math">
+        <span class="icon">▸</span> Mathematical Analysis
+      </div>
+      <div class="tree-item" onclick="showComparisons('qualitative')" style="font-weight:700;" id="sidebar-cmp-qual">
+        <span class="icon">▸</span> Qualitative Analysis
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="explorer-main">
+    <!-- Default: Summary Cards -->
+    <div id="summary-view">
+      <!-- 2D Generation Summary -->
+      <div class="glass" style="padding:16px 20px; margin-bottom:16px;">
+        <div class="section-label" style="color:#22c55e; margin-bottom:14px;">2D Generation — Model Performance Summary</div>
+        <div class="flex gap-8 flex-wrap" id="perf-cards-2d"></div>
+      </div>
+
+      <!-- 3D Evaluation Summary -->
+      <div class="glass" style="padding:16px 20px; margin-bottom:16px;">
+        <div class="section-label" style="color:#38bdf8; margin-bottom:14px;">3D Evaluation — Model Performance Summary</div>
+        <div class="flex gap-8 flex-wrap" id="perf-cards-3d"></div>
+      </div>
+
+      <!-- 3D Generation Summary -->
+      <div class="glass" style="padding:16px 20px; margin-bottom:16px;">
+        <div class="section-label" style="color:#a78bfa; margin-bottom:14px;">3D Generation — Model Performance Summary</div>
+        <div class="flex gap-8 flex-wrap" id="perf-cards-3d-gen"></div>
+      </div>
+
+      <!-- Overview Stats -->
+      <div class="glass" style="padding:16px 20px;">
+        <div class="section-label section-label-purple" style="margin-bottom:14px;">Experiment Statistics</div>
+        <div class="flex gap-12">
+          <div class="glass perf-card flex-1">
+            <div class="perf-value" style="color:#a78bfa;">3</div>
+            <div class="perf-label">Categories</div>
+          </div>
+          <div class="glass perf-card flex-1">
+            <div class="perf-value" style="color:#22c55e;">9</div>
+            <div class="perf-label">2D Gen Models</div>
+          </div>
+          <div class="glass perf-card flex-1">
+            <div class="perf-value" style="color:#38bdf8;">5</div>
+            <div class="perf-label">3D Eval Models</div>
+          </div>
+          <div class="glass perf-card flex-1">
+            <div class="perf-value" style="color:#a78bfa;">3</div>
+            <div class="perf-label">3D Gen Models</div>
+          </div>
+          <div class="glass perf-card flex-1">
+            <div class="perf-value" style="color:#f59e0b;">4</div>
+            <div class="perf-label">Sizes (S/M/L/XL)</div>
+          </div>
+          <div class="glass perf-card flex-1">
+            <div class="perf-value" style="color:#f472b6;">2</div>
+            <div class="perf-label">Datasets</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail View (shown when selecting a model) -->
+    <div id="detail-view" style="display:none;">
+      <div class="flex justify-between items-center" style="margin-bottom:12px;">
+        <button onclick="backToSummary()" class="filter-pill" style="cursor:pointer;">← Back</button>
+        <div id="detail-breadcrumb" style="font-size:11px; color:rgba(255,255,255,0.4);"></div>
+      </div>
+
+      <!-- Performance Card -->
+      <div class="glass" style="padding:16px 20px; margin-bottom:16px;" id="detail-perf">
+      </div>
+
+      <!-- Image Grid (2D) or Data View (3D) -->
+      <div class="glass" style="padding:16px 20px;" id="detail-content">
+      </div>
+    </div>
+
+    <!-- Comparisons View -->
+    <div id="comparisons-view" style="display:none;">
+      <div class="flex justify-between items-center" style="margin-bottom:12px;">
+        <button onclick="backToSummary()" class="filter-pill" style="cursor:pointer;">← Back</button>
+        <div style="font-size:11px; color:rgba(255,255,255,0.4);" id="cmp-breadcrumb">Comparisons</div>
+      </div>
+
+      <!-- Control Filters (shared) -->
+      <div class="glass" style="padding:14px 20px; margin-bottom:8px;">
+        <div class="flex gap-16 flex-wrap" style="align-items:center;">
+          <div class="filter-group">
+            <span class="gf-label">Dimension</span>
+            <div id="cmp-dim-pills" style="display:inline-flex; gap:4px; margin-left:6px;"></div>
+          </div>
+          <div class="filter-group">
+            <span class="gf-label">Task</span>
+            <div id="cmp-task-pills" style="display:inline-flex; gap:4px; margin-left:6px;"></div>
+          </div>
+          <div class="filter-group">
+            <span class="gf-label">Data Size</span>
+            <div id="cmp-size-pills" style="display:inline-flex; gap:4px; margin-left:6px;"></div>
+          </div>
+          <div class="filter-group">
+            <span class="gf-label">Dataset</span>
+            <div id="cmp-dataset-pills" style="display:inline-flex; gap:4px; margin-left:6px;"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Level 2: Target Key + Dimension (3D eval only) -->
+      <div class="glass" style="padding:14px 20px; margin-bottom:8px; display:none;" id="cmp-level3">
+        <div class="flex gap-16 flex-wrap" style="align-items:center;">
+          <div class="filter-group">
+            <span class="gf-label">Target Key</span>
+            <div id="cmp-tk-pills" style="display:inline-flex; gap:4px; margin-left:6px;"></div>
+          </div>
+          <div class="filter-group">
+            <span class="gf-label">Dimension</span>
+            <div id="cmp-dimfilter-pills" style="display:inline-flex; gap:4px; margin-left:6px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Model Selectors (shared) -->
+      <div class="glass" style="padding:14px 20px; margin-bottom:12px;">
+        <div style="display:flex; gap:16px; align-items:stretch;">
+          <div style="flex:1; min-width:0; border-radius:10px; padding:12px 16px; border:1px solid rgba(56,189,248,0.25); background:rgba(56,189,248,0.03);">
+            <div style="font-size:10px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#38bdf8; margin-bottom:8px;">Model A</div>
+            <div id="cmp-model-a-pills" style="display:flex; flex-wrap:wrap; gap:5px;"></div>
+          </div>
+          <div style="display:flex; align-items:center; font-size:18px; font-weight:900; color:rgba(255,255,255,0.15); min-width:40px; justify-content:center; letter-spacing:2px;">VS</div>
+          <div style="flex:1; min-width:0; border-radius:10px; padding:12px 16px; border:1px solid rgba(244,114,182,0.25); background:rgba(244,114,182,0.03);">
+            <div style="font-size:10px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#f472b6; margin-bottom:8px;">Model B</div>
+            <div id="cmp-model-b-pills" style="display:flex; flex-wrap:wrap; gap:5px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div id="cmp-loading" style="display:none; text-align:center; padding:30px; color:var(--text-muted); font-size:12px;">Loading data...</div>
+
+      <!-- ═══ Qualitative Analysis Sub-View ═══ -->
+      <div id="cmp-qualitative-content" style="display:none;">
+        <!-- Visual Inference -->
+        <div class="glass" style="padding:16px 20px; margin-bottom:12px; display:none;" id="cmp-visual-section">
+          <div class="flex justify-between items-center" style="margin-bottom:14px;">
+            <div class="section-label section-label-green" id="cmp-visual-label">Inference Results — Side by Side</div>
+            <div id="cmp-sample-nav" style="display:flex; align-items:center; gap:8px;">
+              <span class="gf-label">Sample</span>
+              <button class="gf-pill" onclick="cmpPrevSample()" style="padding:3px 8px;">◀</button>
+              <span id="cmp-sample-idx" style="font-size:11px; font-weight:700; color:#fff; min-width:56px; text-align:center;">0</span>
+              <button class="gf-pill" onclick="cmpNextSample()" style="padding:3px 8px;">▶</button>
+            </div>
+          </div>
+          <div id="cmp-visual-content"></div>
+        </div>
+      </div>
+
+      <!-- ═══ Mathematical Analysis Sub-View ═══ -->
+      <div id="cmp-mathematical-content" style="display:none;">
+        <!-- Summary Cards -->
+        <div id="cmp-summary" style="display:none; margin-bottom:12px;">
+          <div style="display:flex; gap:12px; flex-wrap:wrap;" id="cmp-summary-cards"></div>
+        </div>
+
+        <!-- Radar -->
+        <div class="glass" style="padding:16px 20px; margin-bottom:12px; display:none;" id="cmp-radar-section">
+          <div class="section-label section-label-purple" style="margin-bottom:12px;">Radar Comparison</div>
+          <div style="height:340px;"><canvas id="cmp-radar-chart"></canvas></div>
+        </div>
+
+        <!-- Metric Table -->
+        <div class="glass" style="padding:16px 20px; margin-bottom:12px; display:none;" id="cmp-metrics-section">
+          <div class="flex justify-between items-center" style="margin-bottom:12px;">
+            <div class="section-label" style="color:var(--amber-400);">Metric-by-Metric Comparison</div>
+            <div id="cmp-metrics-info" style="font-size:10px; color:var(--text-muted);"></div>
+          </div>
+          <div id="cmp-metrics-table-wrap"></div>
+        </div>
+
+        <!-- Bar Chart -->
+        <div class="glass" style="padding:16px 20px; margin-bottom:12px; display:none;" id="cmp-bar-section">
+          <div class="section-label section-label-purple" style="margin-bottom:12px;">Normalized Score Comparison</div>
+          <div style="height:300px;"><canvas id="cmp-bar-chart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="page-footer">
+  <div class="divider"></div>
+  <div class="text">NARNIA LABS · AI Benchmark Dashboard</div>
+</div>
+
+</div><!-- /page-content -->
+
+<script>
+const PAGE_CACHE_BUST = Date.now();
+
+// ── Experiment Structure (static manifest) ──
+const EXPERIMENTS = {
+  '2d-gen': {
+    basePath: 'output/data/inference/dimension_2d/generation',
+    models: [
+      { name: 'gan', sizes: [50, 100, 200, 500] },
+      { name: 'vae', sizes: [50, 100, 200, 500] },
+      { name: 'dcgan', sizes: [50, 100, 200, 500] },
+      { name: 'lsgan', sizes: [50, 100, 200, 500] },
+      { name: 'wgan_cp', sizes: [50, 100, 200, 500] },
+      { name: 'wgan_gp', sizes: [50, 100, 200, 500] },
+      { name: 'r1gan', sizes: [50, 100, 200, 500] },
+      { name: 'ddpm', sizes: [50, 100, 200, 500] },
+      { name: 'vqvae', sizes: [50, 100, 200, 500] },
+    ],
+    datasets: ['deepjeb_2d_2d', 'drivaernet_2d_2d'],
+    type: '2d',
+  },
+  '3d-eval': {
+    basePath: 'output/data/inference/dimension_3d/evaluation',
+    models: [
+      { name: 'transolver_pp', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
+      { name: 'transolver', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
+      { name: 'abupt', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
+      { name: 'pointnet', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
+      { name: 'regdgcnn', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
+    ],
+    datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'],
+    type: '3d',
+    variantsByDataset: {
+      'deepjeb_3d_2d': ['vertical', 'horizontal', 'torsion', 'diagonal', 'mode_shape_1', 'mode_shape_2'],
+      'drivaernet_3d_2d': ['pressure', 'velocity', 'pv_coupled'],
+    },
+    variants: ['vertical', 'horizontal', 'torsion', 'diagonal', 'mode_shape_1', 'mode_shape_2', 'pressure', 'velocity', 'pv_coupled'],
+  },
+  '3d-gen': {
+    basePath: 'output/data/inference/dimension_3d/generation',
+    models: [
+      { name: 'gan3d', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_3d', 'drivaernet_3d_3d'] },
+      { name: 'deepsdf', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_3d', 'drivaernet_3d_3d'] },
+      { name: 'pointflow', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_3d', 'drivaernet_3d_3d'] },
+    ],
+    datasets: ['deepjeb_3d_3d', 'drivaernet_3d_3d'],
+    type: '3d-gen',
+  },
+};
+
+
+// ── Build Sidebar Trees ──
+function buildTree(treeId) {
+  const exp = EXPERIMENTS[treeId];
+  if (!exp) return;
+
+  const container = document.getElementById('tree-' + treeId);
+  let html = '';
+
+  exp.models.forEach(model => {
+    const modelDatasets = model.datasets || exp.datasets;
+    model.sizes.forEach(size => {
+      modelDatasets.forEach(ds => {
+        const key = `${treeId}|${model.name}|${size}|${ds}`;
+        const dimColor = exp.type === '2d' ? '#22c55e' : '#38bdf8';
+        html += `
+          <div class="tree-item" onclick="selectExperiment('${key}')" data-key="${key}">
+            <span class="icon" style="color:${dimColor};">●</span>
+            ${model.name}_${size} / ${ds.split('_')[0]}
+          </div>
+        `;
+      });
+    });
+  });
+
+  container.innerHTML = html;
+}
+
+function toggleTree(treeId) {
+  const container = document.getElementById('tree-' + treeId);
+  const isExpanded = container.classList.contains('expanded');
+
+  if (!isExpanded && container.innerHTML === '') {
+    buildTree(treeId);
+  }
+
+  container.classList.toggle('expanded');
+  const trigger = container.previousElementSibling;
+  const icon = trigger.querySelector('.icon');
+  icon.textContent = isExpanded ? '▸' : '▾';
+}
+
+// ── Select Experiment ──
+async function selectExperiment(key) {
+  const [treeId, model, size, dataset] = key.split('|');
+  const exp = EXPERIMENTS[treeId];
+
+  // Highlight active
+  document.querySelectorAll('.tree-item').forEach(el => el.classList.remove('active'));
+  const activeEl = document.querySelector(`[data-key="${key}"]`);
+  if (activeEl) activeEl.classList.add('active');
+
+  // Show detail view
+  document.getElementById('summary-view').style.display = 'none';
+  document.getElementById('comparisons-view').style.display = 'none';
+  document.getElementById('detail-view').style.display = 'block';
+
+  document.getElementById('detail-breadcrumb').textContent =
+    `${treeId.replace(/-/g, ' ')} / ${model}_${size} / ${dataset}`;
+
+  // Try to load performance.json
+  const datasetVariants = exp.variantsByDataset ? exp.variantsByDataset[dataset] : exp.variants;
+  const basePath = datasetVariants
+    ? `${exp.basePath}/${model}_${size}_${datasetVariants[0]}/${dataset}`
+    : `${exp.basePath}/${model}_${size}/${dataset}`;
+
+  const perfDiv = document.getElementById('detail-perf');
+  const contentDiv = document.getElementById('detail-content');
+
+  try {
+    const resp = await fetch(`${basePath}/performance.json`);
+    if (resp.ok) {
+      const perf = await resp.json();
+      perfDiv.innerHTML = `
+        <div class="section-label" style="color:#a78bfa; margin-bottom:12px;">Performance — ${model} (size=${size})</div>
+        <div class="flex gap-12">
+          <div class="glass perf-card flex-1">
+            <div class="perf-value" style="color:#a78bfa; font-size:18px;">${(perf.model_parameters / 1e6).toFixed(2)}M</div>
+            <div class="perf-label">Parameters</div>
+          </div>
+          <div class="glass perf-card flex-1">
+            <div class="perf-value" style="color:#34d399; font-size:18px;">${perf.training_time_sec.toFixed(1)}s</div>
+            <div class="perf-label">Training Time</div>
+          </div>
+          <div class="glass perf-card flex-1">
+            <div class="perf-value" style="color:#38bdf8; font-size:18px;">${perf.inference_time_sec.toFixed(2)}s</div>
+            <div class="perf-label">Inference Time</div>
+          </div>
+          <div class="glass perf-card flex-1">
+            <div class="perf-value" style="color:#f59e0b; font-size:18px;">${perf.total_generated}</div>
+            <div class="perf-label">Generated Samples</div>
+          </div>
+        </div>
+      `;
+    } else {
+      perfDiv.innerHTML = `<div style="font-size:11px; color:rgba(255,255,255,0.3);">performance.json not found</div>`;
+    }
+  } catch {
+    perfDiv.innerHTML = `<div style="font-size:11px; color:rgba(255,255,255,0.3);">Could not load performance data</div>`;
+  }
+
+  // Show images for 2D or info for 3D
+  if (exp.type === '2d') {
+    const imgPath = `output/gen2d/${model}/${dataset}/${size}`;
+    let imagesHtml = '<div class="section-label" style="color:#22c55e; margin-bottom:12px;">Generated Samples (first 12)</div>';
+    imagesHtml += '<div class="image-grid">';
+    for (let i = 0; i < 12; i++) {
+      const idx = String(i).padStart(5, '0');
+      imagesHtml += `
+        <div class="image-card">
+          <img src="${imgPath}/img_${idx}.png?t=${PAGE_CACHE_BUST}"
+               onerror="this.parentElement.style.display='none'"
+               loading="lazy"
+               alt="sample ${i}">
+          <div class="caption">img_${idx}.png</div>
+        </div>
+      `;
+    }
+    imagesHtml += '</div>';
+    contentDiv.innerHTML = imagesHtml;
+  } else if (exp.type === '3d-gen') {
+    // 3D generation — interactive Three.js point cloud viewer
+    const sizeMap3d = { '20': 'S', '50': 'M', '100': 'L', '200': 'XL' };
+    const sizeCode3d = sizeMap3d[String(size)] || 'S';
+    let viewerHtml = `<div class="section-label" style="color:#a78bfa; margin-bottom:12px;">3D Generation — Interactive Point Cloud Viewer</div>`;
+    viewerHtml += `<div id="pc-viewer-root" data-model="${model}" data-size="${size}" data-dataset="${dataset}" data-size-code="${sizeCode3d}"></div>`;
+    contentDiv.innerHTML = viewerHtml;
+    initPointCloudViewer(model, parseInt(size), dataset);
+  } else {
+    // 3D evaluation — interactive 3D viewer with Prediction / GT / Error
+    const EVAL_CHANNELS = {
+      'deepjeb_3d_2d': {
+        'vertical':     ['disp_x', 'disp_y', 'disp_z', 'stress'],
+        'horizontal':   ['disp_x', 'disp_y', 'disp_z', 'stress'],
+        'diagonal':     ['disp_x', 'disp_y', 'disp_z', 'stress'],
+        'torsion':      ['disp_x', 'disp_y', 'disp_z', 'stress'],
+        'mode_shape_1': ['mode_x', 'mode_y', 'mode_z'],
+        'mode_shape_2': ['mode_x', 'mode_y', 'mode_z'],
+      },
+      'drivaernet_3d_2d': {
+        'velocity':     ['velocity_x', 'velocity_y', 'velocity_z'],
+        'pressure':     ['pressure'],
+        'pv_coupled':   ['pressure', 'velocity_x', 'velocity_y', 'velocity_z'],
+      },
+    };
+
+    const variants = datasetVariants || exp.variants || [];
+    let infoHtml = `<div class="section-label" style="color:#38bdf8; margin-bottom:12px;">3D Evaluation — Interactive Viewer (Prediction / GT / Error)</div>`;
+
+    // Target key selector
+    infoHtml += `<div style="margin-bottom:12px; display:flex; gap:6px; flex-wrap:wrap;" id="eval3d-tk-btns">`;
+    variants.forEach((v, i) => {
+      infoHtml += `<button class="filter-pill ${i === 0 ? 'active' : ''}"
+        onclick="window._evalSelectTargetKey('${model}','${dataset}','${v}',${size},this)">${v}</button>`;
+    });
+    infoHtml += `</div>`;
+
+    // Viewer container
+    infoHtml += `<div id="eval3d-viewer-root"></div>`;
+    contentDiv.innerHTML = infoHtml;
+
+    // Target key switcher
+    window._evalSelectTargetKey = function(m, ds, tk, sz, btn) {
+      if (btn) {
+        btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+      }
+      const chs = (EVAL_CHANNELS[ds] && EVAL_CHANNELS[ds][tk]) || [];
+      if (chs.length) {
+        initEvalViewer(m, sz, ds, tk, chs);
+      }
+    };
+
+    // Auto-load first variant
+    if (variants.length) {
+      const firstTK = variants[0];
+      const firstChs = (EVAL_CHANNELS[dataset] && EVAL_CHANNELS[dataset][firstTK]) || [];
+      if (firstChs.length) {
+        initEvalViewer(model, parseInt(size), dataset, firstTK, firstChs);
+      }
+    }
+  }
+}
+
+function backToSummary() {
+  document.getElementById('summary-view').style.display = 'block';
+  document.getElementById('detail-view').style.display = 'none';
+  document.getElementById('comparisons-view').style.display = 'none';
+  document.querySelectorAll('.tree-item').forEach(el => el.classList.remove('active'));
+}
+
+// ══════════════════════════════════════════
+// COMPARISONS
+// ══════════════════════════════════════════
+const cmpState = {
+  dim: '3d', task: 'generation', dataScale: null, dataset: null,
+  targetKey: null, dimension: null, modelA: null, modelB: null, sampleIndex: 0,
+  mode: 'qualitative',
+};
+let cmpAllSummary = [];
+let cmpFiltered = [];
+let cmpRadarChart = null;
+let cmpBarChart = null;
+
+Chart.defaults.color = 'rgba(255,255,255,0.6)';
+Chart.defaults.borderColor = 'rgba(255,255,255,0.08)';
+Chart.defaults.font.family = 'Inter, system-ui, sans-serif';
+Chart.defaults.font.size = 10;
+
+function cmpCategory() {
+  if (cmpState.dim === '2d') return 'dimension_2d/generation';
+  return `dimension_3d/${cmpState.task}`;
+}
+
+async function showComparisons(mode) {
+  const prevMode = cmpState.mode;
+  cmpState.mode = mode || 'qualitative';
+  const alreadyVisible = document.getElementById('comparisons-view').style.display === 'block';
+  document.getElementById('summary-view').style.display = 'none';
+  document.getElementById('detail-view').style.display = 'none';
+  document.getElementById('comparisons-view').style.display = 'block';
+  document.querySelectorAll('.tree-item').forEach(el => el.classList.remove('active'));
+  document.getElementById(cmpState.mode === 'qualitative' ? 'sidebar-cmp-qual' : 'sidebar-cmp-math').classList.add('active');
+  // Toggle sub-views
+  document.getElementById('cmp-qualitative-content').style.display = cmpState.mode === 'qualitative' ? 'block' : 'none';
+  document.getElementById('cmp-mathematical-content').style.display = cmpState.mode === 'mathematical' ? 'block' : 'none';
+  // Update breadcrumb
+  document.getElementById('cmp-breadcrumb').textContent =
+    cmpState.mode === 'qualitative' ? 'Comparisons › Qualitative Analysis' : 'Comparisons › Mathematical Analysis';
+  // If switching modes with data already loaded, just re-render
+  if (alreadyVisible && cmpAllSummary.length && prevMode !== cmpState.mode) {
+    cmpRenderAll();
+  } else if (!alreadyVisible || !cmpAllSummary.length) {
+    await cmpLoadData();
+  }
+}
+
+async function cmpLoadData() {
+  document.getElementById('cmp-loading').style.display = 'block';
+  cmpHideSections();
+  try {
+    cmpAllSummary = await loadSummaryMetrics(cmpCategory());
+    const opts = extractFilterOptions(cmpAllSummary);
+    cmpRenderFilters(opts);
+    cmpApplyFilters();
+  } catch (err) {
+    console.error('CMP load failed:', err);
+    document.getElementById('cmp-loading').innerHTML =
+      '<div style="color:var(--red-400);">Failed to load data.</div>';
+  }
+}
+
+function cmpHideSections() {
+  if (cmpState.mode === 'qualitative') {
+    document.getElementById('cmp-visual-section').style.display = 'none';
+  } else {
+    ['cmp-summary','cmp-radar-section','cmp-metrics-section','cmp-bar-section']
+      .forEach(id => document.getElementById(id).style.display = 'none');
+  }
+}
+
+function cmpMakePills(containerId, items, activeVal, onClick) {
+  document.getElementById(containerId).innerHTML = items.map(it =>
+    `<button class="gf-pill ${it.value===activeVal?'active':''}"
+      onclick="${onClick}('${it.value}',this)">${it.label}</button>`
+  ).join('');
+}
+
+function cmpRenderFilters(opts) {
+  // Dimension
+  cmpMakePills('cmp-dim-pills', [
+    { value:'3d', label:'3D' }, { value:'2d', label:'2D' }
+  ], cmpState.dim, 'cmpSetDim');
+
+  // Task
+  if (cmpState.dim === '2d') {
+    cmpState.task = 'generation';
+    document.getElementById('cmp-task-pills').innerHTML =
+      '<button class="gf-pill active">Generation</button>';
+  } else {
+    cmpMakePills('cmp-task-pills', [
+      { value:'generation', label:'Generation' }, { value:'evaluation', label:'Evaluation' }
+    ], cmpState.task, 'cmpSetTask');
+  }
+
+  // Size
+  const scaleOrder = ['Extra Large','Large','Medium','Small'];
+  const available = scaleOrder.filter(s => opts.scales.includes(s));
+  if (!cmpState.dataScale && available.length) cmpState.dataScale = available[0];
+  const scaleToSize = {};
+  cmpAllSummary.forEach(r => { scaleToSize[r['Data Scale']] = Math.round(r['Data Size']); });
+  cmpMakePills('cmp-size-pills', available.map(s => ({
+    value: s, label: `${SCALE_MAP[s]} (${scaleToSize[s]||''})`
+  })), cmpState.dataScale, 'cmpSetSize');
+
+  // Dataset — must pick one (no "All")
+  if (!cmpState.dataset && opts.datasets.length) cmpState.dataset = opts.datasets[0];
+  cmpMakePills('cmp-dataset-pills', opts.datasets.map(ds => ({
+    value: ds, label: displayDataset(ds)
+  })), cmpState.dataset, 'cmpSetDataset');
+
+  // Level3 (3D eval)
+  cmpRenderLevel3();
+}
+
+function cmpRenderLevel3() {
+  const el = document.getElementById('cmp-level3');
+  if (cmpState.dim !== '3d' || cmpState.task !== 'evaluation') { el.style.display = 'none'; return; }
+  el.style.display = 'block';
+  const tks = cmpState.dataset
+    ? getTargetKeysForDataset(cmpAllSummary, cmpState.dataset)
+    : getAllTargetKeysOrdered(cmpAllSummary);
+  if (!cmpState.targetKey || !tks.includes(cmpState.targetKey)) cmpState.targetKey = tks[0] || null;
+  cmpMakePills('cmp-tk-pills', tks.map(tk => ({ value: tk, label: tk })), cmpState.targetKey, 'cmpSetTK');
+
+  if (cmpState.targetKey) {
+    const dims = getDimensionsForTargetKey(cmpAllSummary, cmpState.dataset, cmpState.targetKey);
+    if (!cmpState.dimension || !dims.includes(cmpState.dimension)) cmpState.dimension = dims[0] || null;
+    cmpMakePills('cmp-dimfilter-pills', dims.map(d => ({ value: d, label: d })), cmpState.dimension, 'cmpSetDimFilter');
+  } else {
+    cmpState.dimension = null;
+    document.getElementById('cmp-dimfilter-pills').innerHTML = '';
+  }
+}
+
+// Filter setters
+window.cmpSetDim = function(v, btn) {
+  cmpState.dim = v; cmpState.task = 'generation';
+  cmpState.dataScale = null; cmpState.dataset = null;
+  cmpState.targetKey = null; cmpState.dimension = null;
+  cmpState.modelA = null; cmpState.modelB = null;
+  cmpLoadData();
+};
+window.cmpSetTask = function(v, btn) {
+  cmpState.task = v; cmpState.dataScale = null; cmpState.dataset = null;
+  cmpState.targetKey = null; cmpState.dimension = null;
+  cmpState.modelA = null; cmpState.modelB = null;
+  cmpLoadData();
+};
+window.cmpSetSize = function(v, btn) {
+  cmpState.dataScale = v; cmpState.modelA = null; cmpState.modelB = null;
+  btn.parentElement.querySelectorAll('.gf-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  cmpApplyFilters();
+};
+window.cmpSetDataset = function(v, btn) {
+  cmpState.dataset = v; cmpState.targetKey = null; cmpState.dimension = null;
+  cmpState.modelA = null; cmpState.modelB = null;
+  btn.parentElement.querySelectorAll('.gf-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  cmpRenderLevel3();
+  cmpApplyFilters();
+};
+window.cmpSetTK = function(v, btn) {
+  cmpState.targetKey = v; cmpState.dimension = null;
+  cmpState.modelA = null; cmpState.modelB = null;
+  btn.parentElement.querySelectorAll('.gf-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  const dims = getDimensionsForTargetKey(cmpAllSummary, cmpState.dataset, cmpState.targetKey);
+  cmpState.dimension = dims[0] || null;
+  cmpMakePills('cmp-dimfilter-pills', dims.map(d => ({ value: d, label: d })), cmpState.dimension, 'cmpSetDimFilter');
+  cmpApplyFilters();
+};
+window.cmpSetDimFilter = function(v, btn) {
+  cmpState.dimension = v;
+  cmpState.modelA = null; cmpState.modelB = null;
+  btn.parentElement.querySelectorAll('.gf-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  cmpApplyFilters();
+};
+
+function cmpApplyFilters() {
+  const filters = { dataset: cmpState.dataset, dataScale: cmpState.dataScale };
+  if (cmpState.dim === '3d' && cmpState.task === 'evaluation') {
+    filters.targetKey = cmpState.targetKey;
+    filters.dimension = cmpState.dimension;
+  }
+  cmpFiltered = filterSummaryData(cmpAllSummary, filters);
+  const models = [...new Set(cmpFiltered.map(r => r['Model Name']))].sort();
+  if (!cmpState.modelA || !models.includes(cmpState.modelA)) cmpState.modelA = models[0] || null;
+  if (!cmpState.modelB || !models.includes(cmpState.modelB)) cmpState.modelB = models[1] || models[0] || null;
+  if (cmpState.modelA === cmpState.modelB && models.length > 1) {
+    cmpState.modelB = models.find(m => m !== cmpState.modelA) || models[0];
+  }
+  cmpRenderModelPills(models);
+  document.getElementById('cmp-loading').style.display = 'none';
+  cmpRenderAll();
+}
+
+function cmpRenderModelPills(models) {
+  document.getElementById('cmp-model-a-pills').innerHTML = models.map(m =>
+    `<button class="cmp-model-pill ${m===cmpState.modelA?'active-a':''}" onclick="cmpSelectModel('A','${m}')">${displayModelName(m)}</button>`
+  ).join('');
+  document.getElementById('cmp-model-b-pills').innerHTML = models.map(m =>
+    `<button class="cmp-model-pill ${m===cmpState.modelB?'active-b':''}" onclick="cmpSelectModel('B','${m}')">${displayModelName(m)}</button>`
+  ).join('');
+}
+
+window.cmpSelectModel = function(side, model) {
+  if (side === 'A') cmpState.modelA = model; else cmpState.modelB = model;
+  const models = [...new Set(cmpFiltered.map(r => r['Model Name']))].sort();
+  cmpRenderModelPills(models);
+  cmpRenderAll();
+};
+
+function cmpSamplesPerPage() {
+  if (cmpState.task === 'evaluation') return 1;
+  if (cmpState.dim === '2d') return 12;
+  return 6;
+}
+function cmpPrevSample() {
+  const step = cmpSamplesPerPage();
+  if (cmpState.sampleIndex >= step) { cmpState.sampleIndex -= step; cmpRenderVisual(); }
+}
+function cmpNextSample() {
+  const step = cmpSamplesPerPage();
+  if (cmpState.sampleIndex + step < 12) {
+    cmpState.sampleIndex += step;
+    cmpRenderVisual();
+  }
+}
+
+// ── Render all comparison sections ──
+function cmpRenderAll() {
+  if (!cmpState.modelA || !cmpState.modelB) { cmpHideSections(); return; }
+  const rowA = cmpFiltered.find(r => r['Model Name'] === cmpState.modelA);
+  const rowB = cmpFiltered.find(r => r['Model Name'] === cmpState.modelB);
+  if (!rowA || !rowB) { cmpHideSections(); return; }
+
+  if (cmpState.mode === 'qualitative') {
+    cmpRenderVisual();
+  } else {
+    const headers = Object.keys(rowA);
+    const { allMetrics, qualityMetrics } = getSummaryMetricColumns(headers);
+    const groups = groupMetricsByCategory(allMetrics, cmpState.dim, cmpState.task);
+    const ranges = getMetricRanges(cmpFiltered, allMetrics);
+    cmpRenderSummary(rowA, rowB, allMetrics);
+    cmpRenderRadar(rowA, rowB, qualityMetrics, ranges);
+    cmpRenderMetricTable(rowA, rowB, allMetrics, groups, ranges);
+    cmpRenderBarChart(rowA, rowB, allMetrics, ranges);
+  }
+}
+
+function cmpRenderSummary(rowA, rowB, metrics) {
+  let wA = 0, wB = 0, ties = 0;
+  metrics.forEach(m => {
+    const vA = parseFloat(rowA[m]), vB = parseFloat(rowB[m]);
+    if (isNaN(vA) || isNaN(vB)) { ties++; return; }
+    const higher = isHigherBetter(m);
+    if (vA === vB) ties++;
+    else if ((higher && vA > vB) || (!higher && vA < vB)) wA++;
+    else wB++;
+  });
+  const nA = displayModelName(cmpState.modelA), nB = displayModelName(cmpState.modelB);
+  document.getElementById('cmp-summary-cards').innerHTML = `
+    <div class="cmp-card" style="border-color:rgba(56,189,248,0.2);"><div class="cmp-card-value" style="color:#38bdf8;">${wA}</div><div class="cmp-card-label">${nA} Wins</div></div>
+    <div class="cmp-card"><div class="cmp-card-value" style="color:rgba(255,255,255,0.3);">${ties}</div><div class="cmp-card-label">Tie</div></div>
+    <div class="cmp-card" style="border-color:rgba(244,114,182,0.2);"><div class="cmp-card-value" style="color:#f472b6;">${wB}</div><div class="cmp-card-label">${nB} Wins</div></div>
+    <div class="cmp-card"><div class="cmp-card-value" style="color:rgba(255,255,255,0.6);">${metrics.length}</div><div class="cmp-card-label">Total Metrics</div></div>
+  `;
+  document.getElementById('cmp-summary').style.display = 'block';
+}
+
+function cmpRenderRadar(rowA, rowB, qm, ranges) {
+  const ctx = document.getElementById('cmp-radar-chart').getContext('2d');
+  if (cmpRadarChart) cmpRadarChart.destroy();
+  if (!qm.length) { document.getElementById('cmp-radar-section').style.display = 'none'; return; }
+  const nA = displayModelName(cmpState.modelA), nB = displayModelName(cmpState.modelB);
+  cmpRadarChart = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: qm.map(m => shortMetricLabel(m)),
+      datasets: [
+        { label: nA, data: qm.map(m => { const v=parseFloat(rowA[m]); return isNaN(v)?0:normalizeMetric(v,ranges[m]); }),
+          backgroundColor:'rgba(56,189,248,0.15)', borderColor:'rgba(56,189,248,0.85)', borderWidth:2, pointRadius:3, pointBackgroundColor:'#38bdf8' },
+        { label: nB, data: qm.map(m => { const v=parseFloat(rowB[m]); return isNaN(v)?0:normalizeMetric(v,ranges[m]); }),
+          backgroundColor:'rgba(244,114,182,0.15)', borderColor:'rgba(244,114,182,0.85)', borderWidth:2, pointRadius:3, pointBackgroundColor:'#f472b6' },
+      ],
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ labels:{ font:{size:11}, boxWidth:14, padding:12 } } },
+      scales:{ r:{ min:0, max:1, ticks:{display:false,stepSize:0.25}, grid:{color:'rgba(255,255,255,0.07)'}, angleLines:{color:'rgba(255,255,255,0.07)'}, pointLabels:{font:{size:9},color:'rgba(255,255,255,0.55)'} } },
+    },
+  });
+  document.getElementById('cmp-radar-section').style.display = 'block';
+}
+
+function cmpRenderMetricTable(rowA, rowB, metrics, groups, ranges) {
+  const nA = displayModelName(cmpState.modelA), nB = displayModelName(cmpState.modelB);
+  let html = `<table class="cmp-metric-table"><thead><tr>
+    <th style="width:28%;">Metric</th>
+    <th style="width:18%; text-align:right; color:#38bdf8;">${nA}</th>
+    <th style="width:18%; text-align:right; color:#f472b6;">${nB}</th>
+    <th style="width:18%; text-align:right;">Diff</th>
+    <th style="width:18%;"></th></tr></thead><tbody>`;
+
+  groups.forEach(g => {
+    html += `<tr class="cat-row"><td colspan="5" style="color:${g.textColor};">${g.category}</td></tr>`;
+    g.metrics.forEach(m => {
+      const vA = parseFloat(rowA[m]), vB = parseFloat(rowB[m]);
+      const higher = isHigherBetter(m);
+      const dir = m.includes('↑')?' ↑':m.includes('↓')?' ↓':'';
+      const label = shortMetricLabel(m)+dir;
+      let diffStr='-', diffClass='diff-tie', barAPct=50, barBPct=50;
+      if (!isNaN(vA) && !isNaN(vB)) {
+        const diff = vA - vB;
+        diffStr = (diff>0?'+':'')+formatMetricValue(diff, m);
+        const aWins = (higher&&vA>vB)||(!higher&&vA<vB);
+        const bWins = (higher&&vB>vA)||(!higher&&vB<vA);
+        if (aWins) diffClass='diff-better'; else if (bWins) diffClass='diff-worse';
+        const nAv=normalizeMetric(vA,ranges[m]), nBv=normalizeMetric(vB,ranges[m]);
+        const tot=nAv+nBv||1;
+        barAPct=(nAv/tot)*100; barBPct=(nBv/tot)*100;
+      }
+      html += `<tr><td class="metric-name">${label}</td>
+        <td class="val-a">${!isNaN(vA)?formatMetricValue(vA,m):'-'}</td>
+        <td class="val-b">${!isNaN(vB)?formatMetricValue(vB,m):'-'}</td>
+        <td class="val-diff ${diffClass}">${diffStr}</td>
+        <td><div class="cmp-bar-wrap"><div class="cmp-bar-a" style="width:${barAPct}%;"></div><div class="cmp-bar-b" style="width:${barBPct}%;"></div></div></td></tr>`;
+    });
+  });
+  html += '</tbody></table>';
+  document.getElementById('cmp-metrics-table-wrap').innerHTML = html;
+  document.getElementById('cmp-metrics-section').style.display = 'block';
+  const parts = [];
+  if (cmpState.dataset) parts.push(displayDataset(cmpState.dataset));
+  if (cmpState.dataScale) parts.push('Size ' + SCALE_MAP[cmpState.dataScale]);
+  if (cmpState.targetKey) parts.push(cmpState.targetKey);
+  if (cmpState.dimension) parts.push(cmpState.dimension);
+  document.getElementById('cmp-metrics-info').textContent = parts.join(' / ');
+}
+
+function cmpRenderBarChart(rowA, rowB, metrics, ranges) {
+  const ctx = document.getElementById('cmp-bar-chart').getContext('2d');
+  if (cmpBarChart) cmpBarChart.destroy();
+  const nA = displayModelName(cmpState.modelA), nB = displayModelName(cmpState.modelB);
+  cmpBarChart = new Chart(ctx, {
+    type:'bar',
+    data: {
+      labels: metrics.map(m => shortMetricLabel(m)),
+      datasets: [
+        { label:nA, data:metrics.map(m=>{const v=parseFloat(rowA[m]);return isNaN(v)?0:normalizeMetric(v,ranges[m]);}),
+          backgroundColor:'rgba(56,189,248,0.5)', borderColor:'rgba(56,189,248,0.8)', borderWidth:1, borderRadius:3 },
+        { label:nB, data:metrics.map(m=>{const v=parseFloat(rowB[m]);return isNaN(v)?0:normalizeMetric(v,ranges[m]);}),
+          backgroundColor:'rgba(244,114,182,0.5)', borderColor:'rgba(244,114,182,0.8)', borderWidth:1, borderRadius:3 },
+      ],
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{labels:{font:{size:10},boxWidth:12,padding:10}}, tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${(ctx.raw*100).toFixed(1)}%`}} },
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:8},maxRotation:45}},
+        y:{min:0,max:1,grid:{color:'rgba(255,255,255,0.05)'},ticks:{callback:v=>(v*100).toFixed(0)+'%',font:{size:9}},title:{display:true,text:'Normalized (best=100%)',font:{size:9},color:'rgba(255,255,255,0.4)'}},
+      },
+    },
+  });
+  document.getElementById('cmp-bar-section').style.display = 'block';
+}
+
+// ── Visual Inference Comparison ──
+function cmpRenderVisual() {
+  if (!cmpState.modelA || !cmpState.modelB) return;
+  const section = document.getElementById('cmp-visual-section');
+  section.style.display = 'block';
+  const nSamples = cmpSamplesPerPage();
+  const startIdx = cmpState.sampleIndex;
+  const nav = document.getElementById('cmp-sample-nav');
+  if (cmpState.dim === '2d') {
+    nav.style.display = 'none';
+  } else {
+    nav.style.display = 'flex';
+    document.getElementById('cmp-sample-idx').textContent =
+      nSamples === 1 ? `#${startIdx}` : `#${startIdx}–${startIdx + nSamples - 1}`;
+  }
+
+  const label = cmpState.task==='evaluation'?'Evaluated Results':'Generated Results';
+  document.getElementById('cmp-visual-label').textContent =
+    `${label} — ${displayModelName(cmpState.modelA)} vs ${displayModelName(cmpState.modelB)}`;
+
+  const container = document.getElementById('cmp-visual-content');
+  if (cmpState.dim === '2d') cmpRender2D(container);
+  else if (cmpState.task === 'evaluation') cmpRender3DEval(container);
+  else cmpRender3DGen(container);
+}
+
+function cmpRender2D(container) {
+  const ds = cmpState.dataset;
+  const rowA = cmpFiltered.find(r => r['Model Name']===cmpState.modelA && r['Dataset']===ds);
+  const rowB = cmpFiltered.find(r => r['Model Name']===cmpState.modelB && r['Dataset']===ds);
+  if (!rowA||!rowB) { container.innerHTML='<div style="text-align:center;padding:20px;color:var(--text-muted);">No data</div>'; return; }
+  const sA=Math.round(rowA['Data Size']), sB=Math.round(rowB['Data Size']);
+  const bA=`output/gen2d/${cmpState.modelA}/${ds}/${sA}`;
+  const bB=`output/gen2d/${cmpState.modelB}/${ds}/${sB}`;
+  const nA=displayModelName(cmpState.modelA), nB=displayModelName(cmpState.modelB);
+  const count = cmpSamplesPerPage();
+  let html='<div class="cmp-grid">';
+  html += `<div class="cmp-half"><div style="font-size:10px;font-weight:700;color:#38bdf8;margin-bottom:6px;">${nA}</div><div class="cmp-img-row">`;
+  for (let i=0;i<count;i++) { const idx=String(cmpState.sampleIndex+i).padStart(5,'0'); html+=`<img src="${bA}/img_${idx}.png?t=${PAGE_CACHE_BUST}" onerror="this.style.opacity='0.2'" loading="lazy">`; }
+  html += '</div></div>';
+  html += `<div class="cmp-half"><div style="font-size:10px;font-weight:700;color:#f472b6;margin-bottom:6px;">${nB}</div><div class="cmp-img-row">`;
+  for (let i=0;i<count;i++) { const idx=String(cmpState.sampleIndex+i).padStart(5,'0'); html+=`<img src="${bB}/img_${idx}.png?t=${PAGE_CACHE_BUST}" onerror="this.style.opacity='0.2'" loading="lazy">`; }
+  html += '</div></div></div>';
+  container.innerHTML = html;
+}
+
+function cmpRender3DGen(container) {
+  const ds = cmpState.dataset;
+  const rowA = cmpFiltered.find(r => r['Model Name']===cmpState.modelA && r['Dataset']===ds);
+  const rowB = cmpFiltered.find(r => r['Model Name']===cmpState.modelB && r['Dataset']===ds);
+  if (!rowA||!rowB) { container.innerHTML='<div style="text-align:center;padding:20px;color:var(--text-muted);">No data</div>'; return; }
+  const sA=Math.round(rowA['Data Size']), sB=Math.round(rowB['Data Size']);
+  const nA=displayModelName(cmpState.modelA), nB=displayModelName(cmpState.modelB);
+  const count = cmpSamplesPerPage();
+  let html = '<div class="cmp-grid">';
+  // Model A
+  html += `<div class="cmp-half"><div style="font-size:10px;font-weight:700;color:#38bdf8;margin-bottom:6px;">${nA}</div><div style="display:flex;flex-direction:column;gap:8px;">`;
+  for (let i=0;i<count;i++) {
+    const s = cmpState.sampleIndex + i;
+    html += `<div id="cmp-pc-a-s${s}" class="cmp-pc-viewer" data-model="${cmpState.modelA}" data-size="${sA}" data-dataset="${ds}" data-sample="${s}" data-side="a" style="width:100%;">
+      <div style="text-align:center;padding:20px;color:rgba(255,255,255,0.3);font-size:11px;">Sample ${s}</div></div>`;
+  }
+  html += '</div></div>';
+  // Model B
+  html += `<div class="cmp-half"><div style="font-size:10px;font-weight:700;color:#f472b6;margin-bottom:6px;">${nB}</div><div style="display:flex;flex-direction:column;gap:8px;">`;
+  for (let i=0;i<count;i++) {
+    const s = cmpState.sampleIndex + i;
+    html += `<div id="cmp-pc-b-s${s}" class="cmp-pc-viewer" data-model="${cmpState.modelB}" data-size="${sB}" data-dataset="${ds}" data-sample="${s}" data-side="b" style="width:100%;">
+      <div style="text-align:center;padding:20px;color:rgba(255,255,255,0.3);font-size:11px;">Sample ${s}</div></div>`;
+  }
+  html += '</div></div></div>';
+  container.innerHTML = html;
+
+  // Lazy init
+  if (window._cmpPcObs) window._cmpPcObs.disconnect();
+  window._cmpPcObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !e.target._pcInit && window.initCmpPCViewer) {
+        e.target._pcInit = true;
+        const el = e.target;
+        window.initCmpPCViewer(el, el.dataset.model, parseInt(el.dataset.size), el.dataset.dataset, parseInt(el.dataset.sample), el.dataset.side);
+      }
+    });
+  }, { rootMargin:'200px' });
+  container.querySelectorAll('.cmp-pc-viewer').forEach(el => window._cmpPcObs.observe(el));
+}
+
+function cmpRender3DEval(container) {
+  const ds = cmpState.dataset, tk = cmpState.targetKey, dim = cmpState.dimension;
+  if (!ds||!tk) { container.innerHTML='<div style="text-align:center;padding:20px;color:var(--text-muted);">Select dataset and target key</div>'; return; }
+  const CHS = {
+    'deepjeb_3d_2d':{ 'vertical':['disp_x','disp_y','disp_z','stress'],'horizontal':['disp_x','disp_y','disp_z','stress'],'diagonal':['disp_x','disp_y','disp_z','stress'],'torsion':['disp_x','disp_y','disp_z','stress'],'mode_shape_1':['mode_x','mode_y','mode_z'],'mode_shape_2':['mode_x','mode_y','mode_z'] },
+    'drivaernet_3d_2d':{ 'velocity':['velocity_x','velocity_y','velocity_z'],'pressure':['pressure'],'pv_coupled':['pressure','velocity_x','velocity_y','velocity_z'] },
+  };
+  const channels = (CHS[ds]&&CHS[ds][tk])||[];
+  const chIdx = dim ? Math.max(0,channels.indexOf(dim)) : 0;
+  const dataSize = Math.round((cmpFiltered[0]||{})['Data Size']||0);
+  const sizeMap = {20:'S',50:'M',100:'L',200:'XL'};
+  const sizeCode = sizeMap[dataSize]||'S';
+  const nA=displayModelName(cmpState.modelA), nB=displayModelName(cmpState.modelB);
+  const s = cmpState.sampleIndex;
+
+  // Side-by-side: each half has a single eval viewer that stacks GT/PRED/ERROR vertically
+  let html = `<div style="font-size:9px;color:rgba(255,255,255,0.4);font-weight:700;margin-bottom:8px;letter-spacing:0.5px;">SAMPLE ${s} · ${tk} · ${channels[chIdx]||''}</div>`;
+  html += '<div class="cmp-grid">';
+
+  // Model A
+  const vA = `cmp-eval-a-s${s}`;
+  html += `<div class="cmp-half"><div style="font-size:10px;font-weight:700;color:#38bdf8;margin-bottom:8px;">${nA}</div>
+    <div id="${vA}" class="cmp-eval-viewer" data-model="${cmpState.modelA}" data-size="${dataSize}" data-size-code="${sizeCode}" data-dataset="${ds}" data-target-key="${tk}" data-channels='${JSON.stringify(channels)}' data-init-channel="${chIdx}" data-sample="${s}" data-layout="vertical">
+      <div style="text-align:center;padding:30px;color:rgba(255,255,255,0.3);font-size:11px;">Loading...</div></div></div>`;
+
+  // Model B
+  const vB = `cmp-eval-b-s${s}`;
+  html += `<div class="cmp-half"><div style="font-size:10px;font-weight:700;color:#f472b6;margin-bottom:8px;">${nB}</div>
+    <div id="${vB}" class="cmp-eval-viewer" data-model="${cmpState.modelB}" data-size="${dataSize}" data-size-code="${sizeCode}" data-dataset="${ds}" data-target-key="${tk}" data-channels='${JSON.stringify(channels)}' data-init-channel="${chIdx}" data-sample="${s}" data-layout="vertical">
+      <div style="text-align:center;padding:30px;color:rgba(255,255,255,0.3);font-size:11px;">Loading...</div></div></div>`;
+
+  html += '</div>';
+
+  container.innerHTML = html;
+
+  if (window._cmpEvalObs) window._cmpEvalObs.disconnect();
+  window._cmpEvalObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !e.target._evalInit && window.initCmpEvalViewer) {
+        e.target._evalInit = true;
+        window.initCmpEvalViewer(e.target);
+      }
+    });
+  }, { rootMargin:'300px' });
+  container.querySelectorAll('.cmp-eval-viewer').forEach(el => window._cmpEvalObs.observe(el));
+}
+
+// ── Navigate to model experiment ──
+function navigateToModel(treeId, modelName) {
+  const exp = EXPERIMENTS[treeId];
+  if (!exp) return;
+  const model = exp.models.find(m => m.name === modelName);
+  if (!model) return;
+
+  // Expand tree if not already
+  const container = document.getElementById('tree-' + treeId);
+  if (!container.classList.contains('expanded')) {
+    toggleTree(treeId);
+  }
+
+  // Select first size + first dataset
+  const size = model.sizes[0];
+  const dataset = (model.datasets || exp.datasets)[0];
+  const key = `${treeId}|${modelName}|${size}|${dataset}`;
+  selectExperiment(key);
+}
+
+// ── Build Performance Summary Cards ──
+function buildPerfSummary() {
+  // 2D models summary
+  const models2d = ['ddpm', 'vae', 'vqvae', 'gan', 'dcgan', 'lsgan', 'wgan_cp', 'wgan_gp', 'r1gan'];
+  const container2d = document.getElementById('perf-cards-2d');
+  container2d.innerHTML = models2d.map(m => `
+    <div class="glass perf-card" style="min-width:100px; flex:1; cursor:pointer;"
+         onclick="navigateToModel('2d-gen','${m}')"
+         onmouseenter="this.style.borderColor='rgba(34,197,94,0.4)'"
+         onmouseleave="this.style.borderColor=''">
+      <div style="font-size:12px; font-weight:800; color:#fff;">${m.toUpperCase()}</div>
+      <div style="font-size:9px; color:rgba(255,255,255,0.3); margin-top:2px;">2D Generation</div>
+      <div style="font-size:8px; color:#22c55e; margin-top:4px;">S/M/L/XL</div>
+    </div>
+  `).join('');
+
+  // 3D eval models summary
+  const models3d = [
+    { name: 'transolver_pp', label: 'Transolver++', sizeInfo: 'S~XL · DeepJEB + DrivAerNet' },
+    { name: 'transolver', label: 'Transolver', sizeInfo: 'S~XL · DeepJEB + DrivAerNet' },
+    { name: 'abupt', label: 'AB-UPT', sizeInfo: 'S~XL · DeepJEB + DrivAerNet' },
+    { name: 'pointnet', label: 'PointNet', sizeInfo: 'S~XL · DeepJEB + DrivAerNet' },
+    { name: 'regdgcnn', label: 'RegDGCNN', sizeInfo: 'S~XL · DeepJEB + DrivAerNet' },
+  ];
+  const container3d = document.getElementById('perf-cards-3d');
+  container3d.innerHTML = models3d.map(m => `
+    <div class="glass perf-card" style="min-width:120px; flex:1; cursor:pointer;"
+         onclick="navigateToModel('3d-eval','${m.name}')"
+         onmouseenter="this.style.borderColor='rgba(56,189,248,0.4)'"
+         onmouseleave="this.style.borderColor=''">
+      <div style="font-size:12px; font-weight:800; color:#fff;">${m.label}</div>
+      <div style="font-size:9px; color:rgba(255,255,255,0.3); margin-top:2px;">3D Evaluation</div>
+      <div style="font-size:8px; color:#38bdf8; margin-top:4px;">${m.sizeInfo}</div>
+    </div>
+  `).join('');
+
+  // 3D gen models summary
+  const models3dGen = [
+    { name: 'gan3d', label: '3D-GAN', sizeInfo: 'S~XL' },
+    { name: 'deepsdf', label: 'DeepSDF', sizeInfo: 'S~XL' },
+    { name: 'pointflow', label: 'PointFlow', sizeInfo: 'S~XL · External inference (Step B~)' },
+  ];
+  const container3dGen = document.getElementById('perf-cards-3d-gen');
+  container3dGen.innerHTML = models3dGen.map(m => `
+    <div class="glass perf-card" style="min-width:120px; flex:1; cursor:pointer;"
+         onclick="navigateToModel('3d-gen','${m.name}')"
+         onmouseenter="this.style.borderColor='rgba(167,139,250,0.4)'"
+         onmouseleave="this.style.borderColor=''">
+      <div style="font-size:12px; font-weight:800; color:#fff;">${m.label}</div>
+      <div style="font-size:9px; color:rgba(255,255,255,0.3); margin-top:2px;">3D Generation</div>
+      <div style="font-size:8px; color:#a78bfa; margin-top:4px;">${m.sizeInfo}</div>
+    </div>
+  `).join('');
+}
+
+// ── Init ──
+buildPerfSummary();
+</script>
+
+<!-- Three.js for 3D point cloud viewer -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// ── Point Cloud Viewer State ──
+let pcScene, pcCamera, pcRenderer, pcControls, pcPoints, pcAnimId;
+let pcAutoRotate = true;
+let pcColorMode = 'height'; // 'height' | 'depth' | 'uniform'
+let pcCurrentData = null;   // Float32Array of positions
+let pcNumPoints = 0;
+
+function cleanupViewer() {
+  if (pcAnimId) cancelAnimationFrame(pcAnimId);
+  pcAnimId = null;
+  if (pcRenderer) pcRenderer.dispose();
+  if (pcControls) pcControls.dispose();
+  if (pcPoints) {
+    pcPoints.geometry.dispose();
+    pcPoints.material.dispose();
+  }
+  pcScene = pcCamera = pcRenderer = pcControls = pcPoints = null;
+}
+
+function createViewer(container, width, height) {
+  cleanupViewer();
+
+  pcScene = new THREE.Scene();
+  pcScene.background = new THREE.Color(0x08051a);
+
+  pcCamera = new THREE.PerspectiveCamera(45, width / height, 0.01, 100);
+  pcCamera.position.set(2.1, 1.4, 2.1);
+
+  pcRenderer = new THREE.WebGLRenderer({ antialias: true });
+  pcRenderer.setSize(width, height);
+  pcRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.appendChild(pcRenderer.domElement);
+
+  pcControls = new OrbitControls(pcCamera, pcRenderer.domElement);
+  pcControls.enableDamping = true;
+  pcControls.dampingFactor = 0.08;
+  pcControls.autoRotate = pcAutoRotate;
+  pcControls.autoRotateSpeed = 1.5;
+  pcControls.minDistance = 0.5;
+  pcControls.maxDistance = 8;
+
+  // Subtle grid
+  const gridHelper = new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30);
+  pcScene.add(gridHelper);
+
+  // Ambient light for visibility
+  pcScene.add(new THREE.AmbientLight(0xffffff, 0.5));
+
+  function animate() {
+    pcAnimId = requestAnimationFrame(animate);
+    pcControls.update();
+    pcRenderer.render(pcScene, pcCamera);
+  }
+  animate();
+}
+
+function colorPointCloud(positions, mode) {
+  const count = positions.length / 3;
+  const colors = new Float32Array(count * 3);
+
+  // Find bounds
+  let minY = Infinity, maxY = -Infinity;
+  let minZ = Infinity, maxZ = -Infinity;
+  for (let i = 0; i < count; i++) {
+    const y = positions[i * 3 + 1];
+    const z = positions[i * 3 + 2];
+    if (y < minY) minY = y;
+    if (y > maxY) maxY = y;
+    if (z < minZ) minZ = z;
+    if (z > maxZ) maxZ = z;
+  }
+  const rangeY = maxY - minY || 1;
+  const rangeZ = maxZ - minZ || 1;
+
+  for (let i = 0; i < count; i++) {
+    let t;
+    if (mode === 'height') {
+      t = (positions[i * 3 + 1] - minY) / rangeY;
+    } else if (mode === 'depth') {
+      t = (positions[i * 3 + 2] - minZ) / rangeZ;
+    } else {
+      t = 0.55; // uniform purple tint
+    }
+
+    // Cool-to-warm colormap (blue → cyan → green → yellow → red)
+    let r, g, b;
+    if (mode === 'uniform') {
+      r = 0.65; g = 0.55; b = 0.98; // purple
+    } else if (t < 0.25) {
+      const s = t / 0.25;
+      r = 0.1; g = 0.2 + 0.6 * s; b = 0.9 - 0.2 * s;
+    } else if (t < 0.5) {
+      const s = (t - 0.25) / 0.25;
+      r = 0.1 + 0.3 * s; g = 0.8 + 0.1 * s; b = 0.7 - 0.5 * s;
+    } else if (t < 0.75) {
+      const s = (t - 0.5) / 0.25;
+      r = 0.4 + 0.5 * s; g = 0.9 - 0.1 * s; b = 0.2 - 0.1 * s;
+    } else {
+      const s = (t - 0.75) / 0.25;
+      r = 0.9 + 0.1 * s; g = 0.8 - 0.5 * s; b = 0.1;
+    }
+    colors[i * 3] = r;
+    colors[i * 3 + 1] = g;
+    colors[i * 3 + 2] = b;
+  }
+  return colors;
+}
+
+function swapYZ(positions) {
+  for (let i = 0; i < positions.length; i += 3) {
+    const tmp = positions[i + 1];
+    positions[i + 1] = positions[i + 2];
+    positions[i + 2] = tmp;
+  }
+  return positions;
+}
+
+function loadPointCloud(positions) {
+  swapYZ(positions);
+  pcCurrentData = positions;
+  pcNumPoints = positions.length / 3;
+
+  if (pcPoints) {
+    pcScene.remove(pcPoints);
+    pcPoints.geometry.dispose();
+    pcPoints.material.dispose();
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+
+  const colors = colorPointCloud(positions, pcColorMode);
+  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+  const material = new THREE.PointsMaterial({
+    size: 0.012,
+    vertexColors: true,
+    sizeAttenuation: true,
+    transparent: true,
+    opacity: 0.85,
+  });
+
+  pcPoints = new THREE.Points(geometry, material);
+  pcScene.add(pcPoints);
+
+  // Reset camera to center on cloud
+  geometry.computeBoundingSphere();
+  const center = geometry.boundingSphere.center;
+  pcControls.target.copy(center);
+  pcCamera.position.set(center.x + 2.1, center.y + 1.4, center.z + 2.1);
+  pcControls.update();
+}
+
+function updateColors(mode) {
+  pcColorMode = mode;
+  if (!pcCurrentData || !pcPoints) return;
+  const colors = colorPointCloud(pcCurrentData, mode);
+  pcPoints.geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  pcPoints.geometry.attributes.color.needsUpdate = true;
+}
+
+// ── Main init function (called from selectExperiment) ──
+window.initPointCloudViewer = async function(model, size, dataset) {
+  const root = document.getElementById('pc-viewer-root');
+  if (!root) return;
+
+  const NUM_SAMPLES = 12;
+
+  // Build viewer HTML
+  root.innerHTML = `
+    <div class="pc-viewer-container">
+      <div id="pc-canvas-wrap" style="width:100%; height:500px; position:relative;">
+        <div id="pc-loading" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:12px;">
+          Loading point cloud...
+        </div>
+      </div>
+      <div class="pc-info">
+        <span id="pc-points-info">—</span>
+        <span id="pc-file-info">—</span>
+      </div>
+      <div class="pc-controls">
+        <label>Sample</label>
+        <div class="pc-sample-strip" id="pc-sample-strip"></div>
+        <div style="margin-left:auto; display:flex; gap:6px; align-items:center;">
+          <label>Color</label>
+          <button class="pc-color-btn active" onclick="window._pcSetColor('height',this)">Height</button>
+          <button class="pc-color-btn" onclick="window._pcSetColor('depth',this)">Depth</button>
+          <button class="pc-color-btn" onclick="window._pcSetColor('uniform',this)">Uniform</button>
+          <div style="width:1px; height:16px; background:rgba(255,255,255,0.1); margin:0 4px;"></div>
+          <button class="pc-color-btn ${pcAutoRotate ? 'active' : ''}" id="pc-rotate-btn" onclick="window._pcToggleRotate(this)">Auto-Rotate</button>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:8px; font-size:9px; color:rgba(255,255,255,0.25); text-align:center;">
+      Drag to rotate · Scroll to zoom · Right-drag to pan
+    </div>
+  `;
+
+  // Init Three.js
+  const canvasWrap = document.getElementById('pc-canvas-wrap');
+  createViewer(canvasWrap, canvasWrap.clientWidth, canvasWrap.clientHeight);
+
+  // Handle resize
+  const resizeObserver = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      const { width, height } = entry.contentRect;
+      if (pcRenderer && width > 0 && height > 0) {
+        pcRenderer.setSize(width, height);
+        pcCamera.aspect = width / height;
+        pcCamera.updateProjectionMatrix();
+      }
+    }
+  });
+  resizeObserver.observe(canvasWrap);
+
+  // Build sample buttons
+  const strip = document.getElementById('pc-sample-strip');
+  strip.innerHTML = Array.from({length: NUM_SAMPLES}, (_, i) =>
+    `<button class="pc-sample-btn ${i === 0 ? 'active' : ''}" onclick="window._pcLoadSample(${i}, this)">${i}</button>`
+  ).join('');
+
+  // Load first sample
+  window._pcLoadSample = async function(idx, btn) {
+    if (btn) {
+      strip.querySelectorAll('.pc-sample-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    const binPath = `output/gen3d/${model}/${dataset}/${size}/sample_${String(idx).padStart(5, '0')}.bin`;
+    const loadingEl = document.getElementById('pc-loading');
+
+    try {
+      if (loadingEl) loadingEl.style.display = 'flex';
+      const resp = await fetch(binPath);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const buffer = await resp.arrayBuffer();
+      const positions = new Float32Array(buffer);
+
+      if (loadingEl) loadingEl.style.display = 'none';
+      loadPointCloud(positions);
+
+      document.getElementById('pc-points-info').textContent = `${positions.length / 3} points`;
+      document.getElementById('pc-file-info').textContent = `sample_${String(idx).padStart(5, '0')} · ${model} · ${dataset.split('_')[0]} · ${size}`;
+    } catch (e) {
+      if (loadingEl) {
+        loadingEl.style.display = 'flex';
+        loadingEl.innerHTML = `
+          <div style="text-align:center;">
+            <div style="color:rgba(255,255,255,0.4); margin-bottom:8px;">Point cloud not available</div>
+            <div style="font-size:10px; color:rgba(255,255,255,0.25);">
+              Run <code style="background:rgba(255,255,255,0.05); padding:1px 6px; border-radius:3px;">python scripts/convert_gen_pointcloud.py</code> to generate .bin files
+            </div>
+          </div>`;
+      }
+    }
+  };
+
+  window._pcSetColor = function(mode, btn) {
+    btn.parentElement.querySelectorAll('.pc-color-btn').forEach(b => {
+      if (b.id !== 'pc-rotate-btn') b.classList.remove('active');
+    });
+    btn.classList.add('active');
+    updateColors(mode);
+  };
+
+  window._pcToggleRotate = function(btn) {
+    pcAutoRotate = !pcAutoRotate;
+    btn.classList.toggle('active', pcAutoRotate);
+    if (pcControls) pcControls.autoRotate = pcAutoRotate;
+  };
+
+  // Auto-load first sample
+  window._pcLoadSample(0, null);
+};
+
+// ══════════════════════════════════════════════════════════════════════
+// ── 3D Evaluation Viewer (Prediction / GT / Error — synchronized) ──
+// ══════════════════════════════════════════════════════════════════════
+
+let evalPanels = [];   // [{scene, camera, renderer, controls, points, container}]
+let evalAnimId = null;
+let evalAutoRotate = true;
+let evalCurrentChannel = 0;
+let evalData = null;   // { pos, pred, gt, numPoints }
+
+function cleanupEvalViewer() {
+  if (evalAnimId) cancelAnimationFrame(evalAnimId);
+  evalAnimId = null;
+  evalPanels.forEach(p => {
+    if (p.renderer) p.renderer.dispose();
+    if (p.controls) p.controls.dispose();
+    if (p.points) { p.points.geometry.dispose(); p.points.material.dispose(); }
+    if (p.carMesh) { p.carMesh.geometry.dispose(); p.carMesh.material.dispose(); }
+  });
+  evalPanels = [];
+  evalData = null;
+}
+
+function jetColormap(t) {
+  // JET colormap: blue → cyan → green → yellow → red (matches matplotlib jet)
+  t = Math.max(0, Math.min(1, t));
+  let r, g, b;
+  if (t < 0.125) {
+    r = 0; g = 0; b = 0.5 + t * 4;
+  } else if (t < 0.375) {
+    const s = (t - 0.125) / 0.25;
+    r = 0; g = s; b = 1;
+  } else if (t < 0.625) {
+    const s = (t - 0.375) / 0.25;
+    r = s; g = 1; b = 1 - s;
+  } else if (t < 0.875) {
+    const s = (t - 0.625) / 0.25;
+    r = 1; g = 1 - s; b = 0;
+  } else {
+    const s = (t - 0.875) / 0.125;
+    r = 1 - 0.5 * s; g = 0; b = 0;
+  }
+  return [r, g, b];
+}
+
+function colorByField(values, vmin, vmax) {
+  const count = values.length;
+  const colors = new Float32Array(count * 3);
+  const range = (vmax - vmin) || 1;
+  for (let i = 0; i < count; i++) {
+    const t = (values[i] - vmin) / range;
+    const [r, g, b] = jetColormap(t);
+    colors[i * 3] = r;
+    colors[i * 3 + 1] = g;
+    colors[i * 3 + 2] = b;
+  }
+  return colors;
+}
+
+function createEvalPanel(container, width, height, labelClass, labelText) {
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x08051a);
+
+  const camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 100);
+  camera.position.set(1.8, 1.2, 1.8);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(width, height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.appendChild(renderer.domElement);
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.autoRotate = evalAutoRotate;
+  controls.autoRotateSpeed = 0.35;
+  controls.minDistance = 0.5;
+  controls.maxDistance = 20;
+
+  const grid = new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30);
+  scene.add(grid);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+
+  return { scene, camera, renderer, controls, points: null, container };
+}
+
+let _evalSyncLock = false;
+
+function syncEvalFromPanel(srcIdx) {
+  if (_evalSyncLock) return;
+  if (!evalPanels || evalPanels.length < 2) return;
+  const src = evalPanels[srcIdx];
+  if (!src) return;
+  _evalSyncLock = true;
+  evalPanels.forEach((dst, i) => {
+    if (i === srcIdx) return;
+    dst.camera.position.copy(src.camera.position);
+    dst.camera.quaternion.copy(src.camera.quaternion);
+    dst.controls.target.copy(src.controls.target);
+    dst.controls.update();
+  });
+  _evalSyncLock = false;
+}
+
+function syncEvalControls() {
+  // Sync all panels to the first panel's camera (used in animation loop)
+  syncEvalFromPanel(0);
+}
+
+function setEvalPointCloud(panel, positions, fieldValues, vmin, vmax, isDrivAerNet) {
+  if (panel.points) {
+    panel.scene.remove(panel.points);
+    panel.points.geometry.dispose();
+    panel.points.material.dispose();
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+
+  const colors = colorByField(fieldValues, vmin, vmax);
+  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+  const material = new THREE.PointsMaterial({
+    size: isDrivAerNet ? 0.018 : 0.012,
+    vertexColors: true,
+    sizeAttenuation: true,
+    transparent: true,
+    opacity: 0.85,
+  });
+
+  panel.points = new THREE.Points(geometry, material);
+  panel.scene.add(panel.points);
+
+  geometry.computeBoundingSphere();
+  const center = geometry.boundingSphere.center;
+  panel.controls.target.copy(center);
+  if (isDrivAerNet) {
+    // DrivAerNet wake plane: level view (parallel to XY), target 45% lower than center
+    const tgtY = center.y * 0.55;
+    const tgtX = center.x * 1.50;
+    panel.controls.target.set(tgtX, tgtY, center.z);
+    panel.camera.position.set(tgtX + 0.8, tgtY, center.z + 6.0);
+  } else {
+    panel.camera.position.set(center.x + 1.8, center.y + 1.2, center.z + 1.8);
+  }
+  panel.controls.update();
+}
+
+function setCarMesh(panel, carPositions) {
+  // Remove previous car mesh if any
+  if (panel.carMesh) {
+    panel.scene.remove(panel.carMesh);
+    panel.carMesh.geometry.dispose();
+    panel.carMesh.material.dispose();
+    panel.carMesh = null;
+  }
+  if (!carPositions) return;
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(carPositions, 3));
+
+  const material = new THREE.PointsMaterial({
+    size: 0.02,
+    color: 0xffffff,
+    sizeAttenuation: true,
+    transparent: true,
+    opacity: 0.7,
+  });
+
+  panel.carMesh = new THREE.Points(geometry, material);
+  panel.scene.add(panel.carMesh);
+}
+
+function animateEval() {
+  evalAnimId = requestAnimationFrame(animateEval);
+  // Update all panels' controls (each is independently controllable)
+  evalPanels.forEach(p => { if (p.controls) p.controls.update(); });
+  // Sync cameras (autoRotate on panel 0 drives the sync)
+  if (evalAutoRotate) syncEvalControls();
+  // Render all
+  evalPanels.forEach(p => p.renderer.render(p.scene, p.camera));
+}
+
+function parseEvalBin(buffer, numPoints) {
+  const floats = new Float32Array(buffer);
+  // Layout: pos(N*3) + pred(N) + gt(N)
+  const pos = new Float32Array(numPoints * 3);
+  const pred = new Float32Array(numPoints);
+  const gt = new Float32Array(numPoints);
+
+  pos.set(floats.subarray(0, numPoints * 3));
+  pred.set(floats.subarray(numPoints * 3, numPoints * 4));
+  gt.set(floats.subarray(numPoints * 4, numPoints * 5));
+
+  // Swap Y/Z for Three.js coordinate system
+  for (let i = 0; i < numPoints; i++) {
+    const tmp = pos[i * 3 + 1];
+    pos[i * 3 + 1] = pos[i * 3 + 2];
+    pos[i * 3 + 2] = tmp;
+  }
+
+  return { pos, pred, gt };
+}
+
+function computeError(pred, gt) {
+  const err = new Float32Array(pred.length);
+  for (let i = 0; i < pred.length; i++) err[i] = Math.abs(pred[i] - gt[i]);
+  return err;
+}
+
+function computeStats(pred, gt) {
+  let sumAE = 0, sumSE = 0;
+  const n = pred.length;
+  for (let i = 0; i < n; i++) {
+    const d = Math.abs(pred[i] - gt[i]);
+    sumAE += d;
+    sumSE += d * d;
+  }
+  return { mae: sumAE / n, rmse: Math.sqrt(sumSE / n) };
+}
+
+function formatSci(v) {
+  if (v === 0) return '0';
+  return v.toExponential(3);
+}
+
+window.initEvalViewer = async function(model, size, dataset, targetKey, channels) {
+  const root = document.getElementById('eval3d-viewer-root');
+  if (!root) return;
+
+  cleanupEvalViewer();
+
+  const NUM_SAMPLES = 12;
+  const sizeMap = { '20': 'S', '50': 'M', '100': 'L', '200': 'XL' };
+  const sizeCode = sizeMap[String(size)] || 'S';
+
+  root.innerHTML = `
+    <div class="eval3d-viewer-wrap" id="eval3d-panels">
+      <div class="eval3d-panel">
+        <div class="eval3d-panel-label gt">GROUND TRUTH</div>
+        <div class="eval3d-canvas-wrap" id="eval3d-canvas-gt"></div>
+      </div>
+      <div class="eval3d-controls">
+        <label>Channel</label>
+        <div id="eval3d-channel-strip" style="display:flex; gap:4px; flex-wrap:wrap;"></div>
+        <div style="width:1px; height:16px; background:rgba(255,255,255,0.1); margin:0 6px;"></div>
+        <label>Sample</label>
+        <div class="pc-sample-strip" id="eval3d-sample-strip"></div>
+        <div style="margin-left:auto; display:flex; gap:6px; align-items:center;">
+          <label>Value Range</label>
+          <span id="eval3d-range-info" style="font-size:9px; color:rgba(255,255,255,0.4);">—</span>
+          <div style="width:1px; height:16px; background:rgba(255,255,255,0.1); margin:0 4px;"></div>
+          <button class="pc-color-btn ${evalAutoRotate ? 'active' : ''}" id="eval3d-rotate-btn" onclick="window._evalToggleRotate(this)">Auto-Rotate</button>
+        </div>
+      </div>
+      <div class="eval3d-panel">
+        <div class="eval3d-panel-label pred">PREDICTION</div>
+        <div class="eval3d-canvas-wrap" id="eval3d-canvas-pred"></div>
+      </div>
+      <div class="eval3d-panel">
+        <div class="eval3d-panel-label error">|ERROR|</div>
+        <div class="eval3d-canvas-wrap" id="eval3d-canvas-error"></div>
+        <div class="eval3d-stats" id="eval3d-stats">—</div>
+      </div>
+    </div>
+    <div style="margin-top:6px; font-size:9px; color:rgba(255,255,255,0.25); text-align:center;">
+      Drag to rotate (synced) · Scroll to zoom · Right-drag to pan
+    </div>
+  `;
+
+  // Create 3 panels: GT, Prediction, Error
+  const gtWrap = document.getElementById('eval3d-canvas-gt');
+  const predWrap = document.getElementById('eval3d-canvas-pred');
+  const errorWrap = document.getElementById('eval3d-canvas-error');
+
+  const w = gtWrap.clientWidth;
+  const h = gtWrap.clientHeight;
+
+  evalPanels = [
+    createEvalPanel(gtWrap, w, h, 'gt', 'Ground Truth'),
+    createEvalPanel(predWrap, w, h, 'pred', 'Prediction'),
+    createEvalPanel(errorWrap, w, h, 'error', '|Error|'),
+  ];
+
+  animateEval();
+
+  // Handle resize
+  const resizeObserver = new ResizeObserver(entries => {
+    evalPanels.forEach(p => {
+      const rect = p.container.getBoundingClientRect();
+      if (p.renderer && rect.width > 0 && rect.height > 0) {
+        p.renderer.setSize(rect.width, rect.height);
+        p.camera.aspect = rect.width / rect.height;
+        p.camera.updateProjectionMatrix();
+      }
+    });
+  });
+  resizeObserver.observe(gtWrap);
+
+  // Sync: all panels can be controlled independently, but camera syncs across all
+  evalPanels.forEach((panel, idx) => {
+    panel.controls.addEventListener('change', () => syncEvalFromPanel(idx));
+    panel.controls.addEventListener('start', () => {
+      // Stop autoRotate on all panels when user interacts with any
+      evalPanels.forEach(p => { p.controls.autoRotate = false; });
+      const rotBtn = document.getElementById('eval3d-rotate-btn');
+      if (rotBtn) { rotBtn.classList.remove('active'); evalAutoRotate = false; }
+    });
+  });
+
+  // Channel buttons
+  const chStrip = document.getElementById('eval3d-channel-strip');
+  chStrip.innerHTML = channels.map((ch, i) =>
+    `<button class="eval3d-channel-btn ${i === 0 ? 'active' : ''}" onclick="window._evalSetChannel(${i}, this)">${ch}</button>`
+  ).join('');
+
+  // Sample buttons
+  const sampleStrip = document.getElementById('eval3d-sample-strip');
+  sampleStrip.innerHTML = Array.from({length: NUM_SAMPLES}, (_, i) =>
+    `<button class="pc-sample-btn ${i === 0 ? 'active' : ''}" onclick="window._evalLoadSample(${i}, this)">${i}</button>`
+  ).join('');
+
+  // State
+  let currentSampleIdx = 0;
+  evalCurrentChannel = 0;
+
+  // Load sample
+  window._evalLoadSample = async function(idx, btn) {
+    currentSampleIdx = idx;
+    if (btn) {
+      sampleStrip.querySelectorAll('.pc-sample-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    await loadEvalData(idx, evalCurrentChannel);
+  };
+
+  window._evalSetChannel = async function(chIdx, btn) {
+    evalCurrentChannel = chIdx;
+    if (btn) {
+      chStrip.querySelectorAll('.eval3d-channel-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    await loadEvalData(currentSampleIdx, chIdx);
+  };
+
+  window._evalToggleRotate = function(btn) {
+    evalAutoRotate = !evalAutoRotate;
+    btn.classList.toggle('active', evalAutoRotate);
+    evalPanels.forEach(p => { if (p.controls) p.controls.autoRotate = evalAutoRotate; });
+  };
+
+  const isDrivAerNet = dataset.includes('drivaernet');
+
+  async function loadEvalData(sampleIdx, chIdx) {
+    const ch = channels[chIdx];
+    const binPath = `output/eval3d/${model}/${dataset}/${targetKey}/${ch}/${sizeCode}_${String(sampleIdx).padStart(2, '0')}.bin`;
+
+    // Show loading
+    evalPanels.forEach(p => {
+      const existing = p.container.querySelector('.eval3d-loading');
+      if (existing) existing.remove();
+      const el = document.createElement('div');
+      el.className = 'eval3d-loading';
+      el.style.cssText = 'position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:11px; z-index:5;';
+      el.textContent = 'Loading...';
+      p.container.appendChild(el);
+    });
+
+    try {
+      const resp = await fetch(binPath);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const buffer = await resp.arrayBuffer();
+
+      // Infer num_points from buffer size: N*5 floats (3 pos + 1 pred + 1 gt)
+      const totalFloats = buffer.byteLength / 4;
+      const numPoints = totalFloats / 5;
+
+      const { pos, pred, gt } = parseEvalBin(buffer, numPoints);
+      const error = computeError(pred, gt);
+      const stats = computeStats(pred, gt);
+
+      // Shared color range for pred and gt
+      let vmin = Infinity, vmax = -Infinity;
+      for (let i = 0; i < numPoints; i++) {
+        if (pred[i] < vmin) vmin = pred[i];
+        if (pred[i] > vmax) vmax = pred[i];
+        if (gt[i] < vmin) vmin = gt[i];
+        if (gt[i] > vmax) vmax = gt[i];
+      }
+
+      setEvalPointCloud(evalPanels[0], pos, gt, vmin, vmax, isDrivAerNet);
+      setEvalPointCloud(evalPanels[1], pos, pred, vmin, vmax, isDrivAerNet);
+      setEvalPointCloud(evalPanels[2], pos, error, 0, Math.max(...error), isDrivAerNet);
+
+      // Load car mesh for DrivAerNet
+      if (isDrivAerNet) {
+        const carPath = `output/eval3d/${model}/${dataset}/${targetKey}/_car/${sizeCode}_${String(sampleIdx).padStart(2, '0')}.bin`;
+        try {
+          const carResp = await fetch(carPath);
+          if (carResp.ok) {
+            const carBuf = await carResp.arrayBuffer();
+            const carFloats = new Float32Array(carBuf);
+            const nCar = carFloats.length / 3;
+            // Swap Y/Z for Three.js coordinate system (same as parseEvalBin)
+            for (let i = 0; i < nCar; i++) {
+              const tmp = carFloats[i * 3 + 1];
+              carFloats[i * 3 + 1] = carFloats[i * 3 + 2];
+              carFloats[i * 3 + 2] = tmp;
+            }
+            evalPanels.forEach(p => setCarMesh(p, carFloats));
+          }
+        } catch(e) { /* car mesh optional */ }
+      } else {
+        evalPanels.forEach(p => setCarMesh(p, null));
+      }
+
+      // Sync cameras
+      syncEvalControls();
+
+      // Update stats
+      document.getElementById('eval3d-stats').textContent = `MAE: ${formatSci(stats.mae)}  RMSE: ${formatSci(stats.rmse)}`;
+      document.getElementById('eval3d-range-info').textContent = `min: ${formatSci(vmin)} · max: ${formatSci(vmax)} · ${numPoints} points`;
+
+      // Remove loading
+      evalPanels.forEach(p => {
+        const el = p.container.querySelector('.eval3d-loading');
+        if (el) el.remove();
+      });
+
+    } catch (e) {
+      evalPanels.forEach(p => {
+        const el = p.container.querySelector('.eval3d-loading');
+        if (el) {
+          el.innerHTML = `
+            <div style="text-align:center;">
+              <div style="color:rgba(255,255,255,0.4); margin-bottom:6px;">Data not available</div>
+              <div style="font-size:9px; color:rgba(255,255,255,0.25);">
+                Run <code style="background:rgba(255,255,255,0.05); padding:1px 6px; border-radius:3px;">python scripts/convert_eval_pointcloud.py</code>
+              </div>
+            </div>`;
+        }
+      });
+    }
+  }
+
+  // Auto-load first sample
+  window._evalLoadSample(0, null);
+};
+
+// ══════════════════════════════════════════════════════════════════════
+// ── Comparisons: 3D Gen Point Cloud Mini-Viewer ──
+// ══════════════════════════════════════════════════════════════════════
+window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
+  const id = el.id;
+  const viewerHeight = 240;
+  const borderColor = side === 'a' ? 'rgba(56,189,248,0.3)' : 'rgba(244,114,182,0.3)';
+  el.innerHTML = `
+    <div class="pc-viewer-container" style="height:${viewerHeight}px; border-color:${borderColor};">
+      <div id="${id}-canvas" style="width:100%; height:100%; position:relative;">
+        <div id="${id}-ld" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-size:11px;">Loading...</div>
+      </div>
+    </div>
+    <div style="padding:4px 8px;font-size:9px;color:rgba(255,255,255,0.4);">Sample ${sampleIdx}</div>`;
+
+  const wrap = document.getElementById(`${id}-canvas`);
+  const w = wrap.clientWidth, h = wrap.clientHeight;
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x08051a);
+  const camera = new THREE.PerspectiveCamera(45, w/h, 0.01, 100);
+  camera.position.set(1.8, 1.2, 1.8);
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(w, h);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  wrap.appendChild(renderer.domElement);
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true; controls.dampingFactor = 0.08;
+  controls.autoRotate = true; controls.autoRotateSpeed = 1.0;
+  controls.minDistance = 0.5; controls.maxDistance = 20;
+  scene.add(new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30));
+
+  let pts = null;
+  function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); }
+  animate();
+  const ro = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      const {width,height}=entry.contentRect;
+      if(width>0&&height>0){renderer.setSize(width,height);camera.aspect=width/height;camera.updateProjectionMatrix();}
+    }
+  });
+  ro.observe(wrap);
+
+  async function loadSample(idx) {
+    const binPath = `output/gen3d/${model}/${dataset}/${size}/sample_${String(idx).padStart(5,'0')}.bin`;
+    const ld = document.getElementById(`${id}-ld`);
+    try {
+      const resp = await fetch(binPath);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const positions = new Float32Array(await resp.arrayBuffer());
+      swapYZ(positions);
+      if (ld) ld.style.display = 'none';
+      if (pts) { scene.remove(pts); pts.geometry.dispose(); pts.material.dispose(); }
+      const geom = new THREE.BufferGeometry();
+      geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geom.setAttribute('color', new THREE.Float32BufferAttribute(colorPointCloud(positions, 'height'), 3));
+      pts = new THREE.Points(geom, new THREE.PointsMaterial({ size:0.012, vertexColors:true, sizeAttenuation:true, transparent:true, opacity:0.85 }));
+      scene.add(pts);
+      geom.computeBoundingSphere();
+      const c = geom.boundingSphere.center;
+      controls.target.copy(c);
+      const isDriv = dataset.toLowerCase().includes('drivaernet');
+      const z = isDriv ? 1.11 : 1.0;
+      camera.position.set(c.x+1.8*z, c.y+1.2*z, c.z+1.8*z);
+      controls.update();
+    } catch {
+      if (ld) ld.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,0.4);font-size:10px;">Sample ${idx} N/A</div>`;
+    }
+  }
+  loadSample(sampleIdx);
+};
+
+// ══════════════════════════════════════════════════════════════════════
+// ── Comparisons: 3D Eval Viewer (GT / Pred / Error) ──
+// ══════════════════════════════════════════════════════════════════════
+window.initCmpEvalViewer = function(el) {
+  const model = el.dataset.model;
+  const sizeCode = el.dataset.sizeCode;
+  const ds = el.dataset.dataset;
+  const tk = el.dataset.targetKey;
+  const channels = JSON.parse(el.dataset.channels || '[]');
+  const chIdx = parseInt(el.dataset.initChannel) || 0;
+  const sampleIdx = parseInt(el.dataset.sample) || 0;
+  const id = el.id;
+  const isVertical = el.dataset.layout === 'vertical';
+  const vH = isVertical ? 240 : 250;
+
+  if (!channels.length) { el.innerHTML='<div style="text-align:center;padding:20px;color:rgba(255,255,255,0.3);font-size:10px;">No channels</div>'; return; }
+
+  const rowStyle = isVertical
+    ? `display:flex;flex-direction:column;gap:4px;`
+    : `display:flex;gap:4px;height:${vH}px;`;
+  const panelStyle = isVertical
+    ? `width:100%;height:${vH}px;position:relative;`
+    : `flex:1;min-width:0;position:relative;`;
+
+  el.innerHTML = `
+    <div style="border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);">
+      <div class="lb-eval3d-row" style="${rowStyle}">
+        <div class="eval3d-panel" style="${panelStyle}">
+          <div class="eval3d-panel-label gt">GT</div>
+          <div id="${id}-gt" style="width:100%;height:100%;position:relative;"></div>
+        </div>
+        <div class="eval3d-panel" style="${panelStyle}">
+          <div class="eval3d-panel-label pred">PRED</div>
+          <div id="${id}-pred" style="width:100%;height:100%;position:relative;"></div>
+        </div>
+        <div class="eval3d-panel" style="${panelStyle}">
+          <div class="eval3d-panel-label error">|ERROR|</div>
+          <div id="${id}-error" style="width:100%;height:100%;position:relative;"></div>
+          <div class="eval3d-stats" id="${id}-stats">—</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;padding:6px 12px;background:rgba(255,255,255,0.03);border-top:1px solid rgba(255,255,255,0.06);font-size:9px;color:rgba(167,139,250,0.7);font-weight:700;">
+        ${tk} · ${channels[chIdx]} · Sample ${sampleIdx}
+        <span style="margin-left:auto;font-size:8px;color:rgba(255,255,255,0.3);" id="${id}-range">—</span>
+      </div>
+    </div>`;
+
+  const gtW = document.getElementById(`${id}-gt`);
+  const prW = document.getElementById(`${id}-pred`);
+  const erW = document.getElementById(`${id}-error`);
+  const w = gtW.clientWidth, h = gtW.clientHeight;
+
+  function mkPanel(cont) {
+    const s = new THREE.Scene(); s.background = new THREE.Color(0x08051a);
+    const cam = new THREE.PerspectiveCamera(45,w/h,0.01,100); cam.position.set(1.8,1.2,1.8);
+    const ren = new THREE.WebGLRenderer({antialias:true}); ren.setSize(w,h); ren.setPixelRatio(Math.min(window.devicePixelRatio,2)); cont.appendChild(ren.domElement);
+    const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.autoRotate=true; ctrl.autoRotateSpeed=0.25; ctrl.minDistance=0.5; ctrl.maxDistance=20;
+    s.add(new THREE.GridHelper(2,10,0x1a1045,0x140e30)); s.add(new THREE.AmbientLight(0xffffff,0.5));
+    return {scene:s,camera:cam,renderer:ren,controls:ctrl,points:null,carMesh:null,container:cont};
+  }
+
+  const panels = [mkPanel(gtW), mkPanel(prW), mkPanel(erW)];
+  let animId = null;
+  function animate() { animId=requestAnimationFrame(animate); panels.forEach(p=>p.controls.update()); if(panels[0].controls.autoRotate){const src=panels[0];panels.slice(1).forEach(d=>{d.camera.position.copy(src.camera.position);d.camera.quaternion.copy(src.camera.quaternion);d.controls.target.copy(src.controls.target);d.controls.update();});} panels.forEach(p=>p.renderer.render(p.scene,p.camera)); }
+  animate();
+
+  let _sl=false;
+  function syncFrom(si){if(_sl)return;_sl=true;const src=panels[si];panels.forEach((d,i)=>{if(i===si)return;d.camera.position.copy(src.camera.position);d.camera.quaternion.copy(src.camera.quaternion);d.controls.target.copy(src.controls.target);d.controls.update();});_sl=false;}
+  panels.forEach((p,i)=>{p.controls.addEventListener('change',()=>syncFrom(i));p.controls.addEventListener('start',()=>{panels.forEach(pp=>{pp.controls.autoRotate=false;});});});
+  const ro=new ResizeObserver(()=>{panels.forEach(p=>{const r=p.container.getBoundingClientRect();if(r.width>0&&r.height>0){p.renderer.setSize(r.width,r.height);p.camera.aspect=r.width/r.height;p.camera.updateProjectionMatrix();}});});
+  ro.observe(gtW);
+
+  const isDriv = () => ds.includes('drivaernet');
+
+  async function load() {
+    const ch = channels[chIdx];
+    const binPath = `output/eval3d/${model}/${ds}/${tk}/${ch}/${sizeCode}_${String(sampleIdx).padStart(2,'0')}.bin`;
+    try {
+      const resp = await fetch(binPath);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const buf = await resp.arrayBuffer();
+      const floats = new Float32Array(buf);
+      const nP = floats.length/5;
+      const pos=new Float32Array(nP*3), pred=new Float32Array(nP), gt=new Float32Array(nP);
+      pos.set(floats.subarray(0,nP*3)); pred.set(floats.subarray(nP*3,nP*4)); gt.set(floats.subarray(nP*4,nP*5));
+      for(let i=0;i<nP;i++){const t=pos[i*3+1];pos[i*3+1]=pos[i*3+2];pos[i*3+2]=t;}
+      const error=new Float32Array(nP);let sAE=0,sSE=0;
+      for(let i=0;i<nP;i++){const d=Math.abs(pred[i]-gt[i]);error[i]=d;sAE+=d;sSE+=d*d;}
+      const mae=sAE/nP, rmse=Math.sqrt(sSE/nP);
+      let vmin=Infinity,vmax=-Infinity;
+      for(let i=0;i<nP;i++){if(pred[i]<vmin)vmin=pred[i];if(pred[i]>vmax)vmax=pred[i];if(gt[i]<vmin)vmin=gt[i];if(gt[i]>vmax)vmax=gt[i];}
+
+      function setPtCloud(panel,vals,mn,mx){
+        if(panel.points){panel.scene.remove(panel.points);panel.points.geometry.dispose();panel.points.material.dispose();}
+        const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('color',new THREE.Float32BufferAttribute(colorByField(vals,mn,mx),3));
+        panel.points=new THREE.Points(g,new THREE.PointsMaterial({size:isDriv()?0.018:0.012,vertexColors:true,sizeAttenuation:true,transparent:true,opacity:0.85}));
+        panel.scene.add(panel.points);g.computeBoundingSphere();const c=g.boundingSphere.center;panel.controls.target.copy(c);
+        if(isDriv()){const ty=c.y*0.55,tx=c.x*1.5;panel.controls.target.set(tx,ty,c.z);panel.camera.position.set(tx+0.8,ty,c.z+6);}else{panel.camera.position.set(c.x+1.8,c.y+1.2,c.z+1.8);}
+        panel.controls.update();
+      }
+      setPtCloud(panels[0],gt,vmin,vmax);setPtCloud(panels[1],pred,vmin,vmax);setPtCloud(panels[2],error,0,Math.max(...error));
+
+      if(isDriv()){
+        const carPath=`output/eval3d/${model}/${ds}/${tk}/_car/${sizeCode}_${String(sampleIdx).padStart(2,'0')}.bin`;
+        try{const cr=await fetch(carPath);if(cr.ok){const cf=new Float32Array(await cr.arrayBuffer());for(let i=0;i<cf.length/3;i++){const t=cf[i*3+1];cf[i*3+1]=cf[i*3+2];cf[i*3+2]=t;}panels.forEach(p=>setCarMesh(p,cf));}}catch(e){}
+      }else{panels.forEach(p=>setCarMesh(p,null));}
+      syncFrom(0);
+      const st=document.getElementById(`${id}-stats`);if(st)st.textContent=`MAE: ${formatSci(mae)}  RMSE: ${formatSci(rmse)}`;
+      const rng=document.getElementById(`${id}-range`);if(rng)rng.textContent=`${nP} pts · min: ${formatSci(vmin)} · max: ${formatSci(vmax)}`;
+    } catch(e) {
+      [gtW,prW,erW].forEach(c=>{c.innerHTML=`<div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(255,255,255,0.4);font-size:9px;">Data N/A</div>`;});
+    }
+  }
+  load();
+};
+</script>
+
+</body>
+</html>

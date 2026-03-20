@@ -1,0 +1,11 @@
+﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5
+1,Training Time (s),0.1522,pointnet,transolver,transolver_pp,regdgcnn,abupt
+2,Inference Time (s),0.1485,transolver,pointnet,regdgcnn,abupt,transolver_pp
+3,Parameters (M),0.119,regdgcnn,transolver_pp,pointnet,transolver,abupt
+4,MaxAE,0.1166,transolver_pp,transolver,regdgcnn,abupt,pointnet
+5,MAPE (%),0.0807,regdgcnn,transolver,transolver_pp,abupt,pointnet
+6,MAE,0.0785,regdgcnn,transolver_pp,transolver,abupt,pointnet
+7,RMSE,0.0777,regdgcnn,transolver_pp,transolver,abupt,pointnet
+8,R²,0.0777,regdgcnn,transolver_pp,transolver,abupt,pointnet
+9,Rel-L2,0.0777,regdgcnn,transolver_pp,transolver,abupt,pointnet
+10,MAC,0.0714,transolver,regdgcnn,transolver_pp,abupt,pointnet

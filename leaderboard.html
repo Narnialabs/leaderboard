@@ -1,0 +1,2050 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaderboard — Narnia Labs</title>
+<link rel="stylesheet" href="shared/style.css">
+<script src="shared/lib/papaparse.min.js"></script>
+<script src="shared/lib/chart.umd.min.js"></script>
+<style>
+  /* Metrics table collapse */
+  .metrics-collapse-wrap {
+    position: relative;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+  .metrics-collapse-wrap.collapsed .data-table-wrapper {
+    pointer-events: none;
+  }
+  .metrics-collapse-fade {
+    display: none;
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 48px;
+    background: linear-gradient(to bottom, transparent, rgba(10,5,32,0.95));
+    pointer-events: none;
+    z-index: 2;
+  }
+  .metrics-collapse-wrap.collapsed .metrics-collapse-fade {
+    display: block;
+  }
+  .metrics-expand-btn {
+    display: none;
+    width: 100%;
+    padding: 8px 0;
+    margin-top: 4px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    color: rgba(255,255,255,0.5);
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .metrics-expand-btn:hover {
+    background: rgba(124,58,237,0.1);
+    border-color: rgba(124,58,237,0.3);
+    color: #a78bfa;
+  }
+
+  /* 3D Point Cloud Viewer (leaderboard) */
+  .lb-pc-wrap { position:relative; width:100%; height:360px; border-radius:10px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
+  .lb-pc-wrap canvas { display:block; width:100%!important; height:100%!important; }
+  .lb-pc-bar { display:flex; gap:4px; align-items:center; padding:8px 12px; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); flex-wrap:wrap; }
+  .lb-pc-bar label { font-size:8px; color:rgba(255,255,255,0.35); text-transform:uppercase; letter-spacing:0.5px; }
+  .lb-pc-sbtn { width:24px; height:24px; border-radius:5px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:9px; font-weight:700; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; }
+  .lb-pc-sbtn.active { background:rgba(167,139,250,0.25); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
+  .lb-pc-sbtn:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
+  .lb-pc-cbtn { padding:2px 7px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:8px; cursor:pointer; transition:all 0.15s; }
+  .lb-pc-cbtn.active { background:rgba(56,189,248,0.2); border-color:rgba(56,189,248,0.4); color:#38bdf8; }
+  .metrics-expand-btn.visible {
+    display: block;
+  }
+
+  /* 3D Eval Viewer (leaderboard) */
+  .lb-eval3d-row { display:flex; gap:6px; width:100%; }
+  .lb-eval3d-panel { position:relative; flex:1; min-width:0; border-radius:10px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
+  .lb-eval3d-panel-label { position:absolute; top:6px; left:8px; z-index:10; font-size:9px; font-weight:700; letter-spacing:0.5px; padding:2px 6px; border-radius:4px; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); }
+  .lb-eval3d-panel-label.gt { color:#34d399; }
+  .lb-eval3d-panel-label.pred { color:#a78bfa; }
+  .lb-eval3d-panel-label.error { color:#f59e0b; }
+  .lb-eval3d-stats { position:absolute; bottom:6px; right:8px; z-index:10; font-size:8px; color:rgba(255,255,255,0.5); background:rgba(0,0,0,0.5); padding:2px 6px; border-radius:4px; backdrop-filter:blur(4px); }
+  .lb-eval3d-bar { display:flex; gap:4px; align-items:center; padding:8px 12px; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); border-radius:0 0 10px 10px; flex-wrap:wrap; }
+  .lb-eval3d-bar label { font-size:8px; color:rgba(255,255,255,0.35); text-transform:uppercase; letter-spacing:0.5px; }
+  .lb-eval3d-chbtn { padding:2px 7px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:8px; cursor:pointer; transition:all 0.15s; }
+  .lb-eval3d-chbtn.active { background:rgba(167,139,250,0.25); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
+  .lb-eval3d-chbtn:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
+  @media (max-width: 768px) { .lb-eval3d-row { flex-direction:column; } }
+
+  /* Compact metrics table — no horizontal scroll */
+  #metrics-table.compact-metrics {
+    table-layout: fixed;
+    width: 100%;
+  }
+  #metrics-table.compact-metrics thead th {
+    padding: 6px 4px;
+    font-size: 8px;
+    white-space: normal;
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #metrics-table.compact-metrics tbody td {
+    padding: 5px 4px;
+    font-size: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 0;
+  }
+  #metrics-table.compact-metrics .model-cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* Hide horizontal scroll when compact */
+  .data-table-wrapper:has(.compact-metrics) {
+    overflow-x: hidden;
+  }
+</style>
+</head>
+<body>
+<script>
+window.onerror = function(msg, src, line, col, err) {
+  var el = document.getElementById('loading-indicator');
+  if (el) el.innerHTML = '<div style="color:#f87171; text-align:left; font-size:11px; padding:20px;">'
+    + '<strong>JS Error:</strong> ' + msg + '<br>'
+    + '<strong>Source:</strong> ' + src + ':' + line + ':' + col + '<br>'
+    + (err && err.stack ? '<pre style="margin-top:8px; white-space:pre-wrap; font-size:10px; color:#fca5a5;">' + err.stack + '</pre>' : '')
+    + '</div>';
+  return false;
+};
+window.addEventListener('unhandledrejection', function(e) {
+  var el = document.getElementById('loading-indicator');
+  if (el) el.innerHTML = '<div style="color:#f87171; text-align:left; font-size:11px; padding:20px;">'
+    + '<strong>Unhandled Promise Rejection:</strong> ' + (e.reason && e.reason.message || e.reason) + '<br>'
+    + (e.reason && e.reason.stack ? '<pre style="margin-top:8px; white-space:pre-wrap; font-size:10px; color:#fca5a5;">' + e.reason.stack + '</pre>' : '')
+    + '</div>';
+});
+</script>
+<div class="glow1"></div>
+<div class="glow2"></div>
+
+<script src="shared/nav.js"></script>
+<script>initNav('leaderboard');</script>
+<script src="shared/data-loader.js"></script>
+
+<div class="page-content">
+
+<!-- Page Header -->
+<div style="margin-bottom:20px;">
+  <div style="font-size:22px; font-weight:900; color:#fff; letter-spacing:-0.3px;">Leaderboard</div>
+  <div style="font-size:12px; color:var(--text-tertiary); margin-top:4px;">BenchRank 기반 모델 순위 · 메트릭 비교 · 추론 결과 시각화</div>
+</div>
+
+<!-- ═══ FILTERS ═══ -->
+
+<!-- Level 1: Dimension + Task -->
+<div class="glass filter-level" style="padding:14px 20px; margin-bottom:8px;">
+  <div class="flex" style="gap:24px; align-items:center; flex-wrap:wrap;">
+    <div class="filter-group">
+      <span class="filter-label">Dimension</span>
+      <button class="filter-pill active" data-filter="dim" data-value="3d" onclick="setDimension('3d')">3D</button>
+      <button class="filter-pill" data-filter="dim" data-value="2d" onclick="setDimension('2d')">2D</button>
+    </div>
+    <div class="filter-group" id="task-filter">
+      <span class="filter-label">Task</span>
+    </div>
+  </div>
+</div>
+
+<!-- Level 2: Data Size + Dataset -->
+<div class="glass filter-level" style="padding:14px 20px; margin-bottom:8px;" id="level2-filters">
+  <div class="flex" style="gap:24px; align-items:center; flex-wrap:wrap;">
+    <div class="filter-group" id="size-filter">
+      <span class="filter-label">Data Size</span>
+    </div>
+    <div class="filter-group" id="dataset-filter">
+      <span class="filter-label">Dataset</span>
+    </div>
+  </div>
+</div>
+
+<!-- Level 3: Target Key + Dimension (3D eval only) -->
+<div class="glass filter-level" style="padding:14px 20px; margin-bottom:8px; display:none;" id="level3-filters">
+  <div class="flex" style="gap:24px; align-items:center; flex-wrap:wrap;">
+    <div class="filter-group" id="targetkey-filter">
+      <span class="filter-label">Target Key</span>
+    </div>
+    <div class="filter-group" id="dimension-filter">
+      <span class="filter-label">Dimension</span>
+    </div>
+  </div>
+</div>
+
+<!-- Loading -->
+<div id="loading-indicator" style="text-align:center; padding:40px; color:var(--text-muted); font-size:12px;">
+  Loading data...
+</div>
+
+<!-- ═══ 1. BENCHRANK RANKINGS (Most Important) ═══ -->
+<div class="glass" style="padding:16px 20px; margin-bottom:16px; display:none;" id="ranking-section">
+  <div class="flex justify-between items-center" style="margin-bottom:12px;">
+    <div class="section-label" style="color:var(--amber-400);">BenchRank — Model Rankings</div>
+    <div id="ranking-info" style="font-size:10px; color:var(--text-muted);"></div>
+  </div>
+  <div class="data-table-wrapper">
+    <table class="data-table" id="ranking-table" style="table-layout:fixed; width:100%;">
+      <thead id="ranking-head"></thead>
+      <tbody id="ranking-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ 2. CHARTS ROW: Weights + Radar ═══ -->
+<div class="flex gap-16" style="margin-bottom:16px; display:none;" id="chart-section">
+  <!-- Metric Weights -->
+  <div class="glass flex-1" style="padding:16px 20px;">
+    <div class="section-label section-label-purple" style="margin-bottom:12px;">Metric Weights (Influence)</div>
+    <div class="chart-container" style="height:320px;">
+      <canvas id="weights-chart"></canvas>
+    </div>
+  </div>
+  <!-- Radar -->
+  <div class="glass flex-1" style="padding:16px 20px;">
+    <div class="section-label section-label-purple" style="margin-bottom:12px;">Model Comparison (Radar)</div>
+    <div class="chart-container" style="height:320px;">
+      <canvas id="radar-chart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 3. SUMMARY METRICS TABLE ═══ -->
+<div class="glass" style="padding:16px 20px; margin-bottom:16px; display:none;" id="metrics-section">
+  <div class="flex justify-between items-center" style="margin-bottom:12px;">
+    <div class="section-label section-label-purple" id="metrics-section-label">Summary Metrics</div>
+    <div id="metrics-info" style="font-size:10px; color:var(--text-muted);"></div>
+  </div>
+  <div class="metrics-collapse-wrap" id="metrics-collapse-wrap">
+    <div class="data-table-wrapper">
+      <table class="data-table" id="metrics-table">
+        <thead id="metrics-head"></thead>
+        <tbody id="metrics-body"></tbody>
+      </table>
+    </div>
+    <div class="metrics-collapse-fade"></div>
+  </div>
+  <button class="metrics-expand-btn" id="metrics-expand-btn" onclick="toggleMetricsCollapse()"></button>
+</div>
+
+<!-- ═══ 4. VISUAL INFERENCE RESULTS (All Models) ═══ -->
+<div class="glass" style="padding:16px 20px; margin-bottom:16px; display:none;" id="visual-section">
+  <div class="flex justify-between items-center" style="margin-bottom:14px;">
+    <div class="section-label section-label-green" id="visual-section-label">Inference Results — All Models Comparison</div>
+    <div class="filter-group" id="sample-count-filter">
+      <span class="filter-label">Samples</span>
+      <button class="filter-pill" data-samples="2" onclick="setSampleCount(2, this)">2</button>
+      <button class="filter-pill" data-samples="4" onclick="setSampleCount(4, this)">4</button>
+      <button class="filter-pill" data-samples="8" onclick="setSampleCount(8, this)">8</button>
+    </div>
+  </div>
+  <div id="visual-content"></div>
+</div>
+
+<!-- ═══ 5. BENCHRANK DETAILS (Collapsible) ═══ -->
+<div class="glass" style="margin-bottom:16px; display:none;" id="details-section">
+  <div class="collapsible-header" onclick="toggleDetails()">
+    <div class="section-label section-label-purple">BenchRank Details — Full Breakdown</div>
+    <span class="collapsible-toggle" id="details-toggle">&#9660; Show</span>
+  </div>
+  <div class="collapsible-body" id="details-body">
+    <div class="data-table-wrapper">
+      <table class="data-table" id="details-table">
+        <thead id="details-head"></thead>
+        <tbody id="details-body-table"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="page-footer">
+  <div class="divider"></div>
+  <div class="text">NARNIA LABS · AI Benchmark Dashboard</div>
+</div>
+
+</div><!-- /page-content -->
+
+<script>
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+let state = {
+  dim: '3d',
+  task: 'generation',
+  dataScale: 'Extra Large',
+  dataset: null,
+  targetKey: null,
+  dimension: null,
+  sampleCount: 4,
+};
+
+let allSummaryData = [];
+let allBenchRankDetails = [];
+let filteredSummary = [];
+let currentRankOrder = {};
+let weightsChart = null;
+let radarChart = null;
+
+Chart.defaults.color = 'rgba(255,255,255,0.6)';
+Chart.defaults.borderColor = 'rgba(255,255,255,0.08)';
+Chart.defaults.font.family = 'Inter, system-ui, sans-serif';
+Chart.defaults.font.size = 10;
+
+// ══════════════════════════════════════════
+// CATEGORY / PATH HELPERS
+// ══════════════════════════════════════════
+function getCategory() {
+  if (state.dim === '2d') return 'dimension_2d/generation';
+  return `dimension_3d/${state.task}`;
+}
+
+function getSizeCode() {
+  return state.dataScale ? SCALE_MAP[state.dataScale] : 'S';
+}
+
+// ══════════════════════════════════════════
+// DIMENSION CHANGE
+// ══════════════════════════════════════════
+function setDimension(dim) {
+  state.dim = dim;
+  state.task = 'generation';
+  state.dataScale = null;
+  state.dataset = null;
+  state.targetKey = null;
+  state.dimension = null;
+  state.sampleCount = getDefaultSampleCount();
+  document.querySelectorAll('[data-filter="dim"]').forEach(el =>
+    el.classList.toggle('active', el.dataset.value === dim)
+  );
+  loadAllData();
+}
+
+function setTask(task, btn) {
+  state.task = task;
+  state.dataScale = null;
+  state.dataset = null;
+  state.targetKey = null;
+  state.dimension = null;
+  state.sampleCount = getDefaultSampleCount();
+  btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  loadAllData();
+}
+
+// ══════════════════════════════════════════
+// DATA LOADING
+// ══════════════════════════════════════════
+async function loadAllData() {
+  showLoading(true);
+  const cat = getCategory();
+  try {
+    const [summaryData, benchDetails] = await Promise.all([
+      loadSummaryMetrics(cat),
+      loadBenchRankDetails(cat).catch(() => []),
+    ]);
+    allSummaryData = summaryData;
+    allBenchRankDetails = benchDetails;
+    const opts = extractFilterOptions(allSummaryData);
+    renderTaskFilter();
+    renderLevel2Filters(opts);
+    renderLevel3Filters(opts);
+    await applyFilters();
+  } catch (err) {
+    console.error('Failed to load data:', err);
+    document.getElementById('loading-indicator').innerHTML =
+      `<div style="color:var(--red-400);">Failed to load data. Run: <code style="background:rgba(255,255,255,0.06); padding:2px 6px; border-radius:4px;">python -m http.server 8080</code> from LEADERBOARD root</div>`;
+  }
+}
+
+function showLoading(show) {
+  document.getElementById('loading-indicator').style.display = show ? 'block' : 'none';
+  if (show) {
+    ['ranking-section','chart-section','metrics-section','visual-section','details-section']
+      .forEach(id => document.getElementById(id).style.display = 'none');
+  }
+}
+
+// ══════════════════════════════════════════
+// FILTER RENDERING
+// ══════════════════════════════════════════
+function renderTaskFilter() {
+  if (state.dim === '2d') {
+    state.task = 'generation';
+    document.getElementById('task-filter').innerHTML = `
+      <span class="filter-label">Task</span>
+      <button class="filter-pill active">Generation</button>
+    `;
+  } else {
+    document.getElementById('task-filter').innerHTML = `
+      <span class="filter-label">Task</span>
+      <button class="filter-pill ${state.task==='generation'?'active':''}" onclick="setTask('generation',this)">Generation</button>
+      <button class="filter-pill ${state.task==='evaluation'?'active':''}" onclick="setTask('evaluation',this)">Evaluation</button>
+    `;
+  }
+}
+
+function renderLevel2Filters(opts) {
+  const scaleOrder = ['Extra Large','Large','Medium','Small'];
+  const available = scaleOrder.filter(s => opts.scales.includes(s));
+  if (!state.dataScale && available.length) state.dataScale = available[0];
+
+  const scaleToSize = {};
+  allSummaryData.forEach(r => { scaleToSize[r['Data Scale']] = Math.round(r['Data Size']); });
+
+  document.getElementById('size-filter').innerHTML = `
+    <span class="filter-label">Data Size</span>
+    ${available.map(s => {
+      const code = SCALE_MAP[s];
+      return `<button class="filter-pill ${s===state.dataScale?'active':''}"
+              onclick="setDataScale('${s}',this)">${code} (${scaleToSize[s]||''})</button>`;
+    }).join('')}
+  `;
+
+  // state.dataset stays null by default → "All" is active
+  document.getElementById('dataset-filter').innerHTML = `
+    <span class="filter-label">Dataset</span>
+    <button class="filter-pill ${!state.dataset?'active':''}"
+            onclick="setDataset('all',this)">All</button>
+    ${opts.datasets.map(ds => {
+      return `<button class="filter-pill ${ds===state.dataset?'active':''}"
+              onclick="setDataset('${ds}',this)">${displayDataset(ds)}</button>`;
+    }).join('')}
+  `;
+}
+
+function setDataScale(scale, btn) {
+  state.dataScale = scale;
+  btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function setDataset(ds, btn) {
+  state.dataset = (ds === 'all') ? null : ds;
+  state.targetKey = null;
+  state.dimension = null;
+  btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  if (state.dim === '3d' && state.task === 'evaluation') renderLevel3Filters(extractFilterOptions(allSummaryData));
+  else document.getElementById('level3-filters').style.display = 'none';
+  applyFilters();
+}
+
+function renderLevel3Filters(opts) {
+  const c = document.getElementById('level3-filters');
+  if (state.dim !== '3d' || state.task !== 'evaluation') { c.style.display = 'none'; return; }
+  c.style.display = 'block';
+
+  // Always show all target keys in absolute order; clicking a specific one auto-selects its paired dataset
+  const tks = state.dataset
+    ? getTargetKeysForDataset(allSummaryData, state.dataset)
+    : getAllTargetKeysOrdered(allSummaryData);
+
+  // If current targetKey is not in the visible list, reset to All
+  if (state.targetKey && !tks.includes(state.targetKey)) {
+    state.targetKey = null;
+    state.dimension = null;
+  }
+
+  document.getElementById('targetkey-filter').innerHTML = `
+    <span class="filter-label">Target Key</span>
+    <button class="filter-pill ${!state.targetKey?'active':''}"
+            onclick="setTargetKey('all',this)">All</button>
+    ${tks.map(tk => `<button class="filter-pill ${tk===state.targetKey?'active':''}"
+      onclick="setTargetKey('${tk}',this)">${tk}</button>`).join('')}
+  `;
+
+  // Dimension filter: only show when a specific target key is selected
+  const dimFilter = document.getElementById('dimension-filter');
+  if (state.targetKey) {
+    const dims = getDimensionsForTargetKey(allSummaryData, state.dataset, state.targetKey);
+    if (!state.dimension && dims.length) state.dimension = dims[0];
+    dimFilter.innerHTML = `
+      <span class="filter-label">Dimension</span>
+      ${dims.map(d => `<button class="filter-pill ${d===state.dimension?'active':''}"
+        onclick="setDimensionFilter('${d}',this)">${d}</button>`).join('')}
+    `;
+    dimFilter.style.display = '';
+  } else {
+    state.dimension = null;
+    dimFilter.style.display = 'none';
+  }
+}
+
+function setTargetKey(tk, btn) {
+  state.targetKey = (tk === 'all') ? null : tk;
+  state.dimension = null;
+
+  // Auto-select the paired dataset if a specific target key requires it
+  if (state.targetKey && TARGET_KEY_DATASET_MAP[state.targetKey]) {
+    const requiredDs = TARGET_KEY_DATASET_MAP[state.targetKey];
+    if (state.dataset !== requiredDs) {
+      state.dataset = requiredDs;
+      // Update dataset filter pills
+      const dsBtns = document.getElementById('dataset-filter').querySelectorAll('.filter-pill');
+      dsBtns.forEach(p => {
+        p.classList.remove('active');
+        // Match by onclick argument
+        if (p.getAttribute('onclick') === `setDataset('${requiredDs}',this)`) {
+          p.classList.add('active');
+        }
+      });
+    }
+  }
+
+  btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+
+  const dimFilter = document.getElementById('dimension-filter');
+  if (state.targetKey) {
+    const dims = getDimensionsForTargetKey(allSummaryData, state.dataset, state.targetKey);
+    if (dims.length) state.dimension = dims[0];
+    dimFilter.innerHTML = `
+      <span class="filter-label">Dimension</span>
+      ${dims.map(d => `<button class="filter-pill ${d===state.dimension?'active':''}"
+        onclick="setDimensionFilter('${d}',this)">${d}</button>`).join('')}
+    `;
+    dimFilter.style.display = '';
+  } else {
+    dimFilter.style.display = 'none';
+  }
+  applyFilters();
+}
+
+function setDimensionFilter(d, btn) {
+  state.dimension = d;
+  btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+// ══════════════════════════════════════════
+// APPLY FILTERS — LOAD & RENDER ALL
+// ══════════════════════════════════════════
+async function applyFilters() {
+  const cat = getCategory();
+  const sc = getSizeCode();
+
+  // Filter summary data
+  const filters = { dataset: state.dataset, dataScale: state.dataScale };
+  if (state.dim === '3d' && state.task === 'evaluation') {
+    filters.targetKey = state.targetKey;
+    filters.dimension = state.dimension;
+  }
+  filteredSummary = filterSummaryData(allSummaryData, filters);
+
+  // Load BenchRank leaderboard + metrics CSV (per-size, per-dataset, per-targetkey when available)
+  let leaderboardData = [], metricsData = [];
+  try {
+    [leaderboardData, metricsData] = await Promise.all([
+      loadLeaderboard(cat, sc, state.dataset, state.targetKey),
+      loadMetricsRanking(cat, sc, state.dataset, state.targetKey),
+    ]);
+  } catch(e) { console.warn('Leaderboard CSV load failed:', e); }
+
+  showLoading(false);
+
+  // Build BenchRank model order for sorting other sections
+  const rankOrder = buildRankOrder(leaderboardData);
+  currentRankOrder = rankOrder;
+
+  // 1) BenchRank Rankings
+  renderRankingTable(leaderboardData);
+  // 2) Charts
+  renderWeightsChart(metricsData);
+  renderRadarChart(leaderboardData);
+  // 3) Summary Metrics (sorted by BenchRank ranking)
+  const sortedSummary = sortByRankOrder(filteredSummary, rankOrder, 'Model Name');
+  renderMetricsTable(sortedSummary);
+  // 4) Visual Inference (sorted by BenchRank ranking)
+  renderVisualSection(sortedSummary, rankOrder);
+  // 5) BenchRank Details
+  renderBenchRankDetails();
+}
+
+// ══════════════════════════════════════════
+// 1. BENCHRANK RANKINGS TABLE
+// ══════════════════════════════════════════
+function renderRankingTable(data) {
+  const section = document.getElementById('ranking-section');
+  if (!data || !data.length) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+
+  const headers = Object.keys(data[0]);
+  const { allMetrics } = getMetricColumns(headers);
+  const ranges = getMetricRanges(data, allMetrics);
+
+  // Group metrics by category
+  const groups = groupMetricsByCategory(allMetrics, state.dim, state.task);
+  const infoCols = ['Rank', 'Model', 'Total Score'];
+  // Ordered column list: info + grouped metrics
+  const orderedCols = [...infoCols];
+  groups.forEach(g => orderedCols.push(...g.metrics));
+
+  const thead = document.getElementById('ranking-head');
+  // Row 1: category headers
+  let catRow = `<th class="cat-header info-header" colspan="${infoCols.length}" style="background:transparent;"></th>`;
+  groups.forEach(g => {
+    catRow += `<th class="cat-header" colspan="${g.metrics.length}" style="background:${g.color}; color:${g.textColor};">${g.category}</th>`;
+  });
+  // Row 2: column names (proportional widths; table-layout:fixed keeps table within container)
+  const RANKING_COL_W = { 'Rank': 36, 'Model': 110, 'Total Score': 90 };
+  let colRow = orderedCols.map((h,i) => {
+    const short = shortMetricLabel(h);
+    const dir = h.includes('↑') ? ' ↑' : h.includes('↓') ? ' ↓' : '';
+    const w = RANKING_COL_W[h] || (h.includes('Time') || h.includes('Parameters') ? 78 : 65);
+    const align = h === 'Rank' ? ' text-align:center;' : '';
+    return `<th onclick="sortTable('ranking',${i})" style="width:${w}px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;${align}">${short}${dir}</th>`;
+  }).join('');
+
+  thead.innerHTML = `<tr>${catRow}</tr><tr>${colRow}</tr>`;
+
+  const tbody = document.getElementById('ranking-body');
+  tbody.innerHTML = data.map(row => {
+    return `<tr>${orderedCols.map(h => {
+      const val = row[h];
+      if (h === 'Rank') {
+        const cls = val <= 3 ? `rank-${val}` : '';
+        return `<td class="rank-cell ${cls}">${val}</td>`;
+      }
+      if (h === 'Model') return `<td class="model-cell">${displayModelName(val)}</td>`;
+      if (h === 'Total Score') {
+        const pct = Math.min(100, val);
+        return `<td class="score-cell" style="color:${getScoreColor(val)};">
+          ${parseFloat(val).toFixed(1)}
+          <span class="score-bar" style="width:${pct*0.32}px; background:${getScoreColor(val)};"></span>
+        </td>`;
+      }
+      if (allMetrics.includes(h) && typeof val === 'number' && !isNaN(val)) {
+        return `<td style="color:${getHeatmapColor(normalizeMetric(val,ranges[h]))};">${formatMetricValue(val,h)}</td>`;
+      }
+      return `<td>${val != null ? val : '-'}</td>`;
+    }).join('')}</tr>`;
+  }).join('');
+
+  const rkParts = [`dimension_${state.dim}`, state.task, `Size ${getSizeCode()}`];
+  if (state.dataset) rkParts.push(displayDataset(state.dataset));
+  if (state.targetKey) rkParts.push(state.targetKey);
+  document.getElementById('ranking-info').textContent =
+    `${rkParts.join(' / ')} · ${data.length} models`;
+}
+
+function getScoreColor(score) {
+  if (score >= 80) return '#22c55e';  // green (best)
+  if (score >= 60) return '#eab308';  // yellow
+  if (score >= 40) return '#f97316';  // orange
+  return '#ef4444';                   // red (worst)
+}
+
+// ══════════════════════════════════════════
+// 2. CHARTS — Weights + Radar
+// ══════════════════════════════════════════
+function renderWeightsChart(data) {
+  const ctx = document.getElementById('weights-chart').getContext('2d');
+  if (weightsChart) weightsChart.destroy();
+  if (!data || !data.length) {
+    document.getElementById('chart-section').style.display = 'none';
+    return;
+  }
+
+  const metrics = data.map(r => r['Metric']);
+  const weights = data.map(r => parseFloat(r['Weight']));
+  const metricLabels = metrics.map(m => shortMetricLabel(m));
+
+  weightsChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: metricLabels,
+      datasets: [{
+        data: weights,
+        backgroundColor: weights.map((w,i) => {
+          const alpha = 0.35 + (1 - i/metrics.length)*0.5;
+          return `rgba(167,139,250,${alpha})`;
+        }),
+        borderRadius: 4, borderSkipped: false,
+      }],
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => `Weight: ${(ctx.raw*100).toFixed(1)}%` } },
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.05)' },
+          ticks: { callback: v => (v*100).toFixed(0)+'%', font: { size: 9 } },
+        },
+        y: { grid: { display: false }, ticks: { font: { size: 9 } } },
+      },
+    },
+  });
+
+  document.getElementById('chart-section').style.display = 'flex';
+}
+
+function renderRadarChart(data) {
+  const ctx = document.getElementById('radar-chart').getContext('2d');
+  if (radarChart) radarChart.destroy();
+  if (!data || !data.length) return;
+
+  const headers = Object.keys(data[0]);
+  const { qualityMetrics } = getMetricColumns(headers);
+  if (!qualityMetrics.length) return;
+
+  const ranges = getMetricRanges(data, qualityMetrics);
+  const top = data.slice(0, Math.min(data.length, 5));
+  const labels = qualityMetrics.map(m => shortMetricLabel(m));
+
+  const colors = [
+    { bg:'rgba(250,204,21,0.15)', border:'rgba(250,204,21,0.85)' },
+    { bg:'rgba(56,189,248,0.12)', border:'rgba(56,189,248,0.75)' },
+    { bg:'rgba(167,139,250,0.12)', border:'rgba(167,139,250,0.75)' },
+    { bg:'rgba(52,211,153,0.12)', border:'rgba(52,211,153,0.75)' },
+    { bg:'rgba(244,114,182,0.12)', border:'rgba(244,114,182,0.75)' },
+  ];
+
+  radarChart = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels,
+      datasets: top.map((row,i) => ({
+        label: displayModelName(row['Model']),
+        data: qualityMetrics.map(m => {
+          const val = parseFloat(row[m]);
+          return isNaN(val) ? 0 : normalizeMetric(val, ranges[m]);
+        }),
+        backgroundColor: colors[i%colors.length].bg,
+        borderColor: colors[i%colors.length].border,
+        borderWidth: 1.5, pointRadius: 2,
+        pointBackgroundColor: colors[i%colors.length].border,
+      })),
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { font: { size: 10 }, boxWidth: 12, padding: 8 } } },
+      scales: {
+        r: {
+          min: 0, max: 1, ticks: { display: false, stepSize: 0.25 },
+          grid: { color: 'rgba(255,255,255,0.07)' },
+          angleLines: { color: 'rgba(255,255,255,0.07)' },
+          pointLabels: { font: { size: 8 }, color: 'rgba(255,255,255,0.55)' },
+        },
+      },
+    },
+  });
+}
+
+// ══════════════════════════════════════════
+// 3. SUMMARY METRICS TABLE
+// ══════════════════════════════════════════
+function renderMetricsTable(data) {
+  const section = document.getElementById('metrics-section');
+  if (!data || !data.length) {
+    section.style.display = 'block';
+    document.getElementById('metrics-body').innerHTML =
+      '<tr><td colspan="20" style="text-align:center; padding:30px; color:var(--text-muted);">No data for current filters</td></tr>';
+    document.getElementById('metrics-head').innerHTML = '';
+    return;
+  }
+  section.style.display = 'block';
+
+  const headers = Object.keys(data[0]);
+  const { allMetrics } = getSummaryMetricColumns(headers);
+  const ranges = getMetricRanges(data, allMetrics);
+
+  // Group metrics by category
+  const groups = groupMetricsByCategory(allMetrics, state.dim, state.task);
+  // Info columns: Type before Dataset for intuitive scanning
+  const infoCols = state.dataset
+    ? ['Model Name', 'Model Type', 'Parameters (M)']
+    : ['Model Name', 'Model Type', 'Dataset', 'Parameters (M)'];
+  // For 3D evaluation, add Target Key & Dimension columns
+  if (state.dim === '3d' && state.task === 'evaluation') {
+    const insertIdx = infoCols.indexOf('Parameters (M)');
+    if (!state.targetKey) infoCols.splice(insertIdx, 0, 'Target Key');
+    if (!state.dimension) infoCols.splice(infoCols.indexOf('Parameters (M)'), 0, 'Dimension');
+  }
+  // Ordered metric columns
+  const metricCols = [];
+  groups.forEach(g => metricCols.push(...g.metrics));
+
+  const infoCount = infoCols.length;
+
+  // Row 1: category headers
+  let catRow = `<th class="cat-header info-header" colspan="${infoCount}" style="background:transparent;">Model Info</th>`;
+  groups.forEach(g => {
+    catRow += `<th class="cat-header" colspan="${g.metrics.length}" style="background:${g.color}; color:${g.textColor};">${g.category}</th>`;
+  });
+
+  // Row 2: column names
+  const allCols = [...infoCols, ...metricCols];
+  let colRow = allCols.map((h,i) => {
+    if (h === 'Model Name')    return `<th onclick="sortTable('metrics',${i})">Model</th>`;
+    if (h === 'Dataset')       return `<th onclick="sortTable('metrics',${i})">Dataset</th>`;
+    if (h === 'Model Type')    return `<th onclick="sortTable('metrics',${i})">Type</th>`;
+    if (h === 'Target Key')    return `<th onclick="sortTable('metrics',${i})">Target Key</th>`;
+    if (h === 'Dimension')     return `<th onclick="sortTable('metrics',${i})">Dimension</th>`;
+    if (h === 'Parameters (M)') return `<th onclick="sortTable('metrics',${i})">Params</th>`;
+    const short = shortMetricLabel(h);
+    const dir = h.includes('↑') ? ' ↑' : h.includes('↓') ? ' ↓' : '';
+    return `<th onclick="sortTable('metrics',${i})">${short}${dir}</th>`;
+  }).join('');
+
+  document.getElementById('metrics-head').innerHTML = `<tr>${catRow}</tr><tr>${colRow}</tr>`;
+
+  // Apply compact mode when many columns to prevent horizontal scroll
+  const metricsTableEl = document.getElementById('metrics-table');
+  if (allCols.length > 8) {
+    metricsTableEl.classList.add('compact-metrics');
+  } else {
+    metricsTableEl.classList.remove('compact-metrics');
+  }
+
+  document.getElementById('metrics-body').innerHTML = data.map(row => {
+    const modelId = row['Model Name'];
+    return `<tr>${allCols.map(h => {
+      if (h === 'Model Name') return `<td class="model-cell">${displayModelName(modelId)}</td>`;
+      if (h === 'Dataset')    return `<td style="color:var(--text-tertiary); font-size:10px;">${displayDataset(row['Dataset'])}</td>`;
+      if (h === 'Model Type') return `<td class="type-cell">${displayModelType(modelId)}</td>`;
+      if (h === 'Target Key') return `<td style="color:var(--text-tertiary); font-size:10px;">${row['Target Key'] || '-'}</td>`;
+      if (h === 'Dimension')  return `<td style="color:var(--text-tertiary); font-size:10px;">${row['Dimension'] || '-'}</td>`;
+      if (h === 'Parameters (M)') {
+        const v = row['Parameters (M)'];
+        return `<td style="color:var(--text-tertiary); font-size:10px;">${v != null ? parseFloat(v).toFixed(1)+' M' : '-'}</td>`;
+      }
+      const val = row[h];
+      if (metricCols.includes(h) && typeof val === 'number' && !isNaN(val)) {
+        return `<td style="color:${getHeatmapColor(normalizeMetric(val,ranges[h]))};">${formatMetricValue(val,h)}</td>`;
+      }
+      return `<td>${val != null ? val : '-'}</td>`;
+    }).join('')}</tr>`;
+  }).join('');
+
+  // Top-right info: dataset / scale (N) / resolution · N models
+  const ds = state.dataset ? displayDataset(state.dataset) : 'All';
+  const metricsTitleParts = [];
+  if (state.dataset) metricsTitleParts.push(displayDataset(state.dataset));
+  else metricsTitleParts.push('All Datasets');
+  if (state.dim === '3d' && state.task === 'evaluation') {
+    if (state.targetKey) metricsTitleParts.push(state.targetKey);
+    if (state.dimension) metricsTitleParts.push(state.dimension);
+  }
+  document.getElementById('metrics-section-label').textContent =
+    `Dataset Metrics — ${metricsTitleParts.join(' / ')}`;
+  const sz = state.dataScale ? `${SCALE_MAP[state.dataScale]} (${Math.round(data[0]?.['Data Size'] || 0)})` : '';
+  const uniqueRes = [...new Set(data.map(r => displayResolution(r['Resolution'], state.dim)).filter(Boolean))];
+  const resStr = uniqueRes.join(', ');
+  const parts = [ds, sz, resStr].filter(Boolean);
+  const info = state.dim === '3d'
+    ? [...parts, state.targetKey, state.dimension].filter(Boolean).join(' / ')
+    : parts.join(' / ');
+  document.getElementById('metrics-info').textContent = `${info} · ${data.length} rows`;
+
+  // Collapse if more than 16 data rows
+  applyMetricsCollapse(data.length);
+}
+
+const METRICS_VISIBLE_ROWS = 16;
+let metricsExpanded = false;
+
+function applyMetricsCollapse(rowCount) {
+  const wrap = document.getElementById('metrics-collapse-wrap');
+  const btn = document.getElementById('metrics-expand-btn');
+  metricsExpanded = false;
+
+  if (rowCount <= METRICS_VISIBLE_ROWS) {
+    // Few rows — no collapse needed
+    wrap.classList.remove('collapsed');
+    wrap.style.maxHeight = 'none';
+    btn.classList.remove('visible');
+    return;
+  }
+
+  // Calculate collapsed height: thead + 16 rows
+  const table = document.getElementById('metrics-table');
+  const thead = table.querySelector('thead');
+  const rows = table.querySelectorAll('tbody tr');
+  let h = thead ? thead.offsetHeight : 0;
+  for (let i = 0; i < Math.min(METRICS_VISIBLE_ROWS, rows.length); i++) {
+    h += rows[i].offsetHeight;
+  }
+
+  wrap.style.maxHeight = h + 'px';
+  wrap.classList.add('collapsed');
+  btn.classList.add('visible');
+  btn.textContent = `Show all ${rowCount} rows`;
+}
+
+function toggleMetricsCollapse() {
+  const wrap = document.getElementById('metrics-collapse-wrap');
+  const btn = document.getElementById('metrics-expand-btn');
+  metricsExpanded = !metricsExpanded;
+
+  if (metricsExpanded) {
+    wrap.style.maxHeight = wrap.scrollHeight + 'px';
+    wrap.classList.remove('collapsed');
+    btn.textContent = 'Collapse';
+  } else {
+    const table = document.getElementById('metrics-table');
+    const thead = table.querySelector('thead');
+    const rows = table.querySelectorAll('tbody tr');
+    let h = thead ? thead.offsetHeight : 0;
+    for (let i = 0; i < Math.min(METRICS_VISIBLE_ROWS, rows.length); i++) {
+      h += rows[i].offsetHeight;
+    }
+    wrap.style.maxHeight = h + 'px';
+    wrap.classList.add('collapsed');
+    btn.textContent = `Show all ${rows.length} rows`;
+  }
+}
+
+// ══════════════════════════════════════════
+// RANK ORDER HELPERS
+// ══════════════════════════════════════════
+
+/**
+ * Build a map of model name (lowercase) → rank from leaderboard data
+ */
+function buildRankOrder(leaderboardData) {
+  const order = {};
+  if (!leaderboardData || !leaderboardData.length) return order;
+  leaderboardData.forEach(row => {
+    const model = (row['Model'] || '').toLowerCase();
+    const rank = parseInt(row['Rank']);
+    if (model && !isNaN(rank)) order[model] = rank;
+  });
+  return order;
+}
+
+/**
+ * Sort data rows by BenchRank order. Models not in ranking go to the end.
+ */
+function sortByRankOrder(data, rankOrder, modelKey) {
+  if (!data || !data.length || !Object.keys(rankOrder).length) return data;
+  return [...data].sort((a, b) => {
+    const aModel = (a[modelKey] || '').toLowerCase();
+    const bModel = (b[modelKey] || '').toLowerCase();
+    const aRank = rankOrder[aModel] != null ? rankOrder[aModel] : 9999;
+    const bRank = rankOrder[bModel] != null ? rankOrder[bModel] : 9999;
+    return aRank - bRank;
+  });
+}
+
+/**
+ * Sort a list of model names by BenchRank order.
+ */
+function sortModelsByRank(models, rankOrder) {
+  if (!models || !models.length || !Object.keys(rankOrder).length) return models;
+  return [...models].sort((a, b) => {
+    const aRank = rankOrder[a.toLowerCase()] != null ? rankOrder[a.toLowerCase()] : 9999;
+    const bRank = rankOrder[b.toLowerCase()] != null ? rankOrder[b.toLowerCase()] : 9999;
+    return aRank - bRank;
+  });
+}
+
+// ══════════════════════════════════════════
+// 4. VISUAL INFERENCE — ALL MODELS
+// ══════════════════════════════════════════
+function setSampleCount(count, btn) {
+  state.sampleCount = count;
+  btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  renderVisualSection(filteredSummary, currentRankOrder);
+}
+
+function getDefaultSampleCount() {
+  if (state.dim === '2d') return 8;
+  if (state.dim === '3d' && state.task === 'evaluation') return 2;
+  return 4;
+}
+
+function updateSampleCountVisibility() {
+  // Update active pill to match current sampleCount
+  document.querySelectorAll('#sample-count-filter .filter-pill').forEach(p => {
+    p.classList.toggle('active', parseInt(p.dataset.samples) === state.sampleCount);
+  });
+}
+
+function renderVisualSection(data, rankOrder) {
+  const section = document.getElementById('visual-section');
+  if (!data || !data.length) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+  updateSampleCountVisibility();
+
+  // Update section label based on task
+  const resultLabel = state.task === 'evaluation' ? 'Evaluated Results' : 'Generated Results';
+  const visualParts = [state.dataset ? displayDataset(state.dataset) : 'All Datasets'];
+  if (state.dim === '3d' && state.task === 'evaluation') {
+    if (state.targetKey) visualParts.push(state.targetKey);
+    if (state.dimension) visualParts.push(state.dimension);
+  }
+  document.getElementById('visual-section-label').textContent = `${resultLabel} — ${visualParts.join(' / ')}`;
+
+  const container = document.getElementById('visual-content');
+  if (state.dim === '2d') {
+    render2DAllModels(container, data, rankOrder);
+  } else if (state.task === 'evaluation') {
+    render3DEvalAllModels(container, data, rankOrder);
+  } else {
+    render3DGenAllModels(container, data, rankOrder);
+  }
+}
+
+function render2DAllModels(container, data, rankOrder) {
+  cleanupAllViewers();
+  const models = sortModelsByRank([...new Set(data.map(r => r['Model Name']))], rankOrder || {});
+  // When All selected, interleave datasets per model (deepjeb, drivaernet, deepjeb, drivaernet…)
+  const datasets = state.dataset
+    ? [state.dataset]
+    : [...new Set(data.map(r => r['Dataset']))];
+
+  const dataSize = Math.round(data[0]['Data Size']);
+  let html = '';
+  models.forEach(model => {
+    datasets.forEach(ds => {
+      const row = data.find(r => r['Model Name'] === model && r['Dataset'] === ds);
+      if (!row) return;
+      const basePath = `output/gen2d/${model}/${ds}/${Math.round(row['Data Size'])}`;
+      const friendly = displayModelName(model);
+      const type = displayModelType(model);
+      const dsName = displayDataset(ds);
+
+      html += `<div class="compare-row">
+        <div class="compare-row-label">
+          ${friendly}
+          <div class="sub">${type ? type + ' · ' : ''}${dsName} · N=${dataSize}</div>
+        </div>
+        <div class="compare-row-images">`;
+
+      for (let i = 0; i < state.sampleCount; i++) {
+        const idx = String(i).padStart(5, '0');
+        html += `<img src="${basePath}/img_${idx}.png?t=${PAGE_CACHE_BUST}"
+                      onerror="this.style.opacity='0.2'; this.alt='N/A'"
+                      loading="lazy" alt="img_${idx}" title="${friendly} ${dsName} img_${idx}">`;
+      }
+      html += `</div></div>`;
+    });
+  });
+
+  html += `<div style="margin-top:10px; padding:10px 14px; background:rgba(255,255,255,0.025);
+    border:1px solid rgba(255,255,255,0.08); border-radius:8px; font-size:10px; color:var(--text-muted);">
+    <strong style="color:var(--text-tertiary);">GT (Ground Truth)</strong> —
+    To enable GT comparison, symlink test images to
+    <code style="background:rgba(255,255,255,0.05); padding:1px 4px; border-radius:3px;">
+    inference/dimension_2d/generation/gt/${state.dataset || ''}/</code>
+  </div>`;
+
+  container.innerHTML = html;
+}
+
+function cleanupAllViewers() {
+  // Cleanup 3D gen viewers
+  if (window._lbPcObserver) { window._lbPcObserver.disconnect(); window._lbPcObserver = null; }
+  if (window._lbViewers) {
+    window._lbViewers.forEach(vState => {
+      if (vState.animId) cancelAnimationFrame(vState.animId);
+      if (vState.renderer) vState.renderer.dispose();
+      if (vState.controls) vState.controls.dispose();
+      if (vState.points) { vState.points.geometry.dispose(); vState.points.material.dispose(); }
+    });
+    window._lbViewers.clear();
+  }
+  if (window._lbSyncGroups) window._lbSyncGroups.clear();
+  // Cleanup 3D eval viewers
+  if (window._lbEvalViewers) {
+    window._lbEvalViewers.forEach(v => {
+      v.cancel();
+      v.panels.forEach(p => {
+        if (p.renderer) p.renderer.dispose();
+        if (p.controls) p.controls.dispose();
+        if (p.points) { p.points.geometry.dispose(); p.points.material.dispose(); }
+        if (p.carMesh) { p.carMesh.geometry.dispose(); p.carMesh.material.dispose(); }
+      });
+    });
+    window._lbEvalViewers = [];
+  }
+  if (window._lbEvalObserver) { window._lbEvalObserver.disconnect(); window._lbEvalObserver = null; }
+}
+
+function render3DGenAllModels(container, data, rankOrder) {
+  // Clean up existing viewers before re-rendering
+  cleanupAllViewers();
+
+  const models = sortModelsByRank([...new Set(data.map(r => r['Model Name']))], rankOrder || {});
+  const datasets = state.dataset
+    ? [state.dataset]
+    : [...new Set(data.map(r => r['Dataset']))];
+
+  if (!data.length) {
+    container.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-muted);">No data for current selection.</div>`;
+    return;
+  }
+
+  const dataSize = Math.round(data[0]['Data Size']);
+  const sampleCount = state.sampleCount;
+
+  let html = '';
+
+  // All viewers use the same 360px height regardless of sample count
+  const viewerHeight = 360;
+
+  // Per-model: list of viewers (1, 4, or 8 samples) — same size, stacked vertically
+  models.forEach(model => {
+    datasets.forEach(ds => {
+      const row = data.find(r => r['Model Name'] === model && r['Dataset'] === ds);
+      if (!row) return;
+      const friendly = displayModelName(model);
+      const type = displayModelType(model);
+      const dsName = displayDataset(ds);
+
+      const syncGroup = `${model}__${ds}`.replace(/[^a-zA-Z0-9_-]/g, '_');
+      html += `<div class="compare-row" style="flex-direction:column; align-items:stretch; gap:10px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div class="compare-row-label" style="width:auto;">
+            ${friendly}
+            <div class="sub">${type ? type + ' · ' : ''}${dsName} · N=${dataSize}</div>
+          </div>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px; width:100%;">`;
+
+      for (let s = 0; s < sampleCount; s++) {
+        const viewerId = `lb-pc-${model}-${ds}-s${s}`.replace(/[^a-zA-Z0-9-]/g, '_');
+        const widthPct = sampleCount <= 2 ? `calc(${100/sampleCount}% - 6px)` : 'calc(25% - 6px)';
+        const widthStyle = `width:${widthPct}; min-width:${widthPct};`;
+        html += `<div id="${viewerId}" class="lb-pc-viewer" data-model="${model}" data-size="${dataSize}" data-dataset="${ds}" data-sample="${s}" data-viewer-height="${viewerHeight}" data-sync-group="${syncGroup}" style="${widthStyle}">
+          <div style="text-align:center; padding:20px; color:rgba(255,255,255,0.3); font-size:11px;">Sample ${s}</div>
+        </div>`;
+      }
+
+      html += `</div></div>`;
+    });
+  });
+
+  container.innerHTML = html;
+
+  // Lazy-init: only initialize viewers when they enter the viewport
+  if (window._lbPcObserver) window._lbPcObserver.disconnect();
+  window._lbPcObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const el = entry.target;
+      if (entry.isIntersecting && !el._pcInitialized) {
+        el._pcInitialized = true;
+        const sampleIdx = parseInt(el.dataset.sample);
+        const h = parseInt(el.dataset.viewerHeight) || 360;
+        initLeaderboardPCViewer(el, el.dataset.model, parseInt(el.dataset.size), el.dataset.dataset, sampleIdx, h, sampleCount);
+      }
+      // Pause/resume: fully re-initialize if context was lost
+      if (el._pcInitialized && el._pcViewerId) {
+        const vState = window._lbViewers && window._lbViewers.get(el._pcViewerId);
+        if (entry.isIntersecting) {
+          if (!vState || !vState.renderer || vState.renderer.getContext().isContextLost()) {
+            // Context lost — fully re-init
+            el._pcInitialized = false;
+            if (vState) {
+              if (vState.animId) cancelAnimationFrame(vState.animId);
+              if (vState.renderer) try { vState.renderer.dispose(); } catch(e) {}
+              if (vState.controls) vState.controls.dispose();
+              window._lbViewers.delete(el._pcViewerId);
+            }
+            const sIdx = parseInt(el.dataset.sample);
+            const hh = parseInt(el.dataset.viewerHeight) || 360;
+            el._pcInitialized = true;
+            initLeaderboardPCViewer(el, el.dataset.model, parseInt(el.dataset.size), el.dataset.dataset, sIdx, hh, sampleCount);
+          } else if (!vState.animId) {
+            (function animate() {
+              vState.animId = requestAnimationFrame(animate);
+              vState.controls.update();
+              vState.renderer.render(vState.scene, vState.camera);
+            })();
+          }
+        } else if (vState && vState.animId) {
+          cancelAnimationFrame(vState.animId);
+          vState.animId = null;
+        }
+      }
+    });
+  }, { rootMargin: '200px' });
+
+  container.querySelectorAll('.lb-pc-viewer').forEach(el => {
+    window._lbPcObserver.observe(el);
+  });
+}
+
+// ── 3D Eval Channel Config (same as inference-explorer) ──
+const EVAL3D_CHANNELS = {
+  'deepjeb_3d_2d': {
+    'vertical':     ['disp_x', 'disp_y', 'disp_z', 'stress'],
+    'horizontal':   ['disp_x', 'disp_y', 'disp_z', 'stress'],
+    'diagonal':     ['disp_x', 'disp_y', 'disp_z', 'stress'],
+    'torsion':      ['disp_x', 'disp_y', 'disp_z', 'stress'],
+    'mode_shape_1': ['mode_x', 'mode_y', 'mode_z'],
+    'mode_shape_2': ['mode_x', 'mode_y', 'mode_z'],
+  },
+  'drivaernet_3d_2d': {
+    'velocity':     ['velocity_x', 'velocity_y', 'velocity_z'],
+    'pressure':     ['pressure'],
+    'pv_coupled':   ['pressure', 'velocity_x', 'velocity_y', 'velocity_z'],
+  },
+};
+
+function render3DEvalAllModels(container, data, rankOrder) {
+  cleanupAllViewers();
+  const models = sortModelsByRank([...new Set(data.map(r => r['Model Name']))], rankOrder || {});
+  const targetKey = state.targetKey;
+  const dimension = state.dimension;
+  const dataset = state.dataset;
+
+  if (!data.length) {
+    container.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-muted);">
+      No data for current selection.</div>`;
+    return;
+  }
+
+  const dataSize = Math.round(data[0]['Data Size']);
+  const sizeMap = { 20: 'S', 50: 'M', 100: 'L', 200: 'XL' };
+  const sizeCode = sizeMap[dataSize] || 'S';
+
+  // Determine the target key and channels for the 3D viewer
+  // Pick from filter state or first available from data
+  const availableGroups = [];
+  const seen = new Set();
+  data.forEach(r => {
+    const ds = r['Dataset'];
+    const tk = r['Target Key'];
+    if (!ds || !tk) return;
+    const key = `${ds}|${tk}`;
+    if (seen.has(key)) return;
+    seen.add(key);
+    const chs = (EVAL3D_CHANNELS[ds] && EVAL3D_CHANNELS[ds][tk]) || [];
+    if (chs.length) availableGroups.push({ ds, tk, chs });
+  });
+
+  // Build viewer slots: spread across target keys → dimensions → samples
+  // Each slot = { ds, tk, chIdx, sample }
+  function buildViewerSlots(groups, sampleCount, fixedTK, fixedDim) {
+    const slots = [];
+    if (!groups.length) return slots;
+
+    if (fixedTK) {
+      // Target key is pinned — vary dimensions first, then samples
+      const group = groups.find(g => g.tk === fixedTK) || groups[0];
+      const startCh = fixedDim ? Math.max(0, group.chs.indexOf(fixedDim)) : 0;
+      let chIdx = startCh, sample = 0;
+      for (let i = 0; i < sampleCount; i++) {
+        slots.push({ ds: group.ds, tk: group.tk, chs: group.chs, chIdx, sample });
+        // Next: advance channel, then sample
+        chIdx++;
+        if (chIdx >= group.chs.length) { chIdx = startCh; sample++; }
+      }
+    } else {
+      // Target key is "All" — interleave datasets, then spread across target keys → dimensions → samples
+      // Group by dataset, then round-robin across datasets
+      const byDS = {};
+      groups.forEach(g => { (byDS[g.ds] = byDS[g.ds] || []).push(g); });
+      const dsKeys = Object.keys(byDS);
+      const interleaved = [];
+      const maxLen = Math.max(...dsKeys.map(k => byDS[k].length));
+      for (let i = 0; i < maxLen; i++) {
+        dsKeys.forEach(dk => { if (i < byDS[dk].length) interleaved.push(byDS[dk][i]); });
+      }
+
+      let gIdx = 0, chIdx = 0, sample = 0;
+      for (let i = 0; i < sampleCount; i++) {
+        const g = interleaved[gIdx];
+        slots.push({ ds: g.ds, tk: g.tk, chs: g.chs, chIdx, sample });
+        gIdx++;
+        if (gIdx >= interleaved.length) {
+          gIdx = 0;
+          chIdx++;
+          const maxCh = Math.max(...interleaved.map(gg => gg.chs.length));
+          if (chIdx >= maxCh) { chIdx = 0; sample++; }
+        }
+      }
+      slots.forEach(s => { if (s.chIdx >= s.chs.length) s.chIdx = s.chIdx % s.chs.length; });
+    }
+    return slots;
+  }
+
+  const viewerHeight = 320;
+  const sampleCount = state.sampleCount;
+  const viewerSlots = buildViewerSlots(availableGroups, sampleCount, targetKey, dimension);
+  let html = '';
+
+  models.forEach(model => {
+    const row = data.find(r => r['Model Name'] === model);
+    if (!row) return;
+    const friendly = displayModelName(model);
+    const type = displayModelType(model);
+    const dsLabel = dataset ? '' : ' · ' + [...new Set(data.filter(r => r['Model Name'] === model).map(r => displayDataset(r['Dataset'])))].join(', ');
+
+    html += `<div class="compare-row" style="flex-direction:column; align-items:stretch; gap:8px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div class="compare-row-label" style="width:auto;">
+          ${friendly}
+          <div class="sub">${type ? type + ' · ' : ''}${parseFloat(row['Parameters (M)'] || 0).toFixed(2)}M${dsLabel}</div>
+        </div>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; width:100%;">`;
+
+    viewerSlots.forEach((slot, s) => {
+      const viewerId = `lb-eval3d-${model}-s${s}`.replace(/[^a-zA-Z0-9-]/g, '_');
+      html += `<div id="${viewerId}" class="lb-eval3d-viewer" style="width:100%;"
+           data-model="${model}" data-size="${dataSize}" data-size-code="${sizeCode}"
+           data-dataset="${slot.ds}"
+           data-target-key="${slot.tk}"
+           data-channels='${JSON.stringify(slot.chs)}'
+           data-init-channel="${slot.chIdx}"
+           data-viewer-height="${viewerHeight}"
+           data-sample="${slot.sample}"
+           data-all-groups='${JSON.stringify(availableGroups)}'>
+        <div style="text-align:center; padding:30px; color:rgba(255,255,255,0.3); font-size:11px;">Loading 3D Eval Viewer...</div>
+      </div>`;
+    });
+
+    html += `</div></div>`;
+  });
+
+  if (!html) {
+    html = `<div style="text-align:center; padding:30px; color:var(--text-muted);">
+      No data for current selection.
+      Run <code>python scripts/convert_eval_pointcloud.py</code> to generate .bin files.
+    </div>`;
+  }
+
+  container.innerHTML = html;
+
+  // Lazy-init eval viewers via IntersectionObserver
+  if (window._lbEvalObserver) window._lbEvalObserver.disconnect();
+  window._lbEvalObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const el = entry.target;
+      if (entry.isIntersecting && !el._evalInitialized) {
+        el._evalInitialized = true;
+        window.initLeaderboardEvalViewer(el);
+      }
+    });
+  }, { rootMargin: '300px' });
+
+  container.querySelectorAll('.lb-eval3d-viewer').forEach(el => {
+    window._lbEvalObserver.observe(el);
+  });
+}
+
+// ══════════════════════════════════════════
+// 5. BENCHRANK DETAILS (Collapsible)
+// ══════════════════════════════════════════
+let detailsExpanded = false;
+
+function toggleDetails() {
+  detailsExpanded = !detailsExpanded;
+  const body = document.querySelector('#details-section .collapsible-body');
+  body.classList.toggle('expanded', detailsExpanded);
+  document.getElementById('details-toggle').innerHTML =
+    detailsExpanded ? '&#9650; Hide' : '&#9660; Show';
+}
+
+function renderBenchRankDetails() {
+  const section = document.getElementById('details-section');
+  const data = allBenchRankDetails;
+  if (!data || !data.length) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+
+  // Show simplified columns
+  const allHeaders = Object.keys(data[0]);
+  const displayCols = allHeaders.filter(h => {
+    const clean = h.trim();
+    return ['Rank','model','dataset','size','Unified Score','Graph Density'].includes(clean)
+      || (clean.includes('Group Key'));
+  });
+  // Ensure we have columns
+  if (!displayCols.length) {
+    // Fallback: show first 8 columns
+    displayCols.push(...allHeaders.slice(0, 8));
+  }
+
+  const headerLabels = { 'model': 'Model', 'dataset': 'Dataset', 'size': 'Size', 'Rank': 'Rank',
+    'Unified Score': 'Score', 'Graph Density': 'Graph Density', 'Group Key': 'Group' };
+  document.getElementById('details-head').innerHTML =
+    `<tr>${displayCols.map((c, i) => `<th onclick="sortTable('details',${i})">${headerLabels[c] || c}</th>`).join('')}</tr>`;
+
+  document.getElementById('details-body-table').innerHTML = data.map(row => {
+    return `<tr>${displayCols.map(col => {
+      const val = row[col];
+      if (col === 'Rank') {
+        const cls = val <= 3 ? `rank-${val}` : '';
+        return `<td class="rank-cell ${cls}">${val}</td>`;
+      }
+      if (col === 'model') return `<td class="model-cell">${displayModelName(val)}</td>`;
+      if (col === 'dataset') return `<td>${displayDataset(val)}</td>`;
+      if (col === 'size') {
+        const code = SCALE_MAP[val] || val;
+        return `<td>${code}</td>`;
+      }
+      if (col === 'Unified Score') {
+        const num = parseFloat(val);
+        return `<td class="score-cell" style="color:${getScoreColor(num)};">${isNaN(num)?val:num.toFixed(1)}</td>`;
+      }
+      if (col === 'Graph Density') {
+        const num = parseFloat(val);
+        return `<td style="color:var(--text-secondary);">${isNaN(num)?val:num.toFixed(4)}</td>`;
+      }
+      return `<td>${val != null ? val : '-'}</td>`;
+    }).join('')}</tr>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// TABLE SORT (generic)
+// ══════════════════════════════════════════
+const PAGE_CACHE_BUST = Date.now();
+let sortState = {};
+
+function sortTable(tableId, colIdx) {
+  const key = tableId;
+  if (!sortState[key]) sortState[key] = { col: -1, asc: true };
+  const s = sortState[key];
+  if (s.col === colIdx) { s.asc = !s.asc; } else { s.col = colIdx; s.asc = true; }
+
+  const tbody = document.getElementById(`${tableId}-body`);
+  // For details table, the tbody id is different
+  const actualTbody = tableId === 'details' ? document.getElementById('details-body-table') : tbody;
+  if (!actualTbody) return;
+
+  const rows = Array.from(actualTbody.querySelectorAll('tr'));
+  const thead = document.getElementById(`${tableId}-head`);
+  if (thead) {
+    // Target only the last header row (skip category header row with colspans)
+    const headerRow = thead.querySelector('tr:last-child');
+    if (headerRow) {
+      headerRow.querySelectorAll('th').forEach((th, i) => {
+        th.classList.remove('sort-asc','sort-desc');
+        if (i === colIdx) th.classList.add(s.asc ? 'sort-asc' : 'sort-desc');
+      });
+    }
+  }
+
+  rows.sort((a, b) => {
+    const aVal = a.children[colIdx]?.textContent.trim() || '';
+    const bVal = b.children[colIdx]?.textContent.trim() || '';
+    const aNum = parseFloat(aVal);
+    const bNum = parseFloat(bVal);
+    if (!isNaN(aNum) && !isNaN(bNum)) return s.asc ? aNum - bNum : bNum - aNum;
+    return s.asc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+  });
+  rows.forEach(r => actualTbody.appendChild(r));
+}
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+(function initFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('dim')) state.dim = params.get('dim');
+  if (params.get('task')) state.task = params.get('task');
+  if (params.get('size')) {
+    const sizeToScale = { 'S': 'Small', 'M': 'Medium', 'L': 'Large', 'XL': 'Extra Large' };
+    const scale = sizeToScale[params.get('size').toUpperCase()];
+    if (scale) state.dataScale = scale;
+  }
+  // Update dim pills
+  document.querySelectorAll('[data-filter="dim"]').forEach(el =>
+    el.classList.toggle('active', el.dataset.value === state.dim)
+  );
+})();
+updateSampleCountVisibility();
+loadAllData();
+</script>
+
+<!-- Three.js for 3D generation point cloud viewers -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// ── Per-viewer state (multiple viewers on one page) ──
+const viewers = new Map();
+window._lbViewers = viewers;
+
+// ── Camera sync: propagate camera pose across viewers in the same sync group ──
+const syncGroups = new Map(); // syncGroup -> Set of viewer ids
+window._lbSyncGroups = syncGroups;
+let _syncLock = false;
+
+function syncCameraFromSource(sourceId) {
+  if (_syncLock) return;
+  const src = viewers.get(sourceId);
+  if (!src || !src.syncGroup) return;
+  const group = syncGroups.get(src.syncGroup);
+  if (!group) return;
+  _syncLock = true;
+  group.forEach(peerId => {
+    if (peerId === sourceId) return;
+    const peer = viewers.get(peerId);
+    if (!peer) return;
+    peer.camera.position.copy(src.camera.position);
+    peer.camera.quaternion.copy(src.camera.quaternion);
+    peer.controls.target.copy(src.controls.target);
+    peer.controls.autoRotate = src.controls.autoRotate;
+    peer.controls.update();
+  });
+  _syncLock = false;
+}
+
+function colorPoints(positions, mode) {
+  const count = positions.length / 3;
+  const colors = new Float32Array(count * 3);
+  let minV = Infinity, maxV = -Infinity;
+  const axis = mode === 'depth' ? 2 : 1;
+  for (let i = 0; i < count; i++) {
+    const v = positions[i * 3 + axis];
+    if (v < minV) minV = v;
+    if (v > maxV) maxV = v;
+  }
+  const range = maxV - minV || 1;
+
+  for (let i = 0; i < count; i++) {
+    let r, g, b;
+    if (mode === 'uniform') {
+      r = 0.65; g = 0.55; b = 0.98;
+    } else {
+      const t = (positions[i * 3 + axis] - minV) / range;
+      if (t < 0.25) { const s=t/0.25; r=0.1; g=0.2+0.6*s; b=0.9-0.2*s; }
+      else if (t < 0.5) { const s=(t-0.25)/0.25; r=0.1+0.3*s; g=0.8+0.1*s; b=0.7-0.5*s; }
+      else if (t < 0.75) { const s=(t-0.5)/0.25; r=0.4+0.5*s; g=0.9-0.1*s; b=0.2-0.1*s; }
+      else { const s=(t-0.75)/0.25; r=0.9+0.1*s; g=0.8-0.5*s; b=0.1; }
+    }
+    colors[i*3]=r; colors[i*3+1]=g; colors[i*3+2]=b;
+  }
+  return colors;
+}
+
+function createMiniViewer(canvasContainer, id, syncGroup) {
+  const w = canvasContainer.clientWidth, h = canvasContainer.clientHeight;
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x08051a);
+
+  const camera = new THREE.PerspectiveCamera(45, w / h, 0.01, 100);
+  camera.position.set(1.8, 1.2, 1.8);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(w, h);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  canvasContainer.appendChild(renderer.domElement);
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 0.35;
+  controls.minDistance = 0.5;
+  controls.maxDistance = 8;
+
+  scene.add(new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30));
+
+  const vState = { scene, camera, renderer, controls, points: null, data: null, colorMode: 'height', animId: null, syncGroup: syncGroup || null };
+  viewers.set(id, vState);
+
+  // Register sync group and listen for camera changes
+  if (syncGroup) {
+    if (!syncGroups.has(syncGroup)) syncGroups.set(syncGroup, new Set());
+    syncGroups.get(syncGroup).add(id);
+    controls.addEventListener('change', () => syncCameraFromSource(id));
+    // When user starts interacting, stop autoRotate on all synced viewers
+    controls.addEventListener('start', () => {
+      controls.autoRotate = false;
+      const group = syncGroups.get(syncGroup);
+      if (group) group.forEach(pid => {
+        const p = viewers.get(pid);
+        if (p) p.controls.autoRotate = false;
+      });
+    });
+  }
+
+  // Handle WebGL context loss gracefully
+  renderer.domElement.addEventListener('webglcontextlost', (e) => {
+    e.preventDefault();
+    if (vState.animId) { cancelAnimationFrame(vState.animId); vState.animId = null; }
+  });
+
+  function animate() {
+    vState.animId = requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // Resize
+  const ro = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      const { width, height } = entry.contentRect;
+      if (width > 0 && height > 0) {
+        renderer.setSize(width, height);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+      }
+    }
+  });
+  ro.observe(canvasContainer);
+
+  return vState;
+}
+
+function swapYZ(positions) {
+  for (let i = 0; i < positions.length; i += 3) {
+    const tmp = positions[i + 1];
+    positions[i + 1] = positions[i + 2];
+    positions[i + 2] = tmp;
+  }
+  return positions;
+}
+
+function loadIntoViewer(vState, positions, dataset) {
+  swapYZ(positions);
+  vState.data = positions;
+  if (vState.points) {
+    vState.scene.remove(vState.points);
+    vState.points.geometry.dispose();
+    vState.points.material.dispose();
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colorPoints(positions, vState.colorMode), 3));
+
+  vState.points = new THREE.Points(geometry, new THREE.PointsMaterial({
+    size: 0.012, vertexColors: true, sizeAttenuation: true, transparent: true, opacity: 0.85,
+  }));
+  vState.scene.add(vState.points);
+
+  geometry.computeBoundingSphere();
+  const c = geometry.boundingSphere.center;
+  vState.controls.target.copy(c);
+  const isDriv = dataset && dataset.toLowerCase().includes('drivaernet');
+  const zoom = isDriv ? 1.11 : 1.0;  // ~10% zoom out for DrivAerNet
+  vState.camera.position.set(c.x + 1.8 * zoom, c.y + 1.2 * zoom, c.z + 1.8 * zoom);
+  vState.controls.update();
+}
+
+function recolorViewer(vState, mode) {
+  vState.colorMode = mode;
+  if (!vState.data || !vState.points) return;
+  vState.points.geometry.setAttribute('color', new THREE.Float32BufferAttribute(colorPoints(vState.data, mode), 3));
+  vState.points.geometry.attributes.color.needsUpdate = true;
+}
+
+// ── Main initializer called from render3DGenAllModels ──
+// sampleIdx: which sample to load initially (0-11)
+// viewerHeight: pixel height for the viewer wrap
+// totalSamples: how many viewers are shown per model (1, 4, or 8)
+window.initLeaderboardPCViewer = function(el, model, size, dataset, sampleIdx, viewerHeight, totalSamples) {
+  sampleIdx = sampleIdx || 0;
+  viewerHeight = viewerHeight || 360;
+  totalSamples = totalSamples || 1;
+  const id = el.id;
+  const NUM_SAMPLES = 12;
+  const isCompact = totalSamples > 1;
+
+  // Build viewer HTML — compact mode hides sample strip (sample is fixed by grid position)
+  el.innerHTML = `
+    <div class="lb-pc-wrap" style="height:${viewerHeight}px;">
+      <div id="${id}-canvas" style="width:100%; height:100%; position:relative;">
+        <div id="${id}-loading" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:11px;">
+          Loading...
+        </div>
+      </div>
+    </div>
+    <div class="lb-pc-bar" style="padding:4px 8px;">
+      <span style="font-size:9px; color:rgba(167,139,250,0.7); font-weight:700;">Sample ${sampleIdx}</span>
+    </div>
+    ${isCompact ? '' : `<div style="font-size:8px; color:rgba(255,255,255,0.2); text-align:center; padding:4px 0;">
+      Drag to rotate · Scroll to zoom · Right-drag to pan
+    </div>`}
+  `;
+
+  const canvasWrap = document.getElementById(`${id}-canvas`);
+  const syncGroup = el.dataset.syncGroup || null;
+  const vState = createMiniViewer(canvasWrap, id, totalSamples > 1 ? syncGroup : null);
+  el._pcViewerId = id;
+
+  async function loadSample(idx) {
+    const binPath = `output/gen3d/${model}/${dataset}/${size}/sample_${String(idx).padStart(5, '0')}.bin`;
+    const loadingEl = document.getElementById(`${id}-loading`);
+    try {
+      if (loadingEl) loadingEl.style.display = 'flex';
+      const resp = await fetch(binPath);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const buf = await resp.arrayBuffer();
+      if (loadingEl) loadingEl.style.display = 'none';
+      loadIntoViewer(vState, new Float32Array(buf), dataset);
+    } catch {
+      if (loadingEl) {
+        loadingEl.style.display = 'flex';
+        loadingEl.innerHTML = `<div style="text-align:center;">
+          <div style="color:rgba(255,255,255,0.4); margin-bottom:6px; font-size:10px;">Sample ${idx} N/A</div>
+          ${isCompact ? '' : `<div style="font-size:9px; color:rgba(255,255,255,0.2);">Run <code style="background:rgba(255,255,255,0.05); padding:1px 4px; border-radius:3px;">python scripts/convert_gen_pointcloud.py</code></div>`}
+        </div>`;
+      }
+    }
+  }
+
+  loadSample(sampleIdx);
+};
+
+// ══════════════════════════════════════════════════════════════════════
+// ── 3D Evaluation Viewer (GT / Prediction / Error — synchronized) ──
+// ══════════════════════════════════════════════════════════════════════
+
+function jetColormap(t) {
+  t = Math.max(0, Math.min(1, t));
+  let r, g, b;
+  if (t < 0.125) { r=0; g=0; b=0.5+t*4; }
+  else if (t < 0.375) { const s=(t-0.125)/0.25; r=0; g=s; b=1; }
+  else if (t < 0.625) { const s=(t-0.375)/0.25; r=s; g=1; b=1-s; }
+  else if (t < 0.875) { const s=(t-0.625)/0.25; r=1; g=1-s; b=0; }
+  else { const s=(t-0.875)/0.125; r=1-0.5*s; g=0; b=0; }
+  return [r, g, b];
+}
+
+function colorByField(values, vmin, vmax) {
+  const count = values.length;
+  const colors = new Float32Array(count * 3);
+  const range = (vmax - vmin) || 1;
+  for (let i = 0; i < count; i++) {
+    const t = (values[i] - vmin) / range;
+    const [r, g, b] = jetColormap(t);
+    colors[i*3]=r; colors[i*3+1]=g; colors[i*3+2]=b;
+  }
+  return colors;
+}
+
+function parseEvalBin(buffer) {
+  const floats = new Float32Array(buffer);
+  const numPoints = floats.length / 5; // pos(N*3) + pred(N) + gt(N)
+  const pos  = new Float32Array(numPoints * 3);
+  const pred = new Float32Array(numPoints);
+  const gt   = new Float32Array(numPoints);
+  pos.set(floats.subarray(0, numPoints * 3));
+  pred.set(floats.subarray(numPoints * 3, numPoints * 4));
+  gt.set(floats.subarray(numPoints * 4, numPoints * 5));
+  // Swap Y/Z for Three.js
+  for (let i = 0; i < numPoints; i++) {
+    const tmp = pos[i*3+1]; pos[i*3+1] = pos[i*3+2]; pos[i*3+2] = tmp;
+  }
+  return { pos, pred, gt, numPoints };
+}
+
+function formatSci(v) { return v === 0 ? '0' : v.toExponential(3); }
+
+function createEvalPanel(container, w, h) {
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x08051a);
+  const camera = new THREE.PerspectiveCamera(45, w/h, 0.01, 100);
+  camera.position.set(1.8, 1.2, 1.8);
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(w, h);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.appendChild(renderer.domElement);
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 0.35;
+  controls.minDistance = 0.5;
+  controls.maxDistance = 20;
+  scene.add(new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30));
+  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+  return { scene, camera, renderer, controls, points: null, carMesh: null, container };
+}
+
+function setEvalPanelCloud(panel, positions, fieldValues, vmin, vmax, isDrivAerNet) {
+  if (panel.points) {
+    panel.scene.remove(panel.points);
+    panel.points.geometry.dispose();
+    panel.points.material.dispose();
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colorByField(fieldValues, vmin, vmax), 3));
+  panel.points = new THREE.Points(geometry, new THREE.PointsMaterial({
+    size: isDrivAerNet ? 0.018 : 0.012,
+    vertexColors: true, sizeAttenuation: true, transparent: true, opacity: 0.85,
+  }));
+  panel.scene.add(panel.points);
+  geometry.computeBoundingSphere();
+  const c = geometry.boundingSphere.center;
+  panel.controls.target.copy(c);
+  if (isDrivAerNet) {
+    const tgtY = c.y * 0.55, tgtX = c.x * 1.50;
+    panel.controls.target.set(tgtX, tgtY, c.z);
+    panel.camera.position.set(tgtX + 0.8, tgtY, c.z + 6.0);
+  } else {
+    panel.camera.position.set(c.x + 1.8, c.y + 1.2, c.z + 1.8);
+  }
+  panel.controls.update();
+}
+
+function setEvalCarMesh(panel, carPositions) {
+  if (panel.carMesh) {
+    panel.scene.remove(panel.carMesh);
+    panel.carMesh.geometry.dispose();
+    panel.carMesh.material.dispose();
+    panel.carMesh = null;
+  }
+  if (!carPositions) return;
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(carPositions, 3));
+  panel.carMesh = new THREE.Points(geometry, new THREE.PointsMaterial({
+    size: 0.02, color: 0xffffff, sizeAttenuation: true, transparent: true, opacity: 0.7,
+  }));
+  panel.scene.add(panel.carMesh);
+}
+
+window.initLeaderboardEvalViewer = function(el) {
+  const model = el.dataset.model;
+  const dataSize = parseInt(el.dataset.size);
+  const sizeCode = el.dataset.sizeCode;
+  const initDataset = el.dataset.dataset;
+  const initTK = el.dataset.targetKey;
+  const channels = JSON.parse(el.dataset.channels || '[]');
+  const initChannel = parseInt(el.dataset.initChannel) || 0;
+  const viewerHeight = parseInt(el.dataset.viewerHeight) || 320;
+  const allGroups = JSON.parse(el.dataset.allGroups || '[]');
+  const sampleIdx = parseInt(el.dataset.sample) || 0;
+  const id = el.id;
+
+  if (!channels.length && !allGroups.length) {
+    el.innerHTML = `<div style="text-align:center; padding:20px; color:rgba(255,255,255,0.3); font-size:10px;">No channels available</div>`;
+    return;
+  }
+
+  // State for this viewer
+  let currentDS = initDataset;
+  let currentTK = initTK;
+  let currentChs = channels;
+  let currentChIdx = initChannel;
+  let currentSample = sampleIdx;
+  let panels = []; // [gt, pred, error]
+  let evalAnimId = null;
+
+  el.innerHTML = `
+    <div style="border-radius:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.06);">
+      <div class="lb-eval3d-row" style="height:${viewerHeight}px;">
+        <div class="lb-eval3d-panel">
+          <div class="lb-eval3d-panel-label gt">GT</div>
+          <div id="${id}-gt" style="width:100%; height:100%; position:relative;"></div>
+        </div>
+        <div class="lb-eval3d-panel">
+          <div class="lb-eval3d-panel-label pred">PRED</div>
+          <div id="${id}-pred" style="width:100%; height:100%; position:relative;"></div>
+        </div>
+        <div class="lb-eval3d-panel">
+          <div class="lb-eval3d-panel-label error">|ERROR|</div>
+          <div id="${id}-error" style="width:100%; height:100%; position:relative;"></div>
+          <div class="lb-eval3d-stats" id="${id}-stats">—</div>
+        </div>
+      </div>
+      <div class="lb-eval3d-bar">
+        <span style="font-size:9px; color:rgba(167,139,250,0.7); font-weight:700;">${currentTK} · ${currentChs[currentChIdx]} · Sample ${currentSample}</span>
+        <div style="margin-left:auto; font-size:8px; color:rgba(255,255,255,0.3);" id="${id}-range">—</div>
+      </div>
+    </div>
+    <div style="font-size:8px; color:rgba(255,255,255,0.2); text-align:center; padding:3px 0;">
+      Drag to rotate (synced) · Scroll to zoom · Right-drag to pan
+    </div>
+  `;
+
+  // Create 3 panels
+  const gtWrap = document.getElementById(`${id}-gt`);
+  const predWrap = document.getElementById(`${id}-pred`);
+  const errorWrap = document.getElementById(`${id}-error`);
+  const w = gtWrap.clientWidth, h = gtWrap.clientHeight;
+
+  panels = [
+    createEvalPanel(gtWrap, w, h),
+    createEvalPanel(predWrap, w, h),
+    createEvalPanel(errorWrap, w, h),
+  ];
+
+  // Animation loop
+  function animate() {
+    evalAnimId = requestAnimationFrame(animate);
+    panels.forEach(p => p.controls.update());
+    // Sync cameras from panel 0
+    if (panels[0].controls.autoRotate) {
+      const src = panels[0];
+      panels.slice(1).forEach(dst => {
+        dst.camera.position.copy(src.camera.position);
+        dst.camera.quaternion.copy(src.camera.quaternion);
+        dst.controls.target.copy(src.controls.target);
+        dst.controls.update();
+      });
+    }
+    panels.forEach(p => p.renderer.render(p.scene, p.camera));
+  }
+  animate();
+
+  // Sync: manual interaction on any panel syncs to others
+  let _syncLk = false;
+  function syncFrom(srcIdx) {
+    if (_syncLk) return;
+    _syncLk = true;
+    const src = panels[srcIdx];
+    panels.forEach((dst, i) => {
+      if (i === srcIdx) return;
+      dst.camera.position.copy(src.camera.position);
+      dst.camera.quaternion.copy(src.camera.quaternion);
+      dst.controls.target.copy(src.controls.target);
+      dst.controls.update();
+    });
+    _syncLk = false;
+  }
+  panels.forEach((panel, idx) => {
+    panel.controls.addEventListener('change', () => syncFrom(idx));
+    panel.controls.addEventListener('start', () => {
+      panels.forEach(p => { p.controls.autoRotate = false; });
+    });
+  });
+
+  // Resize handling
+  const ro = new ResizeObserver(() => {
+    panels.forEach(p => {
+      const rect = p.container.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        p.renderer.setSize(rect.width, rect.height);
+        p.camera.aspect = rect.width / rect.height;
+        p.camera.updateProjectionMatrix();
+      }
+    });
+  });
+  ro.observe(gtWrap);
+
+  // Load data
+  const isDrivAerNet = () => currentDS.includes('drivaernet');
+
+  async function loadEvalData() {
+    const ch = currentChs[currentChIdx];
+    const binPath = `output/eval3d/${model}/${currentDS}/${currentTK}/${ch}/${sizeCode}_${String(currentSample).padStart(2, '0')}.bin`;
+
+    // Show loading overlay
+    panels.forEach(p => {
+      let ld = p.container.querySelector('.lb-eval3d-ld');
+      if (!ld) {
+        ld = document.createElement('div');
+        ld.className = 'lb-eval3d-ld';
+        ld.style.cssText = 'position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:10px; z-index:5;';
+        p.container.appendChild(ld);
+      }
+      ld.textContent = 'Loading...';
+      ld.style.display = 'flex';
+    });
+
+    try {
+      const resp = await fetch(binPath);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const buffer = await resp.arrayBuffer();
+      const { pos, pred, gt, numPoints } = parseEvalBin(buffer);
+
+      // Compute error
+      const error = new Float32Array(numPoints);
+      let sumAE = 0, sumSE = 0;
+      for (let i = 0; i < numPoints; i++) {
+        const d = Math.abs(pred[i] - gt[i]);
+        error[i] = d; sumAE += d; sumSE += d * d;
+      }
+      const mae = sumAE / numPoints, rmse = Math.sqrt(sumSE / numPoints);
+
+      // Shared color range
+      let vmin = Infinity, vmax = -Infinity;
+      for (let i = 0; i < numPoints; i++) {
+        if (pred[i] < vmin) vmin = pred[i];
+        if (pred[i] > vmax) vmax = pred[i];
+        if (gt[i] < vmin) vmin = gt[i];
+        if (gt[i] > vmax) vmax = gt[i];
+      }
+
+      const driv = isDrivAerNet();
+      setEvalPanelCloud(panels[0], pos, gt, vmin, vmax, driv);
+      setEvalPanelCloud(panels[1], pos, pred, vmin, vmax, driv);
+      setEvalPanelCloud(panels[2], pos, error, 0, Math.max(...error), driv);
+
+      // Car mesh for DrivAerNet
+      if (driv) {
+        const carPath = `output/eval3d/${model}/${currentDS}/${currentTK}/_car/${sizeCode}_${String(currentSample).padStart(2, '0')}.bin`;
+        try {
+          const carResp = await fetch(carPath);
+          if (carResp.ok) {
+            const carFloats = new Float32Array(await carResp.arrayBuffer());
+            for (let i = 0; i < carFloats.length / 3; i++) {
+              const tmp = carFloats[i*3+1]; carFloats[i*3+1] = carFloats[i*3+2]; carFloats[i*3+2] = tmp;
+            }
+            panels.forEach(p => setEvalCarMesh(p, carFloats));
+          }
+        } catch(e) { /* car mesh optional */ }
+      } else {
+        panels.forEach(p => setEvalCarMesh(p, null));
+      }
+
+      // Sync cameras
+      syncFrom(0);
+
+      // Update stats
+      const statsEl = document.getElementById(`${id}-stats`);
+      if (statsEl) statsEl.textContent = `MAE: ${formatSci(mae)}  RMSE: ${formatSci(rmse)}`;
+      const rangeEl = document.getElementById(`${id}-range`);
+      if (rangeEl) rangeEl.textContent = `${numPoints} pts · min: ${formatSci(vmin)} · max: ${formatSci(vmax)}`;
+
+      // Hide loading
+      panels.forEach(p => {
+        const ld = p.container.querySelector('.lb-eval3d-ld');
+        if (ld) ld.style.display = 'none';
+      });
+
+    } catch (e) {
+      panels.forEach(p => {
+        const ld = p.container.querySelector('.lb-eval3d-ld');
+        if (ld) {
+          ld.innerHTML = `<div style="text-align:center;">
+            <div style="color:rgba(255,255,255,0.4); font-size:9px;">Data N/A</div>
+            <div style="font-size:8px; color:rgba(255,255,255,0.2); margin-top:4px;">
+              Run <code style="background:rgba(255,255,255,0.05); padding:1px 4px; border-radius:3px;">convert_eval_pointcloud.py</code>
+            </div>
+          </div>`;
+        }
+      });
+    }
+  }
+
+  // Register cleanup for this viewer
+  if (!window._lbEvalViewers) window._lbEvalViewers = [];
+  window._lbEvalViewers.push({ panels, animId: () => evalAnimId, cancel: () => { if (evalAnimId) cancelAnimationFrame(evalAnimId); evalAnimId = null; } });
+
+  // Auto-load first sample
+  loadEvalData();
+};
+
+
+</script>
+
+</body>
+</html>

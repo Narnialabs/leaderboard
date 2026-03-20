@@ -1,0 +1,14 @@
+﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3
+1,Inference Time (s),0.1053,gan3d,pointflow,deepsdf
+2,F-Score,0.0828,pointflow,gan3d,deepsdf
+3,CD,0.0828,pointflow,gan3d,deepsdf
+4,Recall,0.08,pointflow,deepsdf,gan3d
+5,Precision,0.0732,pointflow,deepsdf,gan3d
+6,Density,0.0732,pointflow,deepsdf,gan3d
+7,EMD,0.0729,pointflow,deepsdf,gan3d
+8,Training Time (s),0.0723,gan3d,deepsdf,pointflow
+9,Parameters (M),0.0723,pointflow,deepsdf,gan3d
+10,MS-SSIM,0.0723,gan3d,deepsdf,pointflow
+11,Coverage,0.0716,pointflow,deepsdf,gan3d
+12,MV-FID,0.0707,deepsdf,pointflow,gan3d
+13,FPD,0.0707,pointflow,deepsdf,gan3d

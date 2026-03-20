@@ -1,0 +1,6941 @@
+{
+  "generated": "2026-03-16T16:00:04.533174",
+  "total_samples": 864,
+  "filters": {
+    "models": [
+      "dcgan",
+      "ddpm",
+      "gan",
+      "lsgan",
+      "r1gan",
+      "vae",
+      "vqvae",
+      "wgan_cp",
+      "wgan_gp"
+    ],
+    "datasets": [
+      "deepjeb_2d_2d",
+      "drivaernet_2d_2d"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ]
+  },
+  "entries": [
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "dcgan/deepjeb_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "dcgan/deepjeb_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "dcgan/deepjeb_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "dcgan/deepjeb_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "dcgan/deepjeb_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "dcgan/deepjeb_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "dcgan/deepjeb_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "dcgan/deepjeb_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "dcgan/deepjeb_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "dcgan/deepjeb_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "dcgan/deepjeb_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "dcgan/deepjeb_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "dcgan/drivaernet_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "dcgan/drivaernet_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "dcgan/drivaernet_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "dcgan/drivaernet_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "dcgan/drivaernet_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "dcgan/drivaernet_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "dcgan/drivaernet_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "dcgan/drivaernet_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "dcgan/drivaernet_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "dcgan/drivaernet_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "dcgan/drivaernet_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "dcgan/drivaernet_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "dcgan/deepjeb_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "dcgan/deepjeb_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "dcgan/deepjeb_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "dcgan/deepjeb_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "dcgan/deepjeb_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "dcgan/deepjeb_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "dcgan/deepjeb_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "dcgan/deepjeb_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "dcgan/deepjeb_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "dcgan/deepjeb_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "dcgan/deepjeb_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "dcgan/deepjeb_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "dcgan/drivaernet_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "dcgan/drivaernet_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "dcgan/drivaernet_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "dcgan/drivaernet_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "dcgan/drivaernet_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "dcgan/drivaernet_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "dcgan/drivaernet_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "dcgan/drivaernet_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "dcgan/drivaernet_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "dcgan/drivaernet_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "dcgan/drivaernet_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "dcgan/drivaernet_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "dcgan/deepjeb_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "dcgan/deepjeb_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "dcgan/deepjeb_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "dcgan/deepjeb_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "dcgan/deepjeb_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "dcgan/deepjeb_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "dcgan/deepjeb_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "dcgan/deepjeb_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "dcgan/deepjeb_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "dcgan/deepjeb_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "dcgan/deepjeb_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "dcgan/deepjeb_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "dcgan/drivaernet_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "dcgan/drivaernet_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "dcgan/drivaernet_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "dcgan/drivaernet_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "dcgan/drivaernet_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "dcgan/drivaernet_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "dcgan/drivaernet_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "dcgan/drivaernet_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "dcgan/drivaernet_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "dcgan/drivaernet_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "dcgan/drivaernet_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "dcgan/drivaernet_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "dcgan/deepjeb_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "dcgan/deepjeb_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "dcgan/deepjeb_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "dcgan/deepjeb_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "dcgan/deepjeb_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "dcgan/deepjeb_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "dcgan/deepjeb_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "dcgan/deepjeb_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "dcgan/deepjeb_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "dcgan/deepjeb_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "dcgan/deepjeb_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "dcgan/deepjeb_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "dcgan/drivaernet_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "dcgan/drivaernet_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "dcgan/drivaernet_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "dcgan/drivaernet_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "dcgan/drivaernet_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "dcgan/drivaernet_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "dcgan/drivaernet_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "dcgan/drivaernet_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "dcgan/drivaernet_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "dcgan/drivaernet_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "dcgan/drivaernet_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "dcgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "dcgan/drivaernet_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "ddpm/deepjeb_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "ddpm/deepjeb_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "ddpm/deepjeb_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "ddpm/deepjeb_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "ddpm/deepjeb_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "ddpm/deepjeb_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "ddpm/deepjeb_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "ddpm/deepjeb_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "ddpm/deepjeb_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "ddpm/deepjeb_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "ddpm/deepjeb_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "ddpm/deepjeb_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "ddpm/drivaernet_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "ddpm/drivaernet_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "ddpm/drivaernet_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "ddpm/drivaernet_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "ddpm/drivaernet_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "ddpm/drivaernet_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "ddpm/drivaernet_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "ddpm/drivaernet_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "ddpm/drivaernet_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "ddpm/drivaernet_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "ddpm/drivaernet_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "ddpm/drivaernet_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "ddpm/deepjeb_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "ddpm/deepjeb_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "ddpm/deepjeb_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "ddpm/deepjeb_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "ddpm/deepjeb_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "ddpm/deepjeb_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "ddpm/deepjeb_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "ddpm/deepjeb_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "ddpm/deepjeb_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "ddpm/deepjeb_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "ddpm/deepjeb_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "ddpm/deepjeb_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "ddpm/drivaernet_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "ddpm/drivaernet_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "ddpm/drivaernet_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "ddpm/drivaernet_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "ddpm/drivaernet_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "ddpm/drivaernet_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "ddpm/drivaernet_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "ddpm/drivaernet_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "ddpm/drivaernet_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "ddpm/drivaernet_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "ddpm/drivaernet_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "ddpm/drivaernet_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "ddpm/deepjeb_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "ddpm/deepjeb_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "ddpm/deepjeb_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "ddpm/deepjeb_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "ddpm/deepjeb_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "ddpm/deepjeb_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "ddpm/deepjeb_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "ddpm/deepjeb_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "ddpm/deepjeb_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "ddpm/deepjeb_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "ddpm/deepjeb_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "ddpm/deepjeb_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "ddpm/drivaernet_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "ddpm/drivaernet_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "ddpm/drivaernet_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "ddpm/drivaernet_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "ddpm/drivaernet_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "ddpm/drivaernet_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "ddpm/drivaernet_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "ddpm/drivaernet_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "ddpm/drivaernet_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "ddpm/drivaernet_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "ddpm/drivaernet_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "ddpm/drivaernet_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "ddpm/deepjeb_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "ddpm/deepjeb_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "ddpm/deepjeb_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "ddpm/deepjeb_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "ddpm/deepjeb_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "ddpm/deepjeb_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "ddpm/deepjeb_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "ddpm/deepjeb_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "ddpm/deepjeb_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "ddpm/deepjeb_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "ddpm/deepjeb_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "ddpm/deepjeb_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "ddpm/drivaernet_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "ddpm/drivaernet_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "ddpm/drivaernet_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "ddpm/drivaernet_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "ddpm/drivaernet_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "ddpm/drivaernet_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "ddpm/drivaernet_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "ddpm/drivaernet_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "ddpm/drivaernet_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "ddpm/drivaernet_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "ddpm/drivaernet_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "ddpm",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "ddpm/drivaernet_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "gan/deepjeb_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "gan/deepjeb_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "gan/deepjeb_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "gan/deepjeb_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "gan/deepjeb_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "gan/deepjeb_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "gan/deepjeb_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "gan/deepjeb_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "gan/deepjeb_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "gan/deepjeb_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "gan/deepjeb_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "gan/deepjeb_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "gan/drivaernet_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "gan/drivaernet_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "gan/drivaernet_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "gan/drivaernet_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "gan/drivaernet_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "gan/drivaernet_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "gan/drivaernet_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "gan/drivaernet_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "gan/drivaernet_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "gan/drivaernet_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "gan/drivaernet_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "gan/drivaernet_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "gan/deepjeb_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "gan/deepjeb_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "gan/deepjeb_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "gan/deepjeb_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "gan/deepjeb_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "gan/deepjeb_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "gan/deepjeb_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "gan/deepjeb_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "gan/deepjeb_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "gan/deepjeb_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "gan/deepjeb_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "gan/deepjeb_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "gan/drivaernet_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "gan/drivaernet_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "gan/drivaernet_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "gan/drivaernet_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "gan/drivaernet_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "gan/drivaernet_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "gan/drivaernet_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "gan/drivaernet_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "gan/drivaernet_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "gan/drivaernet_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "gan/drivaernet_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "gan/drivaernet_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "gan/deepjeb_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "gan/deepjeb_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "gan/deepjeb_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "gan/deepjeb_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "gan/deepjeb_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "gan/deepjeb_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "gan/deepjeb_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "gan/deepjeb_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "gan/deepjeb_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "gan/deepjeb_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "gan/deepjeb_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "gan/deepjeb_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "gan/drivaernet_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "gan/drivaernet_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "gan/drivaernet_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "gan/drivaernet_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "gan/drivaernet_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "gan/drivaernet_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "gan/drivaernet_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "gan/drivaernet_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "gan/drivaernet_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "gan/drivaernet_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "gan/drivaernet_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "gan/drivaernet_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "gan/deepjeb_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "gan/deepjeb_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "gan/deepjeb_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "gan/deepjeb_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "gan/deepjeb_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "gan/deepjeb_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "gan/deepjeb_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "gan/deepjeb_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "gan/deepjeb_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "gan/deepjeb_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "gan/deepjeb_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "gan/deepjeb_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "gan/drivaernet_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "gan/drivaernet_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "gan/drivaernet_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "gan/drivaernet_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "gan/drivaernet_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "gan/drivaernet_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "gan/drivaernet_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "gan/drivaernet_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "gan/drivaernet_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "gan/drivaernet_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "gan/drivaernet_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "gan/drivaernet_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "lsgan/deepjeb_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "lsgan/deepjeb_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "lsgan/deepjeb_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "lsgan/deepjeb_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "lsgan/deepjeb_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "lsgan/deepjeb_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "lsgan/deepjeb_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "lsgan/deepjeb_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "lsgan/deepjeb_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "lsgan/deepjeb_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "lsgan/deepjeb_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "lsgan/deepjeb_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "lsgan/drivaernet_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "lsgan/drivaernet_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "lsgan/drivaernet_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "lsgan/drivaernet_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "lsgan/drivaernet_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "lsgan/drivaernet_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "lsgan/drivaernet_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "lsgan/drivaernet_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "lsgan/drivaernet_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "lsgan/drivaernet_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "lsgan/drivaernet_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "lsgan/drivaernet_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "lsgan/deepjeb_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "lsgan/deepjeb_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "lsgan/deepjeb_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "lsgan/deepjeb_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "lsgan/deepjeb_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "lsgan/deepjeb_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "lsgan/deepjeb_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "lsgan/deepjeb_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "lsgan/deepjeb_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "lsgan/deepjeb_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "lsgan/deepjeb_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "lsgan/deepjeb_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "lsgan/drivaernet_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "lsgan/drivaernet_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "lsgan/drivaernet_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "lsgan/drivaernet_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "lsgan/drivaernet_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "lsgan/drivaernet_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "lsgan/drivaernet_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "lsgan/drivaernet_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "lsgan/drivaernet_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "lsgan/drivaernet_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "lsgan/drivaernet_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "lsgan/drivaernet_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "lsgan/deepjeb_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "lsgan/deepjeb_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "lsgan/deepjeb_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "lsgan/deepjeb_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "lsgan/deepjeb_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "lsgan/deepjeb_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "lsgan/deepjeb_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "lsgan/deepjeb_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "lsgan/deepjeb_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "lsgan/deepjeb_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "lsgan/deepjeb_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "lsgan/deepjeb_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "lsgan/drivaernet_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "lsgan/drivaernet_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "lsgan/drivaernet_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "lsgan/drivaernet_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "lsgan/drivaernet_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "lsgan/drivaernet_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "lsgan/drivaernet_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "lsgan/drivaernet_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "lsgan/drivaernet_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "lsgan/drivaernet_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "lsgan/drivaernet_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "lsgan/drivaernet_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "lsgan/deepjeb_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "lsgan/deepjeb_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "lsgan/deepjeb_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "lsgan/deepjeb_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "lsgan/deepjeb_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "lsgan/deepjeb_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "lsgan/deepjeb_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "lsgan/deepjeb_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "lsgan/deepjeb_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "lsgan/deepjeb_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "lsgan/deepjeb_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "lsgan/deepjeb_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "lsgan/drivaernet_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "lsgan/drivaernet_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "lsgan/drivaernet_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "lsgan/drivaernet_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "lsgan/drivaernet_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "lsgan/drivaernet_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "lsgan/drivaernet_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "lsgan/drivaernet_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "lsgan/drivaernet_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "lsgan/drivaernet_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "lsgan/drivaernet_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "lsgan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "lsgan/drivaernet_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "r1gan/deepjeb_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "r1gan/deepjeb_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "r1gan/deepjeb_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "r1gan/deepjeb_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "r1gan/deepjeb_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "r1gan/deepjeb_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "r1gan/deepjeb_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "r1gan/deepjeb_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "r1gan/deepjeb_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "r1gan/deepjeb_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "r1gan/deepjeb_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "r1gan/deepjeb_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "r1gan/drivaernet_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "r1gan/drivaernet_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "r1gan/drivaernet_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "r1gan/drivaernet_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "r1gan/drivaernet_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "r1gan/drivaernet_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "r1gan/drivaernet_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "r1gan/drivaernet_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "r1gan/drivaernet_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "r1gan/drivaernet_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "r1gan/drivaernet_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "r1gan/drivaernet_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "r1gan/deepjeb_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "r1gan/deepjeb_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "r1gan/deepjeb_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "r1gan/deepjeb_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "r1gan/deepjeb_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "r1gan/deepjeb_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "r1gan/deepjeb_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "r1gan/deepjeb_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "r1gan/deepjeb_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "r1gan/deepjeb_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "r1gan/deepjeb_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "r1gan/deepjeb_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "r1gan/drivaernet_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "r1gan/drivaernet_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "r1gan/drivaernet_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "r1gan/drivaernet_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "r1gan/drivaernet_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "r1gan/drivaernet_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "r1gan/drivaernet_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "r1gan/drivaernet_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "r1gan/drivaernet_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "r1gan/drivaernet_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "r1gan/drivaernet_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "r1gan/drivaernet_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "r1gan/deepjeb_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "r1gan/deepjeb_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "r1gan/deepjeb_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "r1gan/deepjeb_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "r1gan/deepjeb_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "r1gan/deepjeb_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "r1gan/deepjeb_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "r1gan/deepjeb_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "r1gan/deepjeb_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "r1gan/deepjeb_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "r1gan/deepjeb_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "r1gan/deepjeb_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "r1gan/drivaernet_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "r1gan/drivaernet_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "r1gan/drivaernet_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "r1gan/drivaernet_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "r1gan/drivaernet_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "r1gan/drivaernet_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "r1gan/drivaernet_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "r1gan/drivaernet_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "r1gan/drivaernet_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "r1gan/drivaernet_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "r1gan/drivaernet_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "r1gan/drivaernet_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "r1gan/deepjeb_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "r1gan/deepjeb_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "r1gan/deepjeb_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "r1gan/deepjeb_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "r1gan/deepjeb_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "r1gan/deepjeb_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "r1gan/deepjeb_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "r1gan/deepjeb_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "r1gan/deepjeb_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "r1gan/deepjeb_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "r1gan/deepjeb_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "r1gan/deepjeb_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "r1gan/drivaernet_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "r1gan/drivaernet_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "r1gan/drivaernet_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "r1gan/drivaernet_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "r1gan/drivaernet_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "r1gan/drivaernet_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "r1gan/drivaernet_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "r1gan/drivaernet_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "r1gan/drivaernet_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "r1gan/drivaernet_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "r1gan/drivaernet_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "r1gan",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "r1gan/drivaernet_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "vae/deepjeb_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "vae/deepjeb_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "vae/deepjeb_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "vae/deepjeb_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "vae/deepjeb_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "vae/deepjeb_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "vae/deepjeb_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "vae/deepjeb_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "vae/deepjeb_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "vae/deepjeb_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "vae/deepjeb_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "vae/deepjeb_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "vae/drivaernet_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "vae/drivaernet_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "vae/drivaernet_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "vae/drivaernet_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "vae/drivaernet_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "vae/drivaernet_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "vae/drivaernet_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "vae/drivaernet_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "vae/drivaernet_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "vae/drivaernet_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "vae/drivaernet_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "vae/drivaernet_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "vae/deepjeb_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "vae/deepjeb_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "vae/deepjeb_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "vae/deepjeb_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "vae/deepjeb_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "vae/deepjeb_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "vae/deepjeb_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "vae/deepjeb_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "vae/deepjeb_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "vae/deepjeb_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "vae/deepjeb_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "vae/deepjeb_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "vae/drivaernet_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "vae/drivaernet_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "vae/drivaernet_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "vae/drivaernet_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "vae/drivaernet_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "vae/drivaernet_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "vae/drivaernet_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "vae/drivaernet_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "vae/drivaernet_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "vae/drivaernet_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "vae/drivaernet_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "vae/drivaernet_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "vae/deepjeb_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "vae/deepjeb_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "vae/deepjeb_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "vae/deepjeb_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "vae/deepjeb_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "vae/deepjeb_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "vae/deepjeb_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "vae/deepjeb_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "vae/deepjeb_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "vae/deepjeb_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "vae/deepjeb_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "vae/deepjeb_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "vae/drivaernet_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "vae/drivaernet_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "vae/drivaernet_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "vae/drivaernet_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "vae/drivaernet_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "vae/drivaernet_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "vae/drivaernet_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "vae/drivaernet_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "vae/drivaernet_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "vae/drivaernet_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "vae/drivaernet_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "vae/drivaernet_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "vae/deepjeb_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "vae/deepjeb_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "vae/deepjeb_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "vae/deepjeb_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "vae/deepjeb_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "vae/deepjeb_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "vae/deepjeb_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "vae/deepjeb_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "vae/deepjeb_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "vae/deepjeb_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "vae/deepjeb_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "vae/deepjeb_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "vae/drivaernet_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "vae/drivaernet_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "vae/drivaernet_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "vae/drivaernet_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "vae/drivaernet_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "vae/drivaernet_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "vae/drivaernet_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "vae/drivaernet_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "vae/drivaernet_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "vae/drivaernet_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "vae/drivaernet_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "vae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "vae/drivaernet_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "vqvae/deepjeb_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "vqvae/deepjeb_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "vqvae/deepjeb_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "vqvae/deepjeb_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "vqvae/deepjeb_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "vqvae/deepjeb_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "vqvae/deepjeb_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "vqvae/deepjeb_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "vqvae/deepjeb_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "vqvae/deepjeb_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "vqvae/deepjeb_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "vqvae/deepjeb_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "vqvae/drivaernet_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "vqvae/drivaernet_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "vqvae/drivaernet_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "vqvae/drivaernet_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "vqvae/drivaernet_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "vqvae/drivaernet_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "vqvae/drivaernet_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "vqvae/drivaernet_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "vqvae/drivaernet_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "vqvae/drivaernet_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "vqvae/drivaernet_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "vqvae/drivaernet_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "vqvae/deepjeb_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "vqvae/deepjeb_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "vqvae/deepjeb_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "vqvae/deepjeb_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "vqvae/deepjeb_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "vqvae/deepjeb_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "vqvae/deepjeb_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "vqvae/deepjeb_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "vqvae/deepjeb_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "vqvae/deepjeb_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "vqvae/deepjeb_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "vqvae/deepjeb_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "vqvae/drivaernet_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "vqvae/drivaernet_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "vqvae/drivaernet_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "vqvae/drivaernet_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "vqvae/drivaernet_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "vqvae/drivaernet_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "vqvae/drivaernet_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "vqvae/drivaernet_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "vqvae/drivaernet_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "vqvae/drivaernet_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "vqvae/drivaernet_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "vqvae/drivaernet_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "vqvae/deepjeb_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "vqvae/deepjeb_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "vqvae/deepjeb_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "vqvae/deepjeb_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "vqvae/deepjeb_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "vqvae/deepjeb_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "vqvae/deepjeb_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "vqvae/deepjeb_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "vqvae/deepjeb_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "vqvae/deepjeb_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "vqvae/deepjeb_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "vqvae/deepjeb_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "vqvae/drivaernet_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "vqvae/drivaernet_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "vqvae/drivaernet_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "vqvae/drivaernet_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "vqvae/drivaernet_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "vqvae/drivaernet_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "vqvae/drivaernet_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "vqvae/drivaernet_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "vqvae/drivaernet_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "vqvae/drivaernet_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "vqvae/drivaernet_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "vqvae/drivaernet_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "vqvae/deepjeb_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "vqvae/deepjeb_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "vqvae/deepjeb_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "vqvae/deepjeb_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "vqvae/deepjeb_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "vqvae/deepjeb_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "vqvae/deepjeb_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "vqvae/deepjeb_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "vqvae/deepjeb_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "vqvae/deepjeb_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "vqvae/deepjeb_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "vqvae/deepjeb_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "vqvae/drivaernet_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "vqvae/drivaernet_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "vqvae/drivaernet_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "vqvae/drivaernet_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "vqvae/drivaernet_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "vqvae/drivaernet_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "vqvae/drivaernet_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "vqvae/drivaernet_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "vqvae/drivaernet_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "vqvae/drivaernet_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "vqvae/drivaernet_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "vqvae",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "vqvae/drivaernet_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "wgan_cp/deepjeb_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "wgan_cp/deepjeb_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "wgan_cp/deepjeb_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "wgan_cp/deepjeb_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "wgan_cp/deepjeb_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "wgan_cp/deepjeb_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "wgan_cp/deepjeb_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "wgan_cp/deepjeb_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "wgan_cp/deepjeb_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "wgan_cp/deepjeb_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "wgan_cp/deepjeb_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "wgan_cp/deepjeb_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "wgan_cp/drivaernet_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "wgan_cp/drivaernet_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "wgan_cp/drivaernet_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "wgan_cp/drivaernet_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "wgan_cp/drivaernet_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "wgan_cp/drivaernet_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "wgan_cp/drivaernet_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "wgan_cp/drivaernet_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "wgan_cp/drivaernet_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "wgan_cp/drivaernet_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "wgan_cp/drivaernet_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "wgan_cp/drivaernet_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "wgan_cp/deepjeb_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "wgan_cp/deepjeb_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "wgan_cp/deepjeb_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "wgan_cp/deepjeb_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "wgan_cp/deepjeb_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "wgan_cp/deepjeb_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "wgan_cp/deepjeb_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "wgan_cp/deepjeb_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "wgan_cp/deepjeb_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "wgan_cp/deepjeb_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "wgan_cp/deepjeb_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "wgan_cp/deepjeb_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "wgan_cp/drivaernet_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "wgan_cp/drivaernet_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "wgan_cp/drivaernet_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "wgan_cp/drivaernet_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "wgan_cp/drivaernet_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "wgan_cp/drivaernet_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "wgan_cp/drivaernet_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "wgan_cp/drivaernet_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "wgan_cp/drivaernet_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "wgan_cp/drivaernet_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "wgan_cp/drivaernet_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "wgan_cp/drivaernet_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "wgan_cp/deepjeb_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "wgan_cp/deepjeb_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "wgan_cp/deepjeb_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "wgan_cp/deepjeb_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "wgan_cp/deepjeb_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "wgan_cp/deepjeb_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "wgan_cp/deepjeb_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "wgan_cp/deepjeb_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "wgan_cp/deepjeb_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "wgan_cp/deepjeb_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "wgan_cp/deepjeb_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "wgan_cp/deepjeb_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "wgan_cp/drivaernet_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "wgan_cp/drivaernet_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "wgan_cp/drivaernet_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "wgan_cp/drivaernet_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "wgan_cp/drivaernet_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "wgan_cp/drivaernet_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "wgan_cp/drivaernet_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "wgan_cp/drivaernet_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "wgan_cp/drivaernet_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "wgan_cp/drivaernet_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "wgan_cp/drivaernet_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "wgan_cp/drivaernet_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "wgan_cp/deepjeb_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "wgan_cp/deepjeb_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "wgan_cp/deepjeb_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "wgan_cp/deepjeb_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "wgan_cp/deepjeb_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "wgan_cp/deepjeb_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "wgan_cp/deepjeb_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "wgan_cp/deepjeb_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "wgan_cp/deepjeb_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "wgan_cp/deepjeb_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "wgan_cp/deepjeb_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "wgan_cp/deepjeb_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "wgan_cp/drivaernet_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "wgan_cp/drivaernet_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "wgan_cp/drivaernet_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "wgan_cp/drivaernet_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "wgan_cp/drivaernet_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "wgan_cp/drivaernet_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "wgan_cp/drivaernet_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "wgan_cp/drivaernet_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "wgan_cp/drivaernet_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "wgan_cp/drivaernet_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "wgan_cp/drivaernet_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "wgan_cp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "wgan_cp/drivaernet_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "wgan_gp/deepjeb_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "wgan_gp/deepjeb_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "wgan_gp/deepjeb_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "wgan_gp/deepjeb_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "wgan_gp/deepjeb_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "wgan_gp/deepjeb_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "wgan_gp/deepjeb_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "wgan_gp/deepjeb_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "wgan_gp/deepjeb_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "wgan_gp/deepjeb_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "wgan_gp/deepjeb_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "wgan_gp/deepjeb_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "wgan_gp/drivaernet_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "wgan_gp/drivaernet_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "wgan_gp/drivaernet_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "wgan_gp/drivaernet_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "wgan_gp/drivaernet_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "wgan_gp/drivaernet_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "wgan_gp/drivaernet_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "wgan_gp/drivaernet_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "wgan_gp/drivaernet_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "wgan_gp/drivaernet_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "wgan_gp/drivaernet_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "wgan_gp/drivaernet_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "wgan_gp/deepjeb_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "wgan_gp/deepjeb_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "wgan_gp/deepjeb_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "wgan_gp/deepjeb_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "wgan_gp/deepjeb_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "wgan_gp/deepjeb_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "wgan_gp/deepjeb_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "wgan_gp/deepjeb_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "wgan_gp/deepjeb_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "wgan_gp/deepjeb_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "wgan_gp/deepjeb_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "wgan_gp/deepjeb_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "wgan_gp/drivaernet_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "wgan_gp/drivaernet_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "wgan_gp/drivaernet_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "wgan_gp/drivaernet_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "wgan_gp/drivaernet_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "wgan_gp/drivaernet_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "wgan_gp/drivaernet_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "wgan_gp/drivaernet_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "wgan_gp/drivaernet_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "wgan_gp/drivaernet_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "wgan_gp/drivaernet_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "wgan_gp/drivaernet_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "wgan_gp/deepjeb_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "wgan_gp/deepjeb_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "wgan_gp/deepjeb_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "wgan_gp/deepjeb_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "wgan_gp/deepjeb_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "wgan_gp/deepjeb_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "wgan_gp/deepjeb_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "wgan_gp/deepjeb_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "wgan_gp/deepjeb_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "wgan_gp/deepjeb_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "wgan_gp/deepjeb_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "wgan_gp/deepjeb_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "wgan_gp/drivaernet_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "wgan_gp/drivaernet_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "wgan_gp/drivaernet_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "wgan_gp/drivaernet_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "wgan_gp/drivaernet_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "wgan_gp/drivaernet_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "wgan_gp/drivaernet_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "wgan_gp/drivaernet_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "wgan_gp/drivaernet_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "wgan_gp/drivaernet_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "wgan_gp/drivaernet_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "wgan_gp/drivaernet_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 0,
+      "path": "wgan_gp/deepjeb_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 1,
+      "path": "wgan_gp/deepjeb_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 2,
+      "path": "wgan_gp/deepjeb_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 3,
+      "path": "wgan_gp/deepjeb_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 4,
+      "path": "wgan_gp/deepjeb_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 5,
+      "path": "wgan_gp/deepjeb_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 6,
+      "path": "wgan_gp/deepjeb_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 7,
+      "path": "wgan_gp/deepjeb_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 8,
+      "path": "wgan_gp/deepjeb_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 9,
+      "path": "wgan_gp/deepjeb_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 10,
+      "path": "wgan_gp/deepjeb_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d",
+      "sample": 11,
+      "path": "wgan_gp/deepjeb_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 0,
+      "path": "wgan_gp/drivaernet_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 1,
+      "path": "wgan_gp/drivaernet_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 2,
+      "path": "wgan_gp/drivaernet_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 3,
+      "path": "wgan_gp/drivaernet_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 4,
+      "path": "wgan_gp/drivaernet_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 5,
+      "path": "wgan_gp/drivaernet_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 6,
+      "path": "wgan_gp/drivaernet_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 7,
+      "path": "wgan_gp/drivaernet_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 8,
+      "path": "wgan_gp/drivaernet_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 9,
+      "path": "wgan_gp/drivaernet_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 10,
+      "path": "wgan_gp/drivaernet_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "wgan_gp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "drivaernet_2d_2d",
+      "sample": 11,
+      "path": "wgan_gp/drivaernet_2d_2d/500/img_00011.png"
+    }
+  ]
+}
