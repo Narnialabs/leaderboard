@@ -35,6 +35,8 @@
 /* ── Reset & Base ── */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+html { zoom: 1.125; }
+
 body {
   background: linear-gradient(160deg, var(--bg-primary) 0%, var(--bg-secondary) 30%, var(--bg-tertiary) 60%, var(--bg-deep) 100%);
   background-attachment: fixed;

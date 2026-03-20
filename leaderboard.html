@@ -1327,7 +1327,7 @@ function render3DEvalAllModels(container, data, rankOrder) {
 
   container.innerHTML = html;
 
-  // Lazy-init eval viewers via IntersectionObserver
+  // Lazy-init eval viewers via IntersectionObserver with pause/resume
   if (window._lbEvalObserver) window._lbEvalObserver.disconnect();
   window._lbEvalObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -1335,6 +1335,31 @@ function render3DEvalAllModels(container, data, rankOrder) {
       if (entry.isIntersecting && !el._evalInitialized) {
         el._evalInitialized = true;
         window.initLeaderboardEvalViewer(el);
+      }
+      // Pause/resume eval viewer animation
+      if (el._evalInitialized && el._evalViewer) {
+        const v = el._evalViewer;
+        if (entry.isIntersecting) {
+          // Check for context loss — re-initialize if needed
+          const lost = v.panels.some(p => p._contextLost || (p.renderer && p.renderer.getContext().isContextLost()));
+          if (lost) {
+            el._evalInitialized = false;
+            v.cancel();
+            v.panels.forEach(p => {
+              if (p.renderer) try { p.renderer.dispose(); } catch(e) {}
+              if (p.controls) p.controls.dispose();
+              if (p.points) { p.points.geometry.dispose(); p.points.material.dispose(); }
+              if (p.carMesh) { p.carMesh.geometry.dispose(); p.carMesh.material.dispose(); }
+            });
+            el.innerHTML = '';
+            el._evalInitialized = true;
+            window.initLeaderboardEvalViewer(el);
+          } else if (!v.isAnimating()) {
+            v.resume();
+          }
+        } else {
+          v.pause();
+        }
       }
     });
   }, { rootMargin: '300px' });
@@ -1774,7 +1799,18 @@ function createEvalPanel(container, w, h) {
   controls.maxDistance = 20;
   scene.add(new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30));
   scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-  return { scene, camera, renderer, controls, points: null, carMesh: null, container };
+  const panel = { scene, camera, renderer, controls, points: null, carMesh: null, container };
+
+  // Handle WebGL context loss gracefully
+  renderer.domElement.addEventListener('webglcontextlost', (e) => {
+    e.preventDefault();
+    panel._contextLost = true;
+  });
+  renderer.domElement.addEventListener('webglcontextrestored', () => {
+    panel._contextLost = false;
+  });
+
+  return panel;
 }
 
 function setEvalPanelCloud(panel, positions, fieldValues, vmin, vmax, isDrivAerNet) {
@@ -2037,7 +2073,16 @@ window.initLeaderboardEvalViewer = function(el) {
 
   // Register cleanup for this viewer
   if (!window._lbEvalViewers) window._lbEvalViewers = [];
-  window._lbEvalViewers.push({ panels, animId: () => evalAnimId, cancel: () => { if (evalAnimId) cancelAnimationFrame(evalAnimId); evalAnimId = null; } });
+  const viewerHandle = {
+    panels,
+    animId: () => evalAnimId,
+    cancel: () => { if (evalAnimId) cancelAnimationFrame(evalAnimId); evalAnimId = null; },
+    pause: () => { if (evalAnimId) { cancelAnimationFrame(evalAnimId); evalAnimId = null; } },
+    resume: () => { if (!evalAnimId) animate(); },
+    isAnimating: () => !!evalAnimId,
+  };
+  window._lbEvalViewers.push(viewerHandle);
+  el._evalViewer = viewerHandle;
 
   // Auto-load first sample
   loadEvalData();

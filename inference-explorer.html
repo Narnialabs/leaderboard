@@ -1009,10 +1009,27 @@ function cmpRender3DGen(container) {
   if (window._cmpPcObs) window._cmpPcObs.disconnect();
   window._cmpPcObs = new IntersectionObserver(entries => {
     entries.forEach(e => {
-      if (e.isIntersecting && !e.target._pcInit && window.initCmpPCViewer) {
-        e.target._pcInit = true;
-        const el = e.target;
+      const el = e.target;
+      if (e.isIntersecting && !el._pcInit && window.initCmpPCViewer) {
+        el._pcInit = true;
         window.initCmpPCViewer(el, el.dataset.model, parseInt(el.dataset.size), el.dataset.dataset, parseInt(el.dataset.sample), el.dataset.side);
+      }
+      // Pause/resume
+      if (el._pcInit && el._cmpPcViewer) {
+        if (e.isIntersecting) {
+          if (el._contextLost) {
+            el._pcInit = false;
+            el._contextLost = false;
+            el._cmpPcViewer.cleanup();
+            el._cmpPcViewer = null;
+            el._pcInit = true;
+            window.initCmpPCViewer(el, el.dataset.model, parseInt(el.dataset.size), el.dataset.dataset, parseInt(el.dataset.sample), el.dataset.side);
+          } else if (!el._cmpPcViewer.isAnimating()) {
+            el._cmpPcViewer.resume();
+          }
+        } else {
+          el._cmpPcViewer.pause();
+        }
       }
     });
   }, { rootMargin:'200px' });
@@ -1057,9 +1074,28 @@ function cmpRender3DEval(container) {
   if (window._cmpEvalObs) window._cmpEvalObs.disconnect();
   window._cmpEvalObs = new IntersectionObserver(entries => {
     entries.forEach(e => {
-      if (e.isIntersecting && !e.target._evalInit && window.initCmpEvalViewer) {
-        e.target._evalInit = true;
-        window.initCmpEvalViewer(e.target);
+      const el = e.target;
+      if (e.isIntersecting && !el._evalInit && window.initCmpEvalViewer) {
+        el._evalInit = true;
+        window.initCmpEvalViewer(el);
+      }
+      // Pause/resume
+      if (el._evalInit && el._cmpEvalViewer) {
+        if (e.isIntersecting) {
+          if (el._contextLost) {
+            el._evalInit = false;
+            el._contextLost = false;
+            el._cmpEvalViewer.cleanup();
+            el._cmpEvalViewer = null;
+            el.innerHTML = '';
+            el._evalInit = true;
+            window.initCmpEvalViewer(el);
+          } else if (!el._cmpEvalViewer.isAnimating()) {
+            el._cmpEvalViewer.resume();
+          }
+        } else {
+          el._cmpEvalViewer.pause();
+        }
       }
     });
   }, { rootMargin:'300px' });
@@ -1915,8 +1951,30 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   scene.add(new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30));
 
   let pts = null;
-  function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); }
+  let cmpPcAnimId = null;
+  function animate() { cmpPcAnimId=requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); }
   animate();
+
+  // Handle WebGL context loss
+  renderer.domElement.addEventListener('webglcontextlost', (e) => {
+    e.preventDefault();
+    el._contextLost = true;
+    if (cmpPcAnimId) { cancelAnimationFrame(cmpPcAnimId); cmpPcAnimId = null; }
+  });
+
+  // Store viewer handle for pause/resume
+  el._cmpPcViewer = {
+    pause: () => { if (cmpPcAnimId) { cancelAnimationFrame(cmpPcAnimId); cmpPcAnimId = null; } },
+    resume: () => { if (!cmpPcAnimId) animate(); },
+    isAnimating: () => !!cmpPcAnimId,
+    cleanup: () => {
+      if (cmpPcAnimId) cancelAnimationFrame(cmpPcAnimId);
+      if (renderer) try { renderer.dispose(); } catch(e) {}
+      if (controls) controls.dispose();
+      if (pts) { pts.geometry.dispose(); pts.material.dispose(); }
+    },
+  };
+
   const ro = new ResizeObserver(entries => {
     for (const entry of entries) {
       const {width,height}=entry.contentRect;
@@ -2019,6 +2077,31 @@ window.initCmpEvalViewer = function(el) {
   let animId = null;
   function animate() { animId=requestAnimationFrame(animate); panels.forEach(p=>p.controls.update()); if(panels[0].controls.autoRotate){const src=panels[0];panels.slice(1).forEach(d=>{d.camera.position.copy(src.camera.position);d.camera.quaternion.copy(src.camera.quaternion);d.controls.target.copy(src.controls.target);d.controls.update();});} panels.forEach(p=>p.renderer.render(p.scene,p.camera)); }
   animate();
+
+  // Handle WebGL context loss on each panel
+  panels.forEach(p => {
+    p.renderer.domElement.addEventListener('webglcontextlost', (e) => {
+      e.preventDefault();
+      el._contextLost = true;
+    });
+  });
+
+  // Store viewer handle for pause/resume
+  el._cmpEvalViewer = {
+    panels,
+    pause: () => { if (animId) { cancelAnimationFrame(animId); animId = null; } },
+    resume: () => { if (!animId) animate(); },
+    isAnimating: () => !!animId,
+    cleanup: () => {
+      if (animId) cancelAnimationFrame(animId);
+      panels.forEach(p => {
+        if (p.renderer) try { p.renderer.dispose(); } catch(e) {}
+        if (p.controls) p.controls.dispose();
+        if (p.points) { p.points.geometry.dispose(); p.points.material.dispose(); }
+        if (p.carMesh) { p.carMesh.geometry.dispose(); p.carMesh.material.dispose(); }
+      });
+    },
+  };
 
   let _sl=false;
   function syncFrom(si){if(_sl)return;_sl=true;const src=panels[si];panels.forEach((d,i)=>{if(i===si)return;d.camera.position.copy(src.camera.position);d.camera.quaternion.copy(src.camera.quaternion);d.controls.target.copy(src.controls.target);d.controls.update();});_sl=false;}

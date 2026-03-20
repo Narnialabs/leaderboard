@@ -2,7 +2,7 @@
 
 **Official benchmark leaderboard for evaluating and ranking AI models in manufacturing and engineering domains.**
 
-Developed by [Narnia Labs](https://www.narnia.ai/), this leaderboard provides transparent, standardized performance benchmarks to objectively assess AI models across 2D image generation and 3D point cloud tasks.
+Developed by [Narnia Labs](https://www.narnia.ai/), this leaderboard provides transparent, standardized performance benchmarks to objectively assess AI models across 2D image generation and 3D geometry tasks.
 
 ---
 
@@ -15,13 +15,13 @@ The Narnia Labs AI Benchmark Leaderboard serves as an objective evaluation gatew
 | Domain | Description |
 |--------|-------------|
 | **2D Image Generation** | Evaluates generative models on engineering image synthesis tasks. |
-| **3D Point Cloud Generation** | Evaluates models that generate 3D geometries for engineering components. |
-| **3D Point Cloud Evaluation** | Evaluates predictive models that estimate engineering performance on 3D geometries. |
+| **3D Geometry Generation** | Evaluates models that generate 3D geometries for engineering components. |
+| **3D Geometry Evaluation** | Evaluates predictive models that estimate engineering performance on 3D geometries. |
 
 ## Features
 
 - **Leaderboard Rankings** — Ranked model tables with multi-metric evaluation and visual heatmaps.
-- **Interactive 3D Viewer** — Explore generated and predicted 3D point clouds directly in the browser.
+- **Interactive 3D Viewer** — Explore generated and predicted 3D geometries directly in the browser.
 - **Inference Explorer** — Compare model outputs side-by-side with detailed per-model analysis.
 - **Scalability Analysis** — Benchmarks across multiple training-set sizes to assess data efficiency.
 

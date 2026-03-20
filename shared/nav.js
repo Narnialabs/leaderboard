@@ -4,6 +4,32 @@
  * Usage: include this script, then call initNav('page-id')
  */
 
+// ── Content Protection ──
+(function() {
+  // Right-click prevention
+  document.addEventListener('contextmenu', e => e.preventDefault());
+
+  // Drag prevention
+  document.addEventListener('dragstart', e => e.preventDefault());
+
+  // Text selection prevention (CSS)
+  document.documentElement.style.userSelect = 'none';
+  document.documentElement.style.webkitUserSelect = 'none';
+
+  // DevTools keyboard shortcuts prevention
+  document.addEventListener('keydown', e => {
+    // F12
+    if (e.key === 'F12') { e.preventDefault(); return; }
+    // Ctrl+Shift+I / Ctrl+Shift+J / Ctrl+Shift+C (DevTools)
+    if (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) { e.preventDefault(); return; }
+    // Ctrl+U (View Source)
+    if (e.ctrlKey && e.key.toUpperCase() === 'U') { e.preventDefault(); return; }
+    // Cmd variants for Mac
+    if (e.metaKey && e.altKey && ['I','J','C'].includes(e.key.toUpperCase())) { e.preventDefault(); return; }
+    if (e.metaKey && e.key.toUpperCase() === 'U') { e.preventDefault(); return; }
+  });
+})();
+
 const NAV_PAGES = [
   { id: 'overview', label: 'Overview', href: 'index.html' },
   { id: 'leaderboard', label: 'Leaderboard', href: 'leaderboard.html' },
