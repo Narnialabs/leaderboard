@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +8,10 @@
 <script src="shared/lib/papaparse.min.js"></script>
 <script src="shared/lib/chart.umd.min.js"></script>
 <style>
-  .gf-label { font-size:9px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1px; }
-  .gf-select { width:100%; background:rgba(255,255,255,0.06); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:6px 10px; font-size:11px; outline:none; margin-top:4px; }
+  .gf-label { font-size:10px; color:rgba(255,255,255,0.45); text-transform:uppercase; letter-spacing:1px; font-weight:700; }
+  .gf-select { width:100%; background:rgba(255,255,255,0.06); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:7px 11px; font-size:12px; outline:none; margin-top:4px; }
   .gf-select option { background:#1a1a2e; }
-  .gf-pill { cursor:pointer; padding:3px 10px; font-size:10px; border-radius:6px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); transition:all 0.15s; }
+  .gf-pill { cursor:pointer; padding:4px 11px; font-size:11px; border-radius:6px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); transition:all 0.15s; }
   .gf-pill.active { background:rgba(167,139,250,0.2); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
   .gf-pill:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
 
@@ -95,7 +95,7 @@
 <!-- Page Header -->
 <div style="margin-bottom:20px;">
   <div style="font-size:22px; font-weight:900; color:#fff; letter-spacing:-0.3px;">Inference Explorer</div>
-  <div style="font-size:12px; color:rgba(255,255,255,0.4); margin-top:4px;">모델별 추론 결과 탐색 · 생성 이미지 · 성능 메트릭</div>
+  <div style="font-size:12px; color:rgba(255,255,255,0.4); margin-top:4px;">Explore Inference Results by Model · Generated Images · Performance Metrics</div>
 </div>
 
 <!-- Layout: Sidebar + Main -->
@@ -212,11 +212,11 @@
       </div>
 
       <!-- Control Filters (shared) -->
-      <div class="glass" style="padding:14px 20px; margin-bottom:8px;">
+      <div class="glass" style="padding:16px 20px; margin-bottom:8px;">
         <div class="flex gap-16 flex-wrap" style="align-items:center;">
           <div class="filter-group">
             <span class="gf-label">Dimension</span>
-            <div id="cmp-dim-pills" style="display:inline-flex; gap:4px; margin-left:6px;"></div>
+            <div id="cmp-dim-pills" style="display:inline-flex; gap:5px; margin-left:6px;"></div>
           </div>
           <div class="filter-group">
             <span class="gf-label">Task</span>
@@ -233,11 +233,11 @@
         </div>
       </div>
       <!-- Level 2: Target Key + Dimension (3D eval only) -->
-      <div class="glass" style="padding:14px 20px; margin-bottom:8px; display:none;" id="cmp-level3">
+      <div class="glass" style="padding:16px 20px; margin-bottom:8px; display:none;" id="cmp-level3">
         <div class="flex gap-16 flex-wrap" style="align-items:center;">
           <div class="filter-group">
             <span class="gf-label">Target Key</span>
-            <div id="cmp-tk-pills" style="display:inline-flex; gap:4px; margin-left:6px;"></div>
+            <div id="cmp-tk-pills" style="display:inline-flex; gap:5px; margin-left:6px;"></div>
           </div>
           <div class="filter-group">
             <span class="gf-label">Dimension</span>
@@ -318,6 +318,11 @@
 <div class="page-footer">
   <div class="divider"></div>
   <div class="text">NARNIA LABS · AI Benchmark Dashboard</div>
+  <div style="margin-top:8px; font-size:10px; display:flex; justify-content:center; gap:12px;">
+    <a href="https://www.narnia.ai/" target="_blank" style="color:#a78bfa; text-decoration:none; opacity:0.6; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">narnia.ai</a>
+    <span style="color:rgba(255,255,255,0.15);">|</span>
+    <a href="https://github.com/Narnialabs/leaderboard" target="_blank" style="color:#a78bfa; text-decoration:none; opacity:0.6; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">GitHub</a>
+  </div>
 </div>
 
 </div><!-- /page-content -->
@@ -575,6 +580,9 @@ let cmpAllSummary = [];
 let cmpFiltered = [];
 let cmpRadarChart = null;
 let cmpBarChart = null;
+// Sync registry for 3D Gen comparison viewers (shared with module script via window)
+window._cmpPcSyncGroups = {};
+window._cmpPcSyncLock = false;
 
 Chart.defaults.color = 'rgba(255,255,255,0.6)';
 Chart.defaults.borderColor = 'rgba(255,255,255,0.08)';
@@ -612,16 +620,19 @@ async function showComparisons(mode) {
 async function cmpLoadData() {
   document.getElementById('cmp-loading').style.display = 'block';
   cmpHideSections();
+  let data;
   try {
-    cmpAllSummary = await loadSummaryMetrics(cmpCategory());
-    const opts = extractFilterOptions(cmpAllSummary);
-    cmpRenderFilters(opts);
-    cmpApplyFilters();
+    data = await loadSummaryMetrics(cmpCategory());
   } catch (err) {
     console.error('CMP load failed:', err);
     document.getElementById('cmp-loading').innerHTML =
       '<div style="color:var(--red-400);">Failed to load data.</div>';
+    return;
   }
+  cmpAllSummary = data;
+  const opts = extractFilterOptions(cmpAllSummary);
+  cmpRenderFilters(opts);
+  cmpApplyFilters();
 }
 
 function cmpHideSections() {
@@ -712,14 +723,13 @@ window.cmpSetTask = function(v, btn) {
   cmpLoadData();
 };
 window.cmpSetSize = function(v, btn) {
-  cmpState.dataScale = v; cmpState.modelA = null; cmpState.modelB = null;
+  cmpState.dataScale = v;
   btn.parentElement.querySelectorAll('.gf-pill').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   cmpApplyFilters();
 };
 window.cmpSetDataset = function(v, btn) {
   cmpState.dataset = v; cmpState.targetKey = null; cmpState.dimension = null;
-  cmpState.modelA = null; cmpState.modelB = null;
   btn.parentElement.querySelectorAll('.gf-pill').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   cmpRenderLevel3();
@@ -727,7 +737,6 @@ window.cmpSetDataset = function(v, btn) {
 };
 window.cmpSetTK = function(v, btn) {
   cmpState.targetKey = v; cmpState.dimension = null;
-  cmpState.modelA = null; cmpState.modelB = null;
   btn.parentElement.querySelectorAll('.gf-pill').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   const dims = getDimensionsForTargetKey(cmpAllSummary, cmpState.dataset, cmpState.targetKey);
@@ -737,7 +746,6 @@ window.cmpSetTK = function(v, btn) {
 };
 window.cmpSetDimFilter = function(v, btn) {
   cmpState.dimension = v;
-  cmpState.modelA = null; cmpState.modelB = null;
   btn.parentElement.querySelectorAll('.gf-pill').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   cmpApplyFilters();
@@ -953,9 +961,14 @@ function cmpRenderVisual() {
     `${label} — ${displayModelName(cmpState.modelA)} vs ${displayModelName(cmpState.modelB)}`;
 
   const container = document.getElementById('cmp-visual-content');
-  if (cmpState.dim === '2d') cmpRender2D(container);
-  else if (cmpState.task === 'evaluation') cmpRender3DEval(container);
-  else cmpRender3DGen(container);
+  try {
+    if (cmpState.dim === '2d') cmpRender2D(container);
+    else if (cmpState.task === 'evaluation') cmpRender3DEval(container);
+    else cmpRender3DGen(container);
+  } catch(e) {
+    console.error('cmpRenderVisual error:', e);
+    container.innerHTML = `<div style="padding:20px;color:#f87171;background:rgba(248,113,113,0.1);border-radius:8px;font-size:12px;">Render error: ${e.message}</div>`;
+  }
 }
 
 function cmpRender2D(container) {
@@ -979,6 +992,9 @@ function cmpRender2D(container) {
 }
 
 function cmpRender3DGen(container) {
+  // Clear sync groups when re-rendering
+  window._cmpPcSyncGroups['a'] = [];
+  window._cmpPcSyncGroups['b'] = [];
   const ds = cmpState.dataset;
   const rowA = cmpFiltered.find(r => r['Model Name']===cmpState.modelA && r['Dataset']===ds);
   const rowB = cmpFiltered.find(r => r['Model Name']===cmpState.modelB && r['Dataset']===ds);
@@ -991,16 +1007,16 @@ function cmpRender3DGen(container) {
   html += `<div class="cmp-half"><div style="font-size:10px;font-weight:700;color:#38bdf8;margin-bottom:6px;">${nA}</div><div style="display:flex;flex-direction:column;gap:8px;">`;
   for (let i=0;i<count;i++) {
     const s = cmpState.sampleIndex + i;
-    html += `<div id="cmp-pc-a-s${s}" class="cmp-pc-viewer" data-model="${cmpState.modelA}" data-size="${sA}" data-dataset="${ds}" data-sample="${s}" data-side="a" style="width:100%;">
-      <div style="text-align:center;padding:20px;color:rgba(255,255,255,0.3);font-size:11px;">Sample ${s}</div></div>`;
+    html += `<div id="cmp-pc-a-s${s}" class="cmp-pc-viewer" data-model="${cmpState.modelA}" data-size="${sA}" data-dataset="${ds}" data-sample="${s}" data-side="a" style="width:100%;min-height:200px;background:#08051a;border-radius:10px;border:1px solid rgba(56,189,248,0.15);display:flex;align-items:center;justify-content:center;">
+      <div style="text-align:center;color:rgba(255,255,255,0.5);font-size:11px;">Loading Sample ${s}...</div></div>`;
   }
   html += '</div></div>';
   // Model B
   html += `<div class="cmp-half"><div style="font-size:10px;font-weight:700;color:#f472b6;margin-bottom:6px;">${nB}</div><div style="display:flex;flex-direction:column;gap:8px;">`;
   for (let i=0;i<count;i++) {
     const s = cmpState.sampleIndex + i;
-    html += `<div id="cmp-pc-b-s${s}" class="cmp-pc-viewer" data-model="${cmpState.modelB}" data-size="${sB}" data-dataset="${ds}" data-sample="${s}" data-side="b" style="width:100%;">
-      <div style="text-align:center;padding:20px;color:rgba(255,255,255,0.3);font-size:11px;">Sample ${s}</div></div>`;
+    html += `<div id="cmp-pc-b-s${s}" class="cmp-pc-viewer" data-model="${cmpState.modelB}" data-size="${sB}" data-dataset="${ds}" data-sample="${s}" data-side="b" style="width:100%;min-height:200px;background:#08051a;border-radius:10px;border:1px solid rgba(244,114,182,0.15);display:flex;align-items:center;justify-content:center;">
+      <div style="text-align:center;color:rgba(255,255,255,0.5);font-size:11px;">Loading Sample ${s}...</div></div>`;
   }
   html += '</div></div></div>';
   container.innerHTML = html;
@@ -1034,6 +1050,22 @@ function cmpRender3DGen(container) {
     });
   }, { rootMargin:'200px' });
   container.querySelectorAll('.cmp-pc-viewer').forEach(el => window._cmpPcObs.observe(el));
+
+  // Fallback: directly init viewers if IntersectionObserver misses on initial load
+  // (e.g., container just became visible, or Three.js module not yet loaded)
+  function _cmpPcDeferredInit(retries) {
+    if (!window.initCmpPCViewer) {
+      if (retries > 0) setTimeout(() => _cmpPcDeferredInit(retries - 1), 200);
+      return;
+    }
+    container.querySelectorAll('.cmp-pc-viewer').forEach(el => {
+      if (!el._pcInit) {
+        el._pcInit = true;
+        window.initCmpPCViewer(el, el.dataset.model, parseInt(el.dataset.size), el.dataset.dataset, parseInt(el.dataset.sample), el.dataset.side);
+      }
+    });
+  }
+  requestAnimationFrame(() => _cmpPcDeferredInit(15));
 }
 
 function cmpRender3DEval(container) {
@@ -1100,6 +1132,21 @@ function cmpRender3DEval(container) {
     });
   }, { rootMargin:'300px' });
   container.querySelectorAll('.cmp-eval-viewer').forEach(el => window._cmpEvalObs.observe(el));
+
+  // Fallback: directly init viewers if IntersectionObserver misses on initial load
+  function _cmpEvalDeferredInit(retries) {
+    if (!window.initCmpEvalViewer) {
+      if (retries > 0) setTimeout(() => _cmpEvalDeferredInit(retries - 1), 200);
+      return;
+    }
+    container.querySelectorAll('.cmp-eval-viewer').forEach(el => {
+      if (!el._evalInit) {
+        el._evalInit = true;
+        window.initCmpEvalViewer(el);
+      }
+    });
+  }
+  requestAnimationFrame(() => _cmpEvalDeferredInit(15));
 }
 
 // ── Navigate to model experiment ──
@@ -1533,7 +1580,7 @@ function createEvalPanel(container, width, height, labelClass, labelText) {
   scene.background = new THREE.Color(0x08051a);
 
   const camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 100);
-  camera.position.set(1.8, 1.2, 1.8);
+  camera.position.set(2.1, 1.4, 2.1);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(width, height);
@@ -1602,17 +1649,20 @@ function setEvalPointCloud(panel, positions, fieldValues, vmin, vmax, isDrivAerN
   panel.points = new THREE.Points(geometry, material);
   panel.scene.add(panel.points);
 
-  geometry.computeBoundingSphere();
-  const center = geometry.boundingSphere.center;
+  geometry.computeBoundingBox();
+  const center = new THREE.Vector3();
+  geometry.boundingBox.getCenter(center);
   panel.controls.target.copy(center);
   if (isDrivAerNet) {
-    // DrivAerNet wake plane: level view (parallel to XY), target 45% lower than center
     const tgtY = center.y * 0.55;
     const tgtX = center.x * 1.50;
     panel.controls.target.set(tgtX, tgtY, center.z);
-    panel.camera.position.set(tgtX + 0.8, tgtY, center.z + 6.0);
+    panel.camera.position.set(tgtX + 0.8, tgtY, center.z + 5.8);
   } else {
-    panel.camera.position.set(center.x + 1.8, center.y + 1.2, center.z + 1.8);
+    // DeepJEB: rotation axis at object center, viewport shifted so object appears left
+    panel.camera.position.set(center.x, center.y + 0.3, center.z + 2.3);
+    const vw = panel.renderer.domElement.width, vh = panel.renderer.domElement.height;
+    panel.camera.setViewOffset(vw, vh, vw * 0.08, 0, vw, vh);
   }
   panel.controls.update();
 }
@@ -1921,6 +1971,26 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
 // ══════════════════════════════════════════════════════════════════════
 // ── Comparisons: 3D Gen Point Cloud Mini-Viewer ──
 // ══════════════════════════════════════════════════════════════════════
+
+// Sync registry: uses window._cmpPcSyncGroups / window._cmpPcSyncLock (defined in main script)
+
+function _cmpPcSync(side, fromSampleIdx) {
+  if (window._cmpPcSyncLock) return;
+  const group = window._cmpPcSyncGroups[side];
+  if (!group || group.length < 2) return;
+  const src = group.find(v => v.sampleIdx === fromSampleIdx);
+  if (!src) return;
+  window._cmpPcSyncLock = true;
+  group.forEach(dst => {
+    if (dst.sampleIdx === fromSampleIdx) return;
+    dst.camera.position.copy(src.camera.position);
+    dst.camera.quaternion.copy(src.camera.quaternion);
+    dst.controls.target.copy(src.controls.target);
+    dst.controls.update();
+  });
+  window._cmpPcSyncLock = false;
+}
+
 window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   const id = el.id;
   const viewerHeight = 240;
@@ -1939,20 +2009,31 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x08051a);
   const camera = new THREE.PerspectiveCamera(45, w/h, 0.01, 100);
-  camera.position.set(1.8, 1.2, 1.8);
+  camera.position.set(2.1, 1.4, 2.1);
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(w, h);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   wrap.appendChild(renderer.domElement);
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true; controls.dampingFactor = 0.08;
-  controls.autoRotate = true; controls.autoRotateSpeed = 1.0;
+  controls.autoRotate = true; controls.autoRotateSpeed = 0.5;
   controls.minDistance = 0.5; controls.maxDistance = 20;
+  controls.addEventListener('end', () => { controls.autoRotate = true; });
   scene.add(new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30));
 
   let pts = null;
   let cmpPcAnimId = null;
-  function animate() { cmpPcAnimId=requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); }
+
+  // Register in sync group (same model/side syncs across samples)
+  if (!window._cmpPcSyncGroups[side]) window._cmpPcSyncGroups[side] = [];
+  window._cmpPcSyncGroups[side].push({ camera, controls, sampleIdx });
+
+  function animate() {
+    cmpPcAnimId = requestAnimationFrame(animate);
+    controls.update();
+    _cmpPcSync(side, sampleIdx);
+    renderer.render(scene, camera);
+  }
   animate();
 
   // Handle WebGL context loss
@@ -1998,12 +2079,13 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
       geom.setAttribute('color', new THREE.Float32BufferAttribute(colorPointCloud(positions, 'height'), 3));
       pts = new THREE.Points(geom, new THREE.PointsMaterial({ size:0.012, vertexColors:true, sizeAttenuation:true, transparent:true, opacity:0.85 }));
       scene.add(pts);
-      geom.computeBoundingSphere();
-      const c = geom.boundingSphere.center;
+      geom.computeBoundingBox();
+      const c = new THREE.Vector3();
+      geom.boundingBox.getCenter(c);
       controls.target.copy(c);
       const isDriv = dataset.toLowerCase().includes('drivaernet');
-      const z = isDriv ? 1.11 : 1.0;
-      camera.position.set(c.x+1.8*z, c.y+1.2*z, c.z+1.8*z);
+      const z = isDriv ? (1.0 / 1.1) : 1.0;  // DrivAerNet: 110% bigger
+      camera.position.set(c.x+1.5*z, c.y+1.0*z, c.z+1.5*z);
       controls.update();
     } catch {
       if (ld) ld.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,0.4);font-size:10px;">Sample ${idx} N/A</div>`;
@@ -2066,9 +2148,9 @@ window.initCmpEvalViewer = function(el) {
 
   function mkPanel(cont) {
     const s = new THREE.Scene(); s.background = new THREE.Color(0x08051a);
-    const cam = new THREE.PerspectiveCamera(45,w/h,0.01,100); cam.position.set(1.8,1.2,1.8);
+    const cam = new THREE.PerspectiveCamera(45,w/h,0.01,100); cam.position.set(2.1,1.4,2.1);
     const ren = new THREE.WebGLRenderer({antialias:true}); ren.setSize(w,h); ren.setPixelRatio(Math.min(window.devicePixelRatio,2)); cont.appendChild(ren.domElement);
-    const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.autoRotate=true; ctrl.autoRotateSpeed=0.25; ctrl.minDistance=0.5; ctrl.maxDistance=20;
+    const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.autoRotate=true; ctrl.autoRotateSpeed=0.25; ctrl.minDistance=0.5; ctrl.maxDistance=20; ctrl.addEventListener('end',()=>{ctrl.autoRotate=true;});
     s.add(new THREE.GridHelper(2,10,0x1a1045,0x140e30)); s.add(new THREE.AmbientLight(0xffffff,0.5));
     return {scene:s,camera:cam,renderer:ren,controls:ctrl,points:null,carMesh:null,container:cont};
   }
@@ -2133,8 +2215,8 @@ window.initCmpEvalViewer = function(el) {
         if(panel.points){panel.scene.remove(panel.points);panel.points.geometry.dispose();panel.points.material.dispose();}
         const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('color',new THREE.Float32BufferAttribute(colorByField(vals,mn,mx),3));
         panel.points=new THREE.Points(g,new THREE.PointsMaterial({size:isDriv()?0.018:0.012,vertexColors:true,sizeAttenuation:true,transparent:true,opacity:0.85}));
-        panel.scene.add(panel.points);g.computeBoundingSphere();const c=g.boundingSphere.center;panel.controls.target.copy(c);
-        if(isDriv()){const ty=c.y*0.55,tx=c.x*1.5;panel.controls.target.set(tx,ty,c.z);panel.camera.position.set(tx+0.8,ty,c.z+6);}else{panel.camera.position.set(c.x+1.8,c.y+1.2,c.z+1.8);}
+        panel.scene.add(panel.points);g.computeBoundingBox();const c=new THREE.Vector3();g.boundingBox.getCenter(c);panel.controls.target.copy(c);
+        if(isDriv()){const ty=c.y*0.55,tx=c.x*1.5;panel.controls.target.set(tx,ty,c.z);panel.camera.position.set(tx+0.8,ty,c.z+5.8);}else{panel.camera.position.set(c.x,c.y+0.3,c.z+2.3);const vw=panel.renderer.domElement.width,vh=panel.renderer.domElement.height;panel.camera.setViewOffset(vw,vh,vw*0.08,0,vw,vh);}
         panel.controls.update();
       }
       setPtCloud(panels[0],gt,vmin,vmax);setPtCloud(panels[1],pred,vmin,vmax);setPtCloud(panels[2],error,0,Math.max(...error));

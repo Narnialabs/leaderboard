@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +24,7 @@
     height: 48px;
     background: linear-gradient(to bottom, transparent, rgba(10,5,32,0.95));
     pointer-events: none;
-    z-index: 2;
+    z-index: 2; 3d evaluation deepjeb object
   }
   .metrics-collapse-wrap.collapsed .metrics-collapse-fade {
     display: block;
@@ -141,13 +141,13 @@ window.addEventListener('unhandledrejection', function(e) {
 <!-- Page Header -->
 <div style="margin-bottom:20px;">
   <div style="font-size:22px; font-weight:900; color:#fff; letter-spacing:-0.3px;">Leaderboard</div>
-  <div style="font-size:12px; color:var(--text-tertiary); margin-top:4px;">BenchRank 기반 모델 순위 · 메트릭 비교 · 추론 결과 시각화</div>
+  <div style="font-size:12px; color:var(--text-tertiary); margin-top:4px;">BenchRank-based Model Ranking · Metric Comparison · Inference Visualization</div>
 </div>
 
 <!-- ═══ FILTERS ═══ -->
 
 <!-- Level 1: Dimension + Task -->
-<div class="glass filter-level" style="padding:14px 20px; margin-bottom:8px;">
+<div class="glass filter-level" style="padding:16px 20px; margin-bottom:8px;">
   <div class="flex" style="gap:24px; align-items:center; flex-wrap:wrap;">
     <div class="filter-group">
       <span class="filter-label">Dimension</span>
@@ -161,7 +161,7 @@ window.addEventListener('unhandledrejection', function(e) {
 </div>
 
 <!-- Level 2: Data Size + Dataset -->
-<div class="glass filter-level" style="padding:14px 20px; margin-bottom:8px;" id="level2-filters">
+<div class="glass filter-level" style="padding:16px 20px; margin-bottom:8px;" id="level2-filters">
   <div class="flex" style="gap:24px; align-items:center; flex-wrap:wrap;">
     <div class="filter-group" id="size-filter">
       <span class="filter-label">Data Size</span>
@@ -173,7 +173,7 @@ window.addEventListener('unhandledrejection', function(e) {
 </div>
 
 <!-- Level 3: Target Key + Dimension (3D eval only) -->
-<div class="glass filter-level" style="padding:14px 20px; margin-bottom:8px; display:none;" id="level3-filters">
+<div class="glass filter-level" style="padding:16px 20px; margin-bottom:8px; display:none;" id="level3-filters">
   <div class="flex" style="gap:24px; align-items:center; flex-wrap:wrap;">
     <div class="filter-group" id="targetkey-filter">
       <span class="filter-label">Target Key</span>
@@ -196,7 +196,7 @@ window.addEventListener('unhandledrejection', function(e) {
     <div id="ranking-info" style="font-size:10px; color:var(--text-muted);"></div>
   </div>
   <div class="data-table-wrapper">
-    <table class="data-table" id="ranking-table" style="table-layout:fixed; width:100%;">
+    <table class="data-table" id="ranking-table">
       <thead id="ranking-head"></thead>
       <tbody id="ranking-body"></tbody>
     </table>
@@ -273,6 +273,11 @@ window.addEventListener('unhandledrejection', function(e) {
 <div class="page-footer">
   <div class="divider"></div>
   <div class="text">NARNIA LABS · AI Benchmark Dashboard</div>
+  <div style="margin-top:8px; font-size:10px; display:flex; justify-content:center; gap:12px;">
+    <a href="https://www.narnia.ai/" target="_blank" style="color:#a78bfa; text-decoration:none; opacity:0.6; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">narnia.ai</a>
+    <span style="color:rgba(255,255,255,0.15);">|</span>
+    <a href="https://github.com/Narnialabs/leaderboard" target="_blank" style="color:#a78bfa; text-decoration:none; opacity:0.6; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">GitHub</a>
+  </div>
 </div>
 
 </div><!-- /page-content -->
@@ -1571,7 +1576,7 @@ function createMiniViewer(canvasContainer, id, syncGroup) {
   scene.background = new THREE.Color(0x08051a);
 
   const camera = new THREE.PerspectiveCamera(45, w / h, 0.01, 100);
-  camera.position.set(1.8, 1.2, 1.8);
+  camera.position.set(2.1, 1.4, 2.1);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(w, h);
@@ -1585,6 +1590,7 @@ function createMiniViewer(canvasContainer, id, syncGroup) {
   controls.autoRotateSpeed = 0.35;
   controls.minDistance = 0.5;
   controls.maxDistance = 8;
+  controls.addEventListener('end', () => { controls.autoRotate = true; });
 
   scene.add(new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30));
 
@@ -1666,8 +1672,8 @@ function loadIntoViewer(vState, positions, dataset) {
   const c = geometry.boundingSphere.center;
   vState.controls.target.copy(c);
   const isDriv = dataset && dataset.toLowerCase().includes('drivaernet');
-  const zoom = isDriv ? 1.11 : 1.0;  // ~10% zoom out for DrivAerNet
-  vState.camera.position.set(c.x + 1.8 * zoom, c.y + 1.2 * zoom, c.z + 1.8 * zoom);
+  const zoom = isDriv ? (1.0 / 1.1) : 1.0;  // DrivAerNet: 110% bigger
+  vState.camera.position.set(c.x + 2.1 * zoom, c.y + 1.4 * zoom, c.z + 2.1 * zoom);
   vState.controls.update();
 }
 
@@ -1785,7 +1791,7 @@ function createEvalPanel(container, w, h) {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x08051a);
   const camera = new THREE.PerspectiveCamera(45, w/h, 0.01, 100);
-  camera.position.set(1.8, 1.2, 1.8);
+  camera.position.set(2.1, 1.4, 2.1);
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(w, h);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -1794,9 +1800,10 @@ function createEvalPanel(container, w, h) {
   controls.enableDamping = true;
   controls.dampingFactor = 0.08;
   controls.autoRotate = true;
-  controls.autoRotateSpeed = 0.35;
+  controls.autoRotateSpeed = 0.30;
   controls.minDistance = 0.5;
   controls.maxDistance = 20;
+  controls.addEventListener('end', () => { controls.autoRotate = true; });
   scene.add(new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30));
   scene.add(new THREE.AmbientLight(0xffffff, 0.5));
   const panel = { scene, camera, renderer, controls, points: null, carMesh: null, container };
@@ -1827,15 +1834,21 @@ function setEvalPanelCloud(panel, positions, fieldValues, vmin, vmax, isDrivAerN
     vertexColors: true, sizeAttenuation: true, transparent: true, opacity: 0.85,
   }));
   panel.scene.add(panel.points);
-  geometry.computeBoundingSphere();
-  const c = geometry.boundingSphere.center;
+  geometry.computeBoundingBox();
+  const c = new THREE.Vector3();
+  geometry.boundingBox.getCenter(c);
   panel.controls.target.copy(c);
   if (isDrivAerNet) {
     const tgtY = c.y * 0.55, tgtX = c.x * 1.50;
     panel.controls.target.set(tgtX, tgtY, c.z);
-    panel.camera.position.set(tgtX + 0.8, tgtY, c.z + 6.0);
+    panel.camera.position.set(tgtX + 0.8, tgtY, c.z + 6.4);
+    const vw1 = panel.renderer.domElement.width, vh1 = panel.renderer.domElement.height;
+    panel.camera.setViewOffset(vw1, vh1, vw1 * 0.02, 0, vw1, vh1);
   } else {
-    panel.camera.position.set(c.x + 1.8, c.y + 1.2, c.z + 1.8);
+    // DeepJEB: target at bounding box center, camera straight ahead
+    panel.camera.position.set(c.x, c.y + 0.3, c.z + 2.5);
+    const vw = panel.renderer.domElement.width, vh = panel.renderer.domElement.height;
+    panel.camera.setViewOffset(vw, vh, vw * 0.02, 0, vw, vh);
   }
   panel.controls.update();
 }
