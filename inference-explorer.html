@@ -107,19 +107,19 @@
 
     <!-- 2D Generation -->
     <div class="tree-item" onclick="toggleTree('2d-gen')" style="font-weight:700;">
-      <span class="icon">▸</span> dimension_2d / generation
+      <span class="icon">▸</span> 2D Generation
     </div>
     <div class="tree-children" id="tree-2d-gen"></div>
 
     <!-- 3D Evaluation -->
     <div class="tree-item" onclick="toggleTree('3d-eval')" style="font-weight:700;">
-      <span class="icon">▸</span> dimension_3d / evaluation
+      <span class="icon">▸</span> 3D Evaluation
     </div>
     <div class="tree-children" id="tree-3d-eval"></div>
 
     <!-- 3D Generation -->
     <div class="tree-item" onclick="toggleTree('3d-gen')" style="font-weight:700;">
-      <span class="icon">▸</span> dimension_3d / generation
+      <span class="icon">▸</span> 3D Generation
     </div>
     <div class="tree-children" id="tree-3d-gen"></div>
 
@@ -173,7 +173,7 @@
             <div class="perf-label">3D Eval Models</div>
           </div>
           <div class="glass perf-card flex-1">
-            <div class="perf-value" style="color:#a78bfa;">3</div>
+            <div class="perf-value" style="color:#a78bfa;">6</div>
             <div class="perf-label">3D Gen Models</div>
           </div>
           <div class="glass perf-card flex-1">
@@ -371,6 +371,9 @@ const EXPERIMENTS = {
       { name: 'gan3d', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_3d', 'drivaernet_3d_3d'] },
       { name: 'deepsdf', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_3d', 'drivaernet_3d_3d'] },
       { name: 'pointflow', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_3d', 'drivaernet_3d_3d'] },
+      { name: 'shapegf', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_3d', 'drivaernet_3d_3d'] },
+      { name: 'atlasnet', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_3d', 'drivaernet_3d_3d'] },
+      { name: 'diffusionpointcloud', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_3d', 'drivaernet_3d_3d'] },
     ],
     datasets: ['deepjeb_3d_3d', 'drivaernet_3d_3d'],
     type: '3d-gen',
@@ -395,7 +398,7 @@ function buildTree(treeId) {
         html += `
           <div class="tree-item" onclick="selectExperiment('${key}')" data-key="${key}">
             <span class="icon" style="color:${dimColor};">●</span>
-            ${model.name}_${size} / ${ds.split('_')[0]}
+            ${displayModelName(model.name)} (${size}) / ${displayDataset(ds)}
           </div>
         `;
       });
@@ -435,7 +438,7 @@ async function selectExperiment(key) {
   document.getElementById('detail-view').style.display = 'block';
 
   document.getElementById('detail-breadcrumb').textContent =
-    `${treeId.replace(/-/g, ' ')} / ${model}_${size} / ${dataset}`;
+    `${treeId.replace(/-/g, ' ')} / ${displayModelName(model)} (${size}) / ${displayDataset(dataset)}`;
 
   // Try to load performance.json
   const datasetVariants = exp.variantsByDataset ? exp.variantsByDataset[dataset] : exp.variants;
@@ -451,7 +454,7 @@ async function selectExperiment(key) {
     if (resp.ok) {
       const perf = await resp.json();
       perfDiv.innerHTML = `
-        <div class="section-label" style="color:#a78bfa; margin-bottom:12px;">Performance — ${model} (size=${size})</div>
+        <div class="section-label" style="color:#a78bfa; margin-bottom:12px;">Performance — ${displayModelName(model)} (size=${size})</div>
         <div class="flex gap-12">
           <div class="glass perf-card flex-1">
             <div class="perf-value" style="color:#a78bfa; font-size:18px;">${(perf.model_parameters / 1e6).toFixed(2)}M</div>
@@ -1007,16 +1010,16 @@ function cmpRender3DGen(container) {
   html += `<div class="cmp-half"><div style="font-size:10px;font-weight:700;color:#38bdf8;margin-bottom:6px;">${nA}</div><div style="display:flex;flex-direction:column;gap:8px;">`;
   for (let i=0;i<count;i++) {
     const s = cmpState.sampleIndex + i;
-    html += `<div id="cmp-pc-a-s${s}" class="cmp-pc-viewer" data-model="${cmpState.modelA}" data-size="${sA}" data-dataset="${ds}" data-sample="${s}" data-side="a" style="width:100%;min-height:200px;background:#08051a;border-radius:10px;border:1px solid rgba(56,189,248,0.15);display:flex;align-items:center;justify-content:center;">
-      <div style="text-align:center;color:rgba(255,255,255,0.5);font-size:11px;">Loading Sample ${s}...</div></div>`;
+    html += `<div id="cmp-pc-a-s${s}" class="cmp-pc-viewer" data-model="${cmpState.modelA}" data-size="${sA}" data-dataset="${ds}" data-sample="${s}" data-side="a" style="width:100%;min-height:200px;background:#08051a;border-radius:10px;display:flex;align-items:center;justify-content:center;">
+      <div style="text-align:center;color:rgba(255,255,255,0.3);font-size:11px;">Loading...</div></div>`;
   }
   html += '</div></div>';
   // Model B
   html += `<div class="cmp-half"><div style="font-size:10px;font-weight:700;color:#f472b6;margin-bottom:6px;">${nB}</div><div style="display:flex;flex-direction:column;gap:8px;">`;
   for (let i=0;i<count;i++) {
     const s = cmpState.sampleIndex + i;
-    html += `<div id="cmp-pc-b-s${s}" class="cmp-pc-viewer" data-model="${cmpState.modelB}" data-size="${sB}" data-dataset="${ds}" data-sample="${s}" data-side="b" style="width:100%;min-height:200px;background:#08051a;border-radius:10px;border:1px solid rgba(244,114,182,0.15);display:flex;align-items:center;justify-content:center;">
-      <div style="text-align:center;color:rgba(255,255,255,0.5);font-size:11px;">Loading Sample ${s}...</div></div>`;
+    html += `<div id="cmp-pc-b-s${s}" class="cmp-pc-viewer" data-model="${cmpState.modelB}" data-size="${sB}" data-dataset="${ds}" data-sample="${s}" data-side="b" style="width:100%;min-height:200px;background:#08051a;border-radius:10px;display:flex;align-items:center;justify-content:center;">
+      <div style="text-align:center;color:rgba(255,255,255,0.3);font-size:11px;">Loading...</div></div>`;
   }
   html += '</div></div></div>';
   container.innerHTML = html;
@@ -1209,7 +1212,10 @@ function buildPerfSummary() {
   const models3dGen = [
     { name: 'gan3d', label: '3D-GAN', sizeInfo: 'S~XL' },
     { name: 'deepsdf', label: 'DeepSDF', sizeInfo: 'S~XL' },
-    { name: 'pointflow', label: 'PointFlow', sizeInfo: 'S~XL · External inference (Step B~)' },
+    { name: 'pointflow', label: 'PointFlow', sizeInfo: 'S~XL' },
+    { name: 'shapegf', label: 'ShapeGF', sizeInfo: 'S~XL' },
+    { name: 'atlasnet', label: 'AtlasNet', sizeInfo: 'S~XL' },
+    { name: 'diffusionpointcloud', label: 'Diffusion3D', sizeInfo: 'S~XL' },
   ];
   const container3dGen = document.getElementById('perf-cards-3d-gen');
   container3dGen.innerHTML = models3dGen.map(m => `
@@ -1483,7 +1489,7 @@ window.initPointCloudViewer = async function(model, size, dataset) {
       loadPointCloud(positions);
 
       document.getElementById('pc-points-info').textContent = `${positions.length / 3} points`;
-      document.getElementById('pc-file-info').textContent = `sample_${String(idx).padStart(5, '0')} · ${model} · ${dataset.split('_')[0]} · ${size}`;
+      document.getElementById('pc-file-info').textContent = `sample_${String(idx).padStart(5, '0')} · ${displayModelName(model)} · ${displayDataset(dataset)} · ${size}`;
     } catch (e) {
       if (loadingEl) {
         loadingEl.style.display = 'flex';
@@ -1994,14 +2000,12 @@ function _cmpPcSync(side, fromSampleIdx) {
 window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   const id = el.id;
   const viewerHeight = 240;
-  const borderColor = side === 'a' ? 'rgba(56,189,248,0.3)' : 'rgba(244,114,182,0.3)';
   el.innerHTML = `
-    <div class="pc-viewer-container" style="height:${viewerHeight}px; border-color:${borderColor};">
+    <div class="pc-viewer-container" style="height:${viewerHeight}px;">
       <div id="${id}-canvas" style="width:100%; height:100%; position:relative;">
         <div id="${id}-ld" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-size:11px;">Loading...</div>
       </div>
-    </div>
-    <div style="padding:4px 8px;font-size:9px;color:rgba(255,255,255,0.4);">Sample ${sampleIdx}</div>`;
+    </div>`;
 
   const wrap = document.getElementById(`${id}-canvas`);
   const w = wrap.clientWidth, h = wrap.clientHeight;

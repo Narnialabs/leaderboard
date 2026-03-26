@@ -1,14 +1,14 @@
-﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3
-1,Inference Time (s),0.1053,gan3d,pointflow,deepsdf
-2,F-Score,0.0828,pointflow,gan3d,deepsdf
-3,CD,0.0828,pointflow,gan3d,deepsdf
-4,Recall,0.08,pointflow,deepsdf,gan3d
-5,Precision,0.0732,pointflow,deepsdf,gan3d
-6,Density,0.0732,pointflow,deepsdf,gan3d
-7,EMD,0.0729,pointflow,deepsdf,gan3d
-8,Training Time (s),0.0723,gan3d,deepsdf,pointflow
-9,Parameters (M),0.0723,pointflow,deepsdf,gan3d
-10,MS-SSIM,0.0723,gan3d,deepsdf,pointflow
-11,Coverage,0.0716,pointflow,deepsdf,gan3d
-12,MV-FID,0.0707,deepsdf,pointflow,gan3d
-13,FPD,0.0707,pointflow,deepsdf,gan3d
+﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6
+1,MS-SSIM,0.1152,gan3d,deepsdf,atlasnet,shapegf,pointflow,diffusionpointcloud
+2,EMD,0.0947,diffusionpointcloud,pointflow,atlasnet,deepsdf,gan3d,shapegf
+3,CD,0.0905,atlasnet,diffusionpointcloud,shapegf,pointflow,gan3d,deepsdf
+4,Recall,0.089,pointflow,deepsdf,gan3d,atlasnet,diffusionpointcloud,shapegf
+5,F-Score,0.0877,atlasnet,diffusionpointcloud,shapegf,pointflow,gan3d,deepsdf
+6,Parameters (M),0.0706,pointflow,deepsdf,diffusionpointcloud,shapegf,atlasnet,gan3d
+7,Inference Time (s),0.0698,atlasnet,gan3d,diffusionpointcloud,shapegf,pointflow,deepsdf
+8,FPD,0.0695,pointflow,deepsdf,atlasnet,shapegf,gan3d,diffusionpointcloud
+9,MV-FID,0.0666,deepsdf,pointflow,atlasnet,gan3d,shapegf,diffusionpointcloud
+10,Training Time (s),0.0635,diffusionpointcloud,atlasnet,gan3d,shapegf,deepsdf,pointflow
+11,Precision,0.0619,pointflow,deepsdf,atlasnet,diffusionpointcloud,gan3d,shapegf
+12,Density,0.0619,pointflow,deepsdf,atlasnet,diffusionpointcloud,gan3d,shapegf
+13,Coverage,0.0593,pointflow,deepsdf,atlasnet,diffusionpointcloud,gan3d,shapegf

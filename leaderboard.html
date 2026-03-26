@@ -606,11 +606,11 @@ function renderRankingTable(data) {
     catRow += `<th class="cat-header" colspan="${g.metrics.length}" style="background:${g.color}; color:${g.textColor};">${g.category}</th>`;
   });
   // Row 2: column names (proportional widths; table-layout:fixed keeps table within container)
-  const RANKING_COL_W = { 'Rank': 36, 'Model': 110, 'Total Score': 90 };
+  const RANKING_COL_W = { 'Rank': 36, 'Model': 100, 'Total Score': 80 };
   let colRow = orderedCols.map((h,i) => {
     const short = shortMetricLabel(h);
     const dir = h.includes('↑') ? ' ↑' : h.includes('↓') ? ' ↓' : '';
-    const w = RANKING_COL_W[h] || (h.includes('Time') || h.includes('Parameters') ? 78 : 65);
+    const w = RANKING_COL_W[h] || (h.includes('Time') || h.includes('Parameters') ? 64 : 60);
     const align = h === 'Rank' ? ' text-align:center;' : '';
     return `<th onclick="sortTable('ranking',${i})" style="width:${w}px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;${align}">${short}${dir}</th>`;
   }).join('');

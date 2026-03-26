@@ -384,6 +384,9 @@ const MODEL_DISPLAY = {
   'gan3d':           { name: '3D-GAN',       type: 'GAN' },
   'deepsdf':         { name: 'DeepSDF',      type: 'Implicit (SDF)' },
   'pointflow':       { name: 'PointFlow',    type: 'Flow (Normalizing)' },
+  'shapegf':         { name: 'ShapeGF',      type: 'Score-based' },
+  'atlasnet':        { name: 'AtlasNet',     type: 'Auto-Decoder' },
+  'diffusionpointcloud': { name: 'Diffusion3D', type: 'Diffusion' },
   'pointnet':        { name: 'PointNet',     type: 'PointNet' },
   'regdgcnn':        { name: 'RegDGCNN',     type: 'GNN (DGCNN)' },
   'transolver':      { name: 'Transolver',   type: 'Transformer' },
@@ -503,5 +506,8 @@ function shortMetricLabel(name) {
     .replace(' (s)','')
     .replace(' (%)','(%)')
     .replace(' ↑','')
-    .replace(' ↓','');
+    .replace(' ↓','')
+    .replace('Training Time', 'Train T.')
+    .replace('Inference Time', 'Inf. T.')
+    .replace('Parameters', 'Params');
 }
