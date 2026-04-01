@@ -4,7 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Leaderboard — Narnia Labs</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
 <link rel="stylesheet" href="shared/style.css">
+<link rel="stylesheet" href="shared/mobile.css">
 <script src="shared/lib/papaparse.min.js"></script>
 <script src="shared/lib/chart.umd.min.js"></script>
 <style>
@@ -38,7 +43,7 @@
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 8px;
     color: rgba(255,255,255,0.5);
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
@@ -54,11 +59,11 @@
   .lb-pc-wrap { position:relative; width:100%; height:360px; border-radius:10px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
   .lb-pc-wrap canvas { display:block; width:100%!important; height:100%!important; }
   .lb-pc-bar { display:flex; gap:4px; align-items:center; padding:8px 12px; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); flex-wrap:wrap; }
-  .lb-pc-bar label { font-size:8px; color:rgba(255,255,255,0.35); text-transform:uppercase; letter-spacing:0.5px; }
-  .lb-pc-sbtn { width:24px; height:24px; border-radius:5px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:9px; font-weight:700; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; }
+  .lb-pc-bar label { font-size:9px; color:rgba(255,255,255,0.35); text-transform:uppercase; letter-spacing:0.5px; }
+  .lb-pc-sbtn { width:24px; height:24px; border-radius:5px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:10px; font-weight:700; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; }
   .lb-pc-sbtn.active { background:rgba(167,139,250,0.25); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
   .lb-pc-sbtn:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
-  .lb-pc-cbtn { padding:2px 7px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:8px; cursor:pointer; transition:all 0.15s; }
+  .lb-pc-cbtn { padding:2px 7px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:9px; cursor:pointer; transition:all 0.15s; }
   .lb-pc-cbtn.active { background:rgba(56,189,248,0.2); border-color:rgba(56,189,248,0.4); color:#38bdf8; }
   .metrics-expand-btn.visible {
     display: block;
@@ -67,14 +72,14 @@
   /* 3D Eval Viewer (leaderboard) */
   .lb-eval3d-row { display:flex; gap:6px; width:100%; }
   .lb-eval3d-panel { position:relative; flex:1; min-width:0; border-radius:10px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
-  .lb-eval3d-panel-label { position:absolute; top:6px; left:8px; z-index:10; font-size:9px; font-weight:700; letter-spacing:0.5px; padding:2px 6px; border-radius:4px; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); }
+  .lb-eval3d-panel-label { position:absolute; top:6px; left:8px; z-index:10; font-size:10px; font-weight:700; letter-spacing:0.5px; padding:2px 6px; border-radius:4px; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); }
   .lb-eval3d-panel-label.gt { color:#34d399; }
   .lb-eval3d-panel-label.pred { color:#a78bfa; }
   .lb-eval3d-panel-label.error { color:#f59e0b; }
-  .lb-eval3d-stats { position:absolute; bottom:6px; right:8px; z-index:10; font-size:8px; color:rgba(255,255,255,0.5); background:rgba(0,0,0,0.5); padding:2px 6px; border-radius:4px; backdrop-filter:blur(4px); }
+  .lb-eval3d-stats { position:absolute; bottom:6px; right:8px; z-index:10; font-size:9px; color:rgba(255,255,255,0.5); background:rgba(0,0,0,0.5); padding:2px 6px; border-radius:4px; backdrop-filter:blur(4px); }
   .lb-eval3d-bar { display:flex; gap:4px; align-items:center; padding:8px 12px; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); border-radius:0 0 10px 10px; flex-wrap:wrap; }
-  .lb-eval3d-bar label { font-size:8px; color:rgba(255,255,255,0.35); text-transform:uppercase; letter-spacing:0.5px; }
-  .lb-eval3d-chbtn { padding:2px 7px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:8px; cursor:pointer; transition:all 0.15s; }
+  .lb-eval3d-bar label { font-size:9px; color:rgba(255,255,255,0.35); text-transform:uppercase; letter-spacing:0.5px; }
+  .lb-eval3d-chbtn { padding:2px 7px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:9px; cursor:pointer; transition:all 0.15s; }
   .lb-eval3d-chbtn.active { background:rgba(167,139,250,0.25); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
   .lb-eval3d-chbtn:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
   @media (max-width: 768px) { .lb-eval3d-row { flex-direction:column; } }
@@ -86,7 +91,7 @@
   }
   #metrics-table.compact-metrics thead th {
     padding: 6px 4px;
-    font-size: 8px;
+    font-size: 9px;
     white-space: normal;
     word-break: break-word;
     overflow: hidden;
@@ -94,7 +99,7 @@
   }
   #metrics-table.compact-metrics tbody td {
     padding: 5px 4px;
-    font-size: 10px;
+    font-size: 11px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -114,18 +119,18 @@
 <script>
 window.onerror = function(msg, src, line, col, err) {
   var el = document.getElementById('loading-indicator');
-  if (el) el.innerHTML = '<div style="color:#f87171; text-align:left; font-size:11px; padding:20px;">'
+  if (el) el.innerHTML = '<div style="color:#f87171; text-align:left; font-size:13px; padding:20px;">'
     + '<strong>JS Error:</strong> ' + msg + '<br>'
     + '<strong>Source:</strong> ' + src + ':' + line + ':' + col + '<br>'
-    + (err && err.stack ? '<pre style="margin-top:8px; white-space:pre-wrap; font-size:10px; color:#fca5a5;">' + err.stack + '</pre>' : '')
+    + (err && err.stack ? '<pre style="margin-top:8px; white-space:pre-wrap; font-size:11px; color:#fca5a5;">' + err.stack + '</pre>' : '')
     + '</div>';
   return false;
 };
 window.addEventListener('unhandledrejection', function(e) {
   var el = document.getElementById('loading-indicator');
-  if (el) el.innerHTML = '<div style="color:#f87171; text-align:left; font-size:11px; padding:20px;">'
+  if (el) el.innerHTML = '<div style="color:#f87171; text-align:left; font-size:13px; padding:20px;">'
     + '<strong>Unhandled Promise Rejection:</strong> ' + (e.reason && e.reason.message || e.reason) + '<br>'
-    + (e.reason && e.reason.stack ? '<pre style="margin-top:8px; white-space:pre-wrap; font-size:10px; color:#fca5a5;">' + e.reason.stack + '</pre>' : '')
+    + (e.reason && e.reason.stack ? '<pre style="margin-top:8px; white-space:pre-wrap; font-size:11px; color:#fca5a5;">' + e.reason.stack + '</pre>' : '')
     + '</div>';
 });
 </script>
@@ -140,8 +145,8 @@ window.addEventListener('unhandledrejection', function(e) {
 
 <!-- Page Header -->
 <div style="margin-bottom:20px;">
-  <div style="font-size:22px; font-weight:900; color:#fff; letter-spacing:-0.3px;">Leaderboard</div>
-  <div style="font-size:12px; color:var(--text-tertiary); margin-top:4px;">BenchRank-based Model Ranking · Metric Comparison · Inference Visualization</div>
+  <div style="font-size:25px; font-weight:900; color:#fff; letter-spacing:-0.3px;">Leaderboard</div>
+  <div style="font-size:14px; color:var(--text-tertiary); margin-top:4px;">BenchRank-based Model Ranking · Metric Comparison · Inference Visualization</div>
 </div>
 
 <!-- ═══ FILTERS ═══ -->
@@ -185,7 +190,7 @@ window.addEventListener('unhandledrejection', function(e) {
 </div>
 
 <!-- Loading -->
-<div id="loading-indicator" style="text-align:center; padding:40px; color:var(--text-muted); font-size:12px;">
+<div id="loading-indicator" style="text-align:center; padding:40px; color:var(--text-muted); font-size:14px;">
   Loading data...
 </div>
 
@@ -193,7 +198,7 @@ window.addEventListener('unhandledrejection', function(e) {
 <div class="glass" style="padding:16px 20px; margin-bottom:16px; display:none;" id="ranking-section">
   <div class="flex justify-between items-center" style="margin-bottom:12px;">
     <div class="section-label" style="color:var(--amber-400);">BenchRank — Model Rankings</div>
-    <div id="ranking-info" style="font-size:10px; color:var(--text-muted);"></div>
+    <div id="ranking-info" style="font-size:11px; color:var(--text-muted);"></div>
   </div>
   <div class="data-table-wrapper">
     <table class="data-table" id="ranking-table">
@@ -225,7 +230,7 @@ window.addEventListener('unhandledrejection', function(e) {
 <div class="glass" style="padding:16px 20px; margin-bottom:16px; display:none;" id="metrics-section">
   <div class="flex justify-between items-center" style="margin-bottom:12px;">
     <div class="section-label section-label-purple" id="metrics-section-label">Summary Metrics</div>
-    <div id="metrics-info" style="font-size:10px; color:var(--text-muted);"></div>
+    <div id="metrics-info" style="font-size:11px; color:var(--text-muted);"></div>
   </div>
   <div class="metrics-collapse-wrap" id="metrics-collapse-wrap">
     <div class="data-table-wrapper">
@@ -273,7 +278,7 @@ window.addEventListener('unhandledrejection', function(e) {
 <div class="page-footer">
   <div class="divider"></div>
   <div class="text">NARNIA LABS · AI Benchmark Dashboard</div>
-  <div style="margin-top:8px; font-size:10px; display:flex; justify-content:center; gap:12px;">
+  <div style="margin-top:8px; font-size:11px; display:flex; justify-content:center; gap:12px;">
     <a href="https://www.narnia.ai/" target="_blank" style="color:#a78bfa; text-decoration:none; opacity:0.6; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">narnia.ai</a>
     <span style="color:rgba(255,255,255,0.15);">|</span>
     <a href="https://github.com/Narnialabs/leaderboard" target="_blank" style="color:#a78bfa; text-decoration:none; opacity:0.6; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">GitHub</a>
@@ -306,7 +311,7 @@ let radarChart = null;
 Chart.defaults.color = 'rgba(255,255,255,0.6)';
 Chart.defaults.borderColor = 'rgba(255,255,255,0.08)';
 Chart.defaults.font.family = 'Inter, system-ui, sans-serif';
-Chart.defaults.font.size = 10;
+Chart.defaults.font.size = 11;
 
 // ══════════════════════════════════════════
 // CATEGORY / PATH HELPERS
@@ -691,9 +696,9 @@ function renderWeightsChart(data) {
       scales: {
         x: {
           grid: { color: 'rgba(255,255,255,0.05)' },
-          ticks: { callback: v => (v*100).toFixed(0)+'%', font: { size: 9 } },
+          ticks: { callback: v => (v*100).toFixed(0)+'%', font: { size: 10 } },
         },
-        y: { grid: { display: false }, ticks: { font: { size: 9 } } },
+        y: { grid: { display: false }, ticks: { font: { size: 10 } } },
       },
     },
   });
@@ -740,13 +745,13 @@ function renderRadarChart(data) {
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { labels: { font: { size: 10 }, boxWidth: 12, padding: 8 } } },
+      plugins: { legend: { labels: { font: { size: 11 }, boxWidth: 12, padding: 8 } } },
       scales: {
         r: {
           min: 0, max: 1, ticks: { display: false, stepSize: 0.25 },
           grid: { color: 'rgba(255,255,255,0.07)' },
           angleLines: { color: 'rgba(255,255,255,0.07)' },
-          pointLabels: { font: { size: 8 }, color: 'rgba(255,255,255,0.55)' },
+          pointLabels: { font: { size: 9 }, color: 'rgba(255,255,255,0.55)' },
         },
       },
     },
@@ -823,13 +828,13 @@ function renderMetricsTable(data) {
     const modelId = row['Model Name'];
     return `<tr>${allCols.map(h => {
       if (h === 'Model Name') return `<td class="model-cell">${displayModelName(modelId)}</td>`;
-      if (h === 'Dataset')    return `<td style="color:var(--text-tertiary); font-size:10px;">${displayDataset(row['Dataset'])}</td>`;
+      if (h === 'Dataset')    return `<td style="color:var(--text-tertiary); font-size:11px;">${displayDataset(row['Dataset'])}</td>`;
       if (h === 'Model Type') return `<td class="type-cell">${displayModelType(modelId)}</td>`;
-      if (h === 'Target Key') return `<td style="color:var(--text-tertiary); font-size:10px;">${row['Target Key'] || '-'}</td>`;
-      if (h === 'Dimension')  return `<td style="color:var(--text-tertiary); font-size:10px;">${row['Dimension'] || '-'}</td>`;
+      if (h === 'Target Key') return `<td style="color:var(--text-tertiary); font-size:11px;">${row['Target Key'] || '-'}</td>`;
+      if (h === 'Dimension')  return `<td style="color:var(--text-tertiary); font-size:11px;">${row['Dimension'] || '-'}</td>`;
       if (h === 'Parameters (M)') {
         const v = row['Parameters (M)'];
-        return `<td style="color:var(--text-tertiary); font-size:10px;">${v != null ? parseFloat(v).toFixed(1)+' M' : '-'}</td>`;
+        return `<td style="color:var(--text-tertiary); font-size:11px;">${v != null ? parseFloat(v).toFixed(1)+' M' : '-'}</td>`;
       }
       const val = row[h];
       if (metricCols.includes(h) && typeof val === 'number' && !isNaN(val)) {
@@ -972,6 +977,8 @@ function setSampleCount(count, btn) {
 }
 
 function getDefaultSampleCount() {
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (isMobile) return 2;
   if (state.dim === '2d') return 8;
   if (state.dim === '3d' && state.task === 'evaluation') return 2;
   return 4;
@@ -1046,7 +1053,7 @@ function render2DAllModels(container, data, rankOrder) {
   });
 
   html += `<div style="margin-top:10px; padding:10px 14px; background:rgba(255,255,255,0.025);
-    border:1px solid rgba(255,255,255,0.08); border-radius:8px; font-size:10px; color:var(--text-muted);">
+    border:1px solid rgba(255,255,255,0.08); border-radius:8px; font-size:11px; color:var(--text-muted);">
     <strong style="color:var(--text-tertiary);">GT (Ground Truth)</strong> —
     To enable GT comparison, symlink test images to
     <code style="background:rgba(255,255,255,0.05); padding:1px 4px; border-radius:3px;">
@@ -1104,8 +1111,9 @@ function render3DGenAllModels(container, data, rankOrder) {
 
   let html = '';
 
-  // All viewers use the same 360px height regardless of sample count
-  const viewerHeight = 360;
+  // All viewers use the same height regardless of sample count
+  const isMobileGen = window.matchMedia('(max-width: 768px)').matches;
+  const viewerHeight = isMobileGen ? 200 : 360;
 
   // Per-model: list of viewers (1, 4, or 8 samples) — same size, stacked vertically
   models.forEach(model => {
@@ -1131,7 +1139,7 @@ function render3DGenAllModels(container, data, rankOrder) {
         const widthPct = sampleCount <= 2 ? `calc(${100/sampleCount}% - 6px)` : 'calc(25% - 6px)';
         const widthStyle = `width:${widthPct}; min-width:${widthPct};`;
         html += `<div id="${viewerId}" class="lb-pc-viewer" data-model="${model}" data-size="${dataSize}" data-dataset="${ds}" data-sample="${s}" data-viewer-height="${viewerHeight}" data-sync-group="${syncGroup}" style="${widthStyle}">
-          <div style="text-align:center; padding:20px; color:rgba(255,255,255,0.3); font-size:11px;">Sample ${s}</div>
+          <div style="text-align:center; padding:20px; color:rgba(255,255,255,0.3); font-size:13px;">Sample ${s}</div>
         </div>`;
       }
 
@@ -1284,7 +1292,8 @@ function render3DEvalAllModels(container, data, rankOrder) {
     return slots;
   }
 
-  const viewerHeight = 320;
+  const isMobileEval = window.matchMedia('(max-width: 768px)').matches;
+  const viewerHeight = isMobileEval ? 400 : 320;
   const sampleCount = state.sampleCount;
   const viewerSlots = buildViewerSlots(availableGroups, sampleCount, targetKey, dimension);
   let html = '';
@@ -1316,7 +1325,7 @@ function render3DEvalAllModels(container, data, rankOrder) {
            data-viewer-height="${viewerHeight}"
            data-sample="${slot.sample}"
            data-all-groups='${JSON.stringify(availableGroups)}'>
-        <div style="text-align:center; padding:30px; color:rgba(255,255,255,0.3); font-size:11px;">Loading 3D Eval Viewer...</div>
+        <div style="text-align:center; padding:30px; color:rgba(255,255,255,0.3); font-size:13px;">Loading 3D Eval Viewer...</div>
       </div>`;
     });
 
@@ -1495,6 +1504,7 @@ function sortTable(tableId, colIdx) {
     el.classList.toggle('active', el.dataset.value === state.dim)
   );
 })();
+state.sampleCount = getDefaultSampleCount();
 updateSampleCountVisibility();
 loadAllData();
 </script>
@@ -1515,6 +1525,26 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 // ── Per-viewer state (multiple viewers on one page) ──
 const viewers = new Map();
 window._lbViewers = viewers;
+
+// ── Eval panel registry for zoom deactivation ──
+const evalPanelRegistry = [];
+window._lbEvalPanelRegistry = evalPanelRegistry;
+
+// ── Zoom deactivation: click outside any 3D canvas disables zoom on all viewers ──
+document.addEventListener('pointerdown', (e) => {
+  if (e.target.tagName === 'CANVAS' && e.target.closest('.lb-pc-wrap, .lb-eval3d-panel')) return;
+  // Deactivate point cloud mini-viewers
+  viewers.forEach(v => {
+    v.controls.enableZoom = false;
+    const w = v.renderer.domElement.closest('.lb-pc-wrap');
+    if (w) w.classList.remove('zoom-active');
+  });
+  // Deactivate eval panels
+  evalPanelRegistry.forEach(panels => {
+    panels.forEach(p => { p.controls.enableZoom = false; });
+  });
+  document.querySelectorAll('.lb-eval3d-panel.zoom-active').forEach(el => el.classList.remove('zoom-active'));
+});
 
 // ── Camera sync: propagate camera pose across viewers in the same sync group ──
 const syncGroups = new Map(); // syncGroup -> Set of viewer ids
@@ -1586,6 +1616,7 @@ function createMiniViewer(canvasContainer, id, syncGroup) {
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.08;
+  controls.enableZoom = false;
   controls.autoRotate = true;
   controls.autoRotateSpeed = 0.35;
   controls.minDistance = 0.5;
@@ -1596,6 +1627,24 @@ function createMiniViewer(canvasContainer, id, syncGroup) {
 
   const vState = { scene, camera, renderer, controls, points: null, data: null, colorMode: 'height', animId: null, syncGroup: syncGroup || null };
   viewers.set(id, vState);
+
+  // Zoom activation: enable zoom only after user clicks on canvas
+  const wrapEl = renderer.domElement.closest('.lb-pc-wrap');
+  renderer.domElement.addEventListener('pointerdown', () => {
+    controls.enableZoom = true;
+    if (wrapEl) wrapEl.classList.add('zoom-active');
+    // Enable zoom on all synced viewers
+    if (syncGroup && syncGroups.has(syncGroup)) {
+      syncGroups.get(syncGroup).forEach(pid => {
+        const p = viewers.get(pid);
+        if (p) {
+          p.controls.enableZoom = true;
+          const pw = p.renderer.domElement.closest('.lb-pc-wrap');
+          if (pw) pw.classList.add('zoom-active');
+        }
+      });
+    }
+  });
 
   // Register sync group and listen for camera changes
   if (syncGroup) {
@@ -1700,15 +1749,15 @@ window.initLeaderboardPCViewer = function(el, model, size, dataset, sampleIdx, v
   el.innerHTML = `
     <div class="lb-pc-wrap" style="height:${viewerHeight}px;">
       <div id="${id}-canvas" style="width:100%; height:100%; position:relative;">
-        <div id="${id}-loading" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:11px;">
+        <div id="${id}-loading" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:13px;">
           Loading...
         </div>
       </div>
     </div>
     <div class="lb-pc-bar" style="padding:4px 8px;">
-      <span style="font-size:9px; color:rgba(167,139,250,0.7); font-weight:700;">Sample ${sampleIdx}</span>
+      <span style="font-size:10px; color:rgba(167,139,250,0.7); font-weight:700;">Sample ${sampleIdx}</span>
     </div>
-    ${isCompact ? '' : `<div style="font-size:8px; color:rgba(255,255,255,0.2); text-align:center; padding:4px 0;">
+    ${isCompact ? '' : `<div style="font-size:9px; color:rgba(255,255,255,0.2); text-align:center; padding:4px 0;">
       Drag to rotate · Scroll to zoom · Right-drag to pan
     </div>`}
   `;
@@ -1732,8 +1781,8 @@ window.initLeaderboardPCViewer = function(el, model, size, dataset, sampleIdx, v
       if (loadingEl) {
         loadingEl.style.display = 'flex';
         loadingEl.innerHTML = `<div style="text-align:center;">
-          <div style="color:rgba(255,255,255,0.4); margin-bottom:6px; font-size:10px;">Sample ${idx} N/A</div>
-          ${isCompact ? '' : `<div style="font-size:9px; color:rgba(255,255,255,0.2);">Run <code style="background:rgba(255,255,255,0.05); padding:1px 4px; border-radius:3px;">python scripts/convert_gen_pointcloud.py</code></div>`}
+          <div style="color:rgba(255,255,255,0.4); margin-bottom:6px; font-size:11px;">Sample ${idx} N/A</div>
+          ${isCompact ? '' : `<div style="font-size:10px; color:rgba(255,255,255,0.2);">Run <code style="background:rgba(255,255,255,0.05); padding:1px 4px; border-radius:3px;">python scripts/convert_gen_pointcloud.py</code></div>`}
         </div>`;
       }
     }
@@ -1799,6 +1848,7 @@ function createEvalPanel(container, w, h) {
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.08;
+  controls.enableZoom = false;
   controls.autoRotate = true;
   controls.autoRotateSpeed = 0.30;
   controls.minDistance = 0.5;
@@ -1883,7 +1933,7 @@ window.initLeaderboardEvalViewer = function(el) {
   const id = el.id;
 
   if (!channels.length && !allGroups.length) {
-    el.innerHTML = `<div style="text-align:center; padding:20px; color:rgba(255,255,255,0.3); font-size:10px;">No channels available</div>`;
+    el.innerHTML = `<div style="text-align:center; padding:20px; color:rgba(255,255,255,0.3); font-size:11px;">No channels available</div>`;
     return;
   }
 
@@ -1914,11 +1964,11 @@ window.initLeaderboardEvalViewer = function(el) {
         </div>
       </div>
       <div class="lb-eval3d-bar">
-        <span style="font-size:9px; color:rgba(167,139,250,0.7); font-weight:700;">${currentTK} · ${currentChs[currentChIdx]} · Sample ${currentSample}</span>
-        <div style="margin-left:auto; font-size:8px; color:rgba(255,255,255,0.3);" id="${id}-range">—</div>
+        <span style="font-size:10px; color:rgba(167,139,250,0.7); font-weight:700;">${currentTK} · ${currentChs[currentChIdx]} · Sample ${currentSample}</span>
+        <div style="margin-left:auto; font-size:9px; color:rgba(255,255,255,0.3);" id="${id}-range">—</div>
       </div>
     </div>
-    <div style="font-size:8px; color:rgba(255,255,255,0.2); text-align:center; padding:3px 0;">
+    <div style="font-size:9px; color:rgba(255,255,255,0.2); text-align:center; padding:3px 0;">
       Drag to rotate (synced) · Scroll to zoom · Right-drag to pan
     </div>
   `;
@@ -1953,6 +2003,9 @@ window.initLeaderboardEvalViewer = function(el) {
   }
   animate();
 
+  // Register panels for global zoom deactivation
+  evalPanelRegistry.push(panels);
+
   // Sync: manual interaction on any panel syncs to others
   let _syncLk = false;
   function syncFrom(srcIdx) {
@@ -1972,6 +2025,14 @@ window.initLeaderboardEvalViewer = function(el) {
     panel.controls.addEventListener('change', () => syncFrom(idx));
     panel.controls.addEventListener('start', () => {
       panels.forEach(p => { p.controls.autoRotate = false; });
+    });
+    // Zoom activation: click on any panel enables zoom on all panels
+    panel.renderer.domElement.addEventListener('pointerdown', () => {
+      panels.forEach(p => {
+        p.controls.enableZoom = true;
+        const w = p.renderer.domElement.closest('.lb-eval3d-panel');
+        if (w) w.classList.add('zoom-active');
+      });
     });
   });
 
@@ -2001,7 +2062,7 @@ window.initLeaderboardEvalViewer = function(el) {
       if (!ld) {
         ld = document.createElement('div');
         ld.className = 'lb-eval3d-ld';
-        ld.style.cssText = 'position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:10px; z-index:5;';
+        ld.style.cssText = 'position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:11px; z-index:5;';
         p.container.appendChild(ld);
       }
       ld.textContent = 'Loading...';
@@ -2074,8 +2135,8 @@ window.initLeaderboardEvalViewer = function(el) {
         const ld = p.container.querySelector('.lb-eval3d-ld');
         if (ld) {
           ld.innerHTML = `<div style="text-align:center;">
-            <div style="color:rgba(255,255,255,0.4); font-size:9px;">Data N/A</div>
-            <div style="font-size:8px; color:rgba(255,255,255,0.2); margin-top:4px;">
+            <div style="color:rgba(255,255,255,0.4); font-size:10px;">Data N/A</div>
+            <div style="font-size:9px; color:rgba(255,255,255,0.2); margin-top:4px;">
               Run <code style="background:rgba(255,255,255,0.05); padding:1px 4px; border-radius:3px;">convert_eval_pointcloud.py</code>
             </div>
           </div>`;

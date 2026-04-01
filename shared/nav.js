@@ -46,11 +46,16 @@ function initNav(activePageId) {
         <div class="nav-brand-sub">AI Benchmark Dashboard</div>
       </div>
     </a>
+    <button class="nav-hamburger" aria-label="Menu">&#9776;</button>
     <div class="nav-links">
       ${NAV_PAGES.map(p => `
         <a href="${p.href}" class="nav-link ${p.id === activePageId ? 'active' : ''}">${p.label}</a>
       `).join('')}
     </div>
   `;
+  const hamburger = nav.querySelector('.nav-hamburger');
+  const links = nav.querySelector('.nav-links');
+  hamburger.addEventListener('click', () => links.classList.toggle('mobile-open'));
+  nav.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', () => links.classList.remove('mobile-open')));
   document.body.insertBefore(nav, document.body.firstChild);
 }

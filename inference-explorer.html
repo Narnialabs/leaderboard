@@ -4,14 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Inference Explorer — Narnia Labs</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
 <link rel="stylesheet" href="shared/style.css">
+<link rel="stylesheet" href="shared/mobile.css">
 <script src="shared/lib/papaparse.min.js"></script>
 <script src="shared/lib/chart.umd.min.js"></script>
 <style>
-  .gf-label { font-size:10px; color:rgba(255,255,255,0.45); text-transform:uppercase; letter-spacing:1px; font-weight:700; }
-  .gf-select { width:100%; background:rgba(255,255,255,0.06); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:7px 11px; font-size:12px; outline:none; margin-top:4px; }
+  .gf-label { font-size:11px; color:rgba(255,255,255,0.45); text-transform:uppercase; letter-spacing:1px; font-weight:700; }
+  .gf-select { width:100%; background:rgba(255,255,255,0.06); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:7px 11px; font-size:14px; outline:none; margin-top:4px; }
   .gf-select option { background:#1a1a2e; }
-  .gf-pill { cursor:pointer; padding:4px 11px; font-size:11px; border-radius:6px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); transition:all 0.15s; }
+  .gf-pill { cursor:pointer; padding:4px 11px; font-size:13px; border-radius:6px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); transition:all 0.15s; }
   .gf-pill.active { background:rgba(167,139,250,0.2); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
   .gf-pill:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
 
@@ -19,36 +24,36 @@
   .pc-viewer-container { position:relative; width:100%; border-radius:12px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
   .pc-viewer-container canvas { display:block; width:100% !important; height:100% !important; }
   .pc-controls { display:flex; gap:6px; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); flex-wrap:wrap; }
-  .pc-controls label { font-size:9px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; }
+  .pc-controls label { font-size:10px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; }
   .pc-sample-strip { display:flex; gap:4px; flex-wrap:wrap; }
-  .pc-sample-btn { width:28px; height:28px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:10px; font-weight:700; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; }
+  .pc-sample-btn { width:28px; height:28px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:11px; font-weight:700; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; }
   .pc-sample-btn.active { background:rgba(167,139,250,0.25); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
   .pc-sample-btn:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
-  .pc-info { font-size:9px; color:rgba(255,255,255,0.3); padding:6px 14px; display:flex; justify-content:space-between; }
-  .pc-color-btn { padding:2px 8px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:9px; cursor:pointer; transition:all 0.15s; }
+  .pc-info { font-size:10px; color:rgba(255,255,255,0.3); padding:6px 14px; display:flex; justify-content:space-between; }
+  .pc-color-btn { padding:2px 8px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:10px; cursor:pointer; transition:all 0.15s; }
   .pc-color-btn.active { background:rgba(56,189,248,0.2); border-color:rgba(56,189,248,0.4); color:#38bdf8; }
 
   /* 3D Eval Viewer */
   .eval3d-viewer-wrap { display:flex; flex-direction:column; gap:8px; }
   .eval3d-panel { position:relative; border-radius:12px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
-  .eval3d-panel-label { position:absolute; top:8px; left:10px; z-index:10; font-size:10px; font-weight:700; letter-spacing:0.5px; padding:2px 8px; border-radius:4px; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); }
+  .eval3d-panel-label { position:absolute; top:8px; left:10px; z-index:10; font-size:11px; font-weight:700; letter-spacing:0.5px; padding:2px 8px; border-radius:4px; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); }
   .eval3d-panel-label.pred { color:#a78bfa; }
   .eval3d-panel-label.gt { color:#34d399; }
   .eval3d-panel-label.error { color:#f59e0b; }
   .eval3d-canvas-wrap { width:100%; height:500px; position:relative; }
-  .eval3d-stats { position:absolute; bottom:8px; right:10px; z-index:10; font-size:9px; color:rgba(255,255,255,0.5); background:rgba(0,0,0,0.5); padding:2px 8px; border-radius:4px; backdrop-filter:blur(4px); }
+  .eval3d-stats { position:absolute; bottom:8px; right:10px; z-index:10; font-size:10px; color:rgba(255,255,255,0.5); background:rgba(0,0,0,0.5); padding:2px 8px; border-radius:4px; backdrop-filter:blur(4px); }
   .eval3d-controls { display:flex; gap:6px; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:10px; flex-wrap:wrap; }
-  .eval3d-controls label { font-size:9px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; }
-  .eval3d-channel-btn { padding:2px 10px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:9px; cursor:pointer; transition:all 0.15s; }
+  .eval3d-controls label { font-size:10px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; }
+  .eval3d-channel-btn { padding:2px 10px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:10px; cursor:pointer; transition:all 0.15s; }
   .eval3d-channel-btn.active { background:rgba(167,139,250,0.25); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
   .eval3d-channel-btn:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
   .eval3d-colorbar { position:absolute; right:10px; top:50%; transform:translateY(-50%); width:14px; height:60%; z-index:10; border-radius:3px; border:1px solid rgba(255,255,255,0.1); }
-  .eval3d-colorbar-label { position:absolute; right:10px; z-index:10; font-size:7px; color:rgba(255,255,255,0.4); text-align:right; }
+  .eval3d-colorbar-label { position:absolute; right:10px; z-index:10; font-size:9px; color:rgba(255,255,255,0.4); text-align:right; }
   @media (max-width: 900px) { .eval3d-canvas-wrap { height:300px; } }
 
   /* ── Comparisons ── */
   .cmp-model-pill {
-    padding: 5px 12px; border-radius: 6px; font-size: 11px; font-weight: 600;
+    padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 600;
     border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04);
     color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.15s;
   }
@@ -59,16 +64,16 @@
     flex: 1; min-width: 100px; padding: 14px 16px; border-radius: 10px;
     background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: center;
   }
-  .cmp-card-value { font-size: 24px; font-weight: 900; letter-spacing: -0.5px; }
-  .cmp-card-label { font-size: 9px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
-  .cmp-metric-table { width: 100%; border-collapse: collapse; font-size: 11px; }
-  .cmp-metric-table th { padding: 6px 8px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.4); border-bottom: 1px solid rgba(255,255,255,0.08); text-align: left; }
+  .cmp-card-value { font-size: 27px; font-weight: 900; letter-spacing: -0.5px; }
+  .cmp-card-label { font-size: 10px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+  .cmp-metric-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .cmp-metric-table th { padding: 6px 8px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.4); border-bottom: 1px solid rgba(255,255,255,0.08); text-align: left; }
   .cmp-metric-table td { padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); }
-  .cmp-metric-table .metric-name { color: rgba(255,255,255,0.6); font-weight: 600; font-size: 10px; }
-  .cmp-metric-table .val-a { color: #38bdf8; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
-  .cmp-metric-table .val-b { color: #f472b6; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
-  .cmp-metric-table .val-diff { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; }
-  .cmp-metric-table .cat-row td { padding: 6px 8px 3px; font-size: 8px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; border-bottom: none; }
+  .cmp-metric-table .metric-name { color: rgba(255,255,255,0.6); font-weight: 600; font-size: 11px; }
+  .cmp-metric-table .val-a { color: #38bdf8; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+  .cmp-metric-table .val-b { color: #f472b6; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+  .cmp-metric-table .val-diff { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; }
+  .cmp-metric-table .cat-row td { padding: 6px 8px 3px; font-size: 9px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; border-bottom: none; }
   .diff-better { color: #34d399; }
   .diff-worse  { color: #f87171; }
   .diff-tie    { color: rgba(255,255,255,0.3); }
@@ -94,8 +99,8 @@
 
 <!-- Page Header -->
 <div style="margin-bottom:20px;">
-  <div style="font-size:22px; font-weight:900; color:#fff; letter-spacing:-0.3px;">Inference Explorer</div>
-  <div style="font-size:12px; color:rgba(255,255,255,0.4); margin-top:4px;">Explore Inference Results by Model · Generated Images · Performance Metrics</div>
+  <div style="font-size:25px; font-weight:900; color:#fff; letter-spacing:-0.3px;">Inference Explorer</div>
+  <div style="font-size:14px; color:rgba(255,255,255,0.4); margin-top:4px;">Explore Inference Results by Model · Generated Images · Performance Metrics</div>
 </div>
 
 <!-- Layout: Sidebar + Main -->
@@ -136,6 +141,8 @@
 
   <!-- Main Content -->
   <div class="explorer-main">
+    <button class="sidebar-toggle" aria-label="Experiments menu">&#9776; Experiments</button>
+    <div class="sidebar-backdrop"></div>
     <!-- Default: Summary Cards -->
     <div id="summary-view">
       <!-- 2D Generation Summary -->
@@ -157,7 +164,7 @@
       </div>
 
       <!-- Overview Stats -->
-      <div class="glass" style="padding:16px 20px;">
+      <div class="glass" style="padding:16px 20px;" id="exp-stats">
         <div class="section-label section-label-purple" style="margin-bottom:14px;">Experiment Statistics</div>
         <div class="flex gap-12">
           <div class="glass perf-card flex-1">
@@ -192,7 +199,7 @@
     <div id="detail-view" style="display:none;">
       <div class="flex justify-between items-center" style="margin-bottom:12px;">
         <button onclick="backToSummary()" class="filter-pill" style="cursor:pointer;">← Back</button>
-        <div id="detail-breadcrumb" style="font-size:11px; color:rgba(255,255,255,0.4);"></div>
+        <div id="detail-breadcrumb" style="font-size:13px; color:rgba(255,255,255,0.4);"></div>
       </div>
 
       <!-- Performance Card -->
@@ -208,7 +215,7 @@
     <div id="comparisons-view" style="display:none;">
       <div class="flex justify-between items-center" style="margin-bottom:12px;">
         <button onclick="backToSummary()" class="filter-pill" style="cursor:pointer;">← Back</button>
-        <div style="font-size:11px; color:rgba(255,255,255,0.4);" id="cmp-breadcrumb">Comparisons</div>
+        <div style="font-size:13px; color:rgba(255,255,255,0.4);" id="cmp-breadcrumb">Comparisons</div>
       </div>
 
       <!-- Control Filters (shared) -->
@@ -247,22 +254,22 @@
       </div>
 
       <!-- Model Selectors (shared) -->
-      <div class="glass" style="padding:14px 20px; margin-bottom:12px;">
+      <div class="glass" style="padding:14px 20px; margin-bottom:12px;" id="cmp-model-selector">
         <div style="display:flex; gap:16px; align-items:stretch;">
           <div style="flex:1; min-width:0; border-radius:10px; padding:12px 16px; border:1px solid rgba(56,189,248,0.25); background:rgba(56,189,248,0.03);">
-            <div style="font-size:10px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#38bdf8; margin-bottom:8px;">Model A</div>
+            <div style="font-size:11px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#38bdf8; margin-bottom:8px;">Model A</div>
             <div id="cmp-model-a-pills" style="display:flex; flex-wrap:wrap; gap:5px;"></div>
           </div>
-          <div style="display:flex; align-items:center; font-size:18px; font-weight:900; color:rgba(255,255,255,0.15); min-width:40px; justify-content:center; letter-spacing:2px;">VS</div>
+          <div style="display:flex; align-items:center; font-size:20px; font-weight:900; color:rgba(255,255,255,0.15); min-width:40px; justify-content:center; letter-spacing:2px;">VS</div>
           <div style="flex:1; min-width:0; border-radius:10px; padding:12px 16px; border:1px solid rgba(244,114,182,0.25); background:rgba(244,114,182,0.03);">
-            <div style="font-size:10px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#f472b6; margin-bottom:8px;">Model B</div>
+            <div style="font-size:11px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#f472b6; margin-bottom:8px;">Model B</div>
             <div id="cmp-model-b-pills" style="display:flex; flex-wrap:wrap; gap:5px;"></div>
           </div>
         </div>
       </div>
 
       <!-- Loading -->
-      <div id="cmp-loading" style="display:none; text-align:center; padding:30px; color:var(--text-muted); font-size:12px;">Loading data...</div>
+      <div id="cmp-loading" style="display:none; text-align:center; padding:30px; color:var(--text-muted); font-size:14px;">Loading data...</div>
 
       <!-- ═══ Qualitative Analysis Sub-View ═══ -->
       <div id="cmp-qualitative-content" style="display:none;">
@@ -273,7 +280,7 @@
             <div id="cmp-sample-nav" style="display:flex; align-items:center; gap:8px;">
               <span class="gf-label">Sample</span>
               <button class="gf-pill" onclick="cmpPrevSample()" style="padding:3px 8px;">◀</button>
-              <span id="cmp-sample-idx" style="font-size:11px; font-weight:700; color:#fff; min-width:56px; text-align:center;">0</span>
+              <span id="cmp-sample-idx" style="font-size:13px; font-weight:700; color:#fff; min-width:56px; text-align:center;">0</span>
               <button class="gf-pill" onclick="cmpNextSample()" style="padding:3px 8px;">▶</button>
             </div>
           </div>
@@ -298,7 +305,7 @@
         <div class="glass" style="padding:16px 20px; margin-bottom:12px; display:none;" id="cmp-metrics-section">
           <div class="flex justify-between items-center" style="margin-bottom:12px;">
             <div class="section-label" style="color:var(--amber-400);">Metric-by-Metric Comparison</div>
-            <div id="cmp-metrics-info" style="font-size:10px; color:var(--text-muted);"></div>
+            <div id="cmp-metrics-info" style="font-size:11px; color:var(--text-muted);"></div>
           </div>
           <div id="cmp-metrics-table-wrap"></div>
         </div>
@@ -318,7 +325,7 @@
 <div class="page-footer">
   <div class="divider"></div>
   <div class="text">NARNIA LABS · AI Benchmark Dashboard</div>
-  <div style="margin-top:8px; font-size:10px; display:flex; justify-content:center; gap:12px;">
+  <div style="margin-top:8px; font-size:11px; display:flex; justify-content:center; gap:12px;">
     <a href="https://www.narnia.ai/" target="_blank" style="color:#a78bfa; text-decoration:none; opacity:0.6; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">narnia.ai</a>
     <span style="color:rgba(255,255,255,0.15);">|</span>
     <a href="https://github.com/Narnialabs/leaderboard" target="_blank" style="color:#a78bfa; text-decoration:none; opacity:0.6; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">GitHub</a>
@@ -329,6 +336,14 @@
 
 <script>
 const PAGE_CACHE_BUST = Date.now();
+
+// ── Mobile Sidebar Toggle ──
+document.addEventListener('DOMContentLoaded', () => {
+  const toggle = document.querySelector('.sidebar-toggle');
+  const backdrop = document.querySelector('.sidebar-backdrop');
+  if (toggle) toggle.addEventListener('click', () => document.body.classList.toggle('sidebar-open'));
+  if (backdrop) backdrop.addEventListener('click', () => document.body.classList.remove('sidebar-open'));
+});
 
 // ── Experiment Structure (static manifest) ──
 const EXPERIMENTS = {
@@ -432,6 +447,9 @@ async function selectExperiment(key) {
   const activeEl = document.querySelector(`[data-key="${key}"]`);
   if (activeEl) activeEl.classList.add('active');
 
+  // Close mobile sidebar
+  document.body.classList.remove('sidebar-open');
+
   // Show detail view
   document.getElementById('summary-view').style.display = 'none';
   document.getElementById('comparisons-view').style.display = 'none';
@@ -457,28 +475,28 @@ async function selectExperiment(key) {
         <div class="section-label" style="color:#a78bfa; margin-bottom:12px;">Performance — ${displayModelName(model)} (size=${size})</div>
         <div class="flex gap-12">
           <div class="glass perf-card flex-1">
-            <div class="perf-value" style="color:#a78bfa; font-size:18px;">${(perf.model_parameters / 1e6).toFixed(2)}M</div>
+            <div class="perf-value" style="color:#a78bfa; font-size:20px;">${(perf.model_parameters / 1e6).toFixed(2)}M</div>
             <div class="perf-label">Parameters</div>
           </div>
           <div class="glass perf-card flex-1">
-            <div class="perf-value" style="color:#34d399; font-size:18px;">${perf.training_time_sec.toFixed(1)}s</div>
+            <div class="perf-value" style="color:#34d399; font-size:20px;">${perf.training_time_sec.toFixed(1)}s</div>
             <div class="perf-label">Training Time</div>
           </div>
           <div class="glass perf-card flex-1">
-            <div class="perf-value" style="color:#38bdf8; font-size:18px;">${perf.inference_time_sec.toFixed(2)}s</div>
+            <div class="perf-value" style="color:#38bdf8; font-size:20px;">${perf.inference_time_sec.toFixed(2)}s</div>
             <div class="perf-label">Inference Time</div>
           </div>
           <div class="glass perf-card flex-1">
-            <div class="perf-value" style="color:#f59e0b; font-size:18px;">${perf.total_generated}</div>
+            <div class="perf-value" style="color:#f59e0b; font-size:20px;">${perf.total_generated}</div>
             <div class="perf-label">Generated Samples</div>
           </div>
         </div>
       `;
     } else {
-      perfDiv.innerHTML = `<div style="font-size:11px; color:rgba(255,255,255,0.3);">performance.json not found</div>`;
+      perfDiv.innerHTML = `<div style="font-size:13px; color:rgba(255,255,255,0.3);">performance.json not found</div>`;
     }
   } catch {
-    perfDiv.innerHTML = `<div style="font-size:11px; color:rgba(255,255,255,0.3);">Could not load performance data</div>`;
+    perfDiv.innerHTML = `<div style="font-size:13px; color:rgba(255,255,255,0.3);">Could not load performance data</div>`;
   }
 
   // Show images for 2D or info for 3D
@@ -565,6 +583,7 @@ async function selectExperiment(key) {
 }
 
 function backToSummary() {
+  document.body.classList.remove('sidebar-open');
   document.getElementById('summary-view').style.display = 'block';
   document.getElementById('detail-view').style.display = 'none';
   document.getElementById('comparisons-view').style.display = 'none';
@@ -590,7 +609,7 @@ window._cmpPcSyncLock = false;
 Chart.defaults.color = 'rgba(255,255,255,0.6)';
 Chart.defaults.borderColor = 'rgba(255,255,255,0.08)';
 Chart.defaults.font.family = 'Inter, system-ui, sans-serif';
-Chart.defaults.font.size = 10;
+Chart.defaults.font.size = 11;
 
 function cmpCategory() {
   if (cmpState.dim === '2d') return 'dimension_2d/generation';
@@ -598,6 +617,9 @@ function cmpCategory() {
 }
 
 async function showComparisons(mode) {
+  // Close mobile sidebar
+  document.body.classList.remove('sidebar-open');
+
   const prevMode = cmpState.mode;
   cmpState.mode = mode || 'qualitative';
   const alreadyVisible = document.getElementById('comparisons-view').style.display === 'block';
@@ -789,7 +811,11 @@ window.cmpSelectModel = function(side, model) {
 };
 
 function cmpSamplesPerPage() {
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
   if (cmpState.task === 'evaluation') return 1;
+  if (isMobile) {
+    return cmpState.dim === '2d' ? 6 : 3;
+  }
   if (cmpState.dim === '2d') return 12;
   return 6;
 }
@@ -970,7 +996,7 @@ function cmpRenderVisual() {
     else cmpRender3DGen(container);
   } catch(e) {
     console.error('cmpRenderVisual error:', e);
-    container.innerHTML = `<div style="padding:20px;color:#f87171;background:rgba(248,113,113,0.1);border-radius:8px;font-size:12px;">Render error: ${e.message}</div>`;
+    container.innerHTML = `<div style="padding:20px;color:#f87171;background:rgba(248,113,113,0.1);border-radius:8px;font-size:14px;">Render error: ${e.message}</div>`;
   }
 }
 
@@ -985,10 +1011,10 @@ function cmpRender2D(container) {
   const nA=displayModelName(cmpState.modelA), nB=displayModelName(cmpState.modelB);
   const count = cmpSamplesPerPage();
   let html='<div class="cmp-grid">';
-  html += `<div class="cmp-half"><div style="font-size:10px;font-weight:700;color:#38bdf8;margin-bottom:6px;">${nA}</div><div class="cmp-img-row">`;
+  html += `<div class="cmp-half"><div style="font-size:11px;font-weight:700;color:#38bdf8;margin-bottom:6px;">${nA}</div><div class="cmp-img-row">`;
   for (let i=0;i<count;i++) { const idx=String(cmpState.sampleIndex+i).padStart(5,'0'); html+=`<img src="${bA}/img_${idx}.png?t=${PAGE_CACHE_BUST}" onerror="this.style.opacity='0.2'" loading="lazy">`; }
   html += '</div></div>';
-  html += `<div class="cmp-half"><div style="font-size:10px;font-weight:700;color:#f472b6;margin-bottom:6px;">${nB}</div><div class="cmp-img-row">`;
+  html += `<div class="cmp-half"><div style="font-size:11px;font-weight:700;color:#f472b6;margin-bottom:6px;">${nB}</div><div class="cmp-img-row">`;
   for (let i=0;i<count;i++) { const idx=String(cmpState.sampleIndex+i).padStart(5,'0'); html+=`<img src="${bB}/img_${idx}.png?t=${PAGE_CACHE_BUST}" onerror="this.style.opacity='0.2'" loading="lazy">`; }
   html += '</div></div></div>';
   container.innerHTML = html;
@@ -1007,19 +1033,19 @@ function cmpRender3DGen(container) {
   const count = cmpSamplesPerPage();
   let html = '<div class="cmp-grid">';
   // Model A
-  html += `<div class="cmp-half"><div style="font-size:10px;font-weight:700;color:#38bdf8;margin-bottom:6px;">${nA}</div><div style="display:flex;flex-direction:column;gap:8px;">`;
+  html += `<div class="cmp-half"><div style="font-size:11px;font-weight:700;color:#38bdf8;margin-bottom:6px;">${nA}</div><div style="display:flex;flex-direction:column;gap:8px;">`;
   for (let i=0;i<count;i++) {
     const s = cmpState.sampleIndex + i;
     html += `<div id="cmp-pc-a-s${s}" class="cmp-pc-viewer" data-model="${cmpState.modelA}" data-size="${sA}" data-dataset="${ds}" data-sample="${s}" data-side="a" style="width:100%;min-height:200px;background:#08051a;border-radius:10px;display:flex;align-items:center;justify-content:center;">
-      <div style="text-align:center;color:rgba(255,255,255,0.3);font-size:11px;">Loading...</div></div>`;
+      <div style="text-align:center;color:rgba(255,255,255,0.3);font-size:13px;">Loading...</div></div>`;
   }
   html += '</div></div>';
   // Model B
-  html += `<div class="cmp-half"><div style="font-size:10px;font-weight:700;color:#f472b6;margin-bottom:6px;">${nB}</div><div style="display:flex;flex-direction:column;gap:8px;">`;
+  html += `<div class="cmp-half"><div style="font-size:11px;font-weight:700;color:#f472b6;margin-bottom:6px;">${nB}</div><div style="display:flex;flex-direction:column;gap:8px;">`;
   for (let i=0;i<count;i++) {
     const s = cmpState.sampleIndex + i;
     html += `<div id="cmp-pc-b-s${s}" class="cmp-pc-viewer" data-model="${cmpState.modelB}" data-size="${sB}" data-dataset="${ds}" data-sample="${s}" data-side="b" style="width:100%;min-height:200px;background:#08051a;border-radius:10px;display:flex;align-items:center;justify-content:center;">
-      <div style="text-align:center;color:rgba(255,255,255,0.3);font-size:11px;">Loading...</div></div>`;
+      <div style="text-align:center;color:rgba(255,255,255,0.3);font-size:13px;">Loading...</div></div>`;
   }
   html += '</div></div></div>';
   container.innerHTML = html;
@@ -1087,20 +1113,20 @@ function cmpRender3DEval(container) {
   const s = cmpState.sampleIndex;
 
   // Side-by-side: each half has a single eval viewer that stacks GT/PRED/ERROR vertically
-  let html = `<div style="font-size:9px;color:rgba(255,255,255,0.4);font-weight:700;margin-bottom:8px;letter-spacing:0.5px;">SAMPLE ${s} · ${tk} · ${channels[chIdx]||''}</div>`;
+  let html = `<div style="font-size:10px;color:rgba(255,255,255,0.4);font-weight:700;margin-bottom:8px;letter-spacing:0.5px;">SAMPLE ${s} · ${tk} · ${channels[chIdx]||''}</div>`;
   html += '<div class="cmp-grid">';
 
   // Model A
   const vA = `cmp-eval-a-s${s}`;
-  html += `<div class="cmp-half"><div style="font-size:10px;font-weight:700;color:#38bdf8;margin-bottom:8px;">${nA}</div>
+  html += `<div class="cmp-half"><div style="font-size:11px;font-weight:700;color:#38bdf8;margin-bottom:8px;">${nA}</div>
     <div id="${vA}" class="cmp-eval-viewer" data-model="${cmpState.modelA}" data-size="${dataSize}" data-size-code="${sizeCode}" data-dataset="${ds}" data-target-key="${tk}" data-channels='${JSON.stringify(channels)}' data-init-channel="${chIdx}" data-sample="${s}" data-layout="vertical">
-      <div style="text-align:center;padding:30px;color:rgba(255,255,255,0.3);font-size:11px;">Loading...</div></div></div>`;
+      <div style="text-align:center;padding:30px;color:rgba(255,255,255,0.3);font-size:13px;">Loading...</div></div></div>`;
 
   // Model B
   const vB = `cmp-eval-b-s${s}`;
-  html += `<div class="cmp-half"><div style="font-size:10px;font-weight:700;color:#f472b6;margin-bottom:8px;">${nB}</div>
+  html += `<div class="cmp-half"><div style="font-size:11px;font-weight:700;color:#f472b6;margin-bottom:8px;">${nB}</div>
     <div id="${vB}" class="cmp-eval-viewer" data-model="${cmpState.modelB}" data-size="${dataSize}" data-size-code="${sizeCode}" data-dataset="${ds}" data-target-key="${tk}" data-channels='${JSON.stringify(channels)}' data-init-channel="${chIdx}" data-sample="${s}" data-layout="vertical">
-      <div style="text-align:center;padding:30px;color:rgba(255,255,255,0.3);font-size:11px;">Loading...</div></div></div>`;
+      <div style="text-align:center;padding:30px;color:rgba(255,255,255,0.3);font-size:13px;">Loading...</div></div></div>`;
 
   html += '</div>';
 
@@ -1165,8 +1191,8 @@ function navigateToModel(treeId, modelName) {
     toggleTree(treeId);
   }
 
-  // Select first size + first dataset
-  const size = model.sizes[0];
+  // Select largest size + first dataset
+  const size = model.sizes[model.sizes.length - 1];
   const dataset = (model.datasets || exp.datasets)[0];
   const key = `${treeId}|${modelName}|${size}|${dataset}`;
   selectExperiment(key);
@@ -1182,9 +1208,9 @@ function buildPerfSummary() {
          onclick="navigateToModel('2d-gen','${m}')"
          onmouseenter="this.style.borderColor='rgba(34,197,94,0.4)'"
          onmouseleave="this.style.borderColor=''">
-      <div style="font-size:12px; font-weight:800; color:#fff;">${m.toUpperCase()}</div>
-      <div style="font-size:9px; color:rgba(255,255,255,0.3); margin-top:2px;">2D Generation</div>
-      <div style="font-size:8px; color:#22c55e; margin-top:4px;">S/M/L/XL</div>
+      <div style="font-size:14px; font-weight:800; color:#fff;">${m.toUpperCase()}</div>
+      <div style="font-size:10px; color:rgba(255,255,255,0.3); margin-top:2px;">2D Generation</div>
+      <div style="font-size:10px; color:#22c55e; margin-top:4px;">S/M/L/XL</div>
     </div>
   `).join('');
 
@@ -1202,9 +1228,9 @@ function buildPerfSummary() {
          onclick="navigateToModel('3d-eval','${m.name}')"
          onmouseenter="this.style.borderColor='rgba(56,189,248,0.4)'"
          onmouseleave="this.style.borderColor=''">
-      <div style="font-size:12px; font-weight:800; color:#fff;">${m.label}</div>
-      <div style="font-size:9px; color:rgba(255,255,255,0.3); margin-top:2px;">3D Evaluation</div>
-      <div style="font-size:8px; color:#38bdf8; margin-top:4px;">${m.sizeInfo}</div>
+      <div style="font-size:14px; font-weight:800; color:#fff;">${m.label}</div>
+      <div style="font-size:10px; color:rgba(255,255,255,0.3); margin-top:2px;">3D Evaluation</div>
+      <div style="font-size:10px; color:#38bdf8; margin-top:4px;">${m.sizeInfo}</div>
     </div>
   `).join('');
 
@@ -1223,9 +1249,9 @@ function buildPerfSummary() {
          onclick="navigateToModel('3d-gen','${m.name}')"
          onmouseenter="this.style.borderColor='rgba(167,139,250,0.4)'"
          onmouseleave="this.style.borderColor=''">
-      <div style="font-size:12px; font-weight:800; color:#fff;">${m.label}</div>
-      <div style="font-size:9px; color:rgba(255,255,255,0.3); margin-top:2px;">3D Generation</div>
-      <div style="font-size:8px; color:#a78bfa; margin-top:4px;">${m.sizeInfo}</div>
+      <div style="font-size:14px; font-weight:800; color:#fff;">${m.label}</div>
+      <div style="font-size:10px; color:rgba(255,255,255,0.3); margin-top:2px;">3D Generation</div>
+      <div style="font-size:10px; color:#a78bfa; margin-top:4px;">${m.sizeInfo}</div>
     </div>
   `).join('');
 }
@@ -1246,6 +1272,33 @@ buildPerfSummary();
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// ── Zoom deactivation: click outside any 3D canvas disables zoom on all viewers ──
+document.addEventListener('pointerdown', (e) => {
+  if (e.target.tagName === 'CANVAS' && e.target.closest('.pc-viewer-container, .eval3d-panel, .lb-pc-wrap, .lb-eval3d-panel')) return;
+  // Deactivate point cloud viewer
+  if (typeof pcControls !== 'undefined' && pcControls) {
+    pcControls.enableZoom = false;
+    document.querySelectorAll('.pc-viewer-container.zoom-active').forEach(el => el.classList.remove('zoom-active'));
+  }
+  // Deactivate eval panels
+  if (typeof evalPanels !== 'undefined' && evalPanels) {
+    evalPanels.forEach(p => { if (p.controls) p.controls.enableZoom = false; });
+    document.querySelectorAll('.eval3d-panel.zoom-active').forEach(el => el.classList.remove('zoom-active'));
+  }
+  // Deactivate comparison PC viewers (keys are lowercase 'a','b')
+  ['a','b'].forEach(side => {
+    const group = window._cmpPcSyncGroups && window._cmpPcSyncGroups[side];
+    if (group) group.forEach(g => { g.controls.enableZoom = false; });
+  });
+  // Deactivate comparison eval viewers
+  if (window._cmpEvalPanelRegistry) {
+    window._cmpEvalPanelRegistry.forEach(panels => {
+      panels.forEach(p => { p.controls.enableZoom = false; });
+    });
+  }
+  document.querySelectorAll('.zoom-active').forEach(el => el.classList.remove('zoom-active'));
+});
 
 // ── Point Cloud Viewer State ──
 let pcScene, pcCamera, pcRenderer, pcControls, pcPoints, pcAnimId;
@@ -1283,10 +1336,26 @@ function createViewer(container, width, height) {
   pcControls = new OrbitControls(pcCamera, pcRenderer.domElement);
   pcControls.enableDamping = true;
   pcControls.dampingFactor = 0.08;
+  pcControls.enableZoom = false;
   pcControls.autoRotate = pcAutoRotate;
   pcControls.autoRotateSpeed = 1.5;
   pcControls.minDistance = 0.5;
   pcControls.maxDistance = 8;
+
+  // Stop autoRotate on user interaction + sync button state
+  pcControls.addEventListener('start', () => {
+    pcControls.autoRotate = false;
+    pcAutoRotate = false;
+    const btn = document.getElementById('pc-rotate-btn');
+    if (btn) btn.classList.remove('active');
+  });
+
+  // Zoom activation on click
+  pcRenderer.domElement.addEventListener('pointerdown', () => {
+    pcControls.enableZoom = true;
+    const wrap = pcRenderer.domElement.closest('.pc-viewer-container');
+    if (wrap) wrap.classList.add('zoom-active');
+  });
 
   // Subtle grid
   const gridHelper = new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30);
@@ -1419,7 +1488,7 @@ window.initPointCloudViewer = async function(model, size, dataset) {
   root.innerHTML = `
     <div class="pc-viewer-container">
       <div id="pc-canvas-wrap" style="width:100%; height:500px; position:relative;">
-        <div id="pc-loading" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:12px;">
+        <div id="pc-loading" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:14px;">
           Loading point cloud...
         </div>
       </div>
@@ -1440,7 +1509,7 @@ window.initPointCloudViewer = async function(model, size, dataset) {
         </div>
       </div>
     </div>
-    <div style="margin-top:8px; font-size:9px; color:rgba(255,255,255,0.25); text-align:center;">
+    <div style="margin-top:8px; font-size:10px; color:rgba(255,255,255,0.25); text-align:center;">
       Drag to rotate · Scroll to zoom · Right-drag to pan
     </div>
   `;
@@ -1496,7 +1565,7 @@ window.initPointCloudViewer = async function(model, size, dataset) {
         loadingEl.innerHTML = `
           <div style="text-align:center;">
             <div style="color:rgba(255,255,255,0.4); margin-bottom:8px;">Point cloud not available</div>
-            <div style="font-size:10px; color:rgba(255,255,255,0.25);">
+            <div style="font-size:11px; color:rgba(255,255,255,0.25);">
               Run <code style="background:rgba(255,255,255,0.05); padding:1px 6px; border-radius:3px;">python scripts/convert_gen_pointcloud.py</code> to generate .bin files
             </div>
           </div>`;
@@ -1596,6 +1665,7 @@ function createEvalPanel(container, width, height, labelClass, labelText) {
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.08;
+  controls.enableZoom = false;
   controls.autoRotate = evalAutoRotate;
   controls.autoRotateSpeed = 0.35;
   controls.minDistance = 0.5;
@@ -1604,6 +1674,19 @@ function createEvalPanel(container, width, height, labelClass, labelText) {
   const grid = new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30);
   scene.add(grid);
   scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+
+  // Zoom activation on click — will be wired to sibling panels after creation
+  renderer.domElement.addEventListener('pointerdown', () => {
+    if (typeof evalPanels !== 'undefined' && evalPanels.length) {
+      evalPanels.forEach(p => {
+        p.controls.enableZoom = true;
+        const w = p.renderer.domElement.closest('.eval3d-panel');
+        if (w) w.classList.add('zoom-active');
+      });
+    } else {
+      controls.enableZoom = true;
+    }
+  });
 
   return { scene, camera, renderer, controls, points: null, container };
 }
@@ -1775,7 +1858,7 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
         <div class="pc-sample-strip" id="eval3d-sample-strip"></div>
         <div style="margin-left:auto; display:flex; gap:6px; align-items:center;">
           <label>Value Range</label>
-          <span id="eval3d-range-info" style="font-size:9px; color:rgba(255,255,255,0.4);">—</span>
+          <span id="eval3d-range-info" style="font-size:10px; color:rgba(255,255,255,0.4);">—</span>
           <div style="width:1px; height:16px; background:rgba(255,255,255,0.1); margin:0 4px;"></div>
           <button class="pc-color-btn ${evalAutoRotate ? 'active' : ''}" id="eval3d-rotate-btn" onclick="window._evalToggleRotate(this)">Auto-Rotate</button>
         </div>
@@ -1790,7 +1873,7 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
         <div class="eval3d-stats" id="eval3d-stats">—</div>
       </div>
     </div>
-    <div style="margin-top:6px; font-size:9px; color:rgba(255,255,255,0.25); text-align:center;">
+    <div style="margin-top:6px; font-size:10px; color:rgba(255,255,255,0.25); text-align:center;">
       Drag to rotate (synced) · Scroll to zoom · Right-drag to pan
     </div>
   `;
@@ -1888,7 +1971,7 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
       if (existing) existing.remove();
       const el = document.createElement('div');
       el.className = 'eval3d-loading';
-      el.style.cssText = 'position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:11px; z-index:5;';
+      el.style.cssText = 'position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:13px; z-index:5;';
       el.textContent = 'Loading...';
       p.container.appendChild(el);
     });
@@ -1961,7 +2044,7 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
           el.innerHTML = `
             <div style="text-align:center;">
               <div style="color:rgba(255,255,255,0.4); margin-bottom:6px;">Data not available</div>
-              <div style="font-size:9px; color:rgba(255,255,255,0.25);">
+              <div style="font-size:10px; color:rgba(255,255,255,0.25);">
                 Run <code style="background:rgba(255,255,255,0.05); padding:1px 6px; border-radius:3px;">python scripts/convert_eval_pointcloud.py</code>
               </div>
             </div>`;
@@ -2003,7 +2086,7 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   el.innerHTML = `
     <div class="pc-viewer-container" style="height:${viewerHeight}px;">
       <div id="${id}-canvas" style="width:100%; height:100%; position:relative;">
-        <div id="${id}-ld" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-size:11px;">Loading...</div>
+        <div id="${id}-ld" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-size:13px;">Loading...</div>
       </div>
     </div>`;
 
@@ -2020,10 +2103,26 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   wrap.appendChild(renderer.domElement);
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true; controls.dampingFactor = 0.08;
-  controls.autoRotate = true; controls.autoRotateSpeed = 0.5;
+  controls.enableZoom = false;
+  controls.autoRotate = true; controls.autoRotateSpeed = 0.25;
   controls.minDistance = 0.5; controls.maxDistance = 20;
-  controls.addEventListener('end', () => { controls.autoRotate = true; });
   scene.add(new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30));
+
+  // Slow down autoRotate to 66% after user interaction
+  controls.addEventListener('start', () => {
+    const group = window._cmpPcSyncGroups[side] || [];
+    group.forEach(g => { g.controls.autoRotateSpeed = 0.25; });
+  });
+
+  // Zoom activation on click — enables zoom on all synced viewers in same side
+  renderer.domElement.addEventListener('pointerdown', () => {
+    const group = window._cmpPcSyncGroups[side] || [];
+    group.forEach(g => {
+      g.controls.enableZoom = true;
+    });
+    const w = renderer.domElement.closest('.lb-pc-wrap, .pc-viewer-container');
+    if (w) w.classList.add('zoom-active');
+  });
 
   let pts = null;
   let cmpPcAnimId = null;
@@ -2092,7 +2191,7 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
       camera.position.set(c.x+1.5*z, c.y+1.0*z, c.z+1.5*z);
       controls.update();
     } catch {
-      if (ld) ld.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,0.4);font-size:10px;">Sample ${idx} N/A</div>`;
+      if (ld) ld.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,0.4);font-size:11px;">Sample ${idx} N/A</div>`;
     }
   }
   loadSample(sampleIdx);
@@ -2113,7 +2212,7 @@ window.initCmpEvalViewer = function(el) {
   const isVertical = el.dataset.layout === 'vertical';
   const vH = isVertical ? 240 : 250;
 
-  if (!channels.length) { el.innerHTML='<div style="text-align:center;padding:20px;color:rgba(255,255,255,0.3);font-size:10px;">No channels</div>'; return; }
+  if (!channels.length) { el.innerHTML='<div style="text-align:center;padding:20px;color:rgba(255,255,255,0.3);font-size:11px;">No channels</div>'; return; }
 
   const rowStyle = isVertical
     ? `display:flex;flex-direction:column;gap:4px;`
@@ -2139,9 +2238,9 @@ window.initCmpEvalViewer = function(el) {
           <div class="eval3d-stats" id="${id}-stats">—</div>
         </div>
       </div>
-      <div style="display:flex;gap:8px;padding:6px 12px;background:rgba(255,255,255,0.03);border-top:1px solid rgba(255,255,255,0.06);font-size:9px;color:rgba(167,139,250,0.7);font-weight:700;">
+      <div style="display:flex;gap:8px;padding:6px 12px;background:rgba(255,255,255,0.03);border-top:1px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(167,139,250,0.7);font-weight:700;">
         ${tk} · ${channels[chIdx]} · Sample ${sampleIdx}
-        <span style="margin-left:auto;font-size:8px;color:rgba(255,255,255,0.3);" id="${id}-range">—</span>
+        <span style="margin-left:auto;font-size:9px;color:rgba(255,255,255,0.3);" id="${id}-range">—</span>
       </div>
     </div>`;
 
@@ -2154,12 +2253,15 @@ window.initCmpEvalViewer = function(el) {
     const s = new THREE.Scene(); s.background = new THREE.Color(0x08051a);
     const cam = new THREE.PerspectiveCamera(45,w/h,0.01,100); cam.position.set(2.1,1.4,2.1);
     const ren = new THREE.WebGLRenderer({antialias:true}); ren.setSize(w,h); ren.setPixelRatio(Math.min(window.devicePixelRatio,2)); cont.appendChild(ren.domElement);
-    const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.autoRotate=true; ctrl.autoRotateSpeed=0.25; ctrl.minDistance=0.5; ctrl.maxDistance=20; ctrl.addEventListener('end',()=>{ctrl.autoRotate=true;});
+    const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.enableZoom=false; ctrl.autoRotate=true; ctrl.autoRotateSpeed=0.25; ctrl.minDistance=0.5; ctrl.maxDistance=20;
     s.add(new THREE.GridHelper(2,10,0x1a1045,0x140e30)); s.add(new THREE.AmbientLight(0xffffff,0.5));
     return {scene:s,camera:cam,renderer:ren,controls:ctrl,points:null,carMesh:null,container:cont};
   }
 
   const panels = [mkPanel(gtW), mkPanel(prW), mkPanel(erW)];
+  // Register panels for global zoom deactivation
+  if (!window._cmpEvalPanelRegistry) window._cmpEvalPanelRegistry = [];
+  window._cmpEvalPanelRegistry.push(panels);
   let animId = null;
   function animate() { animId=requestAnimationFrame(animate); panels.forEach(p=>p.controls.update()); if(panels[0].controls.autoRotate){const src=panels[0];panels.slice(1).forEach(d=>{d.camera.position.copy(src.camera.position);d.camera.quaternion.copy(src.camera.quaternion);d.controls.target.copy(src.controls.target);d.controls.update();});} panels.forEach(p=>p.renderer.render(p.scene,p.camera)); }
   animate();
@@ -2191,7 +2293,7 @@ window.initCmpEvalViewer = function(el) {
 
   let _sl=false;
   function syncFrom(si){if(_sl)return;_sl=true;const src=panels[si];panels.forEach((d,i)=>{if(i===si)return;d.camera.position.copy(src.camera.position);d.camera.quaternion.copy(src.camera.quaternion);d.controls.target.copy(src.controls.target);d.controls.update();});_sl=false;}
-  panels.forEach((p,i)=>{p.controls.addEventListener('change',()=>syncFrom(i));p.controls.addEventListener('start',()=>{panels.forEach(pp=>{pp.controls.autoRotate=false;});});});
+  panels.forEach((p,i)=>{p.controls.addEventListener('change',()=>syncFrom(i));p.controls.addEventListener('start',()=>{panels.forEach(pp=>{pp.controls.autoRotate=false;});});p.renderer.domElement.addEventListener('pointerdown',()=>{panels.forEach(pp=>{pp.controls.enableZoom=true;const w=pp.renderer.domElement.closest('.lb-eval3d-panel,.eval3d-panel');if(w)w.classList.add('zoom-active');});});});
   const ro=new ResizeObserver(()=>{panels.forEach(p=>{const r=p.container.getBoundingClientRect();if(r.width>0&&r.height>0){p.renderer.setSize(r.width,r.height);p.camera.aspect=r.width/r.height;p.camera.updateProjectionMatrix();}});});
   ro.observe(gtW);
 
@@ -2233,7 +2335,7 @@ window.initCmpEvalViewer = function(el) {
       const st=document.getElementById(`${id}-stats`);if(st)st.textContent=`MAE: ${formatSci(mae)}  RMSE: ${formatSci(rmse)}`;
       const rng=document.getElementById(`${id}-range`);if(rng)rng.textContent=`${nP} pts · min: ${formatSci(vmin)} · max: ${formatSci(vmax)}`;
     } catch(e) {
-      [gtW,prW,erW].forEach(c=>{c.innerHTML=`<div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(255,255,255,0.4);font-size:9px;">Data N/A</div>`;});
+      [gtW,prW,erW].forEach(c=>{c.innerHTML=`<div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(255,255,255,0.4);font-size:10px;">Data N/A</div>`;});
     }
   }
   load();

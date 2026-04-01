@@ -1,0 +1,547 @@
+/* ═══════════════════════════════════════════════════════════
+   Mobile Responsive Styles — Narnia Labs AI Benchmark
+   Breakpoint: 768px (mobile), existing 900px (tablet) untouched
+   PC impact: NONE — all rules inside @media queries
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── PC: hide mobile-only elements ── */
+@media (min-width: 769px) {
+  .nav-hamburger { display: none !important; }
+  .sidebar-toggle { display: none !important; }
+  .sidebar-backdrop { display: none !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE — max-width: 768px
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* ── Base ── */
+  html {
+    -webkit-user-select: auto !important;
+    user-select: auto !important;
+  }
+
+  .page-content {
+    padding: 12px 10px 20px !important;
+  }
+
+  /* Fixed background causes scroll jank on mobile */
+  body {
+    background-attachment: scroll !important;
+  }
+
+  /* Hide glow effects — fixed radial-gradient hurts mobile GPU */
+  .glow1, .glow2 {
+    display: none !important;
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     Navigation — Hamburger Menu
+     ────────────────────────────────────────────────────────── */
+  .nav-bar {
+    padding: 10px 14px;
+  }
+
+  .nav-hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(10,5,32,0.98);
+    border-bottom: 1px solid var(--border-subtle);
+    flex-direction: column;
+    padding: 8px 14px;
+    z-index: 99;
+  }
+
+  .nav-links.mobile-open {
+    display: flex;
+  }
+
+  .nav-link {
+    padding: 12px 16px;
+    font-size: 14px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     Touch Targets — min 44px per Apple HIG
+     ────────────────────────────────────────────────────────── */
+  .filter-pill {
+    padding: 8px 16px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .filter-level .filter-pill {
+    padding: 6px 14px;
+    min-height: 40px;
+  }
+
+  .tree-item {
+    padding: 10px 12px;
+    min-height: 44px;
+  }
+
+  .gf-pill {
+    padding: 8px 14px;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     Font Size Adjustments
+     ────────────────────────────────────────────────────────── */
+  .section-label { font-size: 12px; }
+  .perf-label { font-size: 10px; }
+  .data-table { font-size: 12px; }
+  .data-table thead th { font-size: 10px; }
+  .metric-tag { font-size: 10px; }
+  .page-footer .text { font-size: 11px; }
+
+  /* ──────────────────────────────────────────────────────────
+     Data Table — horizontal scroll hint
+     ────────────────────────────────────────────────────────── */
+  .data-table-wrapper {
+    position: relative;
+  }
+
+  .data-table-wrapper::after {
+    content: '\2190 scroll \2192';
+    display: block;
+    text-align: right;
+    font-size: 9px;
+    color: rgba(255,255,255,0.3);
+    padding: 4px 4px 0;
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     Image Grid — 2 columns on mobile
+     ────────────────────────────────────────────────────────── */
+  .image-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     INDEX.HTML — Overview Page
+     ══════════════════════════════════════════════════════════ */
+
+  /* TF Statement principles: 3 cols → 1 col */
+  #principles-row {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  /* Mission + KPI: 2 cols → 1 col */
+  #mission-kpi-row {
+    flex-direction: column !important;
+  }
+
+  /* KPI stats: wrap + hide separator */
+  #kpi-stats {
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+    justify-content: center !important;
+  }
+  .kpi-separator {
+    display: none !important;
+  }
+
+  /* Pipeline: horizontal → vertical, hide arrows */
+  #pipeline-section > .flex {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  #pipeline-section > .flex > svg {
+    display: none;
+  }
+
+  /* Domain Cards: 3 cols → 1 col */
+  #domain-cards-row {
+    flex-direction: column !important;
+  }
+  .domain-card {
+    min-width: 100% !important;
+  }
+
+  /* Roadmap: 4 cols → 2×2 grid */
+  #roadmap-items {
+    flex-wrap: wrap !important;
+  }
+  #roadmap-items .roadmap-item {
+    flex: 1 1 calc(50% - 4px) !important;
+    min-width: calc(50% - 4px);
+  }
+
+  /* Key Issues: horizontal → vertical */
+  #key-issues-row {
+    flex-direction: column !important;
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     LEADERBOARD.HTML
+     ══════════════════════════════════════════════════════════ */
+
+  /* Filter levels: stack filter groups vertically */
+  .filter-level .flex {
+    flex-direction: column !important;
+    gap: 12px !important;
+    align-items: flex-start !important;
+  }
+
+  .filter-group {
+    flex-wrap: wrap;
+  }
+
+  /* Chart section: 2 cols → 1 col */
+  #chart-section {
+    flex-direction: column !important;
+  }
+
+  #chart-section .chart-container {
+    height: 240px !important;
+  }
+
+  /* Visual section header: wrap label + sample filter */
+  #visual-section > .flex.justify-between {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+
+  /* compare-row: stack label above images */
+  .compare-row {
+    flex-direction: column !important;
+  }
+  .compare-row-label {
+    width: 100% !important;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    margin-bottom: 4px;
+  }
+  .compare-row-images {
+    width: 100% !important;
+  }
+  .compare-row-images img {
+    width: calc(50% - 4px) !important;
+    height: auto !important;
+    aspect-ratio: 1;
+  }
+
+  /* Metrics table: force horizontal scroll instead of compact truncation */
+  .data-table-wrapper:has(.compact-metrics) {
+    overflow-x: auto !important;
+  }
+  #metrics-table.compact-metrics {
+    table-layout: auto !important;
+    width: max-content !important;
+  }
+  #metrics-table.compact-metrics tbody td {
+    max-width: none !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+    white-space: nowrap !important;
+  }
+  #metrics-table.compact-metrics .model-cell {
+    overflow: visible !important;
+    text-overflow: unset !important;
+  }
+  #metrics-table.compact-metrics thead th {
+    white-space: nowrap !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+  }
+
+  /* 3D viewer height reduction */
+  .lb-pc-wrap {
+    height: 240px !important;
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     INFERENCE-EXPLORER.HTML
+     ══════════════════════════════════════════════════════════ */
+
+  /* ── Sidebar Drawer ── */
+  .explorer-sidebar {
+    position: fixed !important;
+    left: 0;
+    top: 0;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    max-width: 70vw;
+    z-index: 200;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    background: rgba(10,5,32,0.98) !important;
+    padding-top: 60px !important;
+    border-right: 1px solid var(--border-subtle);
+    border-radius: 0 !important;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  body.sidebar-open .explorer-sidebar {
+    transform: translateX(0);
+  }
+
+  .sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 199;
+  }
+
+  body.sidebar-open .sidebar-backdrop {
+    display: block;
+  }
+
+  .sidebar-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+    padding: 10px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: #a78bfa;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    min-height: 44px;
+  }
+
+  /* Main content: full width when sidebar is hidden */
+  .explorer-main {
+    width: 100% !important;
+  }
+
+  /* ── Experiment Statistics: 6 cards → 3×2 ── */
+  #exp-stats .flex.gap-12 {
+    flex-wrap: wrap !important;
+  }
+  #exp-stats .perf-card.flex-1 {
+    flex: 1 1 calc(33.3% - 8px) !important;
+    min-width: calc(33.3% - 8px) !important;
+  }
+
+  /* ── VS Comparison Panel: horizontal → vertical ── */
+  #cmp-model-selector > div {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+  /* VS text: horizontal divider style */
+  #cmp-model-selector > div > div[style*="font-size:20px"] {
+    padding: 4px 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+  }
+
+  /* ── Detail Performance Cards: 4 cols → 2×2 ── */
+  #detail-perf .flex.gap-12 {
+    flex-wrap: wrap !important;
+  }
+  #detail-perf .perf-card {
+    flex: 1 1 calc(50% - 6px) !important;
+    min-width: calc(50% - 6px) !important;
+  }
+
+  /* ── Comparison filter groups ── */
+  #comparisons-view .filter-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  #comparisons-view .filter-group .gf-label {
+    margin-bottom: 2px;
+  }
+
+  /* ── Comparison chart heights ── */
+  #cmp-radar-section div[style*="height:340px"] {
+    height: 280px !important;
+  }
+  #cmp-bar-section div[style*="height:300px"] {
+    height: 250px !important;
+  }
+
+  /* ── Comparison image grid: 3 cols → 2 cols ── */
+  .cmp-img-row {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* ── 3D eval viewer height ── */
+  .eval3d-canvas-wrap {
+    height: 220px !important;
+  }
+
+  /* ── Inference Explorer: 3D point cloud viewer height ── */
+  #pc-canvas-wrap {
+    height: 280px !important;
+  }
+
+  /* ── 3D viewer touch ── */
+  .lb-pc-wrap canvas,
+  .pc-viewer-container canvas,
+  .eval3d-panel canvas {
+    touch-action: none;
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     ROUND 2 — Touch Targets & Interaction Fixes
+     ══════════════════════════════════════════════════════════ */
+
+  /* H2: filter-group row-gap when pills wrap */
+  .filter-group {
+    row-gap: 6px;
+  }
+
+  /* H3: 3D viewer control touch targets */
+  .cmp-model-pill {
+    padding: 8px 14px !important;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .pc-sample-btn {
+    width: 36px !important;
+    height: 36px !important;
+    min-height: 36px;
+  }
+  .pc-color-btn,
+  .eval3d-channel-btn,
+  .lb-pc-sbtn,
+  .lb-pc-cbtn,
+  .lb-eval3d-chbtn {
+    min-height: 32px;
+    padding: 4px 10px !important;
+  }
+
+  /* H5: detail-view breadcrumb truncation */
+  #detail-breadcrumb {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 60%;
+    min-width: 0;
+  }
+
+  /* H6: "View Leaderboard →" link touch targets (index.html) */
+  .domain-card a[href*="leaderboard"] {
+    display: inline-block;
+    padding: 8px 16px;
+    min-height: 44px;
+    line-height: 28px;
+  }
+
+  /* H7: KPI ring + label grouping — wrap as a unit */
+  #kpi-stats .progress-ring,
+  #kpi-stats .progress-ring + div {
+    flex-shrink: 0;
+  }
+
+  /* H8: model-bar-track full width */
+  .model-bar-track {
+    width: 100% !important;
+  }
+
+  /* Leaderboard collapsible header touch target */
+  .collapsible-header {
+    min-height: 44px;
+    -webkit-tap-highlight-color: rgba(129,140,248,0.15);
+  }
+  .collapsible-header:active {
+    background: rgba(255,255,255,0.04);
+    border-radius: 16px;
+  }
+
+  /* Footer link touch targets */
+  .page-footer a {
+    padding: 8px 4px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     ROUND 3 — Polish & Performance
+     ══════════════════════════════════════════════════════════ */
+
+  /* M2: 3D viewer bar labels legibility */
+  .lb-pc-bar label,
+  .lb-eval3d-bar label {
+    font-size: 10px !important;
+  }
+  .lb-eval3d-stats {
+    font-size: 10px !important;
+  }
+
+  /* M3: chart container padding reduction for more render area */
+  .chart-container {
+    padding: 8px !important;
+  }
+
+  /* M5: sample buttons strip — enforce consistent grid */
+  .pc-sample-strip {
+    gap: 3px !important;
+  }
+
+  /* M6: iOS sidebar momentum scroll */
+  .explorer-sidebar {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  /* M7: glass card padding reduction on mobile */
+  .glass {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+  .explorer-sidebar.glass {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  /* M8: header margin reduction */
+  .page-content > div:first-child {
+    margin-bottom: 16px !important;
+  }
+
+  /* M10: scope glass transition for mobile performance */
+  .glass {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
+  }
+
+  /* M11: empty state padding reduction */
+  .empty-state {
+    padding: 30px 16px !important;
+  }
+
+  /* M12: image card caption legibility */
+  .image-card .caption {
+    font-size: 10px;
+  }
+
+}
