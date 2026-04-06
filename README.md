@@ -27,18 +27,20 @@ This benchmark is intended solely for academic and research evaluation purposes.
 | Domain | Models |
 |--------|--------|
 | **2D Generation** | GAN, VAE, DCGAN, LSGAN, WGAN-CP, WGAN-GP, R1GAN, DDPM, VQVAE |
-| **3D Generation** | DeepSDF, GAN3D, PointFlow, VAE, VQVAE |
-| **3D Evaluation** | Predictive models for engineering performance estimation |
+| **3D Generation** | 3D-GAN, DeepSDF, PointFlow, ShapeGF, AtlasNet, Diffusion3D |
+| **3D Evaluation** | Transolver++, AB-UPT, Transolver, PointNet, RegDGCNN |
 
-All models are benchmarked across four dataset sizes — **S** (50), **M** (100), **L** (200), **XL** (500) — to assess data efficiency and scalability.
+All models are benchmarked across four dataset sizes to assess data efficiency and scalability:
+- **2D Generation:** S (50), M (100), L (200), XL (500)
+- **3D Generation / Evaluation:** S (20), M (50), L (100), XL (200)
 
 ## Evaluation Metrics
 
 | Domain | Metrics |
 |--------|---------|
-| **2D Generation** | IS, FID, MS-SSIM, LPIPS, PSNR, Precision, Recall, Density, Coverage |
-| **3D Generation** | FPD (Fréchet Point-cloud Distance) |
-| **3D Evaluation** | MSE, MAE, R² |
+| **2D Generation** | IS, FID, LPIPS, PSNR, MS-SSIM, Precision, Density, Recall, Coverage, Train Time, Infer Time |
+| **3D Generation** | MV-FID, FPD, CD, EMD, F-Score, MS-SSIM, Precision, Recall, Density, Coverage, Train Time, Infer Time |
+| **3D Evaluation** | MAE, RMSE, MAPE, R², Rel-L2, MaxAE, MAC, Train Time, Infer Time |
 
 Models are ranked using **BenchRank**, a graph-based ranking system combining Spearman correlation with debiased PageRank scoring for robust multi-metric evaluation.
 
@@ -55,7 +57,7 @@ Models are ranked using **BenchRank**, a graph-based ranking system combining Sp
 
 | Page | Description |
 |------|-------------|
-| **Overview** | Mission statement, KPI dashboard, benchmark pipeline visualization, and domain status |
+| **Overview** | Statement, purpose, mission & KPI, benchmark pipeline, domain status, roadmap, and ultimate goal |
 | **Leaderboard** | Interactive model rankings with filtering by dimension, task, and dataset size |
 | **Inference Explorer** | Side-by-side model comparison with synchronized 3D viewers and generated image galleries |
 
