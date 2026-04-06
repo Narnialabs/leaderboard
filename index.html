@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Narnia Labs — AI Benchmark Dashboard</title>
+<title>Narnia Labs — AI Benchmark Leaderboard</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,17 +22,17 @@
 
 <!-- Header -->
 <div style="text-align:center; margin-bottom:28px;">
-  <div style="font-size:32px; font-weight:900; color:#fff; line-height:1.3; letter-spacing:-0.5px;">AI Benchmark Overview</div>
-  <div style="font-size:16px; color:rgba(255,255,255,0.4); margin-top:4px;">Model Evaluation · Ranking · Visualization Dashboard</div>
+  <div style="font-size:32px; font-weight:900; color:#fff; line-height:1.3; letter-spacing:-0.5px;">AI Benchmark Leaderboard</div>
+  <div style="font-size:16px; color:rgba(255,255,255,0.4); margin-top:4px;">Model Evaluation · Metrics · Visualization</div>
   <div style="width:36px; height:2px; background:linear-gradient(90deg, transparent, #7c3aed, transparent); margin:14px auto 0;"></div>
 </div>
 
 <!-- TF Statement -->
-<div class="glass" style="padding:22px 28px; margin-bottom:16px; position:relative; overflow:hidden; background:linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(255,255,255,0.02) 100%); border:1px solid rgba(167,139,250,0.15);">
-  <div class="top-line" style="background:linear-gradient(90deg, transparent, rgba(167,139,250,0.3), transparent);"></div>
-  <div style="font-size:11px; font-weight:700; color:#a78bfa; letter-spacing:2px; text-transform:uppercase; margin-bottom:12px;">Mission Statement</div>
+<div class="glass" style="padding:24px 28px; margin-bottom:16px; position:relative; overflow:hidden; text-align:center; background:linear-gradient(135deg, rgba(124,58,237,0.12) 0%, rgba(255,255,255,0.02) 100%); border:1px solid rgba(167,139,250,0.2);">
+  <div class="top-line" style="background:linear-gradient(90deg, transparent, rgba(167,139,250,0.4), rgba(56,189,248,0.3), transparent);"></div>
+  <div style="font-size:10px; font-weight:700; color:#a78bfa; letter-spacing:3px; text-transform:uppercase; margin-bottom:12px;">The Statement</div>
   <div style="font-size:18px; color:#fff; font-weight:700; text-align:center; line-height:1.5; margin-bottom:14px;">
-    "<span style="color:#c4b5fd">Delivering Real-World Value</span> AI Benchmark Leaderboard"
+    "<span style="color:#c4b5fd">Delivering Real-World Value,</span> <span style="white-space:nowrap;">Objective Model Evaluation</span>"
   </div>
   <div class="flex" style="justify-content:center; gap:10px; margin-bottom:14px; flex-wrap:wrap;">
     <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:8px 14px; font-size:13px; color:rgba(255,255,255,0.7); display:flex; align-items:center; gap:6px;">
@@ -46,6 +46,20 @@
     <div style="text-align:center;"><div style="font-size:10px; color:#a78bfa; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;">First Principle</div><div style="font-size:13px; color:rgba(255,255,255,0.6); margin-top:3px;">Objective Performance Comparison</div></div>
     <div style="text-align:center;"><div style="font-size:10px; color:#a78bfa; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;">Metrics</div><div style="font-size:13px; color:rgba(255,255,255,0.6); margin-top:3px;">Cross-model Generality</div></div>
     <div style="text-align:center;"><div style="font-size:10px; color:#a78bfa; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;">Rankers</div><div style="font-size:13px; color:rgba(255,255,255,0.6); margin-top:3px;">Contextual Optimal Selection</div></div>
+  </div>
+</div>
+
+<!-- Purpose -->
+<div class="glass" style="padding:16px 20px; margin-bottom:16px;">
+  <div class="section-label section-label-purple" style="margin-bottom:10px;">Purpose</div>
+  <div style="font-size:14px; color:rgba(255,255,255,0.7); line-height:1.7; margin-bottom:12px; text-align:center;">
+    <p style="margin:0 0 10px 0;">With an ever-growing number of AI models, <span style="color:#c4b5fd; font-weight:600;">choosing the right one</span> for a specific engineering problem is a challenge.</p>
+    <p style="margin:0;">This benchmark exists to answer that question through <span style="color:#c4b5fd; font-weight:600;">objective, data-driven evaluation</span> — so teams can make informed decisions, not assumptions.</p>
+  </div>
+  <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;">
+    <div style="font-size:11px; color:#c4b5fd; background:rgba(124,58,237,0.1); padding:4px 14px; border-radius:20px; border:1px solid rgba(167,139,250,0.15);">Data-Driven Selection</div>
+    <div style="font-size:11px; color:#c4b5fd; background:rgba(124,58,237,0.1); padding:4px 14px; border-radius:20px; border:1px solid rgba(167,139,250,0.15);">Engineering-First</div>
+    <div style="font-size:11px; color:#c4b5fd; background:rgba(124,58,237,0.1); padding:4px 14px; border-radius:20px; border:1px solid rgba(167,139,250,0.15);">No Assumptions</div>
   </div>
 </div>
 
@@ -97,7 +111,7 @@
       <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-top:2px;">Inference → Metrics → Summary Report</div>
     </div>
     <svg width="28" height="12" viewBox="0 0 28 12" style="flex-shrink:0;"><path d="M0 6h20M16 2l6 4-6 4" fill="none" stroke="rgba(129,140,248,0.4)" stroke-width="1.5" stroke-linecap="round"/></svg>
-    <div class="step-box accent" onclick="toggleStep(2)">
+    <div class="step-box" onclick="toggleStep(2)">
       <div style="font-size:10px; color:#818cf8; font-weight:700; letter-spacing:1px;">STEP C</div>
       <div style="font-size:13px; color:#fff; margin-top:3px; font-weight:500;">BenchRank</div>
       <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-top:2px;">Debiased Weights → Dominance → PageRank</div>
@@ -313,7 +327,7 @@
 </div>
 
 <!-- Ultimate Goal -->
-<div style="background:linear-gradient(135deg, rgba(124,58,237,0.12) 0%, rgba(255,255,255,0.02) 100%); border:1px solid rgba(167,139,250,0.2); border-radius:16px; padding:24px 28px; text-align:center; position:relative; overflow:hidden; margin-bottom:16px;">
+<div class="glass" style="background:linear-gradient(135deg, rgba(124,58,237,0.12) 0%, rgba(255,255,255,0.02) 100%); border:1px solid rgba(167,139,250,0.2); padding:24px 28px; text-align:center; position:relative; overflow:hidden; margin-bottom:16px;">
   <div class="top-line" style="background:linear-gradient(90deg, transparent, rgba(167,139,250,0.4), rgba(56,189,248,0.3), transparent);"></div>
   <div style="font-size:10px; font-weight:700; color:#a78bfa; letter-spacing:3px; text-transform:uppercase;">Ultimate Goal</div>
   <div style="font-size:25px; font-weight:900; color:#fff; margin-top:8px;">Agentic Leaderboard</div>
@@ -325,20 +339,6 @@
     <div style="font-size:11px; color:#c4b5fd; background:rgba(124,58,237,0.1); padding:4px 14px; border-radius:20px; border:1px solid rgba(167,139,250,0.15);">Universal Metrics</div>
     <div style="font-size:11px; color:#c4b5fd; background:rgba(124,58,237,0.1); padding:4px 14px; border-radius:20px; border:1px solid rgba(167,139,250,0.15);">Context-aware Recommendation</div>
     <div style="font-size:11px; color:#c4b5fd; background:rgba(124,58,237,0.1); padding:4px 14px; border-radius:20px; border:1px solid rgba(167,139,250,0.15);">Auto-Validation Pipeline</div>
-  </div>
-</div>
-
-<!-- Key Issues -->
-<div style="background:rgba(251,191,36,0.04); border:1px solid rgba(251,191,36,0.12); border-radius:16px; padding:16px 20px;">
-  <div style="font-size:13px; font-weight:800; color:#fbbf24; letter-spacing:1px; margin-bottom:10px;">⚡ Key Challenges — Q2</div>
-  <div class="flex gap-12" id="key-issues-row">
-    <div class="issue-card">
-      <div class="flex" style="align-items:center; gap:8px; margin-bottom:6px;">
-        <span style="font-size:18px;">📐</span>
-        <span style="font-size:14px; font-weight:700; color:#fbbf24;">Domain & Task Expansion</span>
-      </div>
-      <div style="font-size:13px; color:rgba(255,255,255,0.5); line-height:1.6;">2D Eval(Field/Scalar/Time Series), 3D Eval(Scalar/Time Series) benchmark pipeline development</div>
-    </div>
   </div>
 </div>
 

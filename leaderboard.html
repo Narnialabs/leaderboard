@@ -149,11 +149,11 @@ window.addEventListener('unhandledrejection', function(e) {
   <div style="font-size:14px; color:var(--text-tertiary); margin-top:4px;">BenchRank-based Model Ranking · Metric Comparison · Inference Visualization</div>
 </div>
 
-<!-- ═══ FILTERS ═══ -->
+<!-- ═══ FILTERS (unified single box) ═══ -->
+<div class="glass lb-filters" style="padding:16px 20px; margin-bottom:8px;">
 
-<!-- Level 1: Dimension + Task -->
-<div class="glass filter-level" style="padding:16px 20px; margin-bottom:8px;">
-  <div class="flex" style="gap:24px; align-items:center; flex-wrap:wrap;">
+  <!-- Level 1: Dimension + Task -->
+  <div class="lb-filter-row" style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;">
     <div class="filter-group">
       <span class="filter-label">Dimension</span>
       <button class="filter-pill active" data-filter="dim" data-value="3d" onclick="setDimension('3d')">3D</button>
@@ -163,11 +163,9 @@ window.addEventListener('unhandledrejection', function(e) {
       <span class="filter-label">Task</span>
     </div>
   </div>
-</div>
 
-<!-- Level 2: Data Size + Dataset -->
-<div class="glass filter-level" style="padding:16px 20px; margin-bottom:8px;" id="level2-filters">
-  <div class="flex" style="gap:24px; align-items:center; flex-wrap:wrap;">
+  <!-- Level 2: Data Size + Dataset -->
+  <div class="lb-filter-row" id="level2-filters" style="display:flex; gap:16px; align-items:center; flex-wrap:wrap; margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.06);">
     <div class="filter-group" id="size-filter">
       <span class="filter-label">Data Size</span>
     </div>
@@ -175,11 +173,9 @@ window.addEventListener('unhandledrejection', function(e) {
       <span class="filter-label">Dataset</span>
     </div>
   </div>
-</div>
 
-<!-- Level 3: Target Key + Dimension (3D eval only) -->
-<div class="glass filter-level" style="padding:16px 20px; margin-bottom:8px; display:none;" id="level3-filters">
-  <div class="flex" style="gap:24px; align-items:center; flex-wrap:wrap;">
+  <!-- Level 3: Target Key + Dimension (3D eval only) -->
+  <div class="lb-filter-row" id="level3-filters" style="display:none; gap:16px; align-items:center; flex-wrap:wrap; margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.06);">
     <div class="filter-group" id="targetkey-filter">
       <span class="filter-label">Target Key</span>
     </div>
@@ -187,6 +183,7 @@ window.addEventListener('unhandledrejection', function(e) {
       <span class="filter-label">Dimension</span>
     </div>
   </div>
+
 </div>
 
 <!-- Loading -->
@@ -395,13 +392,13 @@ function renderTaskFilter() {
     state.task = 'generation';
     document.getElementById('task-filter').innerHTML = `
       <span class="filter-label">Task</span>
-      <button class="filter-pill active">Generation</button>
+      <span class="pill-wrap"><button class="filter-pill active">Generation</button></span>
     `;
   } else {
     document.getElementById('task-filter').innerHTML = `
       <span class="filter-label">Task</span>
-      <button class="filter-pill ${state.task==='generation'?'active':''}" onclick="setTask('generation',this)">Generation</button>
-      <button class="filter-pill ${state.task==='evaluation'?'active':''}" onclick="setTask('evaluation',this)">Evaluation</button>
+      <span class="pill-wrap"><button class="filter-pill ${state.task==='generation'?'active':''}" onclick="setTask('generation',this)">Generation</button>
+      <button class="filter-pill ${state.task==='evaluation'?'active':''}" onclick="setTask('evaluation',this)">Evaluation</button></span>
     `;
   }
 }
@@ -416,22 +413,22 @@ function renderLevel2Filters(opts) {
 
   document.getElementById('size-filter').innerHTML = `
     <span class="filter-label">Data Size</span>
-    ${available.map(s => {
+    <span class="pill-wrap">${available.map(s => {
       const code = SCALE_MAP[s];
       return `<button class="filter-pill ${s===state.dataScale?'active':''}"
               onclick="setDataScale('${s}',this)">${code} (${scaleToSize[s]||''})</button>`;
-    }).join('')}
+    }).join('')}</span>
   `;
 
   // state.dataset stays null by default → "All" is active
   document.getElementById('dataset-filter').innerHTML = `
     <span class="filter-label">Dataset</span>
-    <button class="filter-pill ${!state.dataset?'active':''}"
+    <span class="pill-wrap"><button class="filter-pill ${!state.dataset?'active':''}"
             onclick="setDataset('all',this)">All</button>
     ${opts.datasets.map(ds => {
       return `<button class="filter-pill ${ds===state.dataset?'active':''}"
               onclick="setDataset('${ds}',this)">${displayDataset(ds)}</button>`;
-    }).join('')}
+    }).join('')}</span>
   `;
 }
 
@@ -456,7 +453,7 @@ function setDataset(ds, btn) {
 function renderLevel3Filters(opts) {
   const c = document.getElementById('level3-filters');
   if (state.dim !== '3d' || state.task !== 'evaluation') { c.style.display = 'none'; return; }
-  c.style.display = 'block';
+  c.style.display = 'flex';
 
   // Always show all target keys in absolute order; clicking a specific one auto-selects its paired dataset
   const tks = state.dataset
@@ -1136,7 +1133,7 @@ function render3DGenAllModels(container, data, rankOrder) {
 
       for (let s = 0; s < sampleCount; s++) {
         const viewerId = `lb-pc-${model}-${ds}-s${s}`.replace(/[^a-zA-Z0-9-]/g, '_');
-        const widthPct = sampleCount <= 2 ? `calc(${100/sampleCount}% - 6px)` : 'calc(25% - 6px)';
+        const widthPct = (isMobileGen || sampleCount <= 2) ? `calc(50% - 6px)` : 'calc(25% - 6px)';
         const widthStyle = `width:${widthPct}; min-width:${widthPct};`;
         html += `<div id="${viewerId}" class="lb-pc-viewer" data-model="${model}" data-size="${dataSize}" data-dataset="${ds}" data-sample="${s}" data-viewer-height="${viewerHeight}" data-sync-group="${syncGroup}" style="${widthStyle}">
           <div style="text-align:center; padding:20px; color:rgba(255,255,255,0.3); font-size:13px;">Sample ${s}</div>

@@ -92,10 +92,13 @@
     display: inline-flex;
     align-items: center;
   }
-
-  .filter-level .filter-pill {
-    padding: 6px 14px;
-    min-height: 40px;
+  /* Override: leaderboard unified filters use tighter pills (wins over 44px above) */
+  .lb-filters .filter-pill {
+    padding: 4px 10px !important;
+    min-height: 32px !important;
+    font-size: 12px !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
   }
 
   .tree-item {
@@ -104,8 +107,9 @@
   }
 
   .gf-pill {
-    padding: 8px 14px;
+    padding: 6px 11px;
     min-height: 40px;
+    font-size: 12px;
     display: inline-flex;
     align-items: center;
   }
@@ -114,10 +118,15 @@
      Font Size Adjustments
      ────────────────────────────────────────────────────────── */
   .section-label { font-size: 12px; }
-  .perf-label { font-size: 10px; }
+  .perf-label { font-size: 11px; }
   .data-table { font-size: 12px; }
-  .data-table thead th { font-size: 10px; }
-  .metric-tag { font-size: 10px; }
+  .data-table thead th { font-size: 11px; }
+  .data-table .type-cell { font-size: 11px; }
+  .metric-tag { font-size: 11px; }
+  .model-bar-overlay { font-size: 11px; }
+  .model-bar-info { font-size: 11px; }
+  .visual-card-label { font-size: 11px; }
+  .compare-row-label .sub { font-size: 11px; }
   .page-footer .text { font-size: 11px; }
 
   /* ──────────────────────────────────────────────────────────
@@ -131,7 +140,7 @@
     content: '\2190 scroll \2192';
     display: block;
     text-align: right;
-    font-size: 9px;
+    font-size: 11px;
     color: rgba(255,255,255,0.3);
     padding: 4px 4px 0;
   }
@@ -203,15 +212,38 @@
      LEADERBOARD.HTML
      ══════════════════════════════════════════════════════════ */
 
-  /* Filter levels: stack filter groups vertically */
-  .filter-level .flex {
-    flex-direction: column !important;
-    gap: 12px !important;
-    align-items: flex-start !important;
+  /* Unified filter box — compact like inference-explorer */
+  .lb-filters {
+    padding: 12px 14px !important;
   }
 
-  .filter-group {
+  .lb-filter-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 6px !important;
+  }
+
+  /* Separator lines between filter rows — thinner on mobile */
+  .lb-filter-row + .lb-filter-row {
+    margin-top: 8px !important;
+    padding-top: 8px !important;
+  }
+
+  .lb-filters .filter-group {
     flex-wrap: wrap;
+    row-gap: 4px;
+    gap: 5px;
+  }
+
+  /* (pill sizing consolidated into .lb-filters .filter-pill above) */
+
+  /* Compact label — full-width to push pills to next line */
+  .lb-filters .filter-label {
+    font-size: 12px;
+    letter-spacing: 1px;
+    margin-right: 0;
+    color: rgba(255,255,255,0.45);
+    width: 100%;
   }
 
   /* Chart section: 2 cols → 1 col */
@@ -347,17 +379,42 @@
     min-width: calc(33.3% - 8px) !important;
   }
 
-  /* ── VS Comparison Panel: horizontal → vertical ── */
+  /* ── VS Comparison Panel: keep side-by-side, hide VS ── */
   #cmp-model-selector > div {
-    flex-direction: column !important;
-    gap: 12px !important;
+    flex-direction: row !important;
+    gap: 6px !important;
   }
-  /* VS text: horizontal divider style */
+  /* VS text: hide on mobile */
   #cmp-model-selector > div > div[style*="font-size:20px"] {
-    padding: 4px 0;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    text-align: center;
+    display: none !important;
+  }
+  /* Model A/B boxes: tighter padding */
+  #cmp-model-selector > div > div[style*="flex:1"] {
+    padding: 8px 10px !important;
+  }
+  #cmp-model-selector > div > div[style*="flex:1"] > div:first-child {
+    font-size: 11px !important;
+    margin-bottom: 5px !important;
+  }
+
+  /* (cmp-tk/dim pills now covered by #comparisons-view .filter-group > div[id^="cmp-"] below) */
+
+  /* ── Comparison visual section header: stack + compact nav ── */
+  #cmp-visual-section > .flex.justify-between {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+  #cmp-sample-nav {
+    gap: 4px !important;
+  }
+  #cmp-sample-nav .gf-pill {
+    padding: 4px 8px !important;
+    min-height: 32px !important;
+  }
+  #cmp-sample-idx {
+    min-width: 40px !important;
+    font-size: 11px !important;
   }
 
   /* ── Detail Performance Cards: 4 cols → 2×2 ── */
@@ -369,14 +426,36 @@
     min-width: calc(50% - 6px) !important;
   }
 
-  /* ── Comparison filter groups ── */
-  #comparisons-view .filter-group {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
+  /* ── Comparison filter groups: match leaderboard unified style ── */
+  #comparisons-view .flex.gap-16 {
+    flex-direction: column !important;
+    gap: 6px !important;
+    align-items: flex-start !important;
   }
+  #comparisons-view .filter-group {
+    flex-wrap: wrap;
+    row-gap: 4px;
+    gap: 5px;
+    width: 100%;
+  }
+  /* Label takes full width — pills flow below (matches leaderboard) */
   #comparisons-view .filter-group .gf-label {
-    margin-bottom: 2px;
+    font-size: 12px;
+    width: 100%;
+  }
+  /* Pill container: break inline-flex to allow wrapping below label */
+  #comparisons-view .filter-group > div[id^="cmp-"] {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+    margin-left: 0 !important;
+  }
+  /* Pill sizing: match leaderboard filter-pill */
+  #comparisons-view .gf-pill {
+    padding: 4px 10px !important;
+    min-height: 32px !important;
+    font-size: 12px !important;
+    border-radius: 6px !important;
   }
 
   /* ── Comparison chart heights ── */
@@ -387,9 +466,9 @@
     height: 250px !important;
   }
 
-  /* ── Comparison image grid: 3 cols → 2 cols ── */
+  /* ── Comparison image grid: 1 col (stack vertically within each half) ── */
   .cmp-img-row {
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: 1fr !important;
   }
 
   /* ── 3D eval viewer height ── */
@@ -413,17 +492,16 @@
      ROUND 2 — Touch Targets & Interaction Fixes
      ══════════════════════════════════════════════════════════ */
 
-  /* H2: filter-group row-gap when pills wrap */
-  .filter-group {
-    row-gap: 6px;
-  }
-
   /* H3: 3D viewer control touch targets */
   .cmp-model-pill {
-    padding: 8px 14px !important;
+    padding: 6px 10px !important;
     min-height: 44px;
+    font-size: 11px !important;
     display: inline-flex;
     align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
   .pc-sample-btn {
     width: 36px !important;
@@ -492,10 +570,10 @@
   /* M2: 3D viewer bar labels legibility */
   .lb-pc-bar label,
   .lb-eval3d-bar label {
-    font-size: 10px !important;
+    font-size: 11px !important;
   }
   .lb-eval3d-stats {
-    font-size: 10px !important;
+    font-size: 11px !important;
   }
 
   /* M3: chart container padding reduction for more render area */
@@ -541,7 +619,7 @@
 
   /* M12: image card caption legibility */
   .image-card .caption {
-    font-size: 10px;
+    font-size: 11px;
   }
 
 }

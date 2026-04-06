@@ -84,7 +84,7 @@
   .cmp-half { flex: 1; min-width: 0; }
   .cmp-img-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
   .cmp-img-row img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); background: #08051a; }
-  @media (max-width: 900px) { .cmp-grid { flex-direction: column; } }
+  @media (max-width: 900px) { .cmp-grid { gap: 8px; } }
 </style>
 </head>
 <body>
@@ -128,20 +128,18 @@
     </div>
     <div class="tree-children" id="tree-3d-gen"></div>
 
-    <div style="margin-top:16px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.06);">
-      <div class="section-label" style="color:rgba(255,255,255,0.3); margin-bottom:8px;">Comparisons</div>
-      <div class="tree-item" onclick="showComparisons('mathematical')" style="font-weight:700;" id="sidebar-cmp-math">
-        <span class="icon">▸</span> Mathematical Analysis
-      </div>
-      <div class="tree-item" onclick="showComparisons('qualitative')" style="font-weight:700;" id="sidebar-cmp-qual">
-        <span class="icon">▸</span> Qualitative Analysis
-      </div>
+    <div class="section-label section-label-purple" style="margin-top:16px; margin-bottom:12px;">Comparisons</div>
+    <div class="tree-item" onclick="showComparisons('mathematical')" style="font-weight:700;" id="sidebar-cmp-math">
+      <span class="icon">▸</span> Mathematical Analysis
+    </div>
+    <div class="tree-item" onclick="showComparisons('qualitative')" style="font-weight:700;" id="sidebar-cmp-qual">
+      <span class="icon">▸</span> Qualitative Analysis
     </div>
   </div>
 
   <!-- Main Content -->
   <div class="explorer-main">
-    <button class="sidebar-toggle" aria-label="Experiments menu">&#9776; Experiments</button>
+    <button class="sidebar-toggle" aria-label="Explorer menu">&#9776; Explorer</button>
     <div class="sidebar-backdrop"></div>
     <!-- Default: Summary Cards -->
     <div id="summary-view">
@@ -595,7 +593,7 @@ function backToSummary() {
 // ══════════════════════════════════════════
 const cmpState = {
   dim: '3d', task: 'generation', dataScale: null, dataset: null,
-  targetKey: null, dimension: null, modelA: null, modelB: null, sampleIndex: 0,
+  targetKey: null, dimension: null, modelA: null, modelB: null, sortedModels: [], sampleIndex: 0,
   mode: 'qualitative',
 };
 let cmpAllSummary = [];
@@ -776,19 +774,37 @@ window.cmpSetDimFilter = function(v, btn) {
   cmpApplyFilters();
 };
 
-function cmpApplyFilters() {
+async function cmpApplyFilters() {
   const filters = { dataset: cmpState.dataset, dataScale: cmpState.dataScale };
   if (cmpState.dim === '3d' && cmpState.task === 'evaluation') {
     filters.targetKey = cmpState.targetKey;
     filters.dimension = cmpState.dimension;
   }
   cmpFiltered = filterSummaryData(cmpAllSummary, filters);
-  const models = [...new Set(cmpFiltered.map(r => r['Model Name']))].sort();
+  let models = [...new Set(cmpFiltered.map(r => r['Model Name']))];
+
+  // Sort models by leaderboard ranking (XL size, default dataset)
+  try {
+    const cat = cmpCategory();
+    const tk = (cmpState.dim === '3d' && cmpState.task === 'evaluation') ? cmpState.targetKey : undefined;
+    const lb = await loadLeaderboard(cat, 'XL', undefined, tk);
+    if (lb && lb.length) {
+      const rankMap = {};
+      lb.forEach(r => { rankMap[r['Model']] = parseInt(r['Rank']) || 999; });
+      models.sort((a, b) => (rankMap[a] || 999) - (rankMap[b] || 999));
+    } else {
+      models.sort();
+    }
+  } catch(e) {
+    models.sort();
+  }
+
   if (!cmpState.modelA || !models.includes(cmpState.modelA)) cmpState.modelA = models[0] || null;
   if (!cmpState.modelB || !models.includes(cmpState.modelB)) cmpState.modelB = models[1] || models[0] || null;
   if (cmpState.modelA === cmpState.modelB && models.length > 1) {
     cmpState.modelB = models.find(m => m !== cmpState.modelA) || models[0];
   }
+  cmpState.sortedModels = models;
   cmpRenderModelPills(models);
   document.getElementById('cmp-loading').style.display = 'none';
   cmpRenderAll();
@@ -805,8 +821,7 @@ function cmpRenderModelPills(models) {
 
 window.cmpSelectModel = function(side, model) {
   if (side === 'A') cmpState.modelA = model; else cmpState.modelB = model;
-  const models = [...new Set(cmpFiltered.map(r => r['Model Name']))].sort();
-  cmpRenderModelPills(models);
+  cmpRenderModelPills(cmpState.sortedModels);
   cmpRenderAll();
 };
 

@@ -274,7 +274,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
 .data-table thead th.sort-desc::after { content: ' ▼'; color: var(--purple-400); }
 .data-table thead th.cat-header {
   text-align: center;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 800;
   padding: 5px 8px;
   border-bottom: none;
@@ -444,8 +444,8 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
 .now-badge {
   position: absolute; top: -7px; left: 50%; transform: translateX(-50%);
   background: linear-gradient(135deg, var(--purple-500), var(--purple-400));
-  color: #fff; font-size: 9px; font-weight: 800;
-  padding: 1px 10px; border-radius: 6px; letter-spacing: 1px;
+  color: #fff; font-size: 11px; font-weight: 800;
+  padding: 2px 10px; border-radius: 6px; letter-spacing: 0.5px;
 }
 
 /* ── Issue Card ── */
@@ -606,11 +606,8 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
   letter-spacing: 1px;
 }
 
-/* ── Filter Levels ── */
-.filter-level {
-  transition: all 0.3s ease;
-}
-.filter-level .filter-pill {
+/* ── Leaderboard Unified Filters ── */
+.lb-filters .filter-pill {
   font-size: 13px;
   padding: 3px 13px;
 }
