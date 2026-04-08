@@ -1397,7 +1397,7 @@ function render3DEvalAllModels(container, data, rankOrder) {
       const el = entry.target;
       if (entry.isIntersecting && !el._evalInitialized) {
         el._evalInitialized = true;
-        window.initLeaderboardEvalViewer(el);
+        window.initLeaderboardEvalViewer(el).catch(e => console.warn('Eval viewer init failed:', e));
       }
       // Pause/resume eval viewer animation
       if (el._evalInitialized && el._evalViewer) {
@@ -1415,8 +1415,9 @@ function render3DEvalAllModels(container, data, rankOrder) {
               if (p.carMesh) { p.carMesh.geometry.dispose(); p.carMesh.material.dispose(); }
             });
             el.innerHTML = '';
+            el._evalViewer = null;
             el._evalInitialized = true;
-            window.initLeaderboardEvalViewer(el);
+            window.initLeaderboardEvalViewer(el).catch(e => console.warn('Eval viewer re-init failed:', e));
           } else if (!v.isAnimating()) {
             v.resume();
           }
@@ -1499,6 +1500,55 @@ function renderBenchRankDetails() {
 // TABLE SORT (generic)
 // ══════════════════════════════════════════
 const PAGE_CACHE_BUST = Date.now();
+
+// ── 3D Eval: global color ranges from manifest ──
+let eval3dManifestPromise = null;
+let eval3dGlobalErrorRangesByKey = {};
+let eval3dGlobalValueRangesByKey = {};
+
+function getEval3DErrorKey(dataset, targetKey, dimension, sizeCode, sampleSlot) {
+  return `${dataset}::${targetKey}::${dimension}::${sizeCode}::${sampleSlot}`;
+}
+
+async function ensureEval3DManifestData() {
+  if (eval3dManifestPromise) return eval3dManifestPromise;
+  eval3dManifestPromise = fetch(`output/eval3d/manifest.json?t=${PAGE_CACHE_BUST}`)
+    .then(resp => resp.ok ? resp.json() : null)
+    .then(manifest => {
+      eval3dGlobalErrorRangesByKey = {};
+      eval3dGlobalValueRangesByKey = {};
+      if (manifest) {
+        (manifest.global_error_ranges || []).forEach(item => {
+          eval3dGlobalErrorRangesByKey[
+            getEval3DErrorKey(item.dataset, item.target_key, item.dimension, item.size, item.sample)
+          ] = item.max_error;
+        });
+        (manifest.global_value_ranges || []).forEach(item => {
+          eval3dGlobalValueRangesByKey[
+            getEval3DErrorKey(item.dataset, item.target_key, item.dimension, item.size, item.sample)
+          ] = { vmin: item.value_min, vmax: item.value_max };
+        });
+      }
+      return manifest;
+    })
+    .catch(() => null);
+  return eval3dManifestPromise;
+}
+
+function getEval3DGlobalErrorMax(dataset, targetKey, dimension, sizeCode, sampleSlot) {
+  const value = eval3dGlobalErrorRangesByKey[
+    getEval3DErrorKey(dataset, targetKey, dimension, sizeCode, sampleSlot)
+  ];
+  return typeof value === 'number' ? value : null;
+}
+
+function getEval3DGlobalValueRange(dataset, targetKey, dimension, sizeCode, sampleSlot) {
+  const value = eval3dGlobalValueRangesByKey[
+    getEval3DErrorKey(dataset, targetKey, dimension, sizeCode, sampleSlot)
+  ];
+  return (value && typeof value.vmin === 'number' && typeof value.vmax === 'number') ? value : null;
+}
+
 let sortState = {};
 
 function sortTable(tableId, colIdx) {
@@ -1968,7 +2018,8 @@ function setEvalCarMesh(panel, carPositions) {
   panel.scene.add(panel.carMesh);
 }
 
-window.initLeaderboardEvalViewer = function(el) {
+window.initLeaderboardEvalViewer = async function(el) {
+  await ensureEval3DManifestData();
   const model = el.dataset.model;
   const dataSize = parseInt(el.dataset.size);
   const sizeCode = el.dataset.sizeCode;
@@ -2133,19 +2184,30 @@ window.initLeaderboardEvalViewer = function(el) {
       }
       const mae = sumAE / numPoints, rmse = Math.sqrt(sumSE / numPoints);
 
-      // Shared color range
-      let vmin = Infinity, vmax = -Infinity;
-      for (let i = 0; i < numPoints; i++) {
-        if (pred[i] < vmin) vmin = pred[i];
-        if (pred[i] > vmax) vmax = pred[i];
-        if (gt[i] < vmin) vmin = gt[i];
-        if (gt[i] > vmax) vmax = gt[i];
+      // Shared color range (cross-model global, local fallback)
+      const globalVR = getEval3DGlobalValueRange(currentDS, currentTK, ch, sizeCode, currentSample);
+      let vmin, vmax;
+      if (globalVR) {
+        vmin = globalVR.vmin;
+        vmax = globalVR.vmax;
+      } else {
+        vmin = Infinity; vmax = -Infinity;
+        for (let i = 0; i < numPoints; i++) {
+          if (pred[i] < vmin) vmin = pred[i];
+          if (pred[i] > vmax) vmax = pred[i];
+          if (gt[i] < vmin) vmin = gt[i];
+          if (gt[i] > vmax) vmax = gt[i];
+        }
       }
+      let errorMax = 0;
+      for (let i = 0; i < numPoints; i++) { if (error[i] > errorMax) errorMax = error[i]; }
+      const globalEM = getEval3DGlobalErrorMax(currentDS, currentTK, ch, sizeCode, currentSample);
+      const errorScaleMax = (typeof globalEM === 'number' && globalEM > 0) ? globalEM : errorMax;
 
       const driv = isDrivAerNet();
       setEvalPanelCloud(panels[0], pos, gt, vmin, vmax, driv);
       setEvalPanelCloud(panels[1], pos, pred, vmin, vmax, driv);
-      setEvalPanelCloud(panels[2], pos, error, 0, Math.max(...error), driv);
+      setEvalPanelCloud(panels[2], pos, error, 0, errorScaleMax, driv);
 
       // Car mesh for DrivAerNet
       if (driv) {
@@ -2171,7 +2233,7 @@ window.initLeaderboardEvalViewer = function(el) {
       const statsEl = document.getElementById(`${id}-stats`);
       if (statsEl) statsEl.textContent = `MAE: ${formatSci(mae)}  RMSE: ${formatSci(rmse)}`;
       const rangeEl = document.getElementById(`${id}-range`);
-      if (rangeEl) rangeEl.textContent = `${numPoints} pts · min: ${formatSci(vmin)} · max: ${formatSci(vmax)}`;
+      if (rangeEl) rangeEl.textContent = `${numPoints} pts · value: ${formatSci(vmin)}..${formatSci(vmax)} · error(global): ${formatSci(errorScaleMax)}`;
 
       // Hide loading
       panels.forEach(p => {

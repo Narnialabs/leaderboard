@@ -1022,9 +1022,7 @@ function cmpRenderVisual() {
     if (cmpState.task === 'evaluation') {
       const dataSize = Math.round((cmpFiltered[0] || {})['Data Size'] || 0);
       const sizeCode = getEval3DSizeCode(dataSize);
-      const rep = getEval3DRepresentativeSample(cmpState.dataset, cmpState.targetKey, sizeCode, startIdx);
-      const sourceSuffix = Number.isInteger(rep.sample_index) ? ` → #${rep.sample_index}` : '';
-      document.getElementById('cmp-sample-idx').textContent = `Rep #${startIdx}${sourceSuffix}`;
+      document.getElementById('cmp-sample-idx').textContent = `#${startIdx}`;
     } else {
       document.getElementById('cmp-sample-idx').textContent =
         nSamples === 1 ? `#${startIdx}` : `#${startIdx}–${startIdx + nSamples - 1}`;
@@ -1156,11 +1154,8 @@ function cmpRender3DEval(container) {
   const sizeCode = getEval3DSizeCode(dataSize);
   const nA=displayModelName(cmpState.modelA), nB=displayModelName(cmpState.modelB);
   const s = cmpState.sampleIndex;
-  const sampleMeta = getEval3DRepresentativeSample(ds, tk, sizeCode, s);
-  const sourceInfo = Number.isInteger(sampleMeta.sample_index) ? ` · SOURCE #${sampleMeta.sample_index}` : '';
-
   // Side-by-side: each half has a single eval viewer that stacks GT/PRED/ERROR vertically
-  let html = `<div style="font-size:10px;color:rgba(255,255,255,0.4);font-weight:700;margin-bottom:8px;letter-spacing:0.5px;">REP ${s}${sourceInfo} · ${tk} · ${channels[chIdx]||''}</div>`;
+  let html = `<div style="font-size:10px;color:rgba(255,255,255,0.4);font-weight:700;margin-bottom:8px;letter-spacing:0.5px;">#${s} · ${tk} · ${channels[chIdx]||''}</div>`;
   html += '<div class="cmp-grid">';
 
   // Model A
@@ -2070,7 +2065,7 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
   // Sample buttons
   const sampleStrip = document.getElementById('eval3d-sample-strip');
   sampleStrip.innerHTML = representativeSamples.map((sample, slot) =>
-    `<button class="pc-sample-btn ${slot === 0 ? 'active' : ''}" onclick="window._evalLoadSample(${slot}, this)" title="Representative slot ${slot} · source #${sample.sample_index}${sample.source_file ? ` · ${getSourceName(sample.source_file)}` : ''}">${slot}</button>`
+    `<button class="pc-sample-btn ${slot === 0 ? 'active' : ''}" onclick="window._evalLoadSample(${slot}, this)" title="Sample ${slot}">${slot}</button>`
   ).join('');
 
   // State
@@ -2185,10 +2180,7 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
       syncEvalControls();
 
       // Update stats
-      const sourceInfo = Number.isInteger(sampleMeta.sample_index)
-        ? `source #${sampleMeta.sample_index}`
-        : `slot #${sampleIdx}`;
-      document.getElementById('eval3d-stats').textContent = `${sourceInfo} · MAE: ${formatSci(stats.mae)}  RMSE: ${formatSci(stats.rmse)}`;
+      document.getElementById('eval3d-stats').textContent = `MAE: ${formatSci(stats.mae)}  RMSE: ${formatSci(stats.rmse)}`;
       document.getElementById('eval3d-range-info').textContent =
         `value: ${formatSci(vmin)}..${formatSci(vmax)} · error(global): ${formatSci(errorScaleMax)} · ${numPoints} points`;
 
@@ -2377,7 +2369,6 @@ window.initCmpEvalViewer = async function(el) {
 
   await ensureEval3DManifestData();
   const sampleMeta = getEval3DRepresentativeSample(ds, tk, sizeCode, sampleIdx);
-  const sourceInfo = Number.isInteger(sampleMeta.sample_index) ? ` · source #${sampleMeta.sample_index}` : '';
 
   const rowStyle = isVertical
     ? `display:flex;flex-direction:column;gap:4px;`
@@ -2404,7 +2395,7 @@ window.initCmpEvalViewer = async function(el) {
         </div>
       </div>
       <div style="display:flex;gap:8px;padding:6px 12px;background:rgba(255,255,255,0.03);border-top:1px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(167,139,250,0.7);font-weight:700;">
-        ${tk} · ${channels[chIdx]} · Rep ${sampleIdx}${sourceInfo}
+        ${tk} · ${channels[chIdx]} · #${sampleIdx}
         <span style="margin-left:auto;font-size:9px;color:rgba(255,255,255,0.3);" id="${id}-range">—</span>
       </div>
     </div>`;
@@ -2502,7 +2493,7 @@ window.initCmpEvalViewer = async function(el) {
         try{const cr=await fetch(carPath);if(cr.ok){const cf=new Float32Array(await cr.arrayBuffer());for(let i=0;i<cf.length/3;i++){const t=cf[i*3+1];cf[i*3+1]=cf[i*3+2];cf[i*3+2]=t;}panels.forEach(p=>setCarMesh(p,cf));}}catch(e){}
       }else{panels.forEach(p=>setCarMesh(p,null));}
       syncFrom(0);
-      const st=document.getElementById(`${id}-stats`);if(st)st.textContent=`${sourceInfo ? sourceInfo.trim() + ' · ' : ''}MAE: ${formatSci(mae)}  RMSE: ${formatSci(rmse)}`;
+      const st=document.getElementById(`${id}-stats`);if(st)st.textContent=`MAE: ${formatSci(mae)}  RMSE: ${formatSci(rmse)}`;
       const rng=document.getElementById(`${id}-range`);if(rng)rng.textContent=`${nP} pts · value: ${formatSci(vmin)}..${formatSci(vmax)} · error(global): ${formatSci(errorScaleMax)}`;
     } catch(e) {
       [gtW,prW,erW].forEach(c=>{c.innerHTML=`<div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(255,255,255,0.4);font-size:10px;">Data N/A</div>`;});
