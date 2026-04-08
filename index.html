@@ -27,10 +27,9 @@
   <div style="width:36px; height:2px; background:linear-gradient(90deg, transparent, #7c3aed, transparent); margin:14px auto 0;"></div>
 </div>
 
-<!-- TF Statement -->
-<div class="glass" style="padding:24px 28px; margin-bottom:16px; position:relative; overflow:hidden; text-align:center; background:linear-gradient(135deg, rgba(124,58,237,0.12) 0%, rgba(255,255,255,0.02) 100%); border:1px solid rgba(167,139,250,0.2);">
+<!-- Statement -->
+<div class="glass" style="padding:24px 28px 14px; margin-bottom:16px; position:relative; overflow:hidden; text-align:center; cursor:pointer; background:linear-gradient(135deg, rgba(124,58,237,0.12) 0%, rgba(255,255,255,0.02) 100%); border:1px solid rgba(167,139,250,0.2);" onclick="togglePurpose()">
   <div class="top-line" style="background:linear-gradient(90deg, transparent, rgba(167,139,250,0.4), rgba(56,189,248,0.3), transparent);"></div>
-  <div style="font-size:10px; font-weight:700; color:#a78bfa; letter-spacing:3px; text-transform:uppercase; margin-bottom:12px;">The Statement</div>
   <div style="font-size:18px; color:#fff; font-weight:700; text-align:center; line-height:1.5; margin-bottom:14px;">
     "<span style="color:#c4b5fd">Delivering Real-World Value,</span> <span style="white-space:nowrap;">Objective Model Evaluation</span>"
   </div>
@@ -42,24 +41,198 @@
       <span style="font-size:15px;">🏭</span>Select models optimized for manufacturing and enterprise projects
     </div>
   </div>
-  <div class="flex" style="justify-content:center; gap:28px;" id="principles-row">
-    <div style="text-align:center;"><div style="font-size:10px; color:#a78bfa; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;">First Principle</div><div style="font-size:13px; color:rgba(255,255,255,0.6); margin-top:3px;">Objective Performance Comparison</div></div>
-    <div style="text-align:center;"><div style="font-size:10px; color:#a78bfa; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;">Metrics</div><div style="font-size:13px; color:rgba(255,255,255,0.6); margin-top:3px;">Cross-model Generality</div></div>
-    <div style="text-align:center;"><div style="font-size:10px; color:#a78bfa; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;">Rankers</div><div style="font-size:13px; color:rgba(255,255,255,0.6); margin-top:3px;">Contextual Optimal Selection</div></div>
+  <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;">
+    <div class="purple-badge">Data-Driven Selection</div>
+    <div class="purple-badge">Engineering-First</div>
+    <div class="purple-badge">No Assumptions</div>
+  </div>
+  <div id="purpose-body" style="display:none; margin-top:10px; padding-top:10px; border-top:1px solid rgba(167,139,250,0.12); text-align:center;">
+    <div style="font-size:13px; color:rgba(255,255,255,0.6); line-height:1.6; max-width:640px; margin:0 auto;">
+      With an ever-growing number of AI models, <span style="color:#c4b5fd; font-weight:600;">choosing the right one</span> for a specific engineering problem is a challenge.
+      This benchmark answers that question through <span style="color:#c4b5fd; font-weight:600;">objective, data-driven evaluation</span><br/>— so teams can make informed decisions, not assumptions.
+    </div>
   </div>
 </div>
 
-<!-- Purpose -->
-<div class="glass" style="padding:16px 20px; margin-bottom:16px;">
-  <div class="section-label section-label-purple" style="margin-bottom:10px;">Purpose</div>
-  <div style="font-size:14px; color:rgba(255,255,255,0.7); line-height:1.7; margin-bottom:12px; text-align:center;">
-    <p style="margin:0 0 10px 0;">With an ever-growing number of AI models, <span style="color:#c4b5fd; font-weight:600;">choosing the right one</span> for a specific engineering problem is a challenge.</p>
-    <p style="margin:0;">This benchmark exists to answer that question through <span style="color:#c4b5fd; font-weight:600;">objective, data-driven evaluation</span> — so teams can make informed decisions, not assumptions.</p>
+<!-- Pipeline -->
+<div class="glass glass-section" id="pipeline-section">
+  <div class="section-label section-label-purple section-header">Benchmark Pipeline</div>
+  <div class="flex" style="align-items:center; justify-content:center; gap:6px;">
+    <div class="step-box" onclick="toggleStep(0)">
+      <div class="step-label">STEP A</div>
+      <div class="step-title">Train &amp; Infer</div>
+      <div class="step-desc">Model + Dataset → Train → Infer → Results</div>
+    </div>
+    <svg width="28" height="12" viewBox="0 0 28 12" style="flex-shrink:0;"><path d="M0 6h20M16 2l6 4-6 4" fill="none" stroke="rgba(129,140,248,0.4)" stroke-width="1.5" stroke-linecap="round"/></svg>
+    <div class="step-box" onclick="toggleStep(1)">
+      <div class="step-label">STEP B</div>
+      <div class="step-title">Calc Metrics</div>
+      <div class="step-desc">Inference → Metrics → Summary Report</div>
+    </div>
+    <svg width="28" height="12" viewBox="0 0 28 12" style="flex-shrink:0;"><path d="M0 6h20M16 2l6 4-6 4" fill="none" stroke="rgba(129,140,248,0.4)" stroke-width="1.5" stroke-linecap="round"/></svg>
+    <div class="step-box" onclick="toggleStep(2)">
+      <div class="step-label">STEP C</div>
+      <div class="step-title">Rank Models</div>
+      <div class="step-desc">Debiased Weights → Dominance → PageRank</div>
+    </div>
   </div>
-  <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;">
-    <div style="font-size:11px; color:#c4b5fd; background:rgba(124,58,237,0.1); padding:4px 14px; border-radius:20px; border:1px solid rgba(167,139,250,0.15);">Data-Driven Selection</div>
-    <div style="font-size:11px; color:#c4b5fd; background:rgba(124,58,237,0.1); padding:4px 14px; border-radius:20px; border:1px solid rgba(167,139,250,0.15);">Engineering-First</div>
-    <div style="font-size:11px; color:#c4b5fd; background:rgba(124,58,237,0.1); padding:4px 14px; border-radius:20px; border:1px solid rgba(167,139,250,0.15);">No Assumptions</div>
+  <div class="step-detail" id="step-detail-0">
+    <span style="color:#818cf8; font-weight:600;">Why</span> — <span style="color:rgba(255,255,255,0.5);">Fair comparison requires identical conditions. Every model must be trained on the same dataset, same scale, same pipeline — no exceptions.</span><br/><br/>
+    <span style="color:#818cf8; font-weight:600;">How</span> — <span style="color:rgba(255,255,255,0.5);">Each model goes through the same standardized training and inference process:</span><br/>
+    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">1. Select a model, dataset (DeepJEB / DrivAerNet), and data scale (S / M / L / XL)</span><br/>
+    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">2. Train on N samples — 2D images at 128×128, or 3D point clouds with 8192 points</span><br/>
+    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">3. Generate exactly <span style="color:#c4b5fd;">500 test samples</span> for standardized evaluation</span><br/><br/>
+    <span style="color:#818cf8; font-weight:600;">What</span> — 500 generated samples + training time + inference time<br/>
+    <span style="color:rgba(255,255,255,0.3); font-size:11px; margin-top:4px; display:inline-block;">Covers GAN · VAE · Diffusion · Flow · Implicit · Transformer · GNN families</span>
+  </div>
+  <div class="step-detail" id="step-detail-1">
+    <span style="color:#818cf8; font-weight:600;">Why</span> — <span style="color:rgba(255,255,255,0.5);">A single metric can be misleading. We measure quality, diversity, and efficiency simultaneously to capture the full picture of model performance.</span><br/><br/>
+    <span style="color:#818cf8; font-weight:600;">How</span> — <span style="color:rgba(255,255,255,0.5);">Each model's 500 samples are compared against 500 real samples across three dimensions:</span><br/>
+    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">1. <span style="color:#c4b5fd;">Quality</span> — How realistic? (FID, IS, PSNR for 2D · CD, EMD, FPD for 3D · MAE, RMSE, R² for eval)</span><br/>
+    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">2. <span style="color:#c4b5fd;">Diversity</span> — How varied? (Precision, Recall, Density, Coverage)</span><br/>
+    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">3. <span style="color:#c4b5fd;">Efficiency</span> — How fast and lightweight? (Parameters, Training time, Inference time)</span><br/><br/>
+    <span style="color:#818cf8; font-weight:600;">What</span> — A metric report per model with ↑ higher-is-better and ↓ lower-is-better indicators<br/>
+    <span style="color:rgba(255,255,255,0.3); font-size:11px; margin-top:4px; display:inline-block;">Covers 2D image · 3D point cloud · 3D field evaluation domains</span>
+  </div>
+  <div class="step-detail" id="step-detail-2">
+    <span style="color:#818cf8; font-weight:600;">Why</span> — <span style="color:rgba(255,255,255,0.5);">Simply averaging metrics is unfair — correlated metrics inflate certain aspects, and different scales make direct comparison meaningless. <span style="color:#c4b5fd; font-weight:600;">BenchRank</span> solves this.</span><br/><br/>
+    <span style="color:#818cf8; font-weight:600;">How</span> — <span style="color:rgba(255,255,255,0.5);">All metric reports are fed into a four-stage ranking pipeline:</span><br/>
+    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">1. <span style="color:#c4b5fd;">Debias</span> — Correlated metrics (e.g. MAE & RMSE) are automatically down-weighted so no single aspect dominates</span><br/>
+    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">2. <span style="color:#c4b5fd;">Dominance</span> — Every model is compared head-to-head across all metrics, building a "who-beats-whom" network</span><br/>
+    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">3. <span style="color:#c4b5fd;">PageRank</span> — The network is scored to produce one global Total Score per model</span><br/>
+    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">4. <span style="color:#c4b5fd;">Dual Branch</span> — Two views: Quality-only and Quality + Efficiency (switchable on the leaderboard)</span><br/><br/>
+    <span style="color:#818cf8; font-weight:600;">What</span> — Ranked leaderboard per data scale (S / M / L / XL) with full metric breakdowns
+  </div>
+</div>
+
+<!-- Domain Cards -->
+<div class="flex gap-12" style="margin-bottom:16px;" id="domain-cards-row">
+  <!-- 3D Gen -->
+  <div class="glass domain-card flex-1" onclick="toggleMetrics('3dg')">
+    <div class="flex" style="justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <div style="font-size:14px; font-weight:800; color:#22c55e; letter-spacing:0.5px;">
+        3D Generation<span class="pill" style="background:#22c55e;">DONE</span>
+      </div>
+      <div class="progress-ring" style="width:38px; height:38px;">
+        <svg width="38" height="38" style="transform:rotate(-90deg);"><circle cx="19" cy="19" r="15.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4"/><circle cx="19" cy="19" r="15.5" fill="none" stroke="#22c55e" stroke-width="4" stroke-dasharray="97.39" stroke-dashoffset="0" stroke-linecap="round" class="ring-progress"/></svg>
+        <div class="label" style="color:#22c55e; font-size:10px;">100%</div>
+      </div>
+    </div>
+    <div class="domain-card-sub">DeepJEB + DrivAerNet · 8192pts · S/M/L/XL</div>
+    <div class="domain-card-count">
+      <span style="color:#4ade80; font-weight:700;">6 Models Complete</span><br/>
+      <span style="font-size:11px; color:rgba(255,255,255,0.35);">3D-GAN, DeepSDF, PointFlow, ShapeGF, AtlasNet, Diffusion3D</span>
+    </div>
+    <div style="margin-top:6px;">
+      <div class="model-bar-track"><div class="model-bar-done" style="width:120px; background:#22c55e;"></div></div>
+      <div class="model-bar-info"><span><span style="color:#22c55e; font-weight:700;">6</span> done</span><span>0 pending</span></div>
+    </div>
+    <div class="best-box">🏆 PointFlow — Best on Total Score</div>
+    <div style="margin-top:8px; text-align:center;">
+      <a href="leaderboard.html?dim=3d&task=generation&size=XL" class="cta-link" onclick="event.stopPropagation()">View Leaderboard →</a>
+    </div>
+    <div class="metrics-panel" id="metrics-3dg" style="border:1px solid rgba(34,197,94,0.12);">
+      <div class="metrics-panel-label" style="color:#22c55e;">METRICS</div>
+      <div>
+        <span class="metric-tag metric-tag-green">MV-FID</span>
+        <span class="metric-tag metric-tag-green">FPD</span>
+        <span class="metric-tag metric-tag-green">CD</span>
+        <span class="metric-tag metric-tag-green">EMD</span>
+        <span class="metric-tag metric-tag-green">F-Score</span>
+        <span class="metric-tag metric-tag-green">MS-SSIM</span>
+        <span class="metric-tag metric-tag-green">Precision</span>
+        <span class="metric-tag metric-tag-green">Recall</span>
+        <span class="metric-tag metric-tag-green">Density</span>
+        <span class="metric-tag metric-tag-green">Coverage</span>
+        <span class="metric-tag metric-tag-green">Train Time</span>
+        <span class="metric-tag metric-tag-green">Infer Time</span>
+      </div>
+    </div>
+    <div class="hint-text" id="hint-3dg">click for metrics</div>
+  </div>
+
+  <!-- 3D Eval -->
+  <div class="glass domain-card flex-1" onclick="toggleMetrics('3de')">
+    <div class="flex" style="justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <div style="font-size:14px; font-weight:800; color:#22c55e; letter-spacing:0.5px;">
+        3D Eval — Field<span class="pill" style="background:#22c55e;">DONE</span>
+      </div>
+      <div class="progress-ring" style="width:38px; height:38px;">
+        <svg width="38" height="38" style="transform:rotate(-90deg);"><circle cx="19" cy="19" r="15.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4"/><circle cx="19" cy="19" r="15.5" fill="none" stroke="#22c55e" stroke-width="4" stroke-dasharray="97.39" stroke-dashoffset="0" stroke-linecap="round" class="ring-progress"/></svg>
+        <div class="label" style="color:#22c55e; font-size:10px;">100%</div>
+      </div>
+    </div>
+    <div class="domain-card-sub">DeepJEB + DrivAerNet · 8192pts · S/M/L/XL</div>
+    <div class="domain-card-count">
+      <span style="color:#4ade80; font-weight:700;">5 Models Complete</span><br/>
+      <span style="font-size:11px; color:rgba(255,255,255,0.35);">Transolver++, AB-UPT, Transolver, PointNet, RegDGCNN</span>
+    </div>
+    <div style="margin-top:6px;">
+      <div class="model-bar-track"><div class="model-bar-done" style="width:120px; background:#22c55e;"></div></div>
+      <div class="model-bar-info"><span><span style="color:#22c55e; font-weight:700;">5</span> done</span><span>0 pending</span></div>
+    </div>
+    <div class="best-box">🏆 Transolver — Best on Total Score</div>
+    <div style="margin-top:8px; text-align:center;">
+      <a href="leaderboard.html?dim=3d&task=evaluation&size=XL" class="cta-link" onclick="event.stopPropagation()">View Leaderboard →</a>
+    </div>
+    <div class="metrics-panel" id="metrics-3de" style="border:1px solid rgba(56,189,248,0.12);">
+      <div class="metrics-panel-label" style="color:#38bdf8;">METRICS</div>
+      <div>
+        <span class="metric-tag metric-tag-blue">MAE</span>
+        <span class="metric-tag metric-tag-blue">RMSE</span>
+        <span class="metric-tag metric-tag-blue">MAPE</span>
+        <span class="metric-tag metric-tag-blue">R²</span>
+        <span class="metric-tag metric-tag-blue">Rel-L2</span>
+        <span class="metric-tag metric-tag-blue">MaxAE</span>
+        <span class="metric-tag metric-tag-blue">MAC</span>
+        <span class="metric-tag metric-tag-blue">Train Time</span>
+        <span class="metric-tag metric-tag-blue">Infer Time</span>
+      </div>
+    </div>
+    <div class="hint-text" id="hint-3de">click for metrics</div>
+  </div>
+
+  <!-- 2D Gen -->
+  <div class="glass domain-card flex-1" onclick="toggleMetrics('2d')">
+    <div class="flex" style="justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <div style="font-size:14px; font-weight:800; color:#22c55e; letter-spacing:0.5px;">
+        2D Generation<span class="pill" style="background:#22c55e;">DONE</span>
+      </div>
+      <div class="progress-ring" style="width:38px; height:38px;">
+        <svg width="38" height="38" style="transform:rotate(-90deg);"><circle cx="19" cy="19" r="15.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4"/><circle cx="19" cy="19" r="15.5" fill="none" stroke="#22c55e" stroke-width="4" stroke-dasharray="97.39" stroke-dashoffset="0" stroke-linecap="round" class="ring-progress"/></svg>
+        <div class="label" style="color:#22c55e; font-size:10px;">100%</div>
+      </div>
+    </div>
+    <div class="domain-card-sub">DeepJEB + DrivAerNet · 128×128 · S/M/L/XL</div>
+    <div class="domain-card-count">
+      <span style="color:#4ade80; font-weight:700;">9 Models Complete</span><br/>
+      <span style="font-size:11px; color:rgba(255,255,255,0.35);">GAN, VAE, DCGAN, LSGAN, WGAN-CP/GP, R1GAN, DDPM, VQVAE</span>
+    </div>
+    <div style="margin-top:6px;">
+      <div class="model-bar-track"><div class="model-bar-done" style="width:120px; background:#22c55e;"></div></div>
+      <div class="model-bar-info"><span><span style="color:#22c55e; font-weight:700;">9</span> done</span><span>0 pending</span></div>
+    </div>
+    <div class="best-box">🏆 DDPM — Best on FID · Precision · Recall · Coverage</div>
+    <div style="margin-top:8px; text-align:center;">
+      <a href="leaderboard.html?dim=2d&task=generation&size=XL" class="cta-link" onclick="event.stopPropagation()">View Leaderboard →</a>
+    </div>
+    <div class="metrics-panel" id="metrics-2d" style="border:1px solid rgba(34,197,94,0.12);">
+      <div class="metrics-panel-label" style="color:#22c55e;">METRICS</div>
+      <div>
+        <span class="metric-tag metric-tag-green">IS</span>
+        <span class="metric-tag metric-tag-green">FID</span>
+        <span class="metric-tag metric-tag-green">LPIPS</span>
+        <span class="metric-tag metric-tag-green">PSNR</span>
+        <span class="metric-tag metric-tag-green">MS-SSIM</span>
+        <span class="metric-tag metric-tag-green">Precision</span>
+        <span class="metric-tag metric-tag-green">Density</span>
+        <span class="metric-tag metric-tag-green">Recall</span>
+        <span class="metric-tag metric-tag-green">Coverage</span>
+        <span class="metric-tag metric-tag-green">Train Time</span>
+        <span class="metric-tag metric-tag-green">Infer Time</span>
+      </div>
+    </div>
+    <div class="hint-text" id="hint-2d">click for metrics</div>
   </div>
 </div>
 
@@ -84,195 +257,29 @@
       </div>
       <div>
         <div style="font-size:11px; color:rgba(255,255,255,0.4);">Built-in Model Coverage</div>
-        <div style="font-size:20px; font-weight:900; color:#34d399;">90%</div>
+        <div class="roadmap-quarter" style="color:#34d399;">90%</div>
       </div>
       <div class="kpi-separator" style="width:1px; height:30px; background:rgba(255,255,255,0.06);"></div>
       <div>
         <div style="font-size:11px; color:rgba(255,255,255,0.4);">Workflow Coverage</div>
-        <div style="font-size:20px; font-weight:900; color:#34d399;">20<span style="font-size:13px; font-weight:400;"> WF</span></div>
+        <div class="roadmap-quarter" style="color:#34d399;">20<span style="font-size:13px; font-weight:400;"> WF</span></div>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- Pipeline -->
-<div class="glass" style="padding:16px 20px; margin-bottom:16px;" id="pipeline-section">
-  <div class="section-label section-label-purple" style="margin-bottom:12px;">Benchmark Pipeline</div>
-  <div class="flex" style="align-items:center; justify-content:center; gap:6px;">
-    <div class="step-box" onclick="toggleStep(0)">
-      <div style="font-size:10px; color:#818cf8; font-weight:700; letter-spacing:1px;">STEP A</div>
-      <div style="font-size:13px; color:#fff; margin-top:3px; font-weight:500;">Train &amp; Infer</div>
-      <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-top:2px;">Model + Dataset → Train → Infer → Results</div>
-    </div>
-    <svg width="28" height="12" viewBox="0 0 28 12" style="flex-shrink:0;"><path d="M0 6h20M16 2l6 4-6 4" fill="none" stroke="rgba(129,140,248,0.4)" stroke-width="1.5" stroke-linecap="round"/></svg>
-    <div class="step-box" onclick="toggleStep(1)">
-      <div style="font-size:10px; color:#818cf8; font-weight:700; letter-spacing:1px;">STEP B</div>
-      <div style="font-size:13px; color:#fff; margin-top:3px; font-weight:500;">Calc Metrics</div>
-      <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-top:2px;">Inference → Metrics → Summary Report</div>
-    </div>
-    <svg width="28" height="12" viewBox="0 0 28 12" style="flex-shrink:0;"><path d="M0 6h20M16 2l6 4-6 4" fill="none" stroke="rgba(129,140,248,0.4)" stroke-width="1.5" stroke-linecap="round"/></svg>
-    <div class="step-box" onclick="toggleStep(2)">
-      <div style="font-size:10px; color:#818cf8; font-weight:700; letter-spacing:1px;">STEP C</div>
-      <div style="font-size:13px; color:#fff; margin-top:3px; font-weight:500;">BenchRank</div>
-      <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-top:2px;">Debiased Weights → Dominance → PageRank</div>
-    </div>
-  </div>
-  <div class="step-detail" id="step-detail-0">
-    <span style="color:#818cf8; font-weight:600;">Input:</span> Model, Dataset, Data Size, Benchmark Type<br/>
-    <span style="color:#818cf8; font-weight:600;">Process:</span> Train on N samples → Generate 500 test samples<br/>
-    <span style="color:#818cf8; font-weight:600;">Output:</span> Generated samples + training/inference performance log
-  </div>
-  <div class="step-detail" id="step-detail-1">
-    <span style="color:#818cf8; font-weight:600;">Input:</span> Step A generated samples + ground-truth dataset<br/>
-    <span style="color:#818cf8; font-weight:600;">Process:</span> Compute quality, distributional, and resource metrics<br/>
-    <span style="color:#818cf8; font-weight:600;">Output:</span> Per-model metric summary report
-  </div>
-  <div class="step-detail" id="step-detail-2">
-    <span style="color:#818cf8; font-weight:600;">Input:</span> Step B metric summaries across all models<br/>
-    <span style="color:#818cf8; font-weight:600;">Process:</span> Spearman correlation debiasing → Weighted dominance graph → PageRank scoring → Dynamic scaling<br/>
-    <span style="color:#818cf8; font-weight:600;">Output:</span> Final ranked leaderboard per data size (S/M/L/XL)
-  </div>
-</div>
-
-<!-- Domain Cards -->
-<div class="flex gap-12" style="margin-bottom:16px;" id="domain-cards-row">
-  <!-- 2D Gen -->
-  <div class="glass domain-card flex-1" onclick="toggleMetrics('2d')">
-    <div class="flex" style="justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <div style="font-size:14px; font-weight:800; color:#22c55e; letter-spacing:0.5px;">
-        2D Generation<span class="pill" style="background:#22c55e;">DONE</span>
-      </div>
-      <div class="progress-ring" style="width:38px; height:38px;">
-        <svg width="38" height="38" style="transform:rotate(-90deg);"><circle cx="19" cy="19" r="15.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4"/><circle cx="19" cy="19" r="15.5" fill="none" stroke="#22c55e" stroke-width="4" stroke-dasharray="97.39" stroke-dashoffset="0" stroke-linecap="round" class="ring-progress"/></svg>
-        <div class="label" style="color:#22c55e; font-size:10px;">100%</div>
-      </div>
-    </div>
-    <div style="font-size:11px; color:rgba(255,255,255,0.4); margin-bottom:8px;">DeepJEB + DrivAerNet · 128×128 · S/M/L/XL</div>
-    <div style="font-size:13px; color:rgba(255,255,255,0.7); line-height:1.6;">
-      <span style="color:#4ade80; font-weight:700;">9 Models Complete</span><br/>
-      <span style="font-size:11px; color:rgba(255,255,255,0.35);">GAN, VAE, DCGAN, LSGAN, WGAN-CP/GP, R1GAN, DDPM, VQVAE</span>
-    </div>
-    <div style="margin-top:6px;">
-      <div class="model-bar-track"><div class="model-bar-done" style="width:120px; background:#22c55e;"></div></div>
-      <div class="model-bar-info"><span><span style="color:#22c55e; font-weight:700;">9</span> done</span><span>0 pending</span></div>
-    </div>
-    <div class="best-box">🏆 DDPM — Best on FID · Precision · Recall · Coverage</div>
-    <div style="margin-top:8px; text-align:center;">
-      <a href="leaderboard.html?dim=2d&task=generation&size=XL" style="font-size:11px; color:#818cf8; text-decoration:none; font-weight:600;">View Leaderboard →</a>
-    </div>
-    <div class="metrics-panel" id="metrics-2d" style="border:1px solid rgba(34,197,94,0.12);">
-      <div style="font-size:10px; color:#22c55e; font-weight:700; margin-bottom:6px; letter-spacing:1px;">METRICS</div>
-      <div>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">IS</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">FID</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">LPIPS</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">PSNR</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">MS-SSIM</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">Precision</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">Density</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">Recall</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">Coverage</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">Train Time</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">Infer Time</span>
-      </div>
-    </div>
-    <div style="font-size:9px; color:rgba(255,255,255,0.2); margin-top:8px; text-align:center;" id="hint-2d">click for metrics</div>
-  </div>
-
-  <!-- 3D Gen -->
-  <div class="glass domain-card flex-1" onclick="toggleMetrics('3dg')">
-    <div class="flex" style="justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <div style="font-size:14px; font-weight:800; color:#22c55e; letter-spacing:0.5px;">
-        3D Generation<span class="pill" style="background:#22c55e;">DONE</span>
-      </div>
-      <div class="progress-ring" style="width:38px; height:38px;">
-        <svg width="38" height="38" style="transform:rotate(-90deg);"><circle cx="19" cy="19" r="15.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4"/><circle cx="19" cy="19" r="15.5" fill="none" stroke="#22c55e" stroke-width="4" stroke-dasharray="97.39" stroke-dashoffset="0" stroke-linecap="round" class="ring-progress"/></svg>
-        <div class="label" style="color:#22c55e; font-size:10px;">100%</div>
-      </div>
-    </div>
-    <div style="font-size:11px; color:rgba(255,255,255,0.4); margin-bottom:8px;">DeepJEB + DrivAerNet · 8192pts · S/M/L/XL</div>
-    <div style="font-size:13px; color:rgba(255,255,255,0.7); line-height:1.6;">
-      <span style="color:#4ade80; font-weight:700;">6 Models Complete</span><br/>
-      <span style="font-size:11px; color:rgba(255,255,255,0.35);">3D-GAN, DeepSDF, PointFlow, ShapeGF, AtlasNet, Diffusion3D</span>
-    </div>
-    <div style="margin-top:6px;">
-      <div class="model-bar-track"><div class="model-bar-done" style="width:120px; background:#22c55e;"></div></div>
-      <div class="model-bar-info"><span><span style="color:#22c55e; font-weight:700;">6</span> done</span><span>0 pending</span></div>
-    </div>
-    <div class="best-box">🏆 DeepSDF — Best on Total Score</div>
-    <div style="margin-top:8px; text-align:center;">
-      <a href="leaderboard.html?dim=3d&task=generation&size=XL" style="font-size:11px; color:#818cf8; text-decoration:none; font-weight:600;">View Leaderboard →</a>
-    </div>
-    <div class="metrics-panel" id="metrics-3dg" style="border:1px solid rgba(34,197,94,0.12);">
-      <div style="font-size:10px; color:#22c55e; font-weight:700; margin-bottom:6px; letter-spacing:1px;">METRICS</div>
-      <div>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">MV-FID</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">FPD</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">CD</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">EMD</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">F-Score</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">MS-SSIM</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">Precision</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">Recall</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">Density</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">Coverage</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">Train Time</span>
-        <span class="metric-tag" style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.1);">Infer Time</span>
-      </div>
-    </div>
-    <div style="font-size:9px; color:rgba(255,255,255,0.2); margin-top:8px; text-align:center;" id="hint-3dg">click for metrics</div>
-  </div>
-
-  <!-- 3D Eval -->
-  <div class="glass domain-card flex-1" onclick="toggleMetrics('3de')">
-    <div class="flex" style="justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <div style="font-size:14px; font-weight:800; color:#22c55e; letter-spacing:0.5px;">
-        3D Eval — Field<span class="pill" style="background:#22c55e;">DONE</span>
-      </div>
-      <div class="progress-ring" style="width:38px; height:38px;">
-        <svg width="38" height="38" style="transform:rotate(-90deg);"><circle cx="19" cy="19" r="15.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4"/><circle cx="19" cy="19" r="15.5" fill="none" stroke="#22c55e" stroke-width="4" stroke-dasharray="97.39" stroke-dashoffset="0" stroke-linecap="round" class="ring-progress"/></svg>
-        <div class="label" style="color:#22c55e; font-size:10px;">100%</div>
-      </div>
-    </div>
-    <div style="font-size:11px; color:rgba(255,255,255,0.4); margin-bottom:8px;">DeepJEB + DrivAerNet · 8192pts · S/M/L/XL</div>
-    <div style="font-size:13px; color:rgba(255,255,255,0.7); line-height:1.6;">
-      <span style="color:#4ade80; font-weight:700;">5 Models Complete</span><br/>
-      <span style="font-size:11px; color:rgba(255,255,255,0.35);">Transolver++, AB-UPT, Transolver, PointNet, RegDGCNN</span>
-    </div>
-    <div style="margin-top:6px;">
-      <div class="model-bar-track"><div class="model-bar-done" style="width:120px; background:#22c55e;"></div></div>
-      <div class="model-bar-info"><span><span style="color:#22c55e; font-weight:700;">5</span> done</span><span>0 pending</span></div>
-    </div>
-    <div class="best-box">🏆 Transolver++ — Best on Total Score</div>
-    <div style="margin-top:8px; text-align:center;">
-      <a href="leaderboard.html?dim=3d&task=evaluation&size=XL" style="font-size:11px; color:#818cf8; text-decoration:none; font-weight:600;">View Leaderboard →</a>
-    </div>
-    <div class="metrics-panel" id="metrics-3de" style="border:1px solid rgba(56,189,248,0.12);">
-      <div style="font-size:10px; color:#38bdf8; font-weight:700; margin-bottom:6px; letter-spacing:1px;">METRICS</div>
-      <div>
-        <span class="metric-tag" style="background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.1);">MAE</span>
-        <span class="metric-tag" style="background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.1);">RMSE</span>
-        <span class="metric-tag" style="background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.1);">MAPE</span>
-        <span class="metric-tag" style="background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.1);">R²</span>
-        <span class="metric-tag" style="background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.1);">Rel-L2</span>
-        <span class="metric-tag" style="background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.1);">MaxAE</span>
-        <span class="metric-tag" style="background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.1);">MAC</span>
-        <span class="metric-tag" style="background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.1);">Train Time</span>
-        <span class="metric-tag" style="background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.1);">Infer Time</span>
-      </div>
-    </div>
-    <div style="font-size:9px; color:rgba(255,255,255,0.2); margin-top:8px; text-align:center;" id="hint-3de">click for metrics</div>
   </div>
 </div>
 
 <!-- Roadmap -->
-<div class="glass" style="padding:16px 20px; margin-bottom:16px;">
-  <div class="section-label section-label-purple" style="margin-bottom:12px;">Annual Roadmap</div>
+<div class="glass" style="margin-bottom:16px;">
+  <div class="collapsible-header" onclick="toggleRoadmap()">
+    <div class="section-label section-label-purple">Annual Roadmap</div>
+    <span class="collapsible-toggle" id="roadmap-toggle">&#9660; Show</span>
+  </div>
+  <div class="collapsible-body" id="roadmap-body">
   <div class="flex gap-8" id="roadmap-items">
     <div class="roadmap-item" onclick="setRoadmap(0)" id="rm-0" style="background:rgba(167,139,250,0.06); border-color:rgba(167,139,250,0.25);">
-      <div style="font-size:20px; font-weight:900; color:#a78bfa;">1Q</div>
-      <div style="font-size:11px; color:rgba(255,255,255,0.6); margin-top:6px; line-height:1.5;">Core Pipeline<br/>+ MVP Leaderboard</div>
-      <div style="font-size:10px; color:rgba(255,255,255,0.25); margin-top:4px;">~2026.02</div>
+      <div class="roadmap-quarter" style="color:#a78bfa;">1Q</div>
+      <div class="roadmap-desc">Core Pipeline<br/>+ MVP Leaderboard</div>
+      <div class="roadmap-date">~2026.02</div>
       <div class="flex" style="justify-content:center; gap:6px; margin-top:6px;">
         <span style="font-size:11px; color:#4ade80; font-weight:700;">DONE</span>
         <span style="font-size:10px; color:rgba(255,255,255,0.25);">|</span>
@@ -281,9 +288,9 @@
     </div>
     <div class="roadmap-item active" onclick="setRoadmap(1)" id="rm-1" style="background:rgba(129,140,248,0.06); border-color:rgba(129,140,248,0.25);">
       <div class="now-badge">NOW</div>
-      <div style="font-size:20px; font-weight:900; color:#818cf8;">2Q</div>
-      <div style="font-size:11px; color:rgba(255,255,255,0.6); margin-top:6px; line-height:1.5;">Model Expansion<br/>+ Domain Extension</div>
-      <div style="font-size:10px; color:rgba(255,255,255,0.25); margin-top:4px;">2026.03~05</div>
+      <div class="roadmap-quarter" style="color:#818cf8;">2Q</div>
+      <div class="roadmap-desc">Model Expansion<br/>+ Domain Extension</div>
+      <div class="roadmap-date">2026.03~05</div>
       <div class="flex" style="justify-content:center; gap:6px; margin-top:6px;">
         <span style="font-size:11px; color:#818cf8; font-weight:700;">90%</span>
         <span style="font-size:10px; color:rgba(255,255,255,0.25);">|</span>
@@ -291,9 +298,9 @@
       </div>
     </div>
     <div class="roadmap-item" onclick="setRoadmap(2)" id="rm-2">
-      <div style="font-size:20px; font-weight:900; color:#34d399;">3Q</div>
-      <div style="font-size:11px; color:rgba(255,255,255,0.6); margin-top:6px; line-height:1.5;">Full Coverage<br/>+ 100% Validation</div>
-      <div style="font-size:10px; color:rgba(255,255,255,0.25); margin-top:4px;">2026.06~08</div>
+      <div class="roadmap-quarter" style="color:#34d399;">3Q</div>
+      <div class="roadmap-desc">Full Coverage<br/>+ 100% Validation</div>
+      <div class="roadmap-date">2026.06~08</div>
       <div class="flex" style="justify-content:center; gap:6px; margin-top:6px;">
         <span style="font-size:11px; color:#34d399; font-weight:700;">100%</span>
         <span style="font-size:10px; color:rgba(255,255,255,0.25);">|</span>
@@ -301,9 +308,9 @@
       </div>
     </div>
     <div class="roadmap-item" onclick="setRoadmap(3)" id="rm-3">
-      <div style="font-size:20px; font-weight:900; color:#f472b6;">4Q</div>
-      <div style="font-size:11px; color:rgba(255,255,255,0.6); margin-top:6px; line-height:1.5;">Agentic Leaderboard<br/>+ Competitor Benchmark</div>
-      <div style="font-size:10px; color:rgba(255,255,255,0.25); margin-top:4px;">2026.09~11</div>
+      <div class="roadmap-quarter" style="color:#f472b6;">4Q</div>
+      <div class="roadmap-desc">Agentic Leaderboard<br/>+ Competitor Benchmark</div>
+      <div class="roadmap-date">2026.09~11</div>
       <div class="flex" style="justify-content:center; gap:6px; margin-top:6px;">
         <span style="font-size:11px; color:#f472b6; font-weight:700;">110%</span>
         <span style="font-size:10px; color:rgba(255,255,255,0.25);">|</span>
@@ -324,38 +331,62 @@
       <div style="width:30%; height:100%; border-radius:2px; background:linear-gradient(90deg, #7c3aed, #a78bfa);"></div>
     </div>
   </div>
+  </div><!-- /collapsible-body -->
 </div>
 
 <!-- Ultimate Goal -->
-<div class="glass" style="background:linear-gradient(135deg, rgba(124,58,237,0.12) 0%, rgba(255,255,255,0.02) 100%); border:1px solid rgba(167,139,250,0.2); padding:24px 28px; text-align:center; position:relative; overflow:hidden; margin-bottom:16px;">
+<div class="glass" style="background:linear-gradient(135deg, rgba(124,58,237,0.12) 0%, rgba(255,255,255,0.02) 100%); border:1px solid rgba(167,139,250,0.2); position:relative; overflow:hidden; margin-bottom:16px;">
   <div class="top-line" style="background:linear-gradient(90deg, transparent, rgba(167,139,250,0.4), rgba(56,189,248,0.3), transparent);"></div>
-  <div style="font-size:10px; font-weight:700; color:#a78bfa; letter-spacing:3px; text-transform:uppercase;">Ultimate Goal</div>
-  <div style="font-size:25px; font-weight:900; color:#fff; margin-top:8px;">Agentic Leaderboard</div>
-  <div style="font-size:14px; color:rgba(255,255,255,0.5); margin-top:6px;">
-    A system that <span style="color:#c4b5fd; font-weight:600;">automatically recommends the optimal AI model</span> based on context and conditions
+  <div class="collapsible-header" onclick="toggleGoal()">
+    <div class="section-label" style="color:#a78bfa; letter-spacing:3px;">Ultimate Goal</div>
+    <span class="collapsible-toggle" id="goal-toggle">&#9660; Show</span>
   </div>
-  <div class="flex" style="justify-content:center; gap:10px; margin-top:14px; flex-wrap:wrap;">
-    <div style="font-size:11px; color:#c4b5fd; background:rgba(124,58,237,0.1); padding:4px 14px; border-radius:20px; border:1px solid rgba(167,139,250,0.15);">Objective Comparison</div>
-    <div style="font-size:11px; color:#c4b5fd; background:rgba(124,58,237,0.1); padding:4px 14px; border-radius:20px; border:1px solid rgba(167,139,250,0.15);">Universal Metrics</div>
-    <div style="font-size:11px; color:#c4b5fd; background:rgba(124,58,237,0.1); padding:4px 14px; border-radius:20px; border:1px solid rgba(167,139,250,0.15);">Context-aware Recommendation</div>
-    <div style="font-size:11px; color:#c4b5fd; background:rgba(124,58,237,0.1); padding:4px 14px; border-radius:20px; border:1px solid rgba(167,139,250,0.15);">Auto-Validation Pipeline</div>
+  <div class="collapsible-body" id="goal-body">
+    <div style="text-align:center;">
+      <div style="font-size:25px; font-weight:900; color:#fff;">Agentic Leaderboard</div>
+      <div style="font-size:14px; color:rgba(255,255,255,0.5); margin-top:6px;">
+        A system that <span style="color:#c4b5fd; font-weight:600;">automatically recommends the optimal AI model</span> based on context and conditions
+      </div>
+      <div class="flex" style="justify-content:center; gap:10px; margin-top:14px; flex-wrap:wrap;">
+        <div class="purple-badge">Objective Comparison</div>
+        <div class="purple-badge">Universal Metrics</div>
+        <div class="purple-badge">Context-aware Recommendation</div>
+        <div class="purple-badge">Auto-Validation Pipeline</div>
+      </div>
+    </div>
   </div>
 </div>
 
 <!-- Footer -->
 <div class="page-footer">
   <div class="divider"></div>
-  <div class="text">NARNIA LABS · Last Updated 2026-04-06</div>
-  <div style="margin-top:8px; font-size:11px; display:flex; justify-content:center; gap:12px;">
-    <a href="https://www.narnia.ai/" target="_blank" style="color:#a78bfa; text-decoration:none; opacity:0.6; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">narnia.ai</a>
+  <div class="text">NARNIA LABS · AI Benchmark Dashboard</div>
+  <div class="footer-links">
+    <a href="https://www.narnia.ai/" target="_blank" class="footer-link">narnia.ai</a>
     <span style="color:rgba(255,255,255,0.15);">|</span>
-    <a href="https://github.com/Narnialabs/leaderboard" target="_blank" style="color:#a78bfa; text-decoration:none; opacity:0.6; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">GitHub</a>
+    <a href="https://github.com/Narnialabs/leaderboard" target="_blank" class="footer-link">GitHub</a>
+    <span style="color:rgba(255,255,255,0.15);">|</span>
+    <span class="contact-copy" onclick="copyEmail(this)" data-email="simon.lee@narnia.ai">simon.lee@narnia.ai</span>
+    <span style="color:rgba(255,255,255,0.15);">|</span>
+    <span class="contact-copy" onclick="copyEmail(this)" data-email="paul.jeong@narnia.ai">paul.jeong@narnia.ai</span>
   </div>
 </div>
 
 </div><!-- /page-content -->
 
 <script>
+function togglePurpose() {
+  const body = document.getElementById('purpose-body');
+  body.style.display = body.style.display !== 'none' ? 'none' : 'block';
+}
+
+function copyEmail(el) {
+  navigator.clipboard.writeText(el.dataset.email).then(() => {
+    el.classList.add('copied');
+    setTimeout(() => el.classList.remove('copied'), 1200);
+  });
+}
+
 let activeStep = -1;
 let activeRoadmap = 1;
 
@@ -389,6 +420,22 @@ function toggleMetrics(id) {
   const visible = panel.classList.contains('visible');
   panel.classList.toggle('visible');
   hint.textContent = visible ? 'click for metrics' : 'click to collapse';
+}
+
+let roadmapExpanded = false;
+function toggleRoadmap() {
+  roadmapExpanded = !roadmapExpanded;
+  document.getElementById('roadmap-body').classList.toggle('expanded', roadmapExpanded);
+  document.getElementById('roadmap-toggle').innerHTML =
+    roadmapExpanded ? '&#9650; Hide' : '&#9660; Show';
+}
+
+let goalExpanded = false;
+function toggleGoal() {
+  goalExpanded = !goalExpanded;
+  document.getElementById('goal-body').classList.toggle('expanded', goalExpanded);
+  document.getElementById('goal-toggle').innerHTML =
+    goalExpanded ? '&#9650; Hide' : '&#9660; Show';
 }
 
 function setRoadmap(i) {

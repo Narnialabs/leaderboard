@@ -13,6 +13,20 @@ const LEADERBOARD_PATHS = {
 
 const SIZES = ['S', 'M', 'L', 'XL'];
 
+// Branch types for BenchRank leaderboards
+const BRANCH_QUALITY = 'quality';
+const BRANCH_QUALITY_EFFICIENCY = 'quality_efficiency';
+const BRANCHES = [BRANCH_QUALITY, BRANCH_QUALITY_EFFICIENCY];
+
+/**
+ * Get filename prefix for a branch type
+ * @param {string} branch - 'quality' or 'quality_efficiency'
+ */
+function branchPrefix(branch) {
+  if (branch === BRANCH_QUALITY) return 'Quality_';
+  return 'Quality_Efficiency_';
+}
+
 /**
  * Load and parse a CSV file
  * @param {string} path - Relative path from visualization/
@@ -54,55 +68,64 @@ function datasetToLeaderboardKey(datasetId) {
  * @param {string} category - e.g. 'dimension_2d/generation'
  * @param {string} size - 'S', 'M', 'L', or 'XL'
  * @param {string} [dataset] - optional dataset id, e.g. 'deepjeb_2d_2d'
+ * @param {string} [targetKey] - optional target key
+ * @param {string} [branch='quality'] - 'quality' or 'quality_efficiency'
  */
-async function loadLeaderboard(category, size, dataset, targetKey) {
+async function loadLeaderboard(category, size, dataset, targetKey, branch = BRANCH_QUALITY) {
   const dsKey = datasetToLeaderboardKey(dataset);
+  const prefix = branchPrefix(branch);
   if (dsKey && targetKey) {
-    const path = `${DATA_BASE}/leaderboard/${category}/${dsKey}/${targetKey}/Leaderboard_${size}_${dsKey}_${targetKey}.csv`;
+    const path = `${DATA_BASE}/leaderboard/${category}/${branch}/${dsKey}/${targetKey}/${prefix}Leaderboard_${size}_${dsKey}_${targetKey}.csv`;
     return loadCSV(path);
   }
   if (dsKey) {
-    const path = `${DATA_BASE}/leaderboard/${category}/${dsKey}/Leaderboard_${size}_${dsKey}.csv`;
+    const path = `${DATA_BASE}/leaderboard/${category}/${branch}/${dsKey}/${prefix}Leaderboard_${size}_${dsKey}.csv`;
     return loadCSV(path);
   }
-  const path = `${DATA_BASE}/leaderboard/${category}/Leaderboard_${size}.csv`;
+  const path = `${DATA_BASE}/leaderboard/${category}/${branch}/${prefix}Leaderboard_${size}.csv`;
   return loadCSV(path);
 }
 
 /**
  * Load metric rankings for a specific dimension/task/size (and optionally dataset)
  * @param {string} [dataset] - optional dataset id, e.g. 'deepjeb_2d_2d'
+ * @param {string} [branch='quality'] - 'quality' or 'quality_efficiency'
  */
-async function loadMetricsRanking(category, size, dataset, targetKey) {
+async function loadMetricsRanking(category, size, dataset, targetKey, branch = BRANCH_QUALITY) {
   const dsKey = datasetToLeaderboardKey(dataset);
+  const prefix = branchPrefix(branch);
   if (dsKey && targetKey) {
-    const path = `${DATA_BASE}/leaderboard/${category}/${dsKey}/${targetKey}/Leaderboard_${size}_${dsKey}_${targetKey}_metrics.csv`;
+    const path = `${DATA_BASE}/leaderboard/${category}/${branch}/${dsKey}/${targetKey}/${prefix}Leaderboard_${size}_${dsKey}_${targetKey}_metrics.csv`;
     return loadCSV(path);
   }
   if (dsKey) {
-    const path = `${DATA_BASE}/leaderboard/${category}/${dsKey}/Leaderboard_${size}_${dsKey}_metrics.csv`;
+    const path = `${DATA_BASE}/leaderboard/${category}/${branch}/${dsKey}/${prefix}Leaderboard_${size}_${dsKey}_metrics.csv`;
     return loadCSV(path);
   }
-  const path = `${DATA_BASE}/leaderboard/${category}/Leaderboard_${size}_metrics.csv`;
+  const path = `${DATA_BASE}/leaderboard/${category}/${branch}/${prefix}Leaderboard_${size}_metrics.csv`;
   return loadCSV(path);
 }
 
 /**
  * Load BenchRank details for a specific dimension/task
+ * @param {string} [branch='quality'] - 'quality' or 'quality_efficiency'
  */
-async function loadBenchRankDetails(category) {
-  const path = `${DATA_BASE}/leaderboard/${category}/BenchRank_Details.csv`;
+async function loadBenchRankDetails(category, branch = BRANCH_QUALITY) {
+  const prefix = branchPrefix(branch);
+  const path = `${DATA_BASE}/leaderboard/${category}/${branch}/${prefix}BenchRank_Details.csv`;
   return loadCSV(path);
 }
 
 /**
  * Get available sizes for a category by checking which files exist
+ * @param {string} [branch='quality'] - 'quality' or 'quality_efficiency'
  */
-async function getAvailableSizes(category) {
+async function getAvailableSizes(category, branch = BRANCH_QUALITY) {
+  const prefix = branchPrefix(branch);
   const available = [];
   for (const size of SIZES) {
     try {
-      const path = `${DATA_BASE}/leaderboard/${category}/Leaderboard_${size}.csv`;
+      const path = `${DATA_BASE}/leaderboard/${category}/${branch}/${prefix}Leaderboard_${size}.csv`;
       const resp = await fetch(path, { method: 'HEAD' });
       if (resp.ok) available.push(size);
     } catch {
@@ -390,6 +413,7 @@ const MODEL_DISPLAY = {
   'pointnet':        { name: 'PointNet',     type: 'PointNet' },
   'regdgcnn':        { name: 'RegDGCNN',     type: 'GNN (DGCNN)' },
   'transolver':      { name: 'Transolver',   type: 'Transformer' },
+  'geofno':          { name: 'GeoFNO',       type: 'Fourier Neural Operator' },
 };
 
 const DATASET_DISPLAY = {

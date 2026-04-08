@@ -527,8 +527,7 @@
   }
 
   /* H6: "View Leaderboard →" link touch targets (index.html) */
-  .domain-card a[href*="leaderboard"] {
-    display: inline-block;
+  .domain-card .cta-link {
     padding: 8px 16px;
     min-height: 44px;
     line-height: 28px;

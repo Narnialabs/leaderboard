@@ -1,0 +1,14 @@
+﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6
+1,Recall,0.3388,atlasnet,deepsdf,diffusionpointcloud,gan3d,pointflow,shapegf
+2,MV-FID,0.0713,atlasnet,pointflow,deepsdf,gan3d,diffusionpointcloud,shapegf
+3,Parameters (M),0.066,pointflow,deepsdf,diffusionpointcloud,shapegf,atlasnet,gan3d
+4,Inference Time (s),0.0635,atlasnet,gan3d,diffusionpointcloud,pointflow,shapegf,deepsdf
+5,Training Time (s),0.0612,diffusionpointcloud,atlasnet,shapegf,gan3d,deepsdf,pointflow
+6,MS-SSIM,0.0592,deepsdf,gan3d,shapegf,atlasnet,pointflow,diffusionpointcloud
+7,F-Score,0.0548,atlasnet,pointflow,diffusionpointcloud,shapegf,gan3d,deepsdf
+8,FPD,0.0535,pointflow,gan3d,atlasnet,shapegf,diffusionpointcloud,deepsdf
+9,EMD,0.0521,pointflow,diffusionpointcloud,gan3d,atlasnet,deepsdf,shapegf
+10,CD,0.0456,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf,deepsdf
+11,Precision,0.0447,pointflow,atlasnet,deepsdf,diffusionpointcloud,gan3d,shapegf
+12,Density,0.0447,pointflow,atlasnet,deepsdf,diffusionpointcloud,gan3d,shapegf
+13,Coverage,0.0447,pointflow,atlasnet,deepsdf,diffusionpointcloud,gan3d,shapegf

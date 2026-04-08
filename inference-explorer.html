@@ -323,16 +323,27 @@
 <div class="page-footer">
   <div class="divider"></div>
   <div class="text">NARNIA LABS · AI Benchmark Dashboard</div>
-  <div style="margin-top:8px; font-size:11px; display:flex; justify-content:center; gap:12px;">
-    <a href="https://www.narnia.ai/" target="_blank" style="color:#a78bfa; text-decoration:none; opacity:0.6; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">narnia.ai</a>
+  <div class="footer-links">
+    <a href="https://www.narnia.ai/" target="_blank" class="footer-link">narnia.ai</a>
     <span style="color:rgba(255,255,255,0.15);">|</span>
-    <a href="https://github.com/Narnialabs/leaderboard" target="_blank" style="color:#a78bfa; text-decoration:none; opacity:0.6; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">GitHub</a>
+    <a href="https://github.com/Narnialabs/leaderboard" target="_blank" class="footer-link">GitHub</a>
+    <span style="color:rgba(255,255,255,0.15);">|</span>
+    <span class="contact-copy" onclick="copyEmail(this)" data-email="simon.lee@narnia.ai">simon.lee@narnia.ai</span>
+    <span style="color:rgba(255,255,255,0.15);">|</span>
+    <span class="contact-copy" onclick="copyEmail(this)" data-email="paul.jeong@narnia.ai">paul.jeong@narnia.ai</span>
   </div>
 </div>
 
 </div><!-- /page-content -->
 
 <script>
+function copyEmail(el) {
+  navigator.clipboard.writeText(el.dataset.email).then(() => {
+    el.classList.add('copied');
+    setTimeout(() => el.classList.remove('copied'), 1200);
+  });
+}
+
 const PAGE_CACHE_BUST = Date.now();
 
 // ── Mobile Sidebar Toggle ──
@@ -366,7 +377,7 @@ const EXPERIMENTS = {
     models: [
       { name: 'transolver_pp', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
       { name: 'transolver', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
-      { name: 'abupt', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
+      { name: 'abupt', sizes: [20, 50, 100, 200], datasets: ['drivaernet_3d_2d'] },
       { name: 'pointnet', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
       { name: 'regdgcnn', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
     ],
@@ -834,13 +845,22 @@ function cmpSamplesPerPage() {
   if (cmpState.dim === '2d') return 12;
   return 6;
 }
+
+function cmpTotalSamples() {
+  if (cmpState.task !== 'evaluation') return 12;
+  const dataSize = Math.round((cmpFiltered[0] || {})['Data Size'] || 0);
+  if (!cmpState.dataset || !cmpState.targetKey || !dataSize) return 12;
+  const sizeCode = getEval3DSizeCode(dataSize);
+  return getEval3DRepresentativeSamples(cmpState.dataset, cmpState.targetKey, sizeCode).length || 12;
+}
+
 function cmpPrevSample() {
   const step = cmpSamplesPerPage();
   if (cmpState.sampleIndex >= step) { cmpState.sampleIndex -= step; cmpRenderVisual(); }
 }
 function cmpNextSample() {
   const step = cmpSamplesPerPage();
-  if (cmpState.sampleIndex + step < 12) {
+  if (cmpState.sampleIndex + step < cmpTotalSamples()) {
     cmpState.sampleIndex += step;
     cmpRenderVisual();
   }
@@ -990,14 +1010,24 @@ function cmpRenderVisual() {
   const section = document.getElementById('cmp-visual-section');
   section.style.display = 'block';
   const nSamples = cmpSamplesPerPage();
+  const totalSamples = cmpTotalSamples();
+  cmpState.sampleIndex = Math.min(cmpState.sampleIndex, Math.max(0, totalSamples - nSamples));
   const startIdx = cmpState.sampleIndex;
   const nav = document.getElementById('cmp-sample-nav');
   if (cmpState.dim === '2d') {
     nav.style.display = 'none';
   } else {
     nav.style.display = 'flex';
-    document.getElementById('cmp-sample-idx').textContent =
-      nSamples === 1 ? `#${startIdx}` : `#${startIdx}–${startIdx + nSamples - 1}`;
+    if (cmpState.task === 'evaluation') {
+      const dataSize = Math.round((cmpFiltered[0] || {})['Data Size'] || 0);
+      const sizeCode = getEval3DSizeCode(dataSize);
+      const rep = getEval3DRepresentativeSample(cmpState.dataset, cmpState.targetKey, sizeCode, startIdx);
+      const sourceSuffix = Number.isInteger(rep.sample_index) ? ` → #${rep.sample_index}` : '';
+      document.getElementById('cmp-sample-idx').textContent = `Rep #${startIdx}${sourceSuffix}`;
+    } else {
+      document.getElementById('cmp-sample-idx').textContent =
+        nSamples === 1 ? `#${startIdx}` : `#${startIdx}–${startIdx + nSamples - 1}`;
+    }
   }
 
   const label = cmpState.task==='evaluation'?'Evaluated Results':'Generated Results';
@@ -1122,13 +1152,14 @@ function cmpRender3DEval(container) {
   const channels = (CHS[ds]&&CHS[ds][tk])||[];
   const chIdx = dim ? Math.max(0,channels.indexOf(dim)) : 0;
   const dataSize = Math.round((cmpFiltered[0]||{})['Data Size']||0);
-  const sizeMap = {20:'S',50:'M',100:'L',200:'XL'};
-  const sizeCode = sizeMap[dataSize]||'S';
+  const sizeCode = getEval3DSizeCode(dataSize);
   const nA=displayModelName(cmpState.modelA), nB=displayModelName(cmpState.modelB);
   const s = cmpState.sampleIndex;
+  const sampleMeta = getEval3DRepresentativeSample(ds, tk, sizeCode, s);
+  const sourceInfo = Number.isInteger(sampleMeta.sample_index) ? ` · SOURCE #${sampleMeta.sample_index}` : '';
 
   // Side-by-side: each half has a single eval viewer that stacks GT/PRED/ERROR vertically
-  let html = `<div style="font-size:10px;color:rgba(255,255,255,0.4);font-weight:700;margin-bottom:8px;letter-spacing:0.5px;">SAMPLE ${s} · ${tk} · ${channels[chIdx]||''}</div>`;
+  let html = `<div style="font-size:10px;color:rgba(255,255,255,0.4);font-weight:700;margin-bottom:8px;letter-spacing:0.5px;">REP ${s}${sourceInfo} · ${tk} · ${channels[chIdx]||''}</div>`;
   html += '<div class="cmp-grid">';
 
   // Model A
@@ -1231,11 +1262,11 @@ function buildPerfSummary() {
 
   // 3D eval models summary
   const models3d = [
-    { name: 'transolver_pp', label: 'Transolver++', sizeInfo: 'S~XL · DeepJEB + DrivAerNet' },
-    { name: 'transolver', label: 'Transolver', sizeInfo: 'S~XL · DeepJEB + DrivAerNet' },
-    { name: 'abupt', label: 'AB-UPT', sizeInfo: 'S~XL · DeepJEB + DrivAerNet' },
-    { name: 'pointnet', label: 'PointNet', sizeInfo: 'S~XL · DeepJEB + DrivAerNet' },
-    { name: 'regdgcnn', label: 'RegDGCNN', sizeInfo: 'S~XL · DeepJEB + DrivAerNet' },
+    { name: 'transolver_pp', label: 'Transolver++', sizeInfo: 'S/M/L/XL · DeepJEB + DrivAerNet' },
+    { name: 'transolver', label: 'Transolver', sizeInfo: 'S/M/L/XL · DeepJEB + DrivAerNet' },
+    { name: 'abupt', label: 'AB-UPT', sizeInfo: 'S/M/L/XL · DrivAerNet' },
+    { name: 'pointnet', label: 'PointNet', sizeInfo: 'S/M/L/XL · DeepJEB + DrivAerNet' },
+    { name: 'regdgcnn', label: 'RegDGCNN', sizeInfo: 'S/M/L/XL · DeepJEB + DrivAerNet' },
   ];
   const container3d = document.getElementById('perf-cards-3d');
   container3d.innerHTML = models3d.map(m => `
@@ -1251,12 +1282,12 @@ function buildPerfSummary() {
 
   // 3D gen models summary
   const models3dGen = [
-    { name: 'gan3d', label: '3D-GAN', sizeInfo: 'S~XL' },
-    { name: 'deepsdf', label: 'DeepSDF', sizeInfo: 'S~XL' },
-    { name: 'pointflow', label: 'PointFlow', sizeInfo: 'S~XL' },
-    { name: 'shapegf', label: 'ShapeGF', sizeInfo: 'S~XL' },
-    { name: 'atlasnet', label: 'AtlasNet', sizeInfo: 'S~XL' },
-    { name: 'diffusionpointcloud', label: 'Diffusion3D', sizeInfo: 'S~XL' },
+    { name: 'gan3d', label: '3D-GAN', sizeInfo: 'S/M/L/XL' },
+    { name: 'deepsdf', label: 'DeepSDF', sizeInfo: 'S/M/L/XL' },
+    { name: 'pointflow', label: 'PointFlow', sizeInfo: 'S/M/L/XL' },
+    { name: 'shapegf', label: 'ShapeGF', sizeInfo: 'S/M/L/XL' },
+    { name: 'atlasnet', label: 'AtlasNet', sizeInfo: 'S/M/L/XL' },
+    { name: 'diffusionpointcloud', label: 'Diffusion3D', sizeInfo: 'S/M/L/XL' },
   ];
   const container3dGen = document.getElementById('perf-cards-3d-gen');
   container3dGen.innerHTML = models3dGen.map(m => `
@@ -1849,15 +1880,105 @@ function formatSci(v) {
   return v.toExponential(3);
 }
 
+let eval3dManifestPromise = null;
+let eval3dRepresentativeSamplesByGroup = {};
+let eval3dGlobalErrorRangesByKey = {};
+let eval3dGlobalValueRangesByKey = {};
+
+function getEval3DSizeCode(size) {
+  const sizeMap = { '20': 'S', '50': 'M', '100': 'L', '200': 'XL' };
+  return sizeMap[String(size)] || String(size);
+}
+
+function getEval3DGroupKey(dataset, targetKey, sizeCode) {
+  return `${dataset}::${targetKey}::${sizeCode}`;
+}
+
+function getEval3DErrorKey(dataset, targetKey, dimension, sizeCode, sampleSlot) {
+  return `${dataset}::${targetKey}::${dimension}::${sizeCode}::${sampleSlot}`;
+}
+
+function getSourceName(sourceFile) {
+  if (!sourceFile) return '';
+  const parts = String(sourceFile).split('/');
+  return parts[parts.length - 1] || sourceFile;
+}
+
+async function ensureEval3DManifestData() {
+  if (eval3dManifestPromise) return eval3dManifestPromise;
+  eval3dManifestPromise = fetch(`output/eval3d/manifest.json?t=${PAGE_CACHE_BUST}`)
+    .then(resp => resp.ok ? resp.json() : null)
+    .then(manifest => {
+      eval3dRepresentativeSamplesByGroup = {};
+      eval3dGlobalErrorRangesByKey = {};
+      eval3dGlobalValueRangesByKey = {};
+      if (manifest) {
+        (manifest.representative_samples || []).forEach(group => {
+          eval3dRepresentativeSamplesByGroup[
+            getEval3DGroupKey(group.dataset, group.target_key, group.size)
+          ] = group.samples || [];
+        });
+        (manifest.global_error_ranges || []).forEach(item => {
+          eval3dGlobalErrorRangesByKey[
+            getEval3DErrorKey(item.dataset, item.target_key, item.dimension, item.size, item.sample)
+          ] = item.max_error;
+        });
+        (manifest.global_value_ranges || []).forEach(item => {
+          eval3dGlobalValueRangesByKey[
+            getEval3DErrorKey(item.dataset, item.target_key, item.dimension, item.size, item.sample)
+          ] = { vmin: item.value_min, vmax: item.value_max };
+        });
+      }
+      return manifest;
+    })
+    .catch(() => null);
+  return eval3dManifestPromise;
+}
+
+function getEval3DRepresentativeSamples(dataset, targetKey, sizeCode) {
+  const samples = eval3dRepresentativeSamplesByGroup[getEval3DGroupKey(dataset, targetKey, sizeCode)];
+  if (samples && samples.length) return samples;
+  return Array.from({ length: 12 }, (_, slot) => ({
+    slot,
+    sample_index: slot,
+    source_file: '',
+  }));
+}
+
+function getEval3DRepresentativeSample(dataset, targetKey, sizeCode, sampleSlot) {
+  const samples = getEval3DRepresentativeSamples(dataset, targetKey, sizeCode);
+  return samples.find(sample => sample.slot === sampleSlot) || samples[sampleSlot] || {
+    slot: sampleSlot,
+    sample_index: sampleSlot,
+    source_file: '',
+  };
+}
+
+function getEval3DGlobalErrorMax(dataset, targetKey, dimension, sizeCode, sampleSlot) {
+  const value = eval3dGlobalErrorRangesByKey[
+    getEval3DErrorKey(dataset, targetKey, dimension, sizeCode, sampleSlot)
+  ];
+  return typeof value === 'number' ? value : null;
+}
+
+function getEval3DGlobalValueRange(dataset, targetKey, dimension, sizeCode, sampleSlot) {
+  const value = eval3dGlobalValueRangesByKey[
+    getEval3DErrorKey(dataset, targetKey, dimension, sizeCode, sampleSlot)
+  ];
+  return (value && typeof value.vmin === 'number' && typeof value.vmax === 'number') ? value : null;
+}
+
 window.initEvalViewer = async function(model, size, dataset, targetKey, channels) {
   const root = document.getElementById('eval3d-viewer-root');
   if (!root) return;
 
   cleanupEvalViewer();
 
-  const NUM_SAMPLES = 12;
-  const sizeMap = { '20': 'S', '50': 'M', '100': 'L', '200': 'XL' };
-  const sizeCode = sizeMap[String(size)] || 'S';
+  await ensureEval3DManifestData();
+
+  const sizeCode = getEval3DSizeCode(size);
+  const representativeSamples = getEval3DRepresentativeSamples(dataset, targetKey, sizeCode);
+  const sampleCount = representativeSamples.length;
 
   root.innerHTML = `
     <div class="eval3d-viewer-wrap" id="eval3d-panels">
@@ -1941,8 +2062,8 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
 
   // Sample buttons
   const sampleStrip = document.getElementById('eval3d-sample-strip');
-  sampleStrip.innerHTML = Array.from({length: NUM_SAMPLES}, (_, i) =>
-    `<button class="pc-sample-btn ${i === 0 ? 'active' : ''}" onclick="window._evalLoadSample(${i}, this)">${i}</button>`
+  sampleStrip.innerHTML = representativeSamples.map((sample, slot) =>
+    `<button class="pc-sample-btn ${slot === 0 ? 'active' : ''}" onclick="window._evalLoadSample(${slot}, this)" title="Representative slot ${slot} · source #${sample.sample_index}${sample.source_file ? ` · ${getSourceName(sample.source_file)}` : ''}">${slot}</button>`
   ).join('');
 
   // State
@@ -1978,6 +2099,7 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
 
   async function loadEvalData(sampleIdx, chIdx) {
     const ch = channels[chIdx];
+    const sampleMeta = getEval3DRepresentativeSample(dataset, targetKey, sizeCode, sampleIdx);
     const binPath = `output/eval3d/${model}/${dataset}/${targetKey}/${ch}/${sizeCode}_${String(sampleIdx).padStart(2, '0')}.bin`;
 
     // Show loading
@@ -2003,19 +2125,32 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
       const { pos, pred, gt } = parseEvalBin(buffer, numPoints);
       const error = computeError(pred, gt);
       const stats = computeStats(pred, gt);
+      let errorMax = 0;
 
-      // Shared color range for pred and gt
-      let vmin = Infinity, vmax = -Infinity;
-      for (let i = 0; i < numPoints; i++) {
-        if (pred[i] < vmin) vmin = pred[i];
-        if (pred[i] > vmax) vmax = pred[i];
-        if (gt[i] < vmin) vmin = gt[i];
-        if (gt[i] > vmax) vmax = gt[i];
+      // Shared color range for pred and gt (cross-model global)
+      const globalValueRange = getEval3DGlobalValueRange(dataset, targetKey, ch, sizeCode, sampleIdx);
+      let vmin, vmax;
+      if (globalValueRange) {
+        vmin = globalValueRange.vmin;
+        vmax = globalValueRange.vmax;
+      } else {
+        vmin = Infinity; vmax = -Infinity;
+        for (let i = 0; i < numPoints; i++) {
+          if (pred[i] < vmin) vmin = pred[i];
+          if (pred[i] > vmax) vmax = pred[i];
+          if (gt[i] < vmin) vmin = gt[i];
+          if (gt[i] > vmax) vmax = gt[i];
+        }
       }
+      for (let i = 0; i < numPoints; i++) {
+        if (error[i] > errorMax) errorMax = error[i];
+      }
+      const globalErrorMax = getEval3DGlobalErrorMax(dataset, targetKey, ch, sizeCode, sampleIdx);
+      const errorScaleMax = (typeof globalErrorMax === 'number' && globalErrorMax > 0) ? globalErrorMax : errorMax;
 
       setEvalPointCloud(evalPanels[0], pos, gt, vmin, vmax, isDrivAerNet);
       setEvalPointCloud(evalPanels[1], pos, pred, vmin, vmax, isDrivAerNet);
-      setEvalPointCloud(evalPanels[2], pos, error, 0, Math.max(...error), isDrivAerNet);
+      setEvalPointCloud(evalPanels[2], pos, error, 0, errorScaleMax, isDrivAerNet);
 
       // Load car mesh for DrivAerNet
       if (isDrivAerNet) {
@@ -2043,8 +2178,12 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
       syncEvalControls();
 
       // Update stats
-      document.getElementById('eval3d-stats').textContent = `MAE: ${formatSci(stats.mae)}  RMSE: ${formatSci(stats.rmse)}`;
-      document.getElementById('eval3d-range-info').textContent = `min: ${formatSci(vmin)} · max: ${formatSci(vmax)} · ${numPoints} points`;
+      const sourceInfo = Number.isInteger(sampleMeta.sample_index)
+        ? `source #${sampleMeta.sample_index}`
+        : `slot #${sampleIdx}`;
+      document.getElementById('eval3d-stats').textContent = `${sourceInfo} · MAE: ${formatSci(stats.mae)}  RMSE: ${formatSci(stats.rmse)}`;
+      document.getElementById('eval3d-range-info').textContent =
+        `value: ${formatSci(vmin)}..${formatSci(vmax)} · error(global): ${formatSci(errorScaleMax)} · ${numPoints} points`;
 
       // Remove loading
       evalPanels.forEach(p => {
@@ -2069,7 +2208,7 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
   }
 
   // Auto-load first sample
-  window._evalLoadSample(0, null);
+  if (sampleCount > 0) window._evalLoadSample(0, null);
 };
 
 // ══════════════════════════════════════════════════════════════════════
@@ -2215,7 +2354,7 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
 // ══════════════════════════════════════════════════════════════════════
 // ── Comparisons: 3D Eval Viewer (GT / Pred / Error) ──
 // ══════════════════════════════════════════════════════════════════════
-window.initCmpEvalViewer = function(el) {
+window.initCmpEvalViewer = async function(el) {
   const model = el.dataset.model;
   const sizeCode = el.dataset.sizeCode;
   const ds = el.dataset.dataset;
@@ -2228,6 +2367,10 @@ window.initCmpEvalViewer = function(el) {
   const vH = isVertical ? 240 : 250;
 
   if (!channels.length) { el.innerHTML='<div style="text-align:center;padding:20px;color:rgba(255,255,255,0.3);font-size:11px;">No channels</div>'; return; }
+
+  await ensureEval3DManifestData();
+  const sampleMeta = getEval3DRepresentativeSample(ds, tk, sizeCode, sampleIdx);
+  const sourceInfo = Number.isInteger(sampleMeta.sample_index) ? ` · source #${sampleMeta.sample_index}` : '';
 
   const rowStyle = isVertical
     ? `display:flex;flex-direction:column;gap:4px;`
@@ -2254,7 +2397,7 @@ window.initCmpEvalViewer = function(el) {
         </div>
       </div>
       <div style="display:flex;gap:8px;padding:6px 12px;background:rgba(255,255,255,0.03);border-top:1px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(167,139,250,0.7);font-weight:700;">
-        ${tk} · ${channels[chIdx]} · Sample ${sampleIdx}
+        ${tk} · ${channels[chIdx]} · Rep ${sampleIdx}${sourceInfo}
         <span style="margin-left:auto;font-size:9px;color:rgba(255,255,255,0.3);" id="${id}-range">—</span>
       </div>
     </div>`;
@@ -2326,11 +2469,16 @@ window.initCmpEvalViewer = function(el) {
       const pos=new Float32Array(nP*3), pred=new Float32Array(nP), gt=new Float32Array(nP);
       pos.set(floats.subarray(0,nP*3)); pred.set(floats.subarray(nP*3,nP*4)); gt.set(floats.subarray(nP*4,nP*5));
       for(let i=0;i<nP;i++){const t=pos[i*3+1];pos[i*3+1]=pos[i*3+2];pos[i*3+2]=t;}
-      const error=new Float32Array(nP);let sAE=0,sSE=0;
+      const error=new Float32Array(nP);let sAE=0,sSE=0,errMax=0;
       for(let i=0;i<nP;i++){const d=Math.abs(pred[i]-gt[i]);error[i]=d;sAE+=d;sSE+=d*d;}
+      for(let i=0;i<nP;i++){if(error[i]>errMax)errMax=error[i];}
       const mae=sAE/nP, rmse=Math.sqrt(sSE/nP);
-      let vmin=Infinity,vmax=-Infinity;
-      for(let i=0;i<nP;i++){if(pred[i]<vmin)vmin=pred[i];if(pred[i]>vmax)vmax=pred[i];if(gt[i]<vmin)vmin=gt[i];if(gt[i]>vmax)vmax=gt[i];}
+      const globalVR = getEval3DGlobalValueRange(ds, tk, ch, sizeCode, sampleIdx);
+      let vmin, vmax;
+      if (globalVR) { vmin = globalVR.vmin; vmax = globalVR.vmax; }
+      else { vmin=Infinity; vmax=-Infinity; for(let i=0;i<nP;i++){if(pred[i]<vmin)vmin=pred[i];if(pred[i]>vmax)vmax=pred[i];if(gt[i]<vmin)vmin=gt[i];if(gt[i]>vmax)vmax=gt[i];} }
+      const globalErrorMax = getEval3DGlobalErrorMax(ds, tk, ch, sizeCode, sampleIdx);
+      const errorScaleMax = (typeof globalErrorMax === 'number' && globalErrorMax > 0) ? globalErrorMax : errMax;
 
       function setPtCloud(panel,vals,mn,mx){
         if(panel.points){panel.scene.remove(panel.points);panel.points.geometry.dispose();panel.points.material.dispose();}
@@ -2340,15 +2488,15 @@ window.initCmpEvalViewer = function(el) {
         if(isDriv()){const ty=c.y*0.55,tx=c.x*1.5;panel.controls.target.set(tx,ty,c.z);panel.camera.position.set(tx+0.8,ty,c.z+5.8);}else{panel.camera.position.set(c.x,c.y+0.3,c.z+2.3);const vw=panel.renderer.domElement.width,vh=panel.renderer.domElement.height;panel.camera.setViewOffset(vw,vh,vw*0.08,0,vw,vh);}
         panel.controls.update();
       }
-      setPtCloud(panels[0],gt,vmin,vmax);setPtCloud(panels[1],pred,vmin,vmax);setPtCloud(panels[2],error,0,Math.max(...error));
+      setPtCloud(panels[0],gt,vmin,vmax);setPtCloud(panels[1],pred,vmin,vmax);setPtCloud(panels[2],error,0,errorScaleMax);
 
       if(isDriv()){
         const carPath=`output/eval3d/${model}/${ds}/${tk}/_car/${sizeCode}_${String(sampleIdx).padStart(2,'0')}.bin`;
         try{const cr=await fetch(carPath);if(cr.ok){const cf=new Float32Array(await cr.arrayBuffer());for(let i=0;i<cf.length/3;i++){const t=cf[i*3+1];cf[i*3+1]=cf[i*3+2];cf[i*3+2]=t;}panels.forEach(p=>setCarMesh(p,cf));}}catch(e){}
       }else{panels.forEach(p=>setCarMesh(p,null));}
       syncFrom(0);
-      const st=document.getElementById(`${id}-stats`);if(st)st.textContent=`MAE: ${formatSci(mae)}  RMSE: ${formatSci(rmse)}`;
-      const rng=document.getElementById(`${id}-range`);if(rng)rng.textContent=`${nP} pts · min: ${formatSci(vmin)} · max: ${formatSci(vmax)}`;
+      const st=document.getElementById(`${id}-stats`);if(st)st.textContent=`${sourceInfo ? sourceInfo.trim() + ' · ' : ''}MAE: ${formatSci(mae)}  RMSE: ${formatSci(rmse)}`;
+      const rng=document.getElementById(`${id}-range`);if(rng)rng.textContent=`${nP} pts · value: ${formatSci(vmin)}..${formatSci(vmax)} · error(global): ${formatSci(errorScaleMax)}`;
     } catch(e) {
       [gtW,prW,erW].forEach(c=>{c.innerHTML=`<div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(255,255,255,0.4);font-size:10px;">Data N/A</div>`;});
     }

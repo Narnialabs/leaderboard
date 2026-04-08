@@ -750,3 +750,79 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
   to { opacity: 1; transform: translateY(0); }
 }
 .fade-in { animation: fadeIn 0.4s ease; }
+
+/* ══════════════════════════════════════════════════════════
+   Extracted from inline styles — index.html refactoring
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Metric tag color variants ── */
+.metric-tag-green { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.1); }
+.metric-tag-blue  { background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.1); }
+
+/* ── Purple keyword badge ── */
+.purple-badge {
+  font-size: 11px; color: #c4b5fd;
+  background: rgba(124,58,237,0.1); padding: 4px 14px;
+  border-radius: 20px; border: 1px solid rgba(167,139,250,0.15);
+}
+
+/* ── Glass card standard padding ── */
+.glass-section { padding: 16px 20px; margin-bottom: 16px; }
+
+/* ── Section label spacing ── */
+.section-header    { margin-bottom: 12px; }
+.section-header-sm { margin-bottom: 8px; }
+.section-header-lg { margin-bottom: 14px; }
+
+/* ── Domain card elements ── */
+.domain-card-title { font-size: 14px; font-weight: 800; letter-spacing: 0.5px; }
+.domain-card-sub   { font-size: 11px; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
+.domain-card-count { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+
+/* ── Metrics panel title ── */
+.metrics-panel-label { font-size: 10px; font-weight: 700; margin-bottom: 6px; letter-spacing: 1px; }
+
+/* ── Hint text ── */
+.hint-text { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 8px; text-align: center; }
+
+/* ── Pipeline step box children ── */
+.step-label { font-size: 10px; color: var(--indigo-400); font-weight: 700; letter-spacing: 1px; }
+.step-title { font-size: 13px; color: #fff; margin-top: 3px; font-weight: 500; }
+.step-desc  { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
+/* ── Statement / Goal uppercase label ── */
+.statement-label {
+  font-size: 10px; font-weight: 700; color: #a78bfa;
+  letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;
+}
+
+/* ── Footer links ── */
+.footer-links { margin-top: 8px; font-size: 11px; display: flex; justify-content: center; gap: 12px; }
+.footer-link  { color: #a78bfa; text-decoration: none; opacity: 0.6; transition: opacity 0.2s; }
+.footer-link:hover { opacity: 1; }
+.footer-contact { margin-top: 6px; font-size: 11px; display: flex; justify-content: center; gap: 8px; }
+.contact-copy {
+  cursor: pointer;
+  color: #a78bfa;
+  opacity: 0.6;
+  transition: color 0.2s, opacity 0.2s;
+}
+.contact-copy:hover { opacity: 1; }
+.contact-copy.copied { color: #34d399; opacity: 1; }
+
+/* ── Domain Card CTA ── */
+.domain-card .cta-link {
+  display: inline-block; font-size: 11px; font-weight: 600; color: #c4b5fd;
+  background: rgba(124,58,237,0.08); border: 1px solid rgba(129,140,248,0.2);
+  padding: 5px 16px; border-radius: 6px; text-decoration: none;
+  transition: all 0.2s ease; letter-spacing: 0.2px;
+}
+.domain-card .cta-link:hover {
+  color: #fff; background: rgba(129,140,248,0.15);
+  border-color: rgba(129,140,248,0.5);
+}
+
+/* ── Roadmap elements ── */
+.roadmap-quarter { font-size: 20px; font-weight: 900; }
+.roadmap-desc    { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 6px; line-height: 1.5; }
+.roadmap-date    { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 4px; }

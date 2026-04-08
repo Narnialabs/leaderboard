@@ -55,6 +55,27 @@
     color: #a78bfa;
   }
 
+  /* Efficiency toggle switch */
+  .toggle-switch {
+    width: 32px; height: 16px;
+    background: var(--glass-border, rgba(255,255,255,0.1));
+    border-radius: 8px;
+    position: relative;
+    transition: background 0.2s;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .toggle-switch.active { background: var(--amber-400, #fbbf24); }
+  .toggle-knob {
+    width: 12px; height: 12px;
+    background: var(--text-primary, #fff);
+    border-radius: 50%;
+    position: absolute;
+    top: 2px; left: 2px;
+    transition: left 0.2s;
+  }
+  .toggle-switch.active .toggle-knob { left: 18px; }
+
   /* 3D Point Cloud Viewer (leaderboard) */
   .lb-pc-wrap { position:relative; width:100%; height:360px; border-radius:10px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
   .lb-pc-wrap canvas { display:block; width:100%!important; height:100%!important; }
@@ -195,7 +216,15 @@ window.addEventListener('unhandledrejection', function(e) {
 <div class="glass" style="padding:16px 20px; margin-bottom:16px; display:none;" id="ranking-section">
   <div class="flex justify-between items-center" style="margin-bottom:12px;">
     <div class="section-label" style="color:var(--amber-400);">BenchRank — Model Rankings</div>
-    <div id="ranking-info" style="font-size:11px; color:var(--text-muted);"></div>
+    <div class="flex gap-8 items-center">
+      <div id="ranking-info" style="font-size:11px; color:var(--text-muted);"></div>
+      <label style="display:flex; align-items:center; gap:6px; font-size:11px; color:var(--text-muted); cursor:pointer; user-select:none;">
+        <span>Efficiency</span>
+        <div class="toggle-switch" id="efficiency-toggle" onclick="toggleEfficiency(this)">
+          <div class="toggle-knob"></div>
+        </div>
+      </label>
+    </div>
   </div>
   <div class="data-table-wrapper">
     <table class="data-table" id="ranking-table">
@@ -275,16 +304,27 @@ window.addEventListener('unhandledrejection', function(e) {
 <div class="page-footer">
   <div class="divider"></div>
   <div class="text">NARNIA LABS · AI Benchmark Dashboard</div>
-  <div style="margin-top:8px; font-size:11px; display:flex; justify-content:center; gap:12px;">
-    <a href="https://www.narnia.ai/" target="_blank" style="color:#a78bfa; text-decoration:none; opacity:0.6; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">narnia.ai</a>
+  <div class="footer-links">
+    <a href="https://www.narnia.ai/" target="_blank" class="footer-link">narnia.ai</a>
     <span style="color:rgba(255,255,255,0.15);">|</span>
-    <a href="https://github.com/Narnialabs/leaderboard" target="_blank" style="color:#a78bfa; text-decoration:none; opacity:0.6; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">GitHub</a>
+    <a href="https://github.com/Narnialabs/leaderboard" target="_blank" class="footer-link">GitHub</a>
+    <span style="color:rgba(255,255,255,0.15);">|</span>
+    <span class="contact-copy" onclick="copyEmail(this)" data-email="simon.lee@narnia.ai">simon.lee@narnia.ai</span>
+    <span style="color:rgba(255,255,255,0.15);">|</span>
+    <span class="contact-copy" onclick="copyEmail(this)" data-email="paul.jeong@narnia.ai">paul.jeong@narnia.ai</span>
   </div>
 </div>
 
 </div><!-- /page-content -->
 
 <script>
+function copyEmail(el) {
+  navigator.clipboard.writeText(el.dataset.email).then(() => {
+    el.classList.add('copied');
+    setTimeout(() => el.classList.remove('copied'), 1200);
+  });
+}
+
 // ══════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════
@@ -296,10 +336,18 @@ let state = {
   targetKey: null,
   dimension: null,
   sampleCount: 4,
+  branch: BRANCH_QUALITY,
 };
 
 let allSummaryData = [];
 let allBenchRankDetails = [];
+
+function toggleEfficiency(el) {
+  el.classList.toggle('active');
+  const isEfficiency = el.classList.contains('active');
+  state.branch = isEfficiency ? BRANCH_QUALITY_EFFICIENCY : BRANCH_QUALITY;
+  applyFilters();
+}
 let filteredSummary = [];
 let currentRankOrder = {};
 let weightsChart = null;
@@ -360,7 +408,7 @@ async function loadAllData() {
   try {
     const [summaryData, benchDetails] = await Promise.all([
       loadSummaryMetrics(cat),
-      loadBenchRankDetails(cat).catch(() => []),
+      loadBenchRankDetails(cat, state.branch).catch(() => []),
     ]);
     allSummaryData = summaryData;
     allBenchRankDetails = benchDetails;
@@ -420,11 +468,15 @@ function renderLevel2Filters(opts) {
     }).join('')}</span>
   `;
 
-  // state.dataset stays null by default → "All" is active
+  // Evaluation tasks: no "All" (cross-dataset mean is meaningless); auto-select first dataset
+  const isEval = state.task === 'evaluation';
+  if (isEval && !state.dataset && opts.datasets.length) state.dataset = opts.datasets[0];
+
+  const allBtn = isEval ? '' : `<button class="filter-pill ${!state.dataset?'active':''}"
+          onclick="setDataset('all',this)">All</button>`;
   document.getElementById('dataset-filter').innerHTML = `
     <span class="filter-label">Dataset</span>
-    <span class="pill-wrap"><button class="filter-pill ${!state.dataset?'active':''}"
-            onclick="setDataset('all',this)">All</button>
+    <span class="pill-wrap">${allBtn}
     ${opts.datasets.map(ds => {
       return `<button class="filter-pill ${ds===state.dataset?'active':''}"
               onclick="setDataset('${ds}',this)">${displayDataset(ds)}</button>`;
@@ -557,8 +609,8 @@ async function applyFilters() {
   let leaderboardData = [], metricsData = [];
   try {
     [leaderboardData, metricsData] = await Promise.all([
-      loadLeaderboard(cat, sc, state.dataset, state.targetKey),
-      loadMetricsRanking(cat, sc, state.dataset, state.targetKey),
+      loadLeaderboard(cat, sc, state.dataset, state.targetKey, state.branch),
+      loadMetricsRanking(cat, sc, state.dataset, state.targetKey, state.branch),
     ]);
   } catch(e) { console.warn('Leaderboard CSV load failed:', e); }
 
