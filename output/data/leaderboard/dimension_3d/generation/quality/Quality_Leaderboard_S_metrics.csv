@@ -1,14 +1,14 @@
 ﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6
-1,Density,0.2097,atlasnet,deepsdf,diffusionpointcloud,gan3d,pointflow,shapegf
-2,Coverage,0.2097,atlasnet,deepsdf,diffusionpointcloud,gan3d,pointflow,shapegf
-3,Precision,0.2097,atlasnet,deepsdf,diffusionpointcloud,gan3d,pointflow,shapegf
-4,MS-SSIM,0.0808,deepsdf,gan3d,pointflow,atlasnet,diffusionpointcloud,shapegf
-5,MV-FID,0.0605,atlasnet,pointflow,deepsdf,gan3d,shapegf,diffusionpointcloud
-6,Recall,0.0573,pointflow,gan3d,atlasnet,deepsdf,diffusionpointcloud,shapegf
-7,F-Score,0.0448,pointflow,atlasnet,diffusionpointcloud,gan3d,deepsdf,shapegf
-8,EMD,0.0438,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf,deepsdf
-9,FPD,0.0422,pointflow,atlasnet,diffusionpointcloud,gan3d,deepsdf,shapegf
-10,CD,0.0415,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf,deepsdf
-11,Training Time (s),0.0,diffusionpointcloud,atlasnet,shapegf,gan3d,deepsdf,pointflow
+1,Density,0.1925,atlasnet,deepsdf,diffusionpointcloud,gan3d,pointflow,shapegf
+2,Coverage,0.1925,atlasnet,deepsdf,diffusionpointcloud,gan3d,pointflow,shapegf
+3,Precision,0.1925,atlasnet,deepsdf,diffusionpointcloud,gan3d,pointflow,shapegf
+4,Recall,0.1231,deepsdf,atlasnet,diffusionpointcloud,gan3d,pointflow,shapegf
+5,MS-SSIM,0.0732,deepsdf,gan3d,pointflow,atlasnet,diffusionpointcloud,shapegf
+6,MV-FID,0.0497,atlasnet,pointflow,gan3d,shapegf,deepsdf,diffusionpointcloud
+7,EMD,0.0495,pointflow,atlasnet,diffusionpointcloud,deepsdf,gan3d,shapegf
+8,F-Score,0.043,atlasnet,pointflow,diffusionpointcloud,gan3d,deepsdf,shapegf
+9,CD,0.043,atlasnet,pointflow,diffusionpointcloud,gan3d,shapegf,deepsdf
+10,FPD,0.041,atlasnet,pointflow,diffusionpointcloud,gan3d,deepsdf,shapegf
+11,Training Time (s),0.0,diffusionpointcloud,gan3d,atlasnet,shapegf,deepsdf,pointflow
 12,Parameters (M),0.0,pointflow,deepsdf,diffusionpointcloud,shapegf,atlasnet,gan3d
-13,Inference Time (s),0.0,atlasnet,gan3d,diffusionpointcloud,pointflow,shapegf,deepsdf
+13,Inference Time (s),0.0,atlasnet,gan3d,diffusionpointcloud,shapegf,pointflow,deepsdf
