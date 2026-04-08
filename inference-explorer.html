@@ -174,7 +174,7 @@
             <div class="perf-label">2D Gen Models</div>
           </div>
           <div class="glass perf-card flex-1">
-            <div class="perf-value" style="color:#38bdf8;">5</div>
+            <div class="perf-value" style="color:#38bdf8;">6</div>
             <div class="perf-label">3D Eval Models</div>
           </div>
           <div class="glass perf-card flex-1">
@@ -380,6 +380,7 @@ const EXPERIMENTS = {
       { name: 'abupt', sizes: [20, 50, 100, 200], datasets: ['drivaernet_3d_2d'] },
       { name: 'pointnet', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
       { name: 'regdgcnn', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
+      { name: 'geofno', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
     ],
     datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'],
     type: '3d',
@@ -1267,6 +1268,7 @@ function buildPerfSummary() {
     { name: 'abupt', label: 'AB-UPT', sizeInfo: 'S/M/L/XL · DrivAerNet' },
     { name: 'pointnet', label: 'PointNet', sizeInfo: 'S/M/L/XL · DeepJEB + DrivAerNet' },
     { name: 'regdgcnn', label: 'RegDGCNN', sizeInfo: 'S/M/L/XL · DeepJEB + DrivAerNet' },
+    { name: 'geofno', label: 'GeoFNO', sizeInfo: 'S/M/L/XL · DeepJEB + DrivAerNet' },
   ];
   const container3d = document.getElementById('perf-cards-3d');
   container3d.innerHTML = models3d.map(m => `
@@ -1953,6 +1955,11 @@ function getEval3DRepresentativeSample(dataset, targetKey, sizeCode, sampleSlot)
     source_file: '',
   };
 }
+
+// Expose to global scope so regular <script> (Comparisons) can call them
+window.getEval3DSizeCode = getEval3DSizeCode;
+window.getEval3DRepresentativeSamples = getEval3DRepresentativeSamples;
+window.getEval3DRepresentativeSample = getEval3DRepresentativeSample;
 
 function getEval3DGlobalErrorMax(dataset, targetKey, dimension, sizeCode, sampleSlot) {
   const value = eval3dGlobalErrorRangesByKey[
