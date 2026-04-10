@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Leaderboard — Narnia Labs</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -134,6 +134,17 @@
   .data-table-wrapper:has(.compact-metrics) {
     overflow-x: hidden;
   }
+
+  /* Explorer link on visual section labels */
+  .explorer-link {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s ease;
+    cursor: pointer;
+  }
+  .explorer-link:hover {
+    color: var(--purple-300);
+  }
 </style>
 </head>
 <body>
@@ -161,6 +172,7 @@ window.addEventListener('unhandledrejection', function(e) {
 <script src="shared/nav.js"></script>
 <script>initNav('leaderboard');</script>
 <script src="shared/data-loader.js"></script>
+<script src="shared/url-state.js"></script>
 
 <div class="page-content">
 
@@ -306,11 +318,11 @@ window.addEventListener('unhandledrejection', function(e) {
   <div class="text">NARNIA LABS · AI Benchmark Dashboard</div>
   <div class="footer-links">
     <a href="https://www.narnia.ai/" target="_blank" class="footer-link">narnia.ai</a>
-    <span style="color:rgba(255,255,255,0.15);">|</span>
+    <span class="footer-sep">|</span>
     <a href="https://github.com/Narnialabs/leaderboard" target="_blank" class="footer-link">GitHub</a>
-    <span style="color:rgba(255,255,255,0.15);">|</span>
+  </div><span class="footer-sep footer-sep-mid">|</span><div class="footer-contacts">
     <span class="contact-copy" onclick="copyEmail(this)" data-email="simon.lee@narnia.ai">simon.lee@narnia.ai</span>
-    <span style="color:rgba(255,255,255,0.15);">|</span>
+    <span class="footer-sep">|</span>
     <span class="contact-copy" onclick="copyEmail(this)" data-email="paul.jeong@narnia.ai">paul.jeong@narnia.ai</span>
   </div>
 </div>
@@ -632,6 +644,9 @@ async function applyFilters() {
   renderVisualSection(sortedSummary, rankOrder);
   // 5) BenchRank Details
   renderBenchRankDetails();
+
+  // Sync state to URL hash
+  syncURL();
 }
 
 // ══════════════════════════════════════════
@@ -1040,6 +1055,15 @@ function updateSampleCountVisibility() {
   });
 }
 
+function explorerDetailURL(model, ds, dataSize) {
+  let treeId;
+  if (state.dim === '2d') treeId = '2d-gen';
+  else if (state.task === 'generation') treeId = '3d-gen';
+  else treeId = '3d-eval';
+  const key = `${treeId}|${model}|${dataSize}|${ds}`;
+  return `inference-explorer.html#view=detail&exp=${encodeURIComponent(key)}`;
+}
+
 function renderVisualSection(data, rankOrder) {
   const section = document.getElementById('visual-section');
   if (!data || !data.length) { section.style.display = 'none'; return; }
@@ -1084,11 +1108,12 @@ function render2DAllModels(container, data, rankOrder) {
       const type = displayModelType(model);
       const dsName = displayDataset(ds);
 
+      const expURL = explorerDetailURL(model, ds, dataSize);
       html += `<div class="compare-row">
-        <div class="compare-row-label">
+        <a href="${expURL}" class="compare-row-label explorer-link" title="View in Inference Explorer">
           ${friendly}
           <div class="sub">${type ? type + ' · ' : ''}${dsName} · N=${dataSize}</div>
-        </div>
+        </a>
         <div class="compare-row-images">`;
 
       for (let i = 0; i < state.sampleCount; i++) {
@@ -1174,12 +1199,13 @@ function render3DGenAllModels(container, data, rankOrder) {
       const dsName = displayDataset(ds);
 
       const syncGroup = `${model}__${ds}`.replace(/[^a-zA-Z0-9_-]/g, '_');
+      const expURL = explorerDetailURL(model, ds, dataSize);
       html += `<div class="compare-row" style="flex-direction:column; align-items:stretch; gap:10px;">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-          <div class="compare-row-label" style="width:auto;">
+          <a href="${expURL}" class="compare-row-label explorer-link" style="width:auto;" title="View in Inference Explorer">
             ${friendly}
             <div class="sub">${type ? type + ' · ' : ''}${dsName} · N=${dataSize}</div>
-          </div>
+          </a>
         </div>
         <div style="display:flex; flex-wrap:wrap; gap:8px; width:100%;">`;
 
@@ -1213,7 +1239,9 @@ function render3DGenAllModels(container, data, rankOrder) {
       if (el._pcInitialized && el._pcViewerId) {
         const vState = window._lbViewers && window._lbViewers.get(el._pcViewerId);
         if (entry.isIntersecting) {
-          if (!vState || !vState.renderer || vState.renderer.getContext().isContextLost()) {
+          let contextBad = !vState || !vState.renderer || (vState._contextLost === true);
+          if (!contextBad) { try { contextBad = vState.renderer.getContext().isContextLost(); } catch(e) { contextBad = true; } }
+          if (contextBad) {
             // Context lost — fully re-init
             el._pcInitialized = false;
             if (vState) {
@@ -1354,12 +1382,14 @@ function render3DEvalAllModels(container, data, rankOrder) {
     const type = displayModelType(model);
     const dsLabel = dataset ? '' : ' · ' + [...new Set(data.filter(r => r['Model Name'] === model).map(r => displayDataset(r['Dataset'])))].join(', ');
 
+    const evalDS = dataset || row['Dataset'];
+    const expURL = explorerDetailURL(model, evalDS, dataSize);
     html += `<div class="compare-row" style="flex-direction:column; align-items:stretch; gap:8px;">
       <div style="display:flex; justify-content:space-between; align-items:center;">
-        <div class="compare-row-label" style="width:auto;">
+        <a href="${expURL}" class="compare-row-label explorer-link" style="width:auto;" title="View in Inference Explorer">
           ${friendly}
           <div class="sub">${type ? type + ' · ' : ''}${parseFloat(row['Parameters (M)'] || 0).toFixed(2)}M${dsLabel}</div>
-        </div>
+        </a>
       </div>
       <div style="display:flex; flex-wrap:wrap; gap:8px; width:100%;">`;
 
@@ -1404,7 +1434,10 @@ function render3DEvalAllModels(container, data, rankOrder) {
         const v = el._evalViewer;
         if (entry.isIntersecting) {
           // Check for context loss — re-initialize if needed
-          const lost = v.panels.some(p => p._contextLost || (p.renderer && p.renderer.getContext().isContextLost()));
+          const lost = v.panels.some(p => {
+            if (p._contextLost) return true;
+            try { return p.renderer && p.renderer.getContext().isContextLost(); } catch(e) { return true; }
+          });
           if (lost) {
             el._evalInitialized = false;
             v.cancel();
@@ -1587,23 +1620,49 @@ function sortTable(tableId, colIdx) {
 }
 
 // ══════════════════════════════════════════
+// URL STATE SYNC
+// ══════════════════════════════════════════
+function syncURL() {
+  pushHashState({
+    dim: state.dim,
+    task: state.task,
+    scale: state.dataScale,
+    ds: state.dataset,
+    tk: state.targetKey,
+    d: state.dimension,
+    samples: state.sampleCount,
+    branch: state.branch !== BRANCH_QUALITY ? state.branch : null,
+  });
+}
+
+// ══════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════
 (function initFromURL() {
+  const h = readHashState();
+  // Fallback to query params for backward compat
   const params = new URLSearchParams(window.location.search);
-  if (params.get('dim')) state.dim = params.get('dim');
-  if (params.get('task')) state.task = params.get('task');
-  if (params.get('size')) {
+  if (h.dim) state.dim = h.dim;
+  else if (params.get('dim')) state.dim = params.get('dim');
+  if (h.task) state.task = h.task;
+  else if (params.get('task')) state.task = params.get('task');
+  if (h.scale) state.dataScale = h.scale;
+  else if (params.get('size')) {
     const sizeToScale = { 'S': 'Small', 'M': 'Medium', 'L': 'Large', 'XL': 'Extra Large' };
     const scale = sizeToScale[params.get('size').toUpperCase()];
     if (scale) state.dataScale = scale;
   }
+  if (h.ds) state.dataset = h.ds;
+  if (h.tk) state.targetKey = h.tk;
+  if (h.d) state.dimension = h.d;
+  if (h.samples) state.sampleCount = parseInt(h.samples);
+  if (h.branch) state.branch = h.branch;
   // Update dim pills
   document.querySelectorAll('[data-filter="dim"]').forEach(el =>
     el.classList.toggle('active', el.dataset.value === state.dim)
   );
 })();
-state.sampleCount = getDefaultSampleCount();
+if (!state.sampleCount) state.sampleCount = getDefaultSampleCount();
 updateSampleCountVisibility();
 loadAllData();
 </script>
@@ -1764,7 +1823,11 @@ function createMiniViewer(canvasContainer, id, syncGroup) {
   // Handle WebGL context loss gracefully
   renderer.domElement.addEventListener('webglcontextlost', (e) => {
     e.preventDefault();
+    vState._contextLost = true;
     if (vState.animId) { cancelAnimationFrame(vState.animId); vState.animId = null; }
+  });
+  renderer.domElement.addEventListener('webglcontextrestored', () => {
+    vState._contextLost = false;
   });
 
   function animate() {

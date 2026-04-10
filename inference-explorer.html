@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Inference Explorer — Narnia Labs</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -85,6 +85,18 @@
   .cmp-img-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
   .cmp-img-row img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); background: #08051a; }
   @media (max-width: 900px) { .cmp-grid { gap: 8px; } }
+
+  /* Back button — distinct from filter pills */
+  .back-btn {
+    padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 600;
+    color: var(--text-secondary); background: transparent;
+    border: 1px solid rgba(255,255,255,0.12); cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .back-btn:hover { color: #fff; border-color: rgba(129,140,248,0.4); background: rgba(129,140,248,0.08); }
+
+  /* Disabled state for sample nav buttons */
+  .gf-pill.disabled { opacity: 0.25; pointer-events: none; }
 </style>
 </head>
 <body>
@@ -94,6 +106,7 @@
 <script src="shared/nav.js"></script>
 <script>initNav('inference');</script>
 <script src="shared/data-loader.js"></script>
+<script src="shared/url-state.js"></script>
 
 <div class="page-content">
 
@@ -110,11 +123,11 @@
   <div class="glass explorer-sidebar" style="padding:16px;">
     <div class="section-label section-label-purple" style="margin-bottom:12px;">Experiments</div>
 
-    <!-- 2D Generation -->
-    <div class="tree-item" onclick="toggleTree('2d-gen')" style="font-weight:700;">
-      <span class="icon">▸</span> 2D Generation
+    <!-- 3D Generation -->
+    <div class="tree-item" onclick="toggleTree('3d-gen')" style="font-weight:700;">
+      <span class="icon">▸</span> 3D Generation
     </div>
-    <div class="tree-children" id="tree-2d-gen"></div>
+    <div class="tree-children" id="tree-3d-gen"></div>
 
     <!-- 3D Evaluation -->
     <div class="tree-item" onclick="toggleTree('3d-eval')" style="font-weight:700;">
@@ -122,11 +135,11 @@
     </div>
     <div class="tree-children" id="tree-3d-eval"></div>
 
-    <!-- 3D Generation -->
-    <div class="tree-item" onclick="toggleTree('3d-gen')" style="font-weight:700;">
-      <span class="icon">▸</span> 3D Generation
+    <!-- 2D Generation -->
+    <div class="tree-item" onclick="toggleTree('2d-gen')" style="font-weight:700;">
+      <span class="icon">▸</span> 2D Generation
     </div>
-    <div class="tree-children" id="tree-3d-gen"></div>
+    <div class="tree-children" id="tree-2d-gen"></div>
 
     <div class="section-label section-label-purple" style="margin-top:16px; margin-bottom:12px;">Comparisons</div>
     <div class="tree-item" onclick="showComparisons('mathematical')" style="font-weight:700;" id="sidebar-cmp-math">
@@ -195,9 +208,9 @@
 
     <!-- Detail View (shown when selecting a model) -->
     <div id="detail-view" style="display:none;">
-      <div class="flex justify-between items-center" style="margin-bottom:12px;">
-        <button onclick="backToSummary()" class="filter-pill" style="cursor:pointer;">← Back</button>
-        <div id="detail-breadcrumb" style="font-size:13px; color:rgba(255,255,255,0.4);"></div>
+      <div class="flex justify-between items-center" style="margin-bottom:12px; position:sticky; top:54px; z-index:50; background:transparent; padding:8px 0;">
+        <button onclick="backToSummary()" class="back-btn">← Back</button>
+        <div id="detail-breadcrumb" style="font-size:13px; color:rgba(255,255,255,0.55);"></div>
       </div>
 
       <!-- Performance Card -->
@@ -211,9 +224,9 @@
 
     <!-- Comparisons View -->
     <div id="comparisons-view" style="display:none;">
-      <div class="flex justify-between items-center" style="margin-bottom:12px;">
-        <button onclick="backToSummary()" class="filter-pill" style="cursor:pointer;">← Back</button>
-        <div style="font-size:13px; color:rgba(255,255,255,0.4);" id="cmp-breadcrumb">Comparisons</div>
+      <div class="flex justify-between items-center" style="margin-bottom:12px; position:sticky; top:54px; z-index:50; background:transparent; padding:8px 0;">
+        <button onclick="backToSummary()" class="back-btn">← Back</button>
+        <div style="font-size:13px; color:rgba(255,255,255,0.55);" id="cmp-breadcrumb">Comparisons</div>
       </div>
 
       <!-- Control Filters (shared) -->
@@ -325,11 +338,11 @@
   <div class="text">NARNIA LABS · AI Benchmark Dashboard</div>
   <div class="footer-links">
     <a href="https://www.narnia.ai/" target="_blank" class="footer-link">narnia.ai</a>
-    <span style="color:rgba(255,255,255,0.15);">|</span>
+    <span class="footer-sep">|</span>
     <a href="https://github.com/Narnialabs/leaderboard" target="_blank" class="footer-link">GitHub</a>
-    <span style="color:rgba(255,255,255,0.15);">|</span>
+  </div><span class="footer-sep footer-sep-mid">|</span><div class="footer-contacts">
     <span class="contact-copy" onclick="copyEmail(this)" data-email="simon.lee@narnia.ai">simon.lee@narnia.ai</span>
-    <span style="color:rgba(255,255,255,0.15);">|</span>
+    <span class="footer-sep">|</span>
     <span class="contact-copy" onclick="copyEmail(this)" data-email="paul.jeong@narnia.ai">paul.jeong@narnia.ai</span>
   </div>
 </div>
@@ -407,11 +420,15 @@ const EXPERIMENTS = {
 
 
 // ── Build Sidebar Trees ──
+const SIZE_CODE_2D = { 50: 'S', 100: 'M', 200: 'L', 500: 'XL' };
+const SIZE_CODE_3D = { 20: 'S', 50: 'M', 100: 'L', 200: 'XL' };
+
 function buildTree(treeId) {
   const exp = EXPERIMENTS[treeId];
   if (!exp) return;
 
   const container = document.getElementById('tree-' + treeId);
+  const sizeMap = exp.type === '2d' ? SIZE_CODE_2D : SIZE_CODE_3D;
   let html = '';
 
   exp.models.forEach(model => {
@@ -420,10 +437,11 @@ function buildTree(treeId) {
       modelDatasets.forEach(ds => {
         const key = `${treeId}|${model.name}|${size}|${ds}`;
         const dimColor = exp.type === '2d' ? '#22c55e' : '#38bdf8';
+        const sizeLabel = sizeMap[size] || size;
         html += `
           <div class="tree-item" onclick="selectExperiment('${key}')" data-key="${key}">
             <span class="icon" style="color:${dimColor};">●</span>
-            ${displayModelName(model.name)} (${size}) / ${displayDataset(ds)}
+            ${displayModelName(model.name)} · ${sizeLabel} · ${displayDataset(ds)}
           </div>
         `;
       });
@@ -452,6 +470,10 @@ async function selectExperiment(key) {
   const [treeId, model, size, dataset] = key.split('|');
   const exp = EXPERIMENTS[treeId];
 
+  // Reset auto-rotate to default for new viewers
+  if (typeof pcAutoRotate !== 'undefined') pcAutoRotate = true;
+  if (typeof evalAutoRotate !== 'undefined') evalAutoRotate = true;
+
   // Highlight active
   document.querySelectorAll('.tree-item').forEach(el => el.classList.remove('active'));
   const activeEl = document.querySelector(`[data-key="${key}"]`);
@@ -465,8 +487,9 @@ async function selectExperiment(key) {
   document.getElementById('comparisons-view').style.display = 'none';
   document.getElementById('detail-view').style.display = 'block';
 
+  const sizeCode = (exp.type === '2d' ? SIZE_CODE_2D : SIZE_CODE_3D)[size] || size;
   document.getElementById('detail-breadcrumb').textContent =
-    `${treeId.replace(/-/g, ' ')} / ${displayModelName(model)} (${size}) / ${displayDataset(dataset)}`;
+    `${treeId.replace(/-/g, ' ')} / ${displayModelName(model)} · ${sizeCode} · ${displayDataset(dataset)}`;
 
   // Try to load performance.json
   const datasetVariants = exp.variantsByDataset ? exp.variantsByDataset[dataset] : exp.variants;
@@ -482,7 +505,7 @@ async function selectExperiment(key) {
     if (resp.ok) {
       const perf = await resp.json();
       perfDiv.innerHTML = `
-        <div class="section-label" style="color:#a78bfa; margin-bottom:12px;">Performance — ${displayModelName(model)} (size=${size})</div>
+        <div class="section-label" style="color:#a78bfa; margin-bottom:12px;">Performance — ${displayModelName(model)} · ${sizeCode}</div>
         <div class="flex gap-12">
           <div class="glass perf-card flex-1">
             <div class="perf-value" style="color:#a78bfa; font-size:20px;">${(perf.model_parameters / 1e6).toFixed(2)}M</div>
@@ -498,7 +521,7 @@ async function selectExperiment(key) {
           </div>
           <div class="glass perf-card flex-1">
             <div class="perf-value" style="color:#f59e0b; font-size:20px;">${perf.total_generated}</div>
-            <div class="perf-label">Generated Samples</div>
+            <div class="perf-label">${treeId.includes('eval') ? 'Evaluated' : 'Generated'} Samples</div>
           </div>
         </div>
       `;
@@ -590,6 +613,7 @@ async function selectExperiment(key) {
       }
     }
   }
+  ieSync();
 }
 
 function backToSummary() {
@@ -598,6 +622,7 @@ function backToSummary() {
   document.getElementById('detail-view').style.display = 'none';
   document.getElementById('comparisons-view').style.display = 'none';
   document.querySelectorAll('.tree-item').forEach(el => el.classList.remove('active'));
+  pushHashState({});
 }
 
 // ══════════════════════════════════════════
@@ -647,6 +672,7 @@ async function showComparisons(mode) {
   // If switching modes with data already loaded, just re-render
   if (alreadyVisible && cmpAllSummary.length && prevMode !== cmpState.mode) {
     cmpRenderAll();
+    ieSync();
   } else if (!alreadyVisible || !cmpAllSummary.length) {
     await cmpLoadData();
   }
@@ -820,6 +846,7 @@ async function cmpApplyFilters() {
   cmpRenderModelPills(models);
   document.getElementById('cmp-loading').style.display = 'none';
   cmpRenderAll();
+  ieSync();
 }
 
 function cmpRenderModelPills(models) {
@@ -832,7 +859,15 @@ function cmpRenderModelPills(models) {
 }
 
 window.cmpSelectModel = function(side, model) {
-  if (side === 'A') cmpState.modelA = model; else cmpState.modelB = model;
+  if (side === 'A') {
+    cmpState.modelA = model;
+    if (cmpState.modelB === model && cmpState.sortedModels.length > 1)
+      cmpState.modelB = cmpState.sortedModels.find(m => m !== model) || cmpState.modelB;
+  } else {
+    cmpState.modelB = model;
+    if (cmpState.modelA === model && cmpState.sortedModels.length > 1)
+      cmpState.modelA = cmpState.sortedModels.find(m => m !== model) || cmpState.modelA;
+  }
   cmpRenderModelPills(cmpState.sortedModels);
   cmpRenderAll();
 };
@@ -858,6 +893,7 @@ function cmpTotalSamples() {
 function cmpPrevSample() {
   const step = cmpSamplesPerPage();
   if (cmpState.sampleIndex >= step) { cmpState.sampleIndex -= step; cmpRenderVisual(); }
+  cmpUpdateSampleBtnStates();
 }
 function cmpNextSample() {
   const step = cmpSamplesPerPage();
@@ -865,6 +901,15 @@ function cmpNextSample() {
     cmpState.sampleIndex += step;
     cmpRenderVisual();
   }
+  cmpUpdateSampleBtnStates();
+}
+function cmpUpdateSampleBtnStates() {
+  const step = cmpSamplesPerPage();
+  const nav = document.getElementById('cmp-sample-nav');
+  if (!nav) return;
+  const btns = nav.querySelectorAll('.gf-pill');
+  if (btns[0]) btns[0].classList.toggle('disabled', cmpState.sampleIndex < step);
+  if (btns[1]) btns[1].classList.toggle('disabled', cmpState.sampleIndex + step >= cmpTotalSamples());
 }
 
 // ── Render all comparison sections ──
@@ -1030,8 +1075,13 @@ function cmpRenderVisual() {
   }
 
   const label = cmpState.task==='evaluation'?'Evaluated Results':'Generated Results';
-  document.getElementById('cmp-visual-label').textContent =
-    `${label} — ${displayModelName(cmpState.modelA)} vs ${displayModelName(cmpState.modelB)}`;
+  const labelEl = document.getElementById('cmp-visual-label');
+  labelEl.textContent = `${label} — ${displayModelName(cmpState.modelA)} vs ${displayModelName(cmpState.modelB)}`;
+  // Domain-aware label color
+  const domainColor = cmpState.dim === '2d' ? '#22c55e' : cmpState.task === 'evaluation' ? '#38bdf8' : '#a78bfa';
+  labelEl.style.color = domainColor;
+
+  cmpUpdateSampleBtnStates();
 
   const container = document.getElementById('cmp-visual-content');
   try {
@@ -1106,7 +1156,10 @@ function cmpRender3DGen(container) {
       // Pause/resume
       if (el._pcInit && el._cmpPcViewer) {
         if (e.isIntersecting) {
-          if (el._contextLost) {
+          // Check context loss via flag + direct check (with safety)
+          let ctxBad = el._contextLost;
+          if (!ctxBad && el._cmpPcViewer._renderer) { try { ctxBad = el._cmpPcViewer._renderer.getContext().isContextLost(); } catch(err) { ctxBad = true; } }
+          if (ctxBad) {
             el._pcInit = false;
             el._contextLost = false;
             el._cmpPcViewer.cleanup();
@@ -1185,7 +1238,14 @@ function cmpRender3DEval(container) {
       // Pause/resume
       if (el._evalInit && el._cmpEvalViewer) {
         if (e.isIntersecting) {
-          if (el._contextLost) {
+          // Check context loss via flag + direct check (with safety)
+          let ctxBad = el._contextLost;
+          if (!ctxBad && el._cmpEvalViewer.panels) {
+            ctxBad = el._cmpEvalViewer.panels.some(p => {
+              try { return p.renderer && p.renderer.getContext().isContextLost(); } catch(err) { return true; }
+            });
+          }
+          if (ctxBad) {
             el._evalInit = false;
             el._contextLost = false;
             el._cmpEvalViewer.cleanup();
@@ -1250,7 +1310,7 @@ function buildPerfSummary() {
          onclick="navigateToModel('2d-gen','${m}')"
          onmouseenter="this.style.borderColor='rgba(34,197,94,0.4)'"
          onmouseleave="this.style.borderColor=''">
-      <div style="font-size:14px; font-weight:800; color:#fff;">${m.toUpperCase()}</div>
+      <div style="font-size:14px; font-weight:800; color:#fff;">${m.toUpperCase()} <span style="font-size:10px; font-weight:500; color:rgba(255,255,255,0.2);">→</span></div>
       <div style="font-size:10px; color:rgba(255,255,255,0.3); margin-top:2px;">2D Generation</div>
       <div style="font-size:10px; color:#22c55e; margin-top:4px;">S/M/L/XL</div>
     </div>
@@ -1271,7 +1331,7 @@ function buildPerfSummary() {
          onclick="navigateToModel('3d-eval','${m.name}')"
          onmouseenter="this.style.borderColor='rgba(56,189,248,0.4)'"
          onmouseleave="this.style.borderColor=''">
-      <div style="font-size:14px; font-weight:800; color:#fff;">${m.label}</div>
+      <div style="font-size:14px; font-weight:800; color:#fff;">${m.label} <span style="font-size:10px; font-weight:500; color:rgba(255,255,255,0.2);">→</span></div>
       <div style="font-size:10px; color:rgba(255,255,255,0.3); margin-top:2px;">3D Evaluation</div>
       <div style="font-size:10px; color:#38bdf8; margin-top:4px;">${m.sizeInfo}</div>
     </div>
@@ -1292,15 +1352,57 @@ function buildPerfSummary() {
          onclick="navigateToModel('3d-gen','${m.name}')"
          onmouseenter="this.style.borderColor='rgba(167,139,250,0.4)'"
          onmouseleave="this.style.borderColor=''">
-      <div style="font-size:14px; font-weight:800; color:#fff;">${m.label}</div>
+      <div style="font-size:14px; font-weight:800; color:#fff;">${m.label} <span style="font-size:10px; font-weight:500; color:rgba(255,255,255,0.2);">→</span></div>
       <div style="font-size:10px; color:rgba(255,255,255,0.3); margin-top:2px;">3D Generation</div>
       <div style="font-size:10px; color:#a78bfa; margin-top:4px;">${m.sizeInfo}</div>
     </div>
   `).join('');
 }
 
+// ══════════════════════════════════════════
+// URL STATE SYNC
+// ══════════════════════════════════════════
+function ieSync() {
+  const view = document.getElementById('detail-view').style.display === 'block' ? 'detail'
+    : document.getElementById('comparisons-view').style.display === 'block' ? 'cmp' : null;
+  if (view === 'detail') {
+    const activeEl = document.querySelector('.tree-item.active[data-key]');
+    pushHashState({ view: 'detail', exp: activeEl ? activeEl.dataset.key : '' });
+  } else if (view === 'cmp') {
+    pushHashState({
+      view: 'cmp', mode: cmpState.mode, dim: cmpState.dim, task: cmpState.task,
+      scale: cmpState.dataScale, ds: cmpState.dataset,
+      tk: cmpState.targetKey, d: cmpState.dimension,
+      ma: cmpState.modelA, mb: cmpState.modelB,
+    });
+  }
+}
+
 // ── Init ──
 buildPerfSummary();
+
+// Restore state from URL hash
+(function ieInitFromURL() {
+  const h = readHashState();
+  if (!h.view) return;
+  if (h.view === 'detail' && h.exp) {
+    // Expand the correct tree first
+    const treeId = h.exp.split('|')[0];
+    const container = document.getElementById('tree-' + treeId);
+    if (container && !container.classList.contains('expanded')) toggleTree(treeId);
+    selectExperiment(h.exp);
+  } else if (h.view === 'cmp') {
+    if (h.dim) cmpState.dim = h.dim;
+    if (h.task) cmpState.task = h.task;
+    if (h.scale) cmpState.dataScale = h.scale;
+    if (h.ds) cmpState.dataset = h.ds;
+    if (h.tk) cmpState.targetKey = h.tk;
+    if (h.d) cmpState.dimension = h.d;
+    if (h.ma) cmpState.modelA = h.ma;
+    if (h.mb) cmpState.modelB = h.mb;
+    showComparisons(h.mode || 'qualitative');
+  }
+})();
 </script>
 
 <!-- Three.js for 3D point cloud viewer -->
@@ -1406,6 +1508,45 @@ function createViewer(container, width, height) {
 
   // Ambient light for visibility
   pcScene.add(new THREE.AmbientLight(0xffffff, 0.5));
+
+  // Handle WebGL context loss
+  let _pcContextLost = false;
+  pcRenderer.domElement.addEventListener('webglcontextlost', (e) => {
+    e.preventDefault();
+    _pcContextLost = true;
+    if (pcAnimId) { cancelAnimationFrame(pcAnimId); pcAnimId = null; }
+  });
+  pcRenderer.domElement.addEventListener('webglcontextrestored', () => {
+    _pcContextLost = false;
+    if (!pcAnimId) animate();
+  });
+
+  // Recovery observer: re-create viewer if context lost while off-screen
+  if (window._pcRecoveryObs) window._pcRecoveryObs.disconnect();
+  window._pcRecoveryObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && _pcContextLost && pcCurrentData) {
+        const wrap = document.getElementById('pc-canvas-wrap');
+        if (wrap) {
+          const inner = wrap.querySelector('#pc-canvas-inner') || wrap;
+          inner.innerHTML = '';
+          createViewer(inner, inner.clientWidth, inner.clientHeight);
+          // Reload current data into the new viewer
+          if (pcCurrentData) {
+            const geom = new THREE.BufferGeometry();
+            geom.setAttribute('position', new THREE.Float32BufferAttribute(pcCurrentData, 3));
+            geom.setAttribute('color', new THREE.Float32BufferAttribute(colorPointCloud(pcCurrentData, pcColorMode), 3));
+            geom.computeBoundingSphere();
+            if (pcPoints) { pcScene.remove(pcPoints); pcPoints.geometry.dispose(); pcPoints.material.dispose(); }
+            pcPoints = new THREE.Points(geom, new THREE.PointsMaterial({ size: 0.008, vertexColors: true }));
+            pcScene.add(pcPoints);
+          }
+        }
+      }
+    });
+  }, { rootMargin: '50px' });
+  const pcWrap = container.closest('.pc-viewer-container') || container;
+  window._pcRecoveryObs.observe(pcWrap);
 
   function animate() {
     pcAnimId = requestAnimationFrame(animate);
@@ -1731,7 +1872,18 @@ function createEvalPanel(container, width, height, labelClass, labelText) {
     }
   });
 
-  return { scene, camera, renderer, controls, points: null, container };
+  const panel = { scene, camera, renderer, controls, points: null, container, _contextLost: false };
+
+  // Handle WebGL context loss
+  renderer.domElement.addEventListener('webglcontextlost', (e) => {
+    e.preventDefault();
+    panel._contextLost = true;
+  });
+  renderer.domElement.addEventListener('webglcontextrestored', () => {
+    panel._contextLost = false;
+  });
+
+  return panel;
 }
 
 let _evalSyncLock = false;
@@ -1791,10 +1943,10 @@ function setEvalPointCloud(panel, positions, fieldValues, vmin, vmax, isDrivAerN
     panel.controls.target.set(tgtX, tgtY, center.z);
     panel.camera.position.set(tgtX + 0.8, tgtY, center.z + 5.8);
   } else {
-    // DeepJEB: rotation axis at object center, viewport shifted so object appears left
+    // DeepJEB: rotation axis at object center, slight offset for colorbar clearance
     panel.camera.position.set(center.x, center.y + 0.3, center.z + 2.3);
     const vw = panel.renderer.domElement.width, vh = panel.renderer.domElement.height;
-    panel.camera.setViewOffset(vw, vh, vw * 0.08, 0, vw, vh);
+    panel.camera.setViewOffset(vw, vh, vw * 0.02, 0, vw, vh);
   }
   panel.controls.update();
 }
@@ -1995,9 +2147,6 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
         <label>Sample</label>
         <div class="pc-sample-strip" id="eval3d-sample-strip"></div>
         <div style="margin-left:auto; display:flex; gap:6px; align-items:center;">
-          <label>Value Range</label>
-          <span id="eval3d-range-info" style="font-size:10px; color:rgba(255,255,255,0.4);">—</span>
-          <div style="width:1px; height:16px; background:rgba(255,255,255,0.1); margin:0 4px;"></div>
           <button class="pc-color-btn ${evalAutoRotate ? 'active' : ''}" id="eval3d-rotate-btn" onclick="window._evalToggleRotate(this)">Auto-Rotate</button>
         </div>
       </div>
@@ -2044,6 +2193,24 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
     });
   });
   resizeObserver.observe(gtWrap);
+
+  // Context loss recovery: re-init eval viewer when panels come back into view
+  if (window._evalRecoveryObs) window._evalRecoveryObs.disconnect();
+  window._evalRecoveryObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const lost = evalPanels.some(p => {
+        if (p._contextLost) return true;
+        try { return p.renderer && p.renderer.getContext().isContextLost(); } catch(e) { return true; }
+      });
+      if (lost && evalData) {
+        // Stop animation, re-init from scratch
+        if (evalAnimId) { cancelAnimationFrame(evalAnimId); evalAnimId = null; }
+        window.initEvalViewer(model, size, dataset, targetKey, channels);
+      }
+    });
+  }, { rootMargin: '50px' });
+  window._evalRecoveryObs.observe(root);
 
   // Sync: all panels can be controlled independently, but camera syncs across all
   evalPanels.forEach((panel, idx) => {
@@ -2181,9 +2348,6 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
 
       // Update stats
       document.getElementById('eval3d-stats').textContent = `MAE: ${formatSci(stats.mae)}  RMSE: ${formatSci(stats.rmse)}`;
-      document.getElementById('eval3d-range-info').textContent =
-        `value: ${formatSci(vmin)}..${formatSci(vmax)} · error(global): ${formatSci(errorScaleMax)} · ${numPoints} points`;
-
       // Remove loading
       evalPanels.forEach(p => {
         const el = p.container.querySelector('.eval3d-loading');
@@ -2235,7 +2399,8 @@ function _cmpPcSync(side, fromSampleIdx) {
 
 window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   const id = el.id;
-  const viewerHeight = 240;
+  const isMobileCmp = window.matchMedia('(max-width: 768px)').matches;
+  const viewerHeight = isMobileCmp ? 200 : 240;
   el.innerHTML = `
     <div class="pc-viewer-container" style="height:${viewerHeight}px;">
       <div id="${id}-canvas" style="width:100%; height:100%; position:relative;">
@@ -2249,7 +2414,8 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x08051a);
   const camera = new THREE.PerspectiveCamera(45, w/h, 0.01, 100);
-  camera.position.set(2.1, 1.4, 2.1);
+  const camDist = isMobileCmp ? 1.35 : 1.0;
+  camera.position.set(2.1 * camDist, 1.4 * camDist, 2.1 * camDist);
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(w, h);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -2298,9 +2464,14 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
     el._contextLost = true;
     if (cmpPcAnimId) { cancelAnimationFrame(cmpPcAnimId); cmpPcAnimId = null; }
   });
+  renderer.domElement.addEventListener('webglcontextrestored', () => {
+    el._contextLost = false;
+    if (!cmpPcAnimId) animate();
+  });
 
   // Store viewer handle for pause/resume
   el._cmpPcViewer = {
+    _renderer: renderer,
     pause: () => { if (cmpPcAnimId) { cancelAnimationFrame(cmpPcAnimId); cmpPcAnimId = null; } },
     resume: () => { if (!cmpPcAnimId) animate(); },
     isAnimating: () => !!cmpPcAnimId,
@@ -2341,7 +2512,8 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
       controls.target.copy(c);
       const isDriv = dataset.toLowerCase().includes('drivaernet');
       const z = isDriv ? (1.0 / 1.1) : 1.0;  // DrivAerNet: 110% bigger
-      camera.position.set(c.x+1.5*z, c.y+1.0*z, c.z+1.5*z);
+      const mz = isMobileCmp ? 1.35 : 1.0;
+      camera.position.set(c.x+1.5*z*mz, c.y+1.0*z*mz, c.z+1.5*z*mz);
       controls.update();
     } catch {
       if (ld) ld.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,0.4);font-size:11px;">Sample ${idx} N/A</div>`;
@@ -2396,7 +2568,6 @@ window.initCmpEvalViewer = async function(el) {
       </div>
       <div style="display:flex;gap:8px;padding:6px 12px;background:rgba(255,255,255,0.03);border-top:1px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(167,139,250,0.7);font-weight:700;">
         ${tk} · ${channels[chIdx]} · #${sampleIdx}
-        <span style="margin-left:auto;font-size:9px;color:rgba(255,255,255,0.3);" id="${id}-range">—</span>
       </div>
     </div>`;
 
@@ -2405,9 +2576,11 @@ window.initCmpEvalViewer = async function(el) {
   const erW = document.getElementById(`${id}-error`);
   const w = gtW.clientWidth, h = gtW.clientHeight;
 
+  const isMobileCmpEval = window.matchMedia('(max-width: 768px)').matches;
   function mkPanel(cont) {
     const s = new THREE.Scene(); s.background = new THREE.Color(0x08051a);
-    const cam = new THREE.PerspectiveCamera(45,w/h,0.01,100); cam.position.set(2.1,1.4,2.1);
+    const camDist = isMobileCmpEval ? 1.35 : 1.0;
+    const cam = new THREE.PerspectiveCamera(45,w/h,0.01,100); cam.position.set(2.1*camDist,1.4*camDist,2.1*camDist);
     const ren = new THREE.WebGLRenderer({antialias:true}); ren.setSize(w,h); ren.setPixelRatio(Math.min(window.devicePixelRatio,2)); cont.appendChild(ren.domElement);
     const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.enableZoom=false; ctrl.autoRotate=true; ctrl.autoRotateSpeed=0.25; ctrl.minDistance=0.5; ctrl.maxDistance=20;
     s.add(new THREE.GridHelper(2,10,0x1a1045,0x140e30)); s.add(new THREE.AmbientLight(0xffffff,0.5));
@@ -2427,6 +2600,17 @@ window.initCmpEvalViewer = async function(el) {
     p.renderer.domElement.addEventListener('webglcontextlost', (e) => {
       e.preventDefault();
       el._contextLost = true;
+      if (animId) { cancelAnimationFrame(animId); animId = null; }
+    });
+    p.renderer.domElement.addEventListener('webglcontextrestored', () => {
+      // Check if all panels are restored
+      const anyLost = panels.some(pp => {
+        try { return pp.renderer.getContext().isContextLost(); } catch(e) { return true; }
+      });
+      if (!anyLost) {
+        el._contextLost = false;
+        if (!animId) animate();
+      }
     });
   });
 
@@ -2483,7 +2667,7 @@ window.initCmpEvalViewer = async function(el) {
         const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('color',new THREE.Float32BufferAttribute(colorByField(vals,mn,mx),3));
         panel.points=new THREE.Points(g,new THREE.PointsMaterial({size:isDriv()?0.018:0.012,vertexColors:true,sizeAttenuation:true,transparent:true,opacity:0.85}));
         panel.scene.add(panel.points);g.computeBoundingBox();const c=new THREE.Vector3();g.boundingBox.getCenter(c);panel.controls.target.copy(c);
-        if(isDriv()){const ty=c.y*0.55,tx=c.x*1.5;panel.controls.target.set(tx,ty,c.z);panel.camera.position.set(tx+0.8,ty,c.z+5.8);}else{panel.camera.position.set(c.x,c.y+0.3,c.z+2.3);const vw=panel.renderer.domElement.width,vh=panel.renderer.domElement.height;panel.camera.setViewOffset(vw,vh,vw*0.08,0,vw,vh);}
+        if(isDriv()){const ty=c.y*0.55,tx=c.x*1.5;panel.controls.target.set(tx,ty,c.z);panel.camera.position.set(tx+0.8,ty,c.z+(isMobileCmpEval?7.5:5.8));}else{const mz=isMobileCmpEval?3.1:2.3;panel.camera.position.set(c.x,c.y+0.3,c.z+mz);const vw=panel.renderer.domElement.width,vh=panel.renderer.domElement.height;panel.camera.setViewOffset(vw,vh,vw*0.02,0,vw,vh);}
         panel.controls.update();
       }
       setPtCloud(panels[0],gt,vmin,vmax);setPtCloud(panels[1],pred,vmin,vmax);setPtCloud(panels[2],error,0,errorScaleMax);
@@ -2494,7 +2678,6 @@ window.initCmpEvalViewer = async function(el) {
       }else{panels.forEach(p=>setCarMesh(p,null));}
       syncFrom(0);
       const st=document.getElementById(`${id}-stats`);if(st)st.textContent=`MAE: ${formatSci(mae)}  RMSE: ${formatSci(rmse)}`;
-      const rng=document.getElementById(`${id}-range`);if(rng)rng.textContent=`${nP} pts · value: ${formatSci(vmin)}..${formatSci(vmax)} · error(global): ${formatSci(errorScaleMax)}`;
     } catch(e) {
       [gtW,prW,erW].forEach(c=>{c.innerHTML=`<div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(255,255,255,0.4);font-size:10px;">Data N/A</div>`;});
     }

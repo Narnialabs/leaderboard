@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Narnia Labs — AI Benchmark Leaderboard</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -77,31 +77,19 @@
     </div>
   </div>
   <div class="step-detail" id="step-detail-0">
-    <span style="color:#818cf8; font-weight:600;">Why</span> — <span style="color:rgba(255,255,255,0.5);">Fair comparison requires identical conditions. Every model must be trained on the same dataset, same scale, same pipeline — no exceptions.</span><br/><br/>
-    <span style="color:#818cf8; font-weight:600;">How</span> — <span style="color:rgba(255,255,255,0.5);">Each model goes through the same standardized training and inference process:</span><br/>
-    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">1. Select a model, dataset (DeepJEB / DrivAerNet), and data scale (S / M / L / XL)</span><br/>
-    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">2. Train on N samples — 2D images at 128×128, or 3D point clouds with 8192 points</span><br/>
-    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">3. Generate exactly <span style="color:#c4b5fd;">500 test samples</span> for standardized evaluation</span><br/><br/>
-    <span style="color:#818cf8; font-weight:600;">What</span> — 500 generated samples + training time + inference time<br/>
-    <span style="color:rgba(255,255,255,0.3); font-size:11px; margin-top:4px; display:inline-block;">Covers GAN · VAE · Diffusion · Flow · Implicit · Transformer · GNN families</span>
+    <span style="color:#818cf8; font-weight:600;">Why</span> — <span style="color:rgba(255,255,255,0.5);">Fair comparison requires identical conditions — same dataset, same scale, same pipeline.</span><br/>
+    <span style="color:#818cf8; font-weight:600;">How</span> — <span style="color:rgba(255,255,255,0.5);">Each model is implemented per its paper, trained up to 1,000 epochs with early stopping, and the best checkpoint is selected for inference.</span><br/>
+    <span style="color:#818cf8; font-weight:600;">What</span> — <span style="color:rgba(255,255,255,0.5);">Best checkpoint → <span style="color:#c4b5fd;">500 standardized samples</span> + training/inference time records.</span>
   </div>
   <div class="step-detail" id="step-detail-1">
-    <span style="color:#818cf8; font-weight:600;">Why</span> — <span style="color:rgba(255,255,255,0.5);">A single metric can be misleading. We measure quality, diversity, and efficiency simultaneously to capture the full picture of model performance.</span><br/><br/>
-    <span style="color:#818cf8; font-weight:600;">How</span> — <span style="color:rgba(255,255,255,0.5);">Each model's 500 samples are compared against 500 real samples across three dimensions:</span><br/>
-    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">1. <span style="color:#c4b5fd;">Quality</span> — How realistic? (FID, IS, PSNR for 2D · CD, EMD, FPD for 3D · MAE, RMSE, R² for eval)</span><br/>
-    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">2. <span style="color:#c4b5fd;">Diversity</span> — How varied? (Precision, Recall, Density, Coverage)</span><br/>
-    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">3. <span style="color:#c4b5fd;">Efficiency</span> — How fast and lightweight? (Parameters, Training time, Inference time)</span><br/><br/>
-    <span style="color:#818cf8; font-weight:600;">What</span> — A metric report per model with ↑ higher-is-better and ↓ lower-is-better indicators<br/>
-    <span style="color:rgba(255,255,255,0.3); font-size:11px; margin-top:4px; display:inline-block;">Covers 2D image · 3D point cloud · 3D field evaluation domains</span>
+    <span style="color:#818cf8; font-weight:600;">Why</span> — <span style="color:rgba(255,255,255,0.5);">A single metric misleads. We measure <span style="color:#c4b5fd;">quality</span>, <span style="color:#c4b5fd;">diversity</span>, and <span style="color:#c4b5fd;">efficiency</span> simultaneously.</span><br/>
+    <span style="color:#818cf8; font-weight:600;">How</span> — <span style="color:rgba(255,255,255,0.5);">500 generated vs 500 real samples, compared across FID·CD·MAE (quality), Precision·Recall·Coverage (diversity), and params·time (efficiency).</span><br/>
+    <span style="color:#818cf8; font-weight:600;">What</span> — <span style="color:rgba(255,255,255,0.5);">Per-model metric report with ↑ higher-is-better and ↓ lower-is-better indicators.</span>
   </div>
   <div class="step-detail" id="step-detail-2">
-    <span style="color:#818cf8; font-weight:600;">Why</span> — <span style="color:rgba(255,255,255,0.5);">Simply averaging metrics is unfair — correlated metrics inflate certain aspects, and different scales make direct comparison meaningless. <span style="color:#c4b5fd; font-weight:600;">BenchRank</span> solves this.</span><br/><br/>
-    <span style="color:#818cf8; font-weight:600;">How</span> — <span style="color:rgba(255,255,255,0.5);">All metric reports are fed into a four-stage ranking pipeline:</span><br/>
-    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">1. <span style="color:#c4b5fd;">Debias</span> — Correlated metrics (e.g. MAE & RMSE) are automatically down-weighted so no single aspect dominates</span><br/>
-    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">2. <span style="color:#c4b5fd;">Dominance</span> — Every model is compared head-to-head across all metrics, building a "who-beats-whom" network</span><br/>
-    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">3. <span style="color:#c4b5fd;">PageRank</span> — The network is scored to produce one global Total Score per model</span><br/>
-    <span style="color:rgba(255,255,255,0.45); padding-left:12px;">4. <span style="color:#c4b5fd;">Dual Branch</span> — Two views: Quality-only and Quality + Efficiency (switchable on the leaderboard)</span><br/><br/>
-    <span style="color:#818cf8; font-weight:600;">What</span> — Ranked leaderboard per data scale (S / M / L / XL) with full metric breakdowns
+    <span style="color:#818cf8; font-weight:600;">Why</span> — <span style="color:rgba(255,255,255,0.5);">Simply averaging metrics is unfair — correlated metrics and different scales distort results. <span style="color:#c4b5fd; font-weight:600;">BenchRank</span> solves this.</span><br/>
+    <span style="color:#818cf8; font-weight:600;">How</span> — <span style="color:rgba(255,255,255,0.5);">Debias correlated metrics → build head-to-head dominance graph → PageRank scoring → one Total Score per model.</span><br/>
+    <span style="color:#818cf8; font-weight:600;">What</span> — <span style="color:rgba(255,255,255,0.5);">Ranked leaderboard per scale (S/M/L/XL), switchable between quality-only and quality+efficiency views.</span>
   </div>
 </div>
 
@@ -113,8 +101,8 @@
       <div style="font-size:14px; font-weight:800; color:#22c55e; letter-spacing:0.5px;">
         3D Generation<span class="pill" style="background:#22c55e;">DONE</span>
       </div>
-      <div class="progress-ring" style="width:38px; height:38px;">
-        <svg width="38" height="38" style="transform:rotate(-90deg);"><circle cx="19" cy="19" r="15.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4"/><circle cx="19" cy="19" r="15.5" fill="none" stroke="#22c55e" stroke-width="4" stroke-dasharray="97.39" stroke-dashoffset="0" stroke-linecap="round" class="ring-progress"/></svg>
+      <div class="progress-ring" style="width:46px; height:46px;">
+        <svg width="46" height="46" style="transform:rotate(-90deg);"><circle cx="23" cy="23" r="19.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4"/><circle cx="23" cy="23" r="19.5" fill="none" stroke="#22c55e" stroke-width="4" stroke-dasharray="122.52" stroke-dashoffset="0" stroke-linecap="round" class="ring-progress"/></svg>
         <div class="label" style="color:#22c55e; font-size:10px;">100%</div>
       </div>
     </div>
@@ -155,10 +143,10 @@
   <div class="glass domain-card flex-1" onclick="toggleMetrics('3de')">
     <div class="flex" style="justify-content:space-between; align-items:center; margin-bottom:10px;">
       <div style="font-size:14px; font-weight:800; color:#22c55e; letter-spacing:0.5px;">
-        3D Eval — Field<span class="pill" style="background:#22c55e;">DONE</span>
+        3D Evaluation — Field<span class="pill" style="background:#22c55e;">DONE</span>
       </div>
-      <div class="progress-ring" style="width:38px; height:38px;">
-        <svg width="38" height="38" style="transform:rotate(-90deg);"><circle cx="19" cy="19" r="15.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4"/><circle cx="19" cy="19" r="15.5" fill="none" stroke="#22c55e" stroke-width="4" stroke-dasharray="97.39" stroke-dashoffset="0" stroke-linecap="round" class="ring-progress"/></svg>
+      <div class="progress-ring" style="width:46px; height:46px;">
+        <svg width="46" height="46" style="transform:rotate(-90deg);"><circle cx="23" cy="23" r="19.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4"/><circle cx="23" cy="23" r="19.5" fill="none" stroke="#22c55e" stroke-width="4" stroke-dasharray="122.52" stroke-dashoffset="0" stroke-linecap="round" class="ring-progress"/></svg>
         <div class="label" style="color:#22c55e; font-size:10px;">100%</div>
       </div>
     </div>
@@ -198,8 +186,8 @@
       <div style="font-size:14px; font-weight:800; color:#22c55e; letter-spacing:0.5px;">
         2D Generation<span class="pill" style="background:#22c55e;">DONE</span>
       </div>
-      <div class="progress-ring" style="width:38px; height:38px;">
-        <svg width="38" height="38" style="transform:rotate(-90deg);"><circle cx="19" cy="19" r="15.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4"/><circle cx="19" cy="19" r="15.5" fill="none" stroke="#22c55e" stroke-width="4" stroke-dasharray="97.39" stroke-dashoffset="0" stroke-linecap="round" class="ring-progress"/></svg>
+      <div class="progress-ring" style="width:46px; height:46px;">
+        <svg width="46" height="46" style="transform:rotate(-90deg);"><circle cx="23" cy="23" r="19.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4"/><circle cx="23" cy="23" r="19.5" fill="none" stroke="#22c55e" stroke-width="4" stroke-dasharray="122.52" stroke-dashoffset="0" stroke-linecap="round" class="ring-progress"/></svg>
         <div class="label" style="color:#22c55e; font-size:10px;">100%</div>
       </div>
     </div>
@@ -363,17 +351,18 @@
   <div class="text">NARNIA LABS · AI Benchmark Dashboard</div>
   <div class="footer-links">
     <a href="https://www.narnia.ai/" target="_blank" class="footer-link">narnia.ai</a>
-    <span style="color:rgba(255,255,255,0.15);">|</span>
+    <span class="footer-sep">|</span>
     <a href="https://github.com/Narnialabs/leaderboard" target="_blank" class="footer-link">GitHub</a>
-    <span style="color:rgba(255,255,255,0.15);">|</span>
+  </div><span class="footer-sep footer-sep-mid">|</span><div class="footer-contacts">
     <span class="contact-copy" onclick="copyEmail(this)" data-email="simon.lee@narnia.ai">simon.lee@narnia.ai</span>
-    <span style="color:rgba(255,255,255,0.15);">|</span>
+    <span class="footer-sep">|</span>
     <span class="contact-copy" onclick="copyEmail(this)" data-email="paul.jeong@narnia.ai">paul.jeong@narnia.ai</span>
   </div>
 </div>
 
 </div><!-- /page-content -->
 
+<script src="shared/url-state.js"></script>
 <script>
 function togglePurpose() {
   const body = document.getElementById('purpose-body');
@@ -412,6 +401,7 @@ function toggleStep(i) {
     boxes[i].classList.add('active');
     activeStep = i;
   }
+  overviewSync();
 }
 
 function toggleMetrics(id) {
@@ -428,6 +418,7 @@ function toggleRoadmap() {
   document.getElementById('roadmap-body').classList.toggle('expanded', roadmapExpanded);
   document.getElementById('roadmap-toggle').innerHTML =
     roadmapExpanded ? '&#9650; Hide' : '&#9660; Show';
+  overviewSync();
 }
 
 let goalExpanded = false;
@@ -436,6 +427,7 @@ function toggleGoal() {
   document.getElementById('goal-body').classList.toggle('expanded', goalExpanded);
   document.getElementById('goal-toggle').innerHTML =
     goalExpanded ? '&#9650; Hide' : '&#9660; Show';
+  overviewSync();
 }
 
 function setRoadmap(i) {
@@ -460,7 +452,26 @@ function setRoadmap(i) {
   document.getElementById('rd-title').textContent = roadmapData[i].title;
   document.getElementById('rd-title').style.color = roadmapData[i].color;
   document.getElementById('rd-desc').textContent = roadmapData[i].desc;
+  overviewSync();
 }
+
+function overviewSync() {
+  pushHashState({
+    step: activeStep >= 0 ? activeStep : null,
+    rm: activeRoadmap !== 1 ? activeRoadmap : null,
+    rmOpen: roadmapExpanded ? 1 : null,
+    goalOpen: goalExpanded ? 1 : null,
+  });
+}
+
+// Restore from URL hash
+(function overviewInitFromURL() {
+  const h = readHashState();
+  if (h.rmOpen === '1') toggleRoadmap();
+  if (h.goalOpen === '1') toggleGoal();
+  if (h.rm != null) setRoadmap(parseInt(h.rm));
+  if (h.step != null && h.step !== '-1') toggleStep(parseInt(h.step));
+})();
 </script>
 </body>
 </html>

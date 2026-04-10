@@ -22,6 +22,18 @@
     user-select: auto !important;
   }
 
+  /* Safe area insets for notched devices (iPhone X+) */
+  .nav-bar {
+    padding-top: max(10px, env(safe-area-inset-top)) !important;
+  }
+  .page-footer {
+    padding-bottom: max(16px, env(safe-area-inset-bottom)) !important;
+  }
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
   .page-content {
     padding: 12px 10px 20px !important;
   }
@@ -326,7 +338,7 @@
     transform: translateX(-100%);
     transition: transform 0.3s ease;
     background: rgba(10,5,32,0.98) !important;
-    padding-top: 60px !important;
+    padding-top: max(60px, calc(54px + env(safe-area-inset-top))) !important;
     border-right: 1px solid var(--border-subtle);
     border-radius: 0 !important;
     -webkit-mask-image: none;
@@ -466,6 +478,12 @@
     height: 250px !important;
   }
 
+  /* ── Comparison metric table: allow horizontal scroll ── */
+  #cmp-metrics-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   /* ── Comparison image grid: 1 col (stack vertically within each half) ── */
   .cmp-img-row {
     grid-template-columns: 1fr !important;
@@ -486,6 +504,20 @@
   .pc-viewer-container canvas,
   .eval3d-panel canvas {
     touch-action: none;
+  }
+
+  /* ── Performance summary cards: 2-per-row on mobile ── */
+  #perf-cards-2d .perf-card,
+  #perf-cards-3d .perf-card,
+  #perf-cards-3d-gen .perf-card {
+    flex: 1 1 calc(50% - 4px) !important;
+    min-width: calc(50% - 4px) !important;
+  }
+
+  /* ── Comparison summary cards: 2-per-row on mobile ── */
+  #cmp-summary-cards .cmp-card {
+    min-width: calc(50% - 6px) !important;
+    flex: 1 1 calc(50% - 6px) !important;
   }
 
   /* ══════════════════════════════════════════════════════════
@@ -510,11 +542,28 @@
   }
   .pc-color-btn,
   .eval3d-channel-btn,
-  .lb-pc-sbtn,
   .lb-pc-cbtn,
   .lb-eval3d-chbtn {
     min-height: 32px;
     padding: 4px 10px !important;
+  }
+  .lb-pc-sbtn {
+    min-width: 36px !important;
+    min-height: 36px !important;
+    width: auto !important;
+    padding: 4px 10px !important;
+  }
+
+  /* Back button: mobile touch target + sticky top adjustment */
+  .back-btn {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 14px;
+  }
+  #detail-view > .flex[style*="sticky"],
+  #comparisons-view > .flex[style*="sticky"] {
+    top: max(50px, calc(44px + env(safe-area-inset-top))) !important;
   }
 
   /* H5: detail-view breadcrumb truncation */
@@ -554,12 +603,25 @@
     border-radius: 16px;
   }
 
-  /* Footer link touch targets */
-  .page-footer a {
-    padding: 8px 4px;
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
+  /* Footer: links row inline, contacts stack vertically */
+  .footer-links {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 8px !important;
+  }
+  .footer-sep-mid {
+    display: none !important;
+  }
+  .footer-contacts {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 4px !important;
+    margin-left: 0 !important;
+    margin-top: 4px !important;
+  }
+  .footer-contacts .footer-sep {
+    display: none !important;
   }
 
   /* ══════════════════════════════════════════════════════════
@@ -621,4 +683,44 @@
     font-size: 11px;
   }
 
+  /* ══════════════════════════════════════════════════════════
+     ROUND 4 — Additional Mobile Enhancements
+     ══════════════════════════════════════════════════════════ */
+
+  /* Tap highlight feedback for all interactive elements */
+  .filter-pill,
+  .nav-link,
+  .tree-item,
+  .gf-pill,
+  .cmp-model-pill,
+  .step-box,
+  .roadmap-item,
+  .back-btn {
+    -webkit-tap-highlight-color: rgba(129,140,248,0.15);
+  }
+
+  /* Sidebar backdrop: frosted glass effect */
+  .sidebar-backdrop {
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LANDSCAPE — mobile + landscape orientation
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) and (orientation: landscape) {
+  .eval3d-canvas-wrap {
+    height: 180px !important;
+  }
+  .lb-pc-wrap {
+    height: 200px !important;
+  }
+  #pc-canvas-wrap {
+    height: 220px !important;
+  }
+  .explorer-sidebar {
+    max-height: 100vh;
+  }
 }

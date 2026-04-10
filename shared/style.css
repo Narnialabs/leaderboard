@@ -87,7 +87,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 12px 28px;
-  background: rgba(10,5,32,0.85);
+  background: rgba(10,5,32,0.55);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-subtle);
@@ -797,10 +797,12 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
 }
 
 /* ── Footer links ── */
-.footer-links { margin-top: 8px; font-size: 11px; display: flex; justify-content: center; gap: 12px; }
+.footer-links { margin-top: 8px; font-size: 11px; display: inline-flex; gap: 12px; }
 .footer-link  { color: #a78bfa; text-decoration: none; opacity: 0.6; transition: opacity 0.2s; }
 .footer-link:hover { opacity: 1; }
-.footer-contact { margin-top: 6px; font-size: 11px; display: flex; justify-content: center; gap: 8px; }
+.footer-contacts { margin-top: 0; font-size: 11px; display: inline-flex; gap: 12px; }
+.footer-sep { color: rgba(255,255,255,0.15); }
+.footer-sep-mid { margin: 0 12px; font-size: 11px; vertical-align: middle; }
 .contact-copy {
   cursor: pointer;
   color: #a78bfa;
@@ -826,3 +828,12 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
 .roadmap-quarter { font-size: 20px; font-weight: 900; }
 .roadmap-desc    { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 6px; line-height: 1.5; }
 .roadmap-date    { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 4px; }
+
+/* ── Accessibility: respect reduced motion preference ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
