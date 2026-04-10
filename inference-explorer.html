@@ -1318,12 +1318,12 @@ function buildPerfSummary() {
 
   // 3D eval models summary
   const models3d = [
-    { name: 'transolver_pp', label: 'Transolver++', sizeInfo: 'S/M/L/XL · DeepJEB + DrivAerNet' },
-    { name: 'transolver', label: 'Transolver', sizeInfo: 'S/M/L/XL · DeepJEB + DrivAerNet' },
-    { name: 'abupt', label: 'AB-UPT', sizeInfo: 'S/M/L/XL · DrivAerNet' },
-    { name: 'pointnet', label: 'PointNet', sizeInfo: 'S/M/L/XL · DeepJEB + DrivAerNet' },
-    { name: 'regdgcnn', label: 'RegDGCNN', sizeInfo: 'S/M/L/XL · DeepJEB + DrivAerNet' },
-    { name: 'geofno', label: 'GeoFNO', sizeInfo: 'S/M/L/XL · DeepJEB + DrivAerNet' },
+    { name: 'transolver_pp', label: 'Transolver++', sizes: 'S/M/L/XL', datasets: 'DeepJEB + DrivAerNet' },
+    { name: 'transolver', label: 'Transolver', sizes: 'S/M/L/XL', datasets: 'DeepJEB + DrivAerNet' },
+    { name: 'abupt', label: 'AB-UPT', sizes: 'S/M/L/XL', datasets: 'DrivAerNet' },
+    { name: 'pointnet', label: 'PointNet', sizes: 'S/M/L/XL', datasets: 'DeepJEB + DrivAerNet' },
+    { name: 'regdgcnn', label: 'RegDGCNN', sizes: 'S/M/L/XL', datasets: 'DeepJEB + DrivAerNet' },
+    { name: 'geofno', label: 'GeoFNO', sizes: 'S/M/L/XL', datasets: 'DeepJEB + DrivAerNet' },
   ];
   const container3d = document.getElementById('perf-cards-3d');
   container3d.innerHTML = models3d.map(m => `
@@ -1333,7 +1333,8 @@ function buildPerfSummary() {
          onmouseleave="this.style.borderColor=''">
       <div style="font-size:14px; font-weight:800; color:#fff;">${m.label} <span style="font-size:10px; font-weight:500; color:rgba(255,255,255,0.2);">→</span></div>
       <div style="font-size:10px; color:rgba(255,255,255,0.3); margin-top:2px;">3D Evaluation</div>
-      <div style="font-size:10px; color:#38bdf8; margin-top:4px;">${m.sizeInfo}</div>
+      <div style="font-size:10px; color:#38bdf8; margin-top:4px;">${m.sizes}</div>
+      <div style="font-size:9px; color:rgba(255,255,255,0.25); margin-top:1px;">${m.datasets}</div>
     </div>
   `).join('');
 
