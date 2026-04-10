@@ -2134,7 +2134,6 @@ window.initLeaderboardEvalViewer = async function(el) {
       </div>
       <div class="lb-eval3d-bar">
         <span style="font-size:10px; color:rgba(167,139,250,0.7); font-weight:700;">${currentTK} · ${currentChs[currentChIdx]} · Sample ${currentSample}</span>
-        <div style="margin-left:auto; font-size:9px; color:rgba(255,255,255,0.3);" id="${id}-range">—</div>
       </div>
     </div>
     <div style="font-size:9px; color:rgba(255,255,255,0.2); text-align:center; padding:3px 0;">
@@ -2301,9 +2300,6 @@ window.initLeaderboardEvalViewer = async function(el) {
       // Update stats
       const statsEl = document.getElementById(`${id}-stats`);
       if (statsEl) statsEl.textContent = `MAE: ${formatSci(mae)}  RMSE: ${formatSci(rmse)}`;
-      const rangeEl = document.getElementById(`${id}-range`);
-      if (rangeEl) rangeEl.textContent = `${numPoints} pts · value: ${formatSci(vmin)}..${formatSci(vmax)} · error(global): ${formatSci(errorScaleMax)}`;
-
       // Hide loading
       panels.forEach(p => {
         const ld = p.container.querySelector('.lb-eval3d-ld');

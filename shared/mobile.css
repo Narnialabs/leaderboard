@@ -603,24 +603,31 @@
     border-radius: 16px;
   }
 
-  /* Footer: links row inline, contacts stack vertically */
-  .footer-links {
-    display: flex !important;
-    justify-content: center !important;
-    gap: 8px !important;
-  }
-  .footer-sep-mid {
-    display: none !important;
-  }
+  /* Footer: two centered rows with aligned separator */
+  .footer-links,
   .footer-contacts {
     display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 4px !important;
-    margin-left: 0 !important;
+    width: 270px !important;
+    max-width: 90vw !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    gap: 0 !important;
+  }
+  .footer-contacts {
     margin-top: 4px !important;
   }
+  .footer-links .footer-link,
+  .footer-contacts .contact-copy {
+    flex: 1 !important;
+    text-align: center !important;
+  }
+  .footer-links .footer-sep,
   .footer-contacts .footer-sep {
+    flex-shrink: 0 !important;
+    width: 16px !important;
+    text-align: center !important;
+  }
+  .footer-sep-mid {
     display: none !important;
   }
 
