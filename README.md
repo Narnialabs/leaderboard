@@ -28,7 +28,7 @@ This benchmark is intended solely for academic and research evaluation purposes.
 |--------|--------|
 | **2D Generation** | GAN, VAE, DCGAN, LSGAN, WGAN-CP, WGAN-GP, R1GAN, DDPM, VQVAE |
 | **3D Generation** | 3D-GAN, DeepSDF, PointFlow, ShapeGF, AtlasNet, Diffusion3D |
-| **3D Evaluation** | Transolver++, AB-UPT, Transolver, PointNet, RegDGCNN |
+| **3D Evaluation** | Transolver++, AB-UPT, Transolver, PointNet, RegDGCNN, GeoFNO |
 
 All models are benchmarked across four dataset sizes to assess data efficiency and scalability:
 - **2D Generation:** S (50), M (100), L (200), XL (500)
@@ -44,6 +44,18 @@ All models are benchmarked across four dataset sizes to assess data efficiency a
 
 Models are ranked using **BenchRank**, a graph-based ranking system combining Spearman correlation with debiased PageRank scoring for robust multi-metric evaluation.
 
+## Benchmark Pipeline
+
+All models follow a standardized 3-step pipeline to ensure fair comparison:
+
+| Step | Name | Description |
+|------|------|-------------|
+| **A** | Train & Infer | Train each model under identical conditions (same dataset, scale, epochs) with early stopping, then generate 500 standardized samples from the best checkpoint |
+| **B** | Calc Metrics | Compare 500 generated vs 500 real samples across quality, diversity, and efficiency metrics with ↑/↓ direction indicators |
+| **C** | Rank Models | Debias correlated metrics → build head-to-head dominance graph → PageRank scoring → one Total Score per model |
+
+Rankings are generated per dataset size (S/M/L/XL), with a switchable quality-only and quality+efficiency view.
+
 ## Features
 
 - **Leaderboard Rankings** — Ranked model tables with multi-metric evaluation and visual heatmaps across dataset sizes (S/M/L/XL)
@@ -51,6 +63,8 @@ Models are ranked using **BenchRank**, a graph-based ranking system combining Sp
 - **Synchronized Dual 3D Viewer** — Side-by-side 3D comparison with camera-synced rotation and navigation
 - **Inference Explorer** — Compare model outputs side-by-side with detailed per-model analysis
 - **Scalability Analysis** — Benchmarks across multiple training-set sizes to assess data efficiency
+- **Cross-Page Navigation** — Leaderboard model labels link directly to corresponding Inference Explorer detail views
+- **URL State Persistence** — Filter selections preserved across page refresh and shareable via URL
 - **Responsive Design** — Mobile-friendly layout with adaptive navigation
 
 ## Pages
@@ -80,25 +94,18 @@ This benchmark utilizes the following research datasets. All datasets are used s
 - [PapaParse](https://www.papaparse.com/) — CSV data loading
 - [Three.js](https://threejs.org/) — 3D point cloud rendering
 
-## Local Development
-
-No build tools required. Serve the project directory with any static HTTP server:
-
-```bash
-# Python
-python -m http.server 8000
-
-# Node.js (npx)
-npx serve .
-```
-
-Then open `http://localhost:8000` in your browser.
-
 ## About Narnia Labs
 
 Narnia Labs is an AI technology company revolutionizing the product development process. Our no-code AI platform, **AslanX**, empowers manufacturers with generative and predictive AI capabilities — from design generation to performance evaluation and optimization.
 
 Learn more at [narnia.ai](https://www.narnia.ai/).
+
+## Contact
+
+| Name | Role | Email |
+|------|------|-------|
+| **Simon Lee** (Sang Won Lee) | AI Research Engineer | simon.lee@narnia.ai |
+| **Paul Jeong** (Hyogu Jeong) | AI Research Engineer | paul.jeong@narnia.ai |
 
 ## License
 
