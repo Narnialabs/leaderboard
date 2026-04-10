@@ -680,8 +680,9 @@ function renderRankingTable(data) {
     const short = shortMetricLabel(h);
     const dir = h.includes('↑') ? ' ↑' : h.includes('↓') ? ' ↓' : '';
     const w = RANKING_COL_W[h] || (h.includes('Time') || h.includes('Parameters') ? 64 : 60);
-    const align = h === 'Rank' ? ' text-align:center;' : '';
-    return `<th onclick="sortTable('ranking',${i})" style="width:${w}px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;${align}">${short}${dir}</th>`;
+    const isMetric = allMetrics.includes(h);
+    const cls = h === 'Rank' ? ' text-align:center;' : isMetric ? ' text-align:right;' : '';
+    return `<th onclick="sortTable('ranking',${i})" class="${isMetric?'metric-header':''}" style="width:${w}px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;${cls}">${short}${dir}</th>`;
   }).join('');
 
   thead.innerHTML = `<tr>${catRow}</tr><tr>${colRow}</tr>`;
@@ -703,7 +704,7 @@ function renderRankingTable(data) {
         </td>`;
       }
       if (allMetrics.includes(h) && typeof val === 'number' && !isNaN(val)) {
-        return `<td style="color:${getHeatmapColor(normalizeMetric(val,ranges[h]))};">${formatMetricValue(val,h)}</td>`;
+        return `<td class="metric-cell" style="color:${getHeatmapColor(normalizeMetric(val,ranges[h]))};">${formatMetricValue(val,h,ranges[h])}</td>`;
       }
       return `<td>${val != null ? val : '-'}</td>`;
     }).join('')}</tr>`;
@@ -875,7 +876,7 @@ function renderMetricsTable(data) {
     if (h === 'Parameters (M)') return `<th onclick="sortTable('metrics',${i})">Params</th>`;
     const short = shortMetricLabel(h);
     const dir = h.includes('↑') ? ' ↑' : h.includes('↓') ? ' ↓' : '';
-    return `<th onclick="sortTable('metrics',${i})">${short}${dir}</th>`;
+    return `<th class="metric-header" onclick="sortTable('metrics',${i})">${short}${dir}</th>`;
   }).join('');
 
   document.getElementById('metrics-head').innerHTML = `<tr>${catRow}</tr><tr>${colRow}</tr>`;
@@ -898,11 +899,11 @@ function renderMetricsTable(data) {
       if (h === 'Dimension')  return `<td style="color:var(--text-tertiary); font-size:11px;">${row['Dimension'] || '-'}</td>`;
       if (h === 'Parameters (M)') {
         const v = row['Parameters (M)'];
-        return `<td style="color:var(--text-tertiary); font-size:11px;">${v != null ? parseFloat(v).toFixed(1)+' M' : '-'}</td>`;
+        return `<td class="metric-cell" style="color:var(--text-tertiary); font-size:11px;">${v != null ? parseFloat(v).toFixed(2)+' M' : '-'}</td>`;
       }
       const val = row[h];
       if (metricCols.includes(h) && typeof val === 'number' && !isNaN(val)) {
-        return `<td style="color:${getHeatmapColor(normalizeMetric(val,ranges[h]))};">${formatMetricValue(val,h)}</td>`;
+        return `<td class="metric-cell" style="color:${getHeatmapColor(normalizeMetric(val,ranges[h]))};">${formatMetricValue(val,h,ranges[h])}</td>`;
       }
       return `<td>${val != null ? val : '-'}</td>`;
     }).join('')}</tr>`;
@@ -1518,11 +1519,11 @@ function renderBenchRankDetails() {
       }
       if (col === 'Unified Score') {
         const num = parseFloat(val);
-        return `<td class="score-cell" style="color:${getScoreColor(num)};">${isNaN(num)?val:num.toFixed(1)}</td>`;
+        return `<td class="score-cell metric-cell" style="color:${getScoreColor(num)};">${isNaN(num)?val:num.toFixed(1)}</td>`;
       }
       if (col === 'Graph Density') {
         const num = parseFloat(val);
-        return `<td style="color:var(--text-secondary);">${isNaN(num)?val:num.toFixed(4)}</td>`;
+        return `<td class="metric-cell" style="color:var(--text-secondary);">${isNaN(num)?val:num.toFixed(4)}</td>`;
       }
       return `<td>${val != null ? val : '-'}</td>`;
     }).join('')}</tr>`;
@@ -1657,6 +1658,11 @@ function syncURL() {
   if (h.d) state.dimension = h.d;
   if (h.samples) state.sampleCount = parseInt(h.samples);
   if (h.branch) state.branch = h.branch;
+  // Update efficiency toggle UI
+  if (state.branch === BRANCH_QUALITY_EFFICIENCY) {
+    const tog = document.getElementById('efficiency-toggle');
+    if (tog) tog.classList.add('active');
+  }
   // Update dim pills
   document.querySelectorAll('[data-filter="dim"]').forEach(el =>
     el.classList.toggle('active', el.dataset.value === state.dim)

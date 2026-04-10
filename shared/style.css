@@ -319,6 +319,13 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
 .data-table .score-cell {
   font-weight: 800;
 }
+.data-table .metric-cell {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.data-table th.metric-header {
+  text-align: right;
+}
 .score-bar {
   display: inline-block;
   height: 4px;

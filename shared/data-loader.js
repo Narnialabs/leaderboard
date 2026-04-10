@@ -217,16 +217,29 @@ function getHeatmapColor(normalized) {
 }
 
 /**
- * Format a number for display
+ * Determine decimal places for an entire column based on its max absolute value.
+ * All cells in the same column use the same decimals for visual consistency.
  */
-function formatMetricValue(value, columnName) {
+function getColumnDecimals(colMax) {
+  if (colMax >= 100)  return 2;
+  if (colMax >= 1)    return 3;
+  if (colMax >= 0.01) return 4;
+  return 6;
+}
+
+/**
+ * Format a number for display.
+ * @param {number} value - the cell value
+ * @param {string} columnName - metric column name
+ * @param {object} [colRange] - optional {min, max} from getMetricRanges(); when provided, decimals are column-consistent
+ */
+function formatMetricValue(value, columnName, colRange) {
   if (value === null || value === undefined || isNaN(value)) return '-';
   if (columnName.includes('Parameters')) return value.toFixed(2) + 'M';
   if (columnName.includes('Time')) return value.toFixed(2);
-  if (columnName.includes('MAPE')) return value.toFixed(2);
-  if (Math.abs(value) >= 100) return value.toFixed(1);
-  if (Math.abs(value) >= 1) return value.toFixed(4);
-  return value.toFixed(4);
+  var colMax = colRange ? Math.max(Math.abs(colRange.min), Math.abs(colRange.max)) : Math.abs(value);
+  var decimals = getColumnDecimals(colMax);
+  return value.toFixed(decimals);
 }
 
 // ── Summary Metrics Loading ──

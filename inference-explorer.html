@@ -70,9 +70,9 @@
   .cmp-metric-table th { padding: 6px 8px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.4); border-bottom: 1px solid rgba(255,255,255,0.08); text-align: left; }
   .cmp-metric-table td { padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); }
   .cmp-metric-table .metric-name { color: rgba(255,255,255,0.6); font-weight: 600; font-size: 11px; }
-  .cmp-metric-table .val-a { color: #38bdf8; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
-  .cmp-metric-table .val-b { color: #f472b6; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
-  .cmp-metric-table .val-diff { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; }
+  .cmp-metric-table .val-a { color: #38bdf8; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-variant-numeric: tabular-nums; }
+  .cmp-metric-table .val-b { color: #f472b6; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-variant-numeric: tabular-nums; }
+  .cmp-metric-table .val-diff { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; }
   .cmp-metric-table .cat-row td { padding: 6px 8px 3px; font-size: 9px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; border-bottom: none; }
   .diff-better { color: #34d399; }
   .diff-worse  { color: #f87171; }
@@ -997,7 +997,7 @@ function cmpRenderMetricTable(rowA, rowB, metrics, groups, ranges) {
       let diffStr='-', diffClass='diff-tie', barAPct=50, barBPct=50;
       if (!isNaN(vA) && !isNaN(vB)) {
         const diff = vA - vB;
-        diffStr = (diff>0?'+':'')+formatMetricValue(diff, m);
+        diffStr = (diff>0?'+':'')+formatMetricValue(diff, m, ranges[m]);
         const aWins = (higher&&vA>vB)||(!higher&&vA<vB);
         const bWins = (higher&&vB>vA)||(!higher&&vB<vA);
         if (aWins) diffClass='diff-better'; else if (bWins) diffClass='diff-worse';
@@ -1006,8 +1006,8 @@ function cmpRenderMetricTable(rowA, rowB, metrics, groups, ranges) {
         barAPct=(nAv/tot)*100; barBPct=(nBv/tot)*100;
       }
       html += `<tr><td class="metric-name">${label}</td>
-        <td class="val-a">${!isNaN(vA)?formatMetricValue(vA,m):'-'}</td>
-        <td class="val-b">${!isNaN(vB)?formatMetricValue(vB,m):'-'}</td>
+        <td class="val-a">${!isNaN(vA)?formatMetricValue(vA,m,ranges[m]):'-'}</td>
+        <td class="val-b">${!isNaN(vB)?formatMetricValue(vB,m,ranges[m]):'-'}</td>
         <td class="val-diff ${diffClass}">${diffStr}</td>
         <td><div class="cmp-bar-wrap"><div class="cmp-bar-a" style="width:${barAPct}%;"></div><div class="cmp-bar-b" style="width:${barBPct}%;"></div></div></td></tr>`;
     });
