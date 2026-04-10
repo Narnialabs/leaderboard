@@ -156,10 +156,10 @@
     <div class="sidebar-backdrop"></div>
     <!-- Default: Summary Cards -->
     <div id="summary-view">
-      <!-- 2D Generation Summary -->
+      <!-- 3D Generation Summary -->
       <div class="glass" style="padding:16px 20px; margin-bottom:16px;">
-        <div class="section-label" style="color:#22c55e; margin-bottom:14px;">2D Generation — Model Performance Summary</div>
-        <div class="flex gap-8 flex-wrap" id="perf-cards-2d"></div>
+        <div class="section-label" style="color:#22c55e; margin-bottom:14px;">3D Generation — Model Performance Summary</div>
+        <div class="flex gap-8 flex-wrap" id="perf-cards-3d-gen"></div>
       </div>
 
       <!-- 3D Evaluation Summary -->
@@ -168,10 +168,10 @@
         <div class="flex gap-8 flex-wrap" id="perf-cards-3d"></div>
       </div>
 
-      <!-- 3D Generation Summary -->
+      <!-- 2D Generation Summary -->
       <div class="glass" style="padding:16px 20px; margin-bottom:16px;">
-        <div class="section-label" style="color:#a78bfa; margin-bottom:14px;">3D Generation — Model Performance Summary</div>
-        <div class="flex gap-8 flex-wrap" id="perf-cards-3d-gen"></div>
+        <div class="section-label" style="color:#a78bfa; margin-bottom:14px;">2D Generation — Model Performance Summary</div>
+        <div class="flex gap-8 flex-wrap" id="perf-cards-2d"></div>
       </div>
 
       <!-- Overview Stats -->
@@ -183,16 +183,16 @@
             <div class="perf-label">Categories</div>
           </div>
           <div class="glass perf-card flex-1">
-            <div class="perf-value" style="color:#22c55e;">9</div>
-            <div class="perf-label">2D Gen Models</div>
+            <div class="perf-value" style="color:#22c55e;">6</div>
+            <div class="perf-label">3D Gen Models</div>
           </div>
           <div class="glass perf-card flex-1">
             <div class="perf-value" style="color:#38bdf8;">6</div>
             <div class="perf-label">3D Eval Models</div>
           </div>
           <div class="glass perf-card flex-1">
-            <div class="perf-value" style="color:#a78bfa;">6</div>
-            <div class="perf-label">3D Gen Models</div>
+            <div class="perf-value" style="color:#a78bfa;">9</div>
+            <div class="perf-label">2D Gen Models</div>
           </div>
           <div class="glass perf-card flex-1">
             <div class="perf-value" style="color:#f59e0b;">4</div>
@@ -1307,12 +1307,10 @@ function buildPerfSummary() {
   const container2d = document.getElementById('perf-cards-2d');
   container2d.innerHTML = models2d.map(m => `
     <div class="glass perf-card" style="min-width:100px; flex:1; cursor:pointer;"
-         onclick="navigateToModel('2d-gen','${m}')"
-         onmouseenter="this.style.borderColor='rgba(34,197,94,0.4)'"
-         onmouseleave="this.style.borderColor=''">
-      <div style="font-size:14px; font-weight:800; color:#fff;">${m.toUpperCase()} <span style="font-size:10px; font-weight:500; color:rgba(255,255,255,0.2);">→</span></div>
+         onclick="navigateToModel('2d-gen','${m}')">
+      <div style="font-size:14px; font-weight:800; color:#fff;">${m.toUpperCase()}</div>
       <div style="font-size:10px; color:rgba(255,255,255,0.3); margin-top:2px;">2D Generation</div>
-      <div style="font-size:10px; color:#22c55e; margin-top:4px;">S/M/L/XL</div>
+      <div style="font-size:10px; color:#a78bfa; margin-top:4px;">S/M/L/XL</div>
     </div>
   `).join('');
 
@@ -1328,10 +1326,8 @@ function buildPerfSummary() {
   const container3d = document.getElementById('perf-cards-3d');
   container3d.innerHTML = models3d.map(m => `
     <div class="glass perf-card" style="min-width:120px; flex:1; cursor:pointer;"
-         onclick="navigateToModel('3d-eval','${m.name}')"
-         onmouseenter="this.style.borderColor='rgba(56,189,248,0.4)'"
-         onmouseleave="this.style.borderColor=''">
-      <div style="font-size:14px; font-weight:800; color:#fff;">${m.label} <span style="font-size:10px; font-weight:500; color:rgba(255,255,255,0.2);">→</span></div>
+         onclick="navigateToModel('3d-eval','${m.name}')">
+      <div style="font-size:14px; font-weight:800; color:#fff;">${m.label}</div>
       <div style="font-size:10px; color:rgba(255,255,255,0.3); margin-top:2px;">3D Evaluation</div>
       <div style="font-size:10px; color:#38bdf8; margin-top:4px;">${m.sizes}</div>
       <div style="font-size:9px; color:rgba(255,255,255,0.25); margin-top:1px;">${m.datasets}</div>
@@ -1350,12 +1346,10 @@ function buildPerfSummary() {
   const container3dGen = document.getElementById('perf-cards-3d-gen');
   container3dGen.innerHTML = models3dGen.map(m => `
     <div class="glass perf-card" style="min-width:120px; flex:1; cursor:pointer;"
-         onclick="navigateToModel('3d-gen','${m.name}')"
-         onmouseenter="this.style.borderColor='rgba(167,139,250,0.4)'"
-         onmouseleave="this.style.borderColor=''">
-      <div style="font-size:14px; font-weight:800; color:#fff;">${m.label} <span style="font-size:10px; font-weight:500; color:rgba(255,255,255,0.2);">→</span></div>
+         onclick="navigateToModel('3d-gen','${m.name}')">
+      <div style="font-size:14px; font-weight:800; color:#fff;">${m.label}</div>
       <div style="font-size:10px; color:rgba(255,255,255,0.3); margin-top:2px;">3D Generation</div>
-      <div style="font-size:10px; color:#a78bfa; margin-top:4px;">${m.sizeInfo}</div>
+      <div style="font-size:10px; color:#22c55e; margin-top:4px;">${m.sizeInfo}</div>
     </div>
   `).join('');
 }
