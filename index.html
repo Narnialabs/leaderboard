@@ -21,7 +21,7 @@
 <div class="page-content">
 
 <!-- Header -->
-<div style="text-align:center; margin-bottom:28px;">
+<div style="text-align:center; padding-top:10px; margin-bottom:36px;">
   <div style="font-size:32px; font-weight:900; color:#fff; line-height:1.3; letter-spacing:-0.5px;">AI Benchmark Leaderboard</div>
   <div style="font-size:16px; color:rgba(255,255,255,0.4); margin-top:4px;">Model Evaluation · Metrics · Visualization</div>
   <div style="width:36px; height:2px; background:linear-gradient(90deg, transparent, #7c3aed, transparent); margin:14px auto 0;"></div>
@@ -44,7 +44,7 @@
   <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;">
     <div class="purple-badge">Data-Driven Selection</div>
     <div class="purple-badge">Engineering-First</div>
-    <div class="purple-badge">No Assumptions</div>
+    <div class="purple-badge">Fair Comparison</div>
   </div>
   <div id="purpose-body" style="display:none; margin-top:10px; padding-top:10px; border-top:1px solid rgba(167,139,250,0.12); text-align:center;">
     <div style="font-size:13px; color:rgba(255,255,255,0.6); line-height:1.6; max-width:640px; margin:0 auto;">
@@ -260,9 +260,9 @@
 <div class="glass" style="margin-bottom:16px;">
   <div class="collapsible-header" onclick="toggleRoadmap()">
     <div class="section-label section-label-purple">Annual Roadmap</div>
-    <span class="collapsible-toggle" id="roadmap-toggle">&#9660; Show</span>
+    <span class="collapsible-toggle" id="roadmap-toggle">&#9650; Hide</span>
   </div>
-  <div class="collapsible-body" id="roadmap-body">
+  <div class="collapsible-body expanded" id="roadmap-body">
   <div class="flex gap-8" id="roadmap-items">
     <div class="roadmap-item" onclick="setRoadmap(0)" id="rm-0" style="background:rgba(167,139,250,0.06); border-color:rgba(167,139,250,0.25);">
       <div class="roadmap-quarter" style="color:#a78bfa;">1Q</div>
@@ -412,7 +412,7 @@ function toggleMetrics(id) {
   hint.textContent = visible ? 'click for metrics' : 'click to collapse';
 }
 
-let roadmapExpanded = false;
+let roadmapExpanded = true;
 function toggleRoadmap() {
   roadmapExpanded = !roadmapExpanded;
   document.getElementById('roadmap-body').classList.toggle('expanded', roadmapExpanded);
@@ -459,7 +459,7 @@ function overviewSync() {
   pushHashState({
     step: activeStep >= 0 ? activeStep : null,
     rm: activeRoadmap !== 1 ? activeRoadmap : null,
-    rmOpen: roadmapExpanded ? 1 : null,
+    rmOpen: roadmapExpanded ? null : 0,
     goalOpen: goalExpanded ? 1 : null,
   });
 }
@@ -467,7 +467,7 @@ function overviewSync() {
 // Restore from URL hash
 (function overviewInitFromURL() {
   const h = readHashState();
-  if (h.rmOpen === '1') toggleRoadmap();
+  if (h.rmOpen === '0') toggleRoadmap();
   if (h.goalOpen === '1') toggleGoal();
   if (h.rm != null) setRoadmap(parseInt(h.rm));
   if (h.step != null && h.step !== '-1') toggleStep(parseInt(h.step));

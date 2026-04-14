@@ -216,7 +216,6 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
   color: var(--text-secondary);
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  margin-right: 4px;
 }
 .filter-pill {
   padding: 6px 16px;
@@ -567,7 +566,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
 
 /* ── Perf Card ── */
 .perf-card {
-  padding: 14px 18px;
+  padding: 20px 18px;
   text-align: center;
 }
 .perf-value {
@@ -611,6 +610,13 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
   font-size: 11px;
   color: var(--text-faint);
   letter-spacing: 1px;
+}
+
+/* ── Pill Wrap (inline group inside filter-group) ── */
+.pill-wrap {
+  display: inline-flex;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
 /* ── Leaderboard Unified Filters ── */

@@ -189,10 +189,11 @@
     display: none !important;
   }
 
-  /* Pipeline: horizontal → vertical, hide arrows */
+  /* Pipeline: horizontal → vertical, hide arrows, uniform width */
   #pipeline-section > .flex {
     flex-direction: column !important;
     gap: 10px !important;
+    align-items: stretch !important;
   }
   #pipeline-section > .flex > svg {
     display: none;
@@ -244,6 +245,9 @@
   .lb-filters .filter-group {
     flex-wrap: wrap;
     row-gap: 4px;
+    gap: 5px;
+  }
+  .lb-filters .pill-wrap {
     gap: 5px;
   }
 
@@ -577,9 +581,9 @@
 
   /* H6: "View Leaderboard →" link touch targets (index.html) */
   .domain-card .cta-link {
-    padding: 8px 16px;
-    min-height: 44px;
-    line-height: 28px;
+    padding: 6px 16px;
+    min-height: unset;
+    line-height: normal;
   }
 
   /* H7: KPI ring + label grouping — wrap as a unit */
@@ -670,9 +674,10 @@
     padding-right: 12px !important;
   }
 
-  /* M8: header margin reduction */
+  /* M8: header spacing — more breathing room above & below title */
   .page-content > div:first-child {
-    margin-bottom: 16px !important;
+    padding-top: 8px !important;
+    margin-bottom: 24px !important;
   }
 
   /* M10: scope glass transition for mobile performance */
