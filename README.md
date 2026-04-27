@@ -4,7 +4,7 @@
 
 Developed by [Narnia Labs](https://www.narnia.ai/), this leaderboard provides transparent, standardized performance benchmarks to objectively assess AI models across 2D image generation and 3D geometry tasks.
 
-> **Live Dashboard:** [https://narnialabs.github.io/leaderboard/](https://narnialabs.github.io/leaderboard/)
+> **Live Dashboard:** [http://leaderboard.narnia.ai/](http://leaderboard.narnia.ai/)
 
 ---
 
@@ -102,10 +102,10 @@ Learn more at [narnia.ai](https://www.narnia.ai/).
 
 ## Contact
 
-| Name | Role | Email |
-|------|------|-------|
-| **Simon Lee** (Sang Won Lee) | AI Research Engineer | simon.lee@narnia.ai |
-| **Paul Jeong** (Hyogu Jeong) | AI Research Engineer | paul.jeong@narnia.ai |
+| Name | Role | Email | LinkedIn |
+|------|------|-------|----------|
+| **Simon Lee** (Sang Won Lee) | AI Research Engineer | simon.lee@narnia.ai | [korsangwonlee](https://www.linkedin.com/in/korsangwonlee/) |
+| **Paul Jeong** (Hyogu Jeong) | AI Research Engineer | paul.jeong@narnia.ai | [pauljeong96](https://www.linkedin.com/in/pauljeong96/) |
 
 ## License
 

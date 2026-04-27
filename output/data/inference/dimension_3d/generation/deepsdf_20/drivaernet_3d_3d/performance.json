@@ -1,6 +1,7 @@
 {
     "model_parameters": 2150913,
-    "training_time_sec": 5897.304605960846,
-    "inference_time_sec": 1143.755084514618,
-    "total_generated": 500
+    "training_time_sec": 3643.66246843338,
+    "inference_time_sec": 670.2246785163879,
+    "total_generated": 500,
+    "checkpoint_used": "experiments/inference/dimension_3d/generation/deepsdf_20/drivaernet_3d_3d/checkpoints/best_val.ckpt"
 }

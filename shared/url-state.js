@@ -7,8 +7,10 @@ function pushHashState(obj) {
     if (obj[k] != null && obj[k] !== '') params.set(k, String(obj[k]));
   }
   var hash = params.toString();
-  if (hash !== window.location.hash.slice(1)) {
-    history.replaceState(null, '', '#' + hash);
+  var currentHash = window.location.hash.slice(1);
+  if (hash !== currentHash) {
+    var clean = window.location.pathname + window.location.search;
+    history.replaceState(null, '', hash ? '#' + hash : clean);
   }
 }
 

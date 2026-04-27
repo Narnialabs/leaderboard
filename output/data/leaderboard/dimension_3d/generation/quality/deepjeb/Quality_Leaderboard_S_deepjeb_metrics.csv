@@ -1,14 +1,14 @@
 ﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6
-1,Density,0.2049,atlasnet,deepsdf,diffusionpointcloud,gan3d,pointflow,shapegf
-2,Coverage,0.2049,atlasnet,deepsdf,diffusionpointcloud,gan3d,pointflow,shapegf
-3,Precision,0.2049,atlasnet,deepsdf,diffusionpointcloud,gan3d,pointflow,shapegf
-4,Recall,0.0662,deepsdf,atlasnet,diffusionpointcloud,gan3d,pointflow,shapegf
-5,MS-SSIM,0.0635,deepsdf,gan3d,pointflow,atlasnet,diffusionpointcloud,shapegf
-6,EMD,0.0576,pointflow,diffusionpointcloud,atlasnet,deepsdf,shapegf,gan3d
-7,MV-FID,0.0561,atlasnet,deepsdf,pointflow,gan3d,shapegf,diffusionpointcloud
-8,F-Score,0.0489,pointflow,atlasnet,diffusionpointcloud,deepsdf,gan3d,shapegf
-9,CD,0.0489,pointflow,atlasnet,diffusionpointcloud,deepsdf,gan3d,shapegf
-10,FPD,0.044,deepsdf,atlasnet,pointflow,diffusionpointcloud,gan3d,shapegf
-11,Training Time (s),0.0,diffusionpointcloud,gan3d,atlasnet,deepsdf,shapegf,pointflow
+1,CD,0.1252,pointflow,diffusionpointcloud,atlasnet,deepsdf,shapegf,gan3d
+2,EMD,0.1222,pointflow,diffusionpointcloud,atlasnet,deepsdf,gan3d,shapegf
+3,F-Score,0.1152,pointflow,atlasnet,diffusionpointcloud,deepsdf,gan3d,shapegf
+4,MS-SSIM,0.1059,deepsdf,gan3d,pointflow,atlasnet,diffusionpointcloud,shapegf
+5,MV-FID,0.1026,deepsdf,atlasnet,pointflow,gan3d,shapegf,diffusionpointcloud
+6,Recall,0.1011,deepsdf,atlasnet,diffusionpointcloud,gan3d,pointflow,shapegf
+7,Density,0.0834,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf
+8,Coverage,0.0834,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf
+9,Precision,0.0834,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf
+10,FPD,0.0774,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf
+11,Training Time (s),0.0,shapegf,diffusionpointcloud,atlasnet,gan3d,deepsdf,pointflow
 12,Parameters (M),0.0,pointflow,deepsdf,diffusionpointcloud,shapegf,atlasnet,gan3d
-13,Inference Time (s),0.0,gan3d,atlasnet,diffusionpointcloud,pointflow,shapegf,deepsdf
+13,Inference Time (s),0.0,atlasnet,diffusionpointcloud,gan3d,pointflow,shapegf,deepsdf

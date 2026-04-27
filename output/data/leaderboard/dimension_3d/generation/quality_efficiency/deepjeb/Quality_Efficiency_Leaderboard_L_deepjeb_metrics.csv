@@ -1,14 +1,14 @@
 ﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6
-1,F-Score,0.102,atlasnet,pointflow,diffusionpointcloud,shapegf,gan3d,deepsdf
-2,CD,0.0959,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf,deepsdf
-3,MS-SSIM,0.095,gan3d,deepsdf,shapegf,atlasnet,pointflow,diffusionpointcloud
-4,MV-FID,0.0913,deepsdf,atlasnet,pointflow,gan3d,diffusionpointcloud,shapegf
-5,Inference Time (s),0.081,gan3d,atlasnet,diffusionpointcloud,pointflow,shapegf,deepsdf
-6,EMD,0.0767,pointflow,diffusionpointcloud,deepsdf,atlasnet,gan3d,shapegf
-7,Recall,0.0706,deepsdf,atlasnet,diffusionpointcloud,gan3d,pointflow,shapegf
-8,Training Time (s),0.0702,diffusionpointcloud,atlasnet,gan3d,shapegf,deepsdf,pointflow
-9,Parameters (M),0.0674,pointflow,deepsdf,diffusionpointcloud,shapegf,atlasnet,gan3d
-10,FPD,0.0659,deepsdf,pointflow,gan3d,atlasnet,shapegf,diffusionpointcloud
-11,Precision,0.0613,pointflow,deepsdf,atlasnet,diffusionpointcloud,gan3d,shapegf
-12,Density,0.0613,pointflow,deepsdf,atlasnet,diffusionpointcloud,gan3d,shapegf
-13,Coverage,0.0613,pointflow,deepsdf,atlasnet,diffusionpointcloud,gan3d,shapegf
+1,F-Score,0.1129,atlasnet,pointflow,diffusionpointcloud,shapegf,gan3d,deepsdf
+2,MS-SSIM,0.1065,gan3d,shapegf,deepsdf,pointflow,atlasnet,diffusionpointcloud
+3,MV-FID,0.0997,deepsdf,atlasnet,pointflow,gan3d,diffusionpointcloud,shapegf
+4,Inference Time (s),0.085,atlasnet,diffusionpointcloud,gan3d,pointflow,shapegf,deepsdf
+5,Training Time (s),0.0746,shapegf,diffusionpointcloud,atlasnet,deepsdf,gan3d,pointflow
+6,CD,0.072,pointflow,diffusionpointcloud,atlasnet,gan3d,deepsdf,shapegf
+7,Parameters (M),0.0705,pointflow,deepsdf,diffusionpointcloud,shapegf,atlasnet,gan3d
+8,Recall,0.0673,pointflow,atlasnet,deepsdf,diffusionpointcloud,gan3d,shapegf
+9,FPD,0.0647,pointflow,deepsdf,gan3d,atlasnet,diffusionpointcloud,shapegf
+10,EMD,0.0646,pointflow,diffusionpointcloud,atlasnet,deepsdf,gan3d,shapegf
+11,Precision,0.0608,pointflow,deepsdf,atlasnet,diffusionpointcloud,gan3d,shapegf
+12,Density,0.0608,pointflow,deepsdf,atlasnet,diffusionpointcloud,gan3d,shapegf
+13,Coverage,0.0608,pointflow,deepsdf,atlasnet,diffusionpointcloud,gan3d,shapegf
