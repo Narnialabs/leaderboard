@@ -1430,6 +1430,7 @@ function render3DEvalAllModels(container, data, rankOrder) {
       const el = entry.target;
       if (entry.isIntersecting && !el._evalInitialized) {
         el._evalInitialized = true;
+        el.innerHTML = `<div style="height:${el.dataset.viewerHeight||320}px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">Loading...</div>`;
         window.initLeaderboardEvalViewer(el).catch(e => console.warn('Eval viewer init failed:', e));
       }
       // Pause/resume eval viewer animation
@@ -1450,7 +1451,7 @@ function render3DEvalAllModels(container, data, rankOrder) {
               if (p.points) { p.points.geometry.dispose(); p.points.material.dispose(); }
               if (p.carMesh) { p.carMesh.geometry.dispose(); p.carMesh.material.dispose(); }
             });
-            el.innerHTML = '';
+            el.innerHTML = `<div style="height:${el.dataset.viewerHeight||320}px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">Loading...</div>`;
             el._evalViewer = null;
             el._evalInitialized = true;
             window.initLeaderboardEvalViewer(el).catch(e => console.warn('Eval viewer re-init failed:', e));
@@ -1916,6 +1917,9 @@ window.initLeaderboardPCViewer = function(el, model, size, dataset, sampleIdx, v
   const NUM_SAMPLES = 12;
   const isCompact = totalSamples > 1;
 
+  el._viewerGen = (el._viewerGen || 0) + 1;
+  const gen = el._viewerGen;
+
   // Build viewer HTML — compact mode hides sample strip (sample is fixed by grid position)
   el.innerHTML = `
     <div class="lb-pc-wrap" style="height:${viewerHeight}px;">
@@ -1944,11 +1948,14 @@ window.initLeaderboardPCViewer = function(el, model, size, dataset, sampleIdx, v
     try {
       if (loadingEl) loadingEl.style.display = 'flex';
       const resp = await fetch(binPath);
+      if (el._viewerGen !== gen) return;
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
       const buf = await resp.arrayBuffer();
+      if (el._viewerGen !== gen) return;
       if (loadingEl) loadingEl.style.display = 'none';
       loadIntoViewer(vState, new Float32Array(buf), dataset);
     } catch {
+      if (el._viewerGen !== gen) return;
       if (loadingEl) {
         loadingEl.style.display = 'flex';
         loadingEl.innerHTML = `<div style="text-align:center;">
