@@ -8,7 +8,7 @@ const DATA_BASE = 'output/data';
 const LEADERBOARD_PATHS = {
   'dimension_2d/generation': 'dimension_2d/generation',
   'dimension_3d/generation': 'dimension_3d/generation',
-  'dimension_3d/evaluation': 'dimension_3d/evaluation',
+  'dimension_3d/prediction': 'dimension_3d/prediction',
 };
 
 const SIZES = ['S', 'M', 'L', 'XL'];
@@ -249,7 +249,7 @@ const INFERENCE_BASE = 'output/data/inference';
 const SUMMARY_METRICS_PATHS = {
   'dimension_2d/generation': 'dimension_2d/generation',
   'dimension_3d/generation': 'dimension_3d/generation',
-  'dimension_3d/evaluation': 'dimension_3d/evaluation',
+  'dimension_3d/prediction': 'dimension_3d/prediction',
 };
 
 const SCALE_MAP = {
@@ -278,7 +278,7 @@ function extractFilterOptions(data) {
   const scales = [...new Set(data.map(r => r['Data Scale']))];
   const sizes = [...new Set(data.map(r => r['Data Size']))].sort((a, b) => a - b);
   const targetKeys = [...new Set(data.map(r => r['Target Key']).filter(Boolean))].sort();
-  const dimensions = [...new Set(data.map(r => r['Dimension']).filter(Boolean))].sort();
+  const dimensions = [...new Set(data.map(r => r['Component']).filter(Boolean))].sort();
 
   // Map scales to S/M/L/XL codes
   const sizeCodes = scales.map(s => SCALE_MAP[s]).filter(Boolean);
@@ -294,7 +294,7 @@ function filterSummaryData(data, filters) {
     if (filters.dataset && row['Dataset'] !== filters.dataset) return false;
     if (filters.dataScale && row['Data Scale'] !== filters.dataScale) return false;
     if (filters.targetKey && row['Target Key'] !== filters.targetKey) return false;
-    if (filters.dimension && row['Dimension'] !== filters.dimension) return false;
+    if (filters.dimension && row['Component'] !== filters.dimension) return false;
     if (filters.model && row['Model Name'] !== filters.model) return false;
     return true;
   });
@@ -305,7 +305,7 @@ function filterSummaryData(data, filters) {
  */
 function getSummaryMetricColumns(headers) {
   const skip = ['Model Name', 'Domain', 'Task', 'Parameters (M)', 'Resolution',
-                'Dataset', 'Data Scale', 'Data Size', 'Target Key', 'Dimension'];
+                'Dataset', 'Data Scale', 'Data Size', 'Target Key', 'Component'];
   const resourceMetrics = [];
   const qualityMetrics = [];
 
@@ -391,7 +391,7 @@ function getDimensionsForTargetKey(data, dataset, targetKey) {
       if (dataset && r['Dataset'] !== dataset) return false;
       if (targetKey && r['Target Key'] !== targetKey) return false;
       return true;
-    }).map(r => r['Dimension']).filter(Boolean)
+    }).map(r => r['Component']).filter(Boolean)
   )];
   return unique.sort((a, b) => {
     const ai = DIMENSION_ORDER.indexOf(a);

@@ -20,7 +20,7 @@ This benchmark is intended solely for academic and research evaluation purposes.
 |--------|------|-------------|
 | **2D Image Generation** | Generation | Evaluates generative models on engineering image synthesis tasks |
 | **3D Geometry Generation** | Generation | Evaluates models that generate 3D point cloud geometries for engineering components |
-| **3D Geometry Evaluation** | Evaluation | Evaluates predictive models that estimate engineering performance on 3D geometries |
+| **3D Geometry Prediction** | Prediction | Evaluates predictive models that estimate engineering performance on 3D geometries |
 
 ## Evaluated Models
 
@@ -28,11 +28,11 @@ This benchmark is intended solely for academic and research evaluation purposes.
 |--------|--------|
 | **2D Generation** | GAN, VAE, DCGAN, LSGAN, WGAN-CP, WGAN-GP, R1GAN, DDPM, VQVAE |
 | **3D Generation** | 3D-GAN, DeepSDF, PointFlow, ShapeGF, AtlasNet, Diffusion3D |
-| **3D Evaluation** | Transolver++, AB-UPT, Transolver, PointNet, RegDGCNN, GeoFNO |
+| **3D Prediction** | Transolver++, AB-UPT, Transolver, PointNet, RegDGCNN, GeoFNO |
 
 All models are benchmarked across four dataset sizes to assess data efficiency and scalability:
 - **2D Generation:** S (50), M (100), L (200), XL (500)
-- **3D Generation / Evaluation:** S (20), M (50), L (100), XL (200)
+- **3D Generation / Prediction:** S (20), M (50), L (100), XL (200)
 
 ## Evaluation Metrics
 
@@ -40,7 +40,7 @@ All models are benchmarked across four dataset sizes to assess data efficiency a
 |--------|---------|
 | **2D Generation** | IS, FID, LPIPS, PSNR, MS-SSIM, Precision, Density, Recall, Coverage, Train Time, Infer Time |
 | **3D Generation** | MV-FID, FPD, CD, EMD, F-Score, MS-SSIM, Precision, Recall, Density, Coverage, Train Time, Infer Time |
-| **3D Evaluation** | MAE, RMSE, MAPE, R², Rel-L2, MaxAE, MAC, Train Time, Infer Time |
+| **3D Prediction** | MAE, RMSE, MAPE, R², Rel-L2, MaxAE, MAC, Train Time, Infer Time |
 
 Models are ranked using **BenchRank**, a graph-based ranking system combining Spearman correlation with debiased PageRank scoring for robust multi-metric evaluation.
 

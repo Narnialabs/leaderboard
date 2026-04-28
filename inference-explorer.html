@@ -33,23 +33,23 @@
   .pc-color-btn { padding:2px 8px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:10px; cursor:pointer; transition:all 0.15s; }
   .pc-color-btn.active { background:rgba(56,189,248,0.2); border-color:rgba(56,189,248,0.4); color:#38bdf8; }
 
-  /* 3D Eval Viewer */
-  .eval3d-viewer-wrap { display:flex; flex-direction:column; gap:8px; }
-  .eval3d-panel { position:relative; border-radius:12px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
-  .eval3d-panel-label { position:absolute; top:8px; left:10px; z-index:10; font-size:11px; font-weight:700; letter-spacing:0.5px; padding:2px 8px; border-radius:4px; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); }
-  .eval3d-panel-label.pred { color:#a78bfa; }
-  .eval3d-panel-label.gt { color:#34d399; }
-  .eval3d-panel-label.error { color:#f59e0b; }
-  .eval3d-canvas-wrap { width:100%; height:500px; position:relative; }
-  .eval3d-stats { position:absolute; bottom:8px; right:10px; z-index:10; font-size:10px; color:rgba(255,255,255,0.5); background:rgba(0,0,0,0.5); padding:2px 8px; border-radius:4px; backdrop-filter:blur(4px); }
-  .eval3d-controls { display:flex; gap:6px; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:10px; flex-wrap:wrap; }
-  .eval3d-controls label { font-size:10px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; }
-  .eval3d-channel-btn { padding:2px 10px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:10px; cursor:pointer; transition:all 0.15s; }
-  .eval3d-channel-btn.active { background:rgba(167,139,250,0.25); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
-  .eval3d-channel-btn:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
-  .eval3d-colorbar { position:absolute; right:10px; top:50%; transform:translateY(-50%); width:14px; height:60%; z-index:10; border-radius:3px; border:1px solid rgba(255,255,255,0.1); }
-  .eval3d-colorbar-label { position:absolute; right:10px; z-index:10; font-size:9px; color:rgba(255,255,255,0.4); text-align:right; }
-  @media (max-width: 900px) { .eval3d-canvas-wrap { height:300px; } }
+  /* 3D Pred Viewer */
+  .pred3d-viewer-wrap { display:flex; flex-direction:column; gap:8px; }
+  .pred3d-panel { position:relative; border-radius:12px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
+  .pred3d-panel-label { position:absolute; top:8px; left:10px; z-index:10; font-size:11px; font-weight:700; letter-spacing:0.5px; padding:2px 8px; border-radius:4px; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); }
+  .pred3d-panel-label.pred { color:#a78bfa; }
+  .pred3d-panel-label.gt { color:#34d399; }
+  .pred3d-panel-label.error { color:#f59e0b; }
+  .pred3d-canvas-wrap { width:100%; height:500px; position:relative; }
+  .pred3d-stats { position:absolute; bottom:8px; right:10px; z-index:10; font-size:10px; color:rgba(255,255,255,0.5); background:rgba(0,0,0,0.5); padding:2px 8px; border-radius:4px; backdrop-filter:blur(4px); }
+  .pred3d-controls { display:flex; gap:6px; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:10px; flex-wrap:wrap; }
+  .pred3d-controls label { font-size:10px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; }
+  .pred3d-channel-btn { padding:2px 10px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:10px; cursor:pointer; transition:all 0.15s; }
+  .pred3d-channel-btn.active { background:rgba(167,139,250,0.25); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
+  .pred3d-channel-btn:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
+  .pred3d-colorbar { position:absolute; right:10px; top:50%; transform:translateY(-50%); width:14px; height:60%; z-index:10; border-radius:3px; border:1px solid rgba(255,255,255,0.1); }
+  .pred3d-colorbar-label { position:absolute; right:10px; z-index:10; font-size:9px; color:rgba(255,255,255,0.4); text-align:right; }
+  @media (max-width: 900px) { .pred3d-canvas-wrap { height:300px; } }
 
   /* ── Comparisons ── */
   .cmp-model-pill {
@@ -129,11 +129,11 @@
     </div>
     <div class="tree-children" id="tree-3d-gen"></div>
 
-    <!-- 3D Evaluation -->
-    <div class="tree-item" onclick="toggleTree('3d-eval')" style="font-weight:700;">
-      <span class="icon">▸</span> 3D Evaluation
+    <!-- 3D Prediction -->
+    <div class="tree-item" onclick="toggleTree('3d-pred')" style="font-weight:700;">
+      <span class="icon">▸</span> 3D Prediction
     </div>
-    <div class="tree-children" id="tree-3d-eval"></div>
+    <div class="tree-children" id="tree-3d-pred"></div>
 
     <!-- 2D Generation -->
     <div class="tree-item" onclick="toggleTree('2d-gen')" style="font-weight:700;">
@@ -162,9 +162,9 @@
         <div class="flex gap-8 flex-wrap" id="perf-cards-3d-gen"></div>
       </div>
 
-      <!-- 3D Evaluation Summary -->
+      <!-- 3D Prediction Summary -->
       <div class="glass" style="padding:16px 20px; margin-bottom:16px;">
-        <div class="section-label" style="color:#38bdf8; margin-bottom:14px;">3D Evaluation — Model Performance Summary</div>
+        <div class="section-label" style="color:#38bdf8; margin-bottom:14px;">3D Prediction — Model Performance Summary</div>
         <div class="flex gap-8 flex-wrap" id="perf-cards-3d"></div>
       </div>
 
@@ -188,7 +188,7 @@
           </div>
           <div class="glass perf-card flex-1">
             <div class="perf-value" style="color:#38bdf8;">6</div>
-            <div class="perf-label">3D Eval Models</div>
+            <div class="perf-label">3D Pred Models</div>
           </div>
           <div class="glass perf-card flex-1">
             <div class="perf-value" style="color:#a78bfa;">9</div>
@@ -250,7 +250,7 @@
           </div>
         </div>
       </div>
-      <!-- Level 2: Target Key + Dimension (3D eval only) -->
+      <!-- Level 2: Target Key + Component (3D pred only) -->
       <div class="glass" style="padding:16px 20px; margin-bottom:8px; display:none;" id="cmp-level3">
         <div class="flex gap-16 flex-wrap" style="align-items:center;">
           <div class="filter-group">
@@ -258,7 +258,7 @@
             <div id="cmp-tk-pills" style="display:inline-flex; gap:5px; margin-left:6px;"></div>
           </div>
           <div class="filter-group">
-            <span class="gf-label">Dimension</span>
+            <span class="gf-label">Component</span>
             <div id="cmp-dimfilter-pills" style="display:inline-flex; gap:4px; margin-left:6px;"></div>
           </div>
         </div>
@@ -387,8 +387,8 @@ const EXPERIMENTS = {
     datasets: ['deepjeb_2d_2d', 'drivaernet_2d_2d'],
     type: '2d',
   },
-  '3d-eval': {
-    basePath: 'output/data/inference/dimension_3d/evaluation',
+  '3d-pred': {
+    basePath: 'output/data/inference/dimension_3d/prediction',
     models: [
       { name: 'transolver_pp', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
       { name: 'transolver', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
@@ -523,7 +523,7 @@ async function selectExperiment(key) {
           </div>
           <div class="glass perf-card flex-1">
             <div class="perf-value" style="color:#f59e0b; font-size:20px;">${perf.total_generated}</div>
-            <div class="perf-label">${treeId.includes('eval') ? 'Evaluated' : 'Generated'} Samples</div>
+            <div class="perf-label">${treeId.includes('pred') ? 'Predicted' : 'Generated'} Samples</div>
           </div>
         </div>
       `;
@@ -562,7 +562,7 @@ async function selectExperiment(key) {
     contentDiv.innerHTML = viewerHtml;
     initPointCloudViewer(model, parseInt(size), dataset);
   } else {
-    // 3D evaluation — interactive 3D viewer with Prediction / GT / Error
+    // 3D prediction — interactive 3D viewer with Prediction / GT / Error
     const EVAL_CHANNELS = {
       'deepjeb_3d_2d': {
         'vertical':     ['disp_x', 'disp_y', 'disp_z', 'stress'],
@@ -580,10 +580,10 @@ async function selectExperiment(key) {
     };
 
     const variants = datasetVariants || exp.variants || [];
-    let infoHtml = `<div class="section-label" style="color:#38bdf8; margin-bottom:12px;">3D Evaluation — Interactive Viewer (Prediction / GT / Error)</div>`;
+    let infoHtml = `<div class="section-label" style="color:#38bdf8; margin-bottom:12px;">3D Prediction — Interactive Viewer (Prediction / GT / Error)</div>`;
 
     // Target key selector
-    infoHtml += `<div style="margin-bottom:12px; display:flex; gap:6px; flex-wrap:wrap;" id="eval3d-tk-btns">`;
+    infoHtml += `<div style="margin-bottom:12px; display:flex; gap:6px; flex-wrap:wrap;" id="pred3d-tk-btns">`;
     variants.forEach((v, i) => {
       infoHtml += `<button class="filter-pill ${i === 0 ? 'active' : ''}"
         onclick="window._evalSelectTargetKey('${model}','${dataset}','${v}',${size},this)">${v}</button>`;
@@ -591,7 +591,7 @@ async function selectExperiment(key) {
     infoHtml += `</div>`;
 
     // Viewer container
-    infoHtml += `<div id="eval3d-viewer-root"></div>`;
+    infoHtml += `<div id="pred3d-viewer-root"></div>`;
     contentDiv.innerHTML = infoHtml;
 
     // Target key switcher
@@ -727,7 +727,7 @@ function cmpRenderFilters(opts) {
       '<button class="gf-pill active">Generation</button>';
   } else {
     cmpMakePills('cmp-task-pills', [
-      { value:'generation', label:'Generation' }, { value:'evaluation', label:'Evaluation' }
+      { value:'generation', label:'Generation' }, { value:'prediction', label:'Prediction' }
     ], cmpState.task, 'cmpSetTask');
   }
 
@@ -747,13 +747,13 @@ function cmpRenderFilters(opts) {
     value: ds, label: displayDataset(ds)
   })), cmpState.dataset, 'cmpSetDataset');
 
-  // Level3 (3D eval)
+  // Level3 (3D pred)
   cmpRenderLevel3();
 }
 
 function cmpRenderLevel3() {
   const el = document.getElementById('cmp-level3');
-  if (cmpState.dim !== '3d' || cmpState.task !== 'evaluation') { el.style.display = 'none'; return; }
+  if (cmpState.dim !== '3d' || cmpState.task !== 'prediction') { el.style.display = 'none'; return; }
   el.style.display = 'block';
   const tks = cmpState.dataset
     ? getTargetKeysForDataset(cmpAllSummary, cmpState.dataset)
@@ -816,7 +816,7 @@ window.cmpSetDimFilter = function(v, btn) {
 
 async function cmpApplyFilters() {
   const filters = { dataset: cmpState.dataset, dataScale: cmpState.dataScale };
-  if (cmpState.dim === '3d' && cmpState.task === 'evaluation') {
+  if (cmpState.dim === '3d' && cmpState.task === 'prediction') {
     filters.targetKey = cmpState.targetKey;
     filters.dimension = cmpState.dimension;
   }
@@ -826,7 +826,7 @@ async function cmpApplyFilters() {
   // Sort models by leaderboard ranking (XL size, default dataset)
   try {
     const cat = cmpCategory();
-    const tk = (cmpState.dim === '3d' && cmpState.task === 'evaluation') ? cmpState.targetKey : undefined;
+    const tk = (cmpState.dim === '3d' && cmpState.task === 'prediction') ? cmpState.targetKey : undefined;
     const lb = await loadLeaderboard(cat, 'XL', undefined, tk);
     if (lb && lb.length) {
       const rankMap = {};
@@ -876,7 +876,7 @@ window.cmpSelectModel = function(side, model) {
 
 function cmpSamplesPerPage() {
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
-  if (cmpState.task === 'evaluation') return 1;
+  if (cmpState.task === 'prediction') return 1;
   if (isMobile) {
     return cmpState.dim === '2d' ? 6 : 3;
   }
@@ -885,7 +885,7 @@ function cmpSamplesPerPage() {
 }
 
 function cmpTotalSamples() {
-  if (cmpState.task !== 'evaluation') return 12;
+  if (cmpState.task !== 'prediction') return 12;
   const dataSize = Math.round((cmpFiltered[0] || {})['Data Size'] || 0);
   if (!cmpState.dataset || !cmpState.targetKey || !dataSize) return 12;
   const sizeCode = getEval3DSizeCode(dataSize);
@@ -1066,7 +1066,7 @@ function cmpRenderVisual() {
     nav.style.display = 'none';
   } else {
     nav.style.display = 'flex';
-    if (cmpState.task === 'evaluation') {
+    if (cmpState.task === 'prediction') {
       const dataSize = Math.round((cmpFiltered[0] || {})['Data Size'] || 0);
       const sizeCode = getEval3DSizeCode(dataSize);
       document.getElementById('cmp-sample-idx').textContent = `#${startIdx}`;
@@ -1076,11 +1076,11 @@ function cmpRenderVisual() {
     }
   }
 
-  const label = cmpState.task==='evaluation'?'Evaluated Results':'Generated Results';
+  const label = cmpState.task==='prediction'?'Predicted Results':'Generated Results';
   const labelEl = document.getElementById('cmp-visual-label');
   labelEl.textContent = `${label} — ${displayModelName(cmpState.modelA)} vs ${displayModelName(cmpState.modelB)}`;
   // Domain-aware label color
-  const domainColor = cmpState.dim === '2d' ? '#22c55e' : cmpState.task === 'evaluation' ? '#38bdf8' : '#a78bfa';
+  const domainColor = cmpState.dim === '2d' ? '#22c55e' : cmpState.task === 'prediction' ? '#38bdf8' : '#a78bfa';
   labelEl.style.color = domainColor;
 
   cmpUpdateSampleBtnStates();
@@ -1088,7 +1088,7 @@ function cmpRenderVisual() {
   const container = document.getElementById('cmp-visual-content');
   try {
     if (cmpState.dim === '2d') cmpRender2D(container);
-    else if (cmpState.task === 'evaluation') cmpRender3DEval(container);
+    else if (cmpState.task === 'prediction') cmpRender3DPred(container);
     else cmpRender3DGen(container);
   } catch(e) {
     console.error('cmpRenderVisual error:', e);
@@ -1196,7 +1196,7 @@ function cmpRender3DGen(container) {
   requestAnimationFrame(() => _cmpPcDeferredInit(15));
 }
 
-function cmpRender3DEval(container) {
+function cmpRender3DPred(container) {
   const ds = cmpState.dataset, tk = cmpState.targetKey, dim = cmpState.dimension;
   if (!ds||!tk) { container.innerHTML='<div style="text-align:center;padding:20px;color:var(--text-muted);">Select dataset and target key</div>'; return; }
   const CHS = {
@@ -1209,28 +1209,28 @@ function cmpRender3DEval(container) {
   const sizeCode = getEval3DSizeCode(dataSize);
   const nA=displayModelName(cmpState.modelA), nB=displayModelName(cmpState.modelB);
   const s = cmpState.sampleIndex;
-  // Side-by-side: each half has a single eval viewer that stacks GT/PRED/ERROR vertically
+  // Side-by-side: each half has a single pred viewer that stacks GT/PRED/ERROR vertically
   let html = `<div style="font-size:10px;color:rgba(255,255,255,0.4);font-weight:700;margin-bottom:8px;letter-spacing:0.5px;">#${s} · ${tk} · ${channels[chIdx]||''}</div>`;
   html += '<div class="cmp-grid">';
 
   // Model A
-  const vA = `cmp-eval-a-s${s}`;
+  const vA = `cmp-pred-a-s${s}`;
   html += `<div class="cmp-half"><div style="font-size:11px;font-weight:700;color:#38bdf8;margin-bottom:8px;">${nA}</div>
-    <div id="${vA}" class="cmp-eval-viewer" data-model="${cmpState.modelA}" data-size="${dataSize}" data-size-code="${sizeCode}" data-dataset="${ds}" data-target-key="${tk}" data-channels='${JSON.stringify(channels)}' data-init-channel="${chIdx}" data-sample="${s}" data-layout="vertical">
+    <div id="${vA}" class="cmp-pred-viewer" data-model="${cmpState.modelA}" data-size="${dataSize}" data-size-code="${sizeCode}" data-dataset="${ds}" data-target-key="${tk}" data-channels='${JSON.stringify(channels)}' data-init-channel="${chIdx}" data-sample="${s}" data-layout="vertical">
       <div style="text-align:center;padding:30px;color:rgba(255,255,255,0.3);font-size:13px;">Loading...</div></div></div>`;
 
   // Model B
-  const vB = `cmp-eval-b-s${s}`;
+  const vB = `cmp-pred-b-s${s}`;
   html += `<div class="cmp-half"><div style="font-size:11px;font-weight:700;color:#f472b6;margin-bottom:8px;">${nB}</div>
-    <div id="${vB}" class="cmp-eval-viewer" data-model="${cmpState.modelB}" data-size="${dataSize}" data-size-code="${sizeCode}" data-dataset="${ds}" data-target-key="${tk}" data-channels='${JSON.stringify(channels)}' data-init-channel="${chIdx}" data-sample="${s}" data-layout="vertical">
+    <div id="${vB}" class="cmp-pred-viewer" data-model="${cmpState.modelB}" data-size="${dataSize}" data-size-code="${sizeCode}" data-dataset="${ds}" data-target-key="${tk}" data-channels='${JSON.stringify(channels)}' data-init-channel="${chIdx}" data-sample="${s}" data-layout="vertical">
       <div style="text-align:center;padding:30px;color:rgba(255,255,255,0.3);font-size:13px;">Loading...</div></div></div>`;
 
   html += '</div>';
 
   container.innerHTML = html;
 
-  if (window._cmpEvalObs) window._cmpEvalObs.disconnect();
-  window._cmpEvalObs = new IntersectionObserver(entries => {
+  if (window._cmpPredObs) window._cmpPredObs.disconnect();
+  window._cmpPredObs = new IntersectionObserver(entries => {
     entries.forEach(e => {
       const el = e.target;
       if (e.isIntersecting && !el._evalInit && window.initCmpEvalViewer) {
@@ -1264,7 +1264,7 @@ function cmpRender3DEval(container) {
       }
     });
   }, { rootMargin:'300px' });
-  container.querySelectorAll('.cmp-eval-viewer').forEach(el => window._cmpEvalObs.observe(el));
+  container.querySelectorAll('.cmp-pred-viewer').forEach(el => window._cmpPredObs.observe(el));
 
   // Fallback: directly init viewers if IntersectionObserver misses on initial load
   function _cmpEvalDeferredInit(retries) {
@@ -1272,7 +1272,7 @@ function cmpRender3DEval(container) {
       if (retries > 0) setTimeout(() => _cmpEvalDeferredInit(retries - 1), 200);
       return;
     }
-    container.querySelectorAll('.cmp-eval-viewer').forEach(el => {
+    container.querySelectorAll('.cmp-pred-viewer').forEach(el => {
       if (!el._evalInit) {
         el._evalInit = true;
         window.initCmpEvalViewer(el);
@@ -1316,7 +1316,7 @@ function buildPerfSummary() {
     </div>
   `).join('');
 
-  // 3D eval models summary
+  // 3D pred models summary
   const models3d = [
     { name: 'transolver_pp', label: 'Transolver++', sizes: 'S/M/L/XL', datasets: 'DeepJEB + DrivAerNet' },
     { name: 'transolver', label: 'Transolver', sizes: 'S/M/L/XL', datasets: 'DeepJEB + DrivAerNet' },
@@ -1328,9 +1328,9 @@ function buildPerfSummary() {
   const container3d = document.getElementById('perf-cards-3d');
   container3d.innerHTML = models3d.map(m => `
     <div class="glass perf-card" style="min-width:120px; flex:1; cursor:pointer;"
-         onclick="navigateToModel('3d-eval','${m.name}')">
+         onclick="navigateToModel('3d-pred','${m.name}')">
       <div style="font-size:14px; font-weight:800; color:#fff;">${m.label}</div>
-      <div style="font-size:10px; color:rgba(255,255,255,0.3); margin-top:2px;">3D Evaluation</div>
+      <div style="font-size:10px; color:rgba(255,255,255,0.3); margin-top:2px;">3D Prediction</div>
       <div style="font-size:10px; color:#38bdf8; margin-top:4px;">${m.sizes}</div>
       <div style="font-size:9px; color:rgba(255,255,255,0.25); margin-top:1px;">${m.datasets}</div>
     </div>
@@ -1417,23 +1417,23 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 // ── Zoom deactivation: click outside any 3D canvas disables zoom on all viewers ──
 document.addEventListener('pointerdown', (e) => {
-  if (e.target.tagName === 'CANVAS' && e.target.closest('.pc-viewer-container, .eval3d-panel, .lb-pc-wrap, .lb-eval3d-panel')) return;
+  if (e.target.tagName === 'CANVAS' && e.target.closest('.pc-viewer-container, .pred3d-panel, .lb-pc-wrap, .lb-pred3d-panel')) return;
   // Deactivate point cloud viewer
   if (typeof pcControls !== 'undefined' && pcControls) {
     pcControls.enableZoom = false;
     document.querySelectorAll('.pc-viewer-container.zoom-active').forEach(el => el.classList.remove('zoom-active'));
   }
-  // Deactivate eval panels
+  // Deactivate pred panels
   if (typeof evalPanels !== 'undefined' && evalPanels) {
     evalPanels.forEach(p => { if (p.controls) p.controls.enableZoom = false; });
-    document.querySelectorAll('.eval3d-panel.zoom-active').forEach(el => el.classList.remove('zoom-active'));
+    document.querySelectorAll('.pred3d-panel.zoom-active').forEach(el => el.classList.remove('zoom-active'));
   }
   // Deactivate comparison PC viewers (keys are lowercase 'a','b')
   ['a','b'].forEach(side => {
     const group = window._cmpPcSyncGroups && window._cmpPcSyncGroups[side];
     if (group) group.forEach(g => { g.controls.enableZoom = false; });
   });
-  // Deactivate comparison eval viewers
+  // Deactivate comparison pred viewers
   if (window._cmpEvalPanelRegistry) {
     window._cmpEvalPanelRegistry.forEach(panels => {
       panels.forEach(p => { p.controls.enableZoom = false; });
@@ -1773,18 +1773,18 @@ window.initPointCloudViewer = async function(model, size, dataset) {
 };
 
 // ══════════════════════════════════════════════════════════════════════
-// ── 3D Evaluation Viewer (Prediction / GT / Error — synchronized) ──
+// ── 3D Prediction Viewer (Prediction / GT / Error — synchronized) ──
 // ══════════════════════════════════════════════════════════════════════
 
 let evalPanels = [];   // [{scene, camera, renderer, controls, points, container}]
-let evalAnimId = null;
+let predAnimId = null;
 let evalAutoRotate = true;
 let evalCurrentChannel = 0;
 let evalData = null;   // { pos, pred, gt, numPoints }
 
 function cleanupEvalViewer() {
-  if (evalAnimId) cancelAnimationFrame(evalAnimId);
-  evalAnimId = null;
+  if (predAnimId) cancelAnimationFrame(predAnimId);
+  predAnimId = null;
   evalPanels.forEach(p => {
     if (p.renderer) p.renderer.dispose();
     if (p.controls) p.controls.dispose();
@@ -1861,7 +1861,7 @@ function createEvalPanel(container, width, height, labelClass, labelText) {
     if (typeof evalPanels !== 'undefined' && evalPanels.length) {
       evalPanels.forEach(p => {
         p.controls.enableZoom = true;
-        const w = p.renderer.domElement.closest('.eval3d-panel');
+        const w = p.renderer.domElement.closest('.pred3d-panel');
         if (w) w.classList.add('zoom-active');
       });
     } else {
@@ -1973,8 +1973,8 @@ function setCarMesh(panel, carPositions) {
   panel.scene.add(panel.carMesh);
 }
 
-function animateEval() {
-  evalAnimId = requestAnimationFrame(animateEval);
+function animatePred() {
+  predAnimId = requestAnimationFrame(animatePred);
   // Update all panels' controls (each is independently controllable)
   evalPanels.forEach(p => { if (p.controls) p.controls.update(); });
   // Sync cameras (autoRotate on panel 0 drives the sync)
@@ -2026,10 +2026,10 @@ function formatSci(v) {
   return v.toExponential(3);
 }
 
-let eval3dManifestPromise = null;
-let eval3dRepresentativeSamplesByGroup = {};
-let eval3dGlobalErrorRangesByKey = {};
-let eval3dGlobalValueRangesByKey = {};
+let pred3dManifestPromise = null;
+let pred3dRepresentativeSamplesByGroup = {};
+let pred3dGlobalErrorRangesByKey = {};
+let pred3dGlobalValueRangesByKey = {};
 
 function getEval3DSizeCode(size) {
   const sizeMap = { '20': 'S', '50': 'M', '100': 'L', '200': 'XL' };
@@ -2051,26 +2051,26 @@ function getSourceName(sourceFile) {
 }
 
 async function ensureEval3DManifestData() {
-  if (eval3dManifestPromise) return eval3dManifestPromise;
-  eval3dManifestPromise = fetch(`output/eval3d/manifest.json?t=${PAGE_CACHE_BUST}`)
+  if (pred3dManifestPromise) return pred3dManifestPromise;
+  pred3dManifestPromise = fetch(`output/pred3d/manifest.json?t=${PAGE_CACHE_BUST}`)
     .then(resp => resp.ok ? resp.json() : null)
     .then(manifest => {
-      eval3dRepresentativeSamplesByGroup = {};
-      eval3dGlobalErrorRangesByKey = {};
-      eval3dGlobalValueRangesByKey = {};
+      pred3dRepresentativeSamplesByGroup = {};
+      pred3dGlobalErrorRangesByKey = {};
+      pred3dGlobalValueRangesByKey = {};
       if (manifest) {
         (manifest.representative_samples || []).forEach(group => {
-          eval3dRepresentativeSamplesByGroup[
+          pred3dRepresentativeSamplesByGroup[
             getEval3DGroupKey(group.dataset, group.target_key, group.size)
           ] = group.samples || [];
         });
         (manifest.global_error_ranges || []).forEach(item => {
-          eval3dGlobalErrorRangesByKey[
+          pred3dGlobalErrorRangesByKey[
             getEval3DErrorKey(item.dataset, item.target_key, item.dimension, item.size, item.sample)
           ] = item.max_error;
         });
         (manifest.global_value_ranges || []).forEach(item => {
-          eval3dGlobalValueRangesByKey[
+          pred3dGlobalValueRangesByKey[
             getEval3DErrorKey(item.dataset, item.target_key, item.dimension, item.size, item.sample)
           ] = { vmin: item.value_min, vmax: item.value_max };
         });
@@ -2078,11 +2078,11 @@ async function ensureEval3DManifestData() {
       return manifest;
     })
     .catch(() => null);
-  return eval3dManifestPromise;
+  return pred3dManifestPromise;
 }
 
 function getEval3DRepresentativeSamples(dataset, targetKey, sizeCode) {
-  const samples = eval3dRepresentativeSamplesByGroup[getEval3DGroupKey(dataset, targetKey, sizeCode)];
+  const samples = pred3dRepresentativeSamplesByGroup[getEval3DGroupKey(dataset, targetKey, sizeCode)];
   if (samples && samples.length) return samples;
   return Array.from({ length: 12 }, (_, slot) => ({
     slot,
@@ -2106,21 +2106,21 @@ window.getEval3DRepresentativeSamples = getEval3DRepresentativeSamples;
 window.getEval3DRepresentativeSample = getEval3DRepresentativeSample;
 
 function getEval3DGlobalErrorMax(dataset, targetKey, dimension, sizeCode, sampleSlot) {
-  const value = eval3dGlobalErrorRangesByKey[
+  const value = pred3dGlobalErrorRangesByKey[
     getEval3DErrorKey(dataset, targetKey, dimension, sizeCode, sampleSlot)
   ];
   return typeof value === 'number' ? value : null;
 }
 
 function getEval3DGlobalValueRange(dataset, targetKey, dimension, sizeCode, sampleSlot) {
-  const value = eval3dGlobalValueRangesByKey[
+  const value = pred3dGlobalValueRangesByKey[
     getEval3DErrorKey(dataset, targetKey, dimension, sizeCode, sampleSlot)
   ];
   return (value && typeof value.vmin === 'number' && typeof value.vmax === 'number') ? value : null;
 }
 
 window.initEvalViewer = async function(model, size, dataset, targetKey, channels) {
-  const root = document.getElementById('eval3d-viewer-root');
+  const root = document.getElementById('pred3d-viewer-root');
   if (!root) return;
 
   cleanupEvalViewer();
@@ -2132,29 +2132,29 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
   const sampleCount = representativeSamples.length;
 
   root.innerHTML = `
-    <div class="eval3d-viewer-wrap" id="eval3d-panels">
-      <div class="eval3d-panel">
-        <div class="eval3d-panel-label gt">GROUND TRUTH</div>
-        <div class="eval3d-canvas-wrap" id="eval3d-canvas-gt"></div>
+    <div class="pred3d-viewer-wrap" id="pred3d-panels">
+      <div class="pred3d-panel">
+        <div class="pred3d-panel-label gt">GROUND TRUTH</div>
+        <div class="pred3d-canvas-wrap" id="pred3d-canvas-gt"></div>
       </div>
-      <div class="eval3d-controls">
+      <div class="pred3d-controls">
         <label>Channel</label>
-        <div id="eval3d-channel-strip" style="display:flex; gap:4px; flex-wrap:wrap;"></div>
+        <div id="pred3d-channel-strip" style="display:flex; gap:4px; flex-wrap:wrap;"></div>
         <div style="width:1px; height:16px; background:rgba(255,255,255,0.1); margin:0 6px;"></div>
         <label>Sample</label>
-        <div class="pc-sample-strip" id="eval3d-sample-strip"></div>
+        <div class="pc-sample-strip" id="pred3d-sample-strip"></div>
         <div style="margin-left:auto; display:flex; gap:6px; align-items:center;">
-          <button class="pc-color-btn ${evalAutoRotate ? 'active' : ''}" id="eval3d-rotate-btn" onclick="window._evalToggleRotate(this)">Auto-Rotate</button>
+          <button class="pc-color-btn ${evalAutoRotate ? 'active' : ''}" id="pred3d-rotate-btn" onclick="window._evalToggleRotate(this)">Auto-Rotate</button>
         </div>
       </div>
-      <div class="eval3d-panel">
-        <div class="eval3d-panel-label pred">PREDICTION</div>
-        <div class="eval3d-canvas-wrap" id="eval3d-canvas-pred"></div>
+      <div class="pred3d-panel">
+        <div class="pred3d-panel-label pred">PREDICTION</div>
+        <div class="pred3d-canvas-wrap" id="pred3d-canvas-pred"></div>
       </div>
-      <div class="eval3d-panel">
-        <div class="eval3d-panel-label error">|ERROR|</div>
-        <div class="eval3d-canvas-wrap" id="eval3d-canvas-error"></div>
-        <div class="eval3d-stats" id="eval3d-stats">—</div>
+      <div class="pred3d-panel">
+        <div class="pred3d-panel-label error">|ERROR|</div>
+        <div class="pred3d-canvas-wrap" id="pred3d-canvas-error"></div>
+        <div class="pred3d-stats" id="pred3d-stats">—</div>
       </div>
     </div>
     <div style="margin-top:6px; font-size:10px; color:rgba(255,255,255,0.25); text-align:center;">
@@ -2163,9 +2163,9 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
   `;
 
   // Create 3 panels: GT, Prediction, Error
-  const gtWrap = document.getElementById('eval3d-canvas-gt');
-  const predWrap = document.getElementById('eval3d-canvas-pred');
-  const errorWrap = document.getElementById('eval3d-canvas-error');
+  const gtWrap = document.getElementById('pred3d-canvas-gt');
+  const predWrap = document.getElementById('pred3d-canvas-pred');
+  const errorWrap = document.getElementById('pred3d-canvas-error');
 
   const w = gtWrap.clientWidth;
   const h = gtWrap.clientHeight;
@@ -2176,7 +2176,7 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
     createEvalPanel(errorWrap, w, h, 'error', '|Error|'),
   ];
 
-  animateEval();
+  animatePred();
 
   // Handle resize
   const resizeObserver = new ResizeObserver(entries => {
@@ -2191,7 +2191,7 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
   });
   resizeObserver.observe(gtWrap);
 
-  // Context loss recovery: re-init eval viewer when panels come back into view
+  // Context loss recovery: re-init pred viewer when panels come back into view
   if (window._evalRecoveryObs) window._evalRecoveryObs.disconnect();
   window._evalRecoveryObs = new IntersectionObserver(entries => {
     entries.forEach(entry => {
@@ -2202,7 +2202,7 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
       });
       if (lost && evalData) {
         // Stop animation, re-init from scratch
-        if (evalAnimId) { cancelAnimationFrame(evalAnimId); evalAnimId = null; }
+        if (predAnimId) { cancelAnimationFrame(predAnimId); predAnimId = null; }
         window.initEvalViewer(model, size, dataset, targetKey, channels);
       }
     });
@@ -2215,19 +2215,19 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
     panel.controls.addEventListener('start', () => {
       // Stop autoRotate on all panels when user interacts with any
       evalPanels.forEach(p => { p.controls.autoRotate = false; });
-      const rotBtn = document.getElementById('eval3d-rotate-btn');
+      const rotBtn = document.getElementById('pred3d-rotate-btn');
       if (rotBtn) { rotBtn.classList.remove('active'); evalAutoRotate = false; }
     });
   });
 
   // Channel buttons
-  const chStrip = document.getElementById('eval3d-channel-strip');
+  const chStrip = document.getElementById('pred3d-channel-strip');
   chStrip.innerHTML = channels.map((ch, i) =>
-    `<button class="eval3d-channel-btn ${i === 0 ? 'active' : ''}" onclick="window._evalSetChannel(${i}, this)">${ch}</button>`
+    `<button class="pred3d-channel-btn ${i === 0 ? 'active' : ''}" onclick="window._evalSetChannel(${i}, this)">${ch}</button>`
   ).join('');
 
   // Sample buttons
-  const sampleStrip = document.getElementById('eval3d-sample-strip');
+  const sampleStrip = document.getElementById('pred3d-sample-strip');
   sampleStrip.innerHTML = representativeSamples.map((sample, slot) =>
     `<button class="pc-sample-btn ${slot === 0 ? 'active' : ''}" onclick="window._evalLoadSample(${slot}, this)" title="Sample ${slot}">${slot}</button>`
   ).join('');
@@ -2249,7 +2249,7 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
   window._evalSetChannel = async function(chIdx, btn) {
     evalCurrentChannel = chIdx;
     if (btn) {
-      chStrip.querySelectorAll('.eval3d-channel-btn').forEach(b => b.classList.remove('active'));
+      chStrip.querySelectorAll('.pred3d-channel-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
     }
     await loadEvalData(currentSampleIdx, chIdx);
@@ -2266,14 +2266,14 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
   async function loadEvalData(sampleIdx, chIdx) {
     const ch = channels[chIdx];
     const sampleMeta = getEval3DRepresentativeSample(dataset, targetKey, sizeCode, sampleIdx);
-    const binPath = `output/eval3d/${model}/${dataset}/${targetKey}/${ch}/${sizeCode}_${String(sampleIdx).padStart(2, '0')}.bin`;
+    const binPath = `output/pred3d/${model}/${dataset}/${targetKey}/${ch}/${sizeCode}_${String(sampleIdx).padStart(2, '0')}.bin`;
 
     // Show loading
     evalPanels.forEach(p => {
-      const existing = p.container.querySelector('.eval3d-loading');
+      const existing = p.container.querySelector('.pred3d-loading');
       if (existing) existing.remove();
       const el = document.createElement('div');
-      el.className = 'eval3d-loading';
+      el.className = 'pred3d-loading';
       el.style.cssText = 'position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:13px; z-index:5;';
       el.textContent = 'Loading...';
       p.container.appendChild(el);
@@ -2320,7 +2320,7 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
 
       // Load car mesh for DrivAerNet
       if (isDrivAerNet) {
-        const carPath = `output/eval3d/${model}/${dataset}/${targetKey}/_car/${sizeCode}_${String(sampleIdx).padStart(2, '0')}.bin`;
+        const carPath = `output/pred3d/${model}/${dataset}/${targetKey}/_car/${sizeCode}_${String(sampleIdx).padStart(2, '0')}.bin`;
         try {
           const carResp = await fetch(carPath);
           if (carResp.ok) {
@@ -2344,16 +2344,16 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
       syncEvalControls();
 
       // Update stats
-      document.getElementById('eval3d-stats').textContent = `MAE: ${formatSci(stats.mae)}  RMSE: ${formatSci(stats.rmse)}`;
+      document.getElementById('pred3d-stats').textContent = `MAE: ${formatSci(stats.mae)}  RMSE: ${formatSci(stats.rmse)}`;
       // Remove loading
       evalPanels.forEach(p => {
-        const el = p.container.querySelector('.eval3d-loading');
+        const el = p.container.querySelector('.pred3d-loading');
         if (el) el.remove();
       });
 
     } catch (e) {
       evalPanels.forEach(p => {
-        const el = p.container.querySelector('.eval3d-loading');
+        const el = p.container.querySelector('.pred3d-loading');
         if (el) {
           el.innerHTML = `
             <div style="text-align:center;">
@@ -2520,7 +2520,7 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
 };
 
 // ══════════════════════════════════════════════════════════════════════
-// ── Comparisons: 3D Eval Viewer (GT / Pred / Error) ──
+// ── Comparisons: 3D Pred Viewer (GT / Pred / Error) ──
 // ══════════════════════════════════════════════════════════════════════
 window.initCmpEvalViewer = async function(el) {
   const model = el.dataset.model;
@@ -2548,19 +2548,19 @@ window.initCmpEvalViewer = async function(el) {
 
   el.innerHTML = `
     <div style="border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);">
-      <div class="lb-eval3d-row" style="${rowStyle}">
-        <div class="eval3d-panel" style="${panelStyle}">
-          <div class="eval3d-panel-label gt">GT</div>
+      <div class="lb-pred3d-row" style="${rowStyle}">
+        <div class="pred3d-panel" style="${panelStyle}">
+          <div class="pred3d-panel-label gt">GT</div>
           <div id="${id}-gt" style="width:100%;height:100%;position:relative;"></div>
         </div>
-        <div class="eval3d-panel" style="${panelStyle}">
-          <div class="eval3d-panel-label pred">PRED</div>
+        <div class="pred3d-panel" style="${panelStyle}">
+          <div class="pred3d-panel-label pred">PRED</div>
           <div id="${id}-pred" style="width:100%;height:100%;position:relative;"></div>
         </div>
-        <div class="eval3d-panel" style="${panelStyle}">
-          <div class="eval3d-panel-label error">|ERROR|</div>
+        <div class="pred3d-panel" style="${panelStyle}">
+          <div class="pred3d-panel-label error">|ERROR|</div>
           <div id="${id}-error" style="width:100%;height:100%;position:relative;"></div>
-          <div class="eval3d-stats" id="${id}-stats">—</div>
+          <div class="pred3d-stats" id="${id}-stats">—</div>
         </div>
       </div>
       <div style="display:flex;gap:8px;padding:6px 12px;background:rgba(255,255,255,0.03);border-top:1px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(167,139,250,0.7);font-weight:700;">
@@ -2573,10 +2573,10 @@ window.initCmpEvalViewer = async function(el) {
   const erW = document.getElementById(`${id}-error`);
   const w = gtW.clientWidth, h = gtW.clientHeight;
 
-  const isMobileCmpEval = window.matchMedia('(max-width: 768px)').matches;
+  const isMobileCmpPred = window.matchMedia('(max-width: 768px)').matches;
   function mkPanel(cont) {
     const s = new THREE.Scene(); s.background = new THREE.Color(0x08051a);
-    const camDist = isMobileCmpEval ? 1.35 : 1.0;
+    const camDist = isMobileCmpPred ? 1.35 : 1.0;
     const cam = new THREE.PerspectiveCamera(45,w/h,0.01,100); cam.position.set(2.1*camDist,1.4*camDist,2.1*camDist);
     const ren = new THREE.WebGLRenderer({antialias:true}); ren.setSize(w,h); ren.setPixelRatio(Math.min(window.devicePixelRatio,2)); cont.appendChild(ren.domElement);
     const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.enableZoom=false; ctrl.autoRotate=true; ctrl.autoRotateSpeed=0.25; ctrl.minDistance=0.5; ctrl.maxDistance=20;
@@ -2630,7 +2630,7 @@ window.initCmpEvalViewer = async function(el) {
 
   let _sl=false;
   function syncFrom(si){if(_sl)return;_sl=true;const src=panels[si];panels.forEach((d,i)=>{if(i===si)return;d.camera.position.copy(src.camera.position);d.camera.quaternion.copy(src.camera.quaternion);d.controls.target.copy(src.controls.target);d.controls.update();});_sl=false;}
-  panels.forEach((p,i)=>{p.controls.addEventListener('change',()=>syncFrom(i));p.controls.addEventListener('start',()=>{panels.forEach(pp=>{pp.controls.autoRotate=false;});});p.renderer.domElement.addEventListener('pointerdown',()=>{panels.forEach(pp=>{pp.controls.enableZoom=true;const w=pp.renderer.domElement.closest('.lb-eval3d-panel,.eval3d-panel');if(w)w.classList.add('zoom-active');});});});
+  panels.forEach((p,i)=>{p.controls.addEventListener('change',()=>syncFrom(i));p.controls.addEventListener('start',()=>{panels.forEach(pp=>{pp.controls.autoRotate=false;});});p.renderer.domElement.addEventListener('pointerdown',()=>{panels.forEach(pp=>{pp.controls.enableZoom=true;const w=pp.renderer.domElement.closest('.lb-pred3d-panel,.pred3d-panel');if(w)w.classList.add('zoom-active');});});});
   const ro=new ResizeObserver(()=>{panels.forEach(p=>{const r=p.container.getBoundingClientRect();if(r.width>0&&r.height>0){p.renderer.setSize(r.width,r.height);p.camera.aspect=r.width/r.height;p.camera.updateProjectionMatrix();}});});
   ro.observe(gtW);
 
@@ -2638,7 +2638,7 @@ window.initCmpEvalViewer = async function(el) {
 
   async function load() {
     const ch = channels[chIdx];
-    const binPath = `output/eval3d/${model}/${ds}/${tk}/${ch}/${sizeCode}_${String(sampleIdx).padStart(2,'0')}.bin`;
+    const binPath = `output/pred3d/${model}/${ds}/${tk}/${ch}/${sizeCode}_${String(sampleIdx).padStart(2,'0')}.bin`;
     try {
       const resp = await fetch(binPath);
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
@@ -2664,13 +2664,13 @@ window.initCmpEvalViewer = async function(el) {
         const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('color',new THREE.Float32BufferAttribute(colorByField(vals,mn,mx),3));
         panel.points=new THREE.Points(g,new THREE.PointsMaterial({size:isDriv()?0.018:0.012,vertexColors:true,sizeAttenuation:true,transparent:true,opacity:0.85}));
         panel.scene.add(panel.points);g.computeBoundingBox();const c=new THREE.Vector3();g.boundingBox.getCenter(c);panel.controls.target.copy(c);
-        if(isDriv()){const ty=c.y*0.55,tx=c.x*1.5;panel.controls.target.set(tx,ty,c.z);panel.camera.position.set(tx+0.8,ty,c.z+(isMobileCmpEval?7.5:5.8));}else{const mz=isMobileCmpEval?3.1:2.3;panel.camera.position.set(c.x,c.y+0.3,c.z+mz);const vw=panel.renderer.domElement.width,vh=panel.renderer.domElement.height;panel.camera.setViewOffset(vw,vh,vw*0.02,0,vw,vh);}
+        if(isDriv()){const ty=c.y*0.55,tx=c.x*1.5;panel.controls.target.set(tx,ty,c.z);panel.camera.position.set(tx+0.8,ty,c.z+(isMobileCmpPred?7.5:5.8));}else{const mz=isMobileCmpPred?3.1:2.3;panel.camera.position.set(c.x,c.y+0.3,c.z+mz);const vw=panel.renderer.domElement.width,vh=panel.renderer.domElement.height;panel.camera.setViewOffset(vw,vh,vw*0.02,0,vw,vh);}
         panel.controls.update();
       }
       setPtCloud(panels[0],gt,vmin,vmax);setPtCloud(panels[1],pred,vmin,vmax);setPtCloud(panels[2],error,0,errorScaleMax);
 
       if(isDriv()){
-        const carPath=`output/eval3d/${model}/${ds}/${tk}/_car/${sizeCode}_${String(sampleIdx).padStart(2,'0')}.bin`;
+        const carPath=`output/pred3d/${model}/${ds}/${tk}/_car/${sizeCode}_${String(sampleIdx).padStart(2,'0')}.bin`;
         try{const cr=await fetch(carPath);if(cr.ok){const cf=new Float32Array(await cr.arrayBuffer());for(let i=0;i<cf.length/3;i++){const t=cf[i*3+1];cf[i*3+1]=cf[i*3+2];cf[i*3+2]=t;}panels.forEach(p=>setCarMesh(p,cf));}}catch(e){}
       }else{panels.forEach(p=>setCarMesh(p,null));}
       syncFrom(0);

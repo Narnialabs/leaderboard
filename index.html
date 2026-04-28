@@ -139,11 +139,11 @@
     <div class="hint-text" id="hint-3dg">click for metrics</div>
   </div>
 
-  <!-- 3D Eval -->
+  <!-- 3D Pred -->
   <div class="glass domain-card flex-1" onclick="toggleMetrics('3de')">
     <div class="flex" style="justify-content:space-between; align-items:center; margin-bottom:10px;">
       <div style="font-size:14px; font-weight:800; color:#22c55e; letter-spacing:0.5px;">
-        3D Evaluation — Field<span class="pill" style="background:#22c55e;">DONE</span>
+        3D Prediction — Field<span class="pill" style="background:#22c55e;">DONE</span>
       </div>
       <div class="progress-ring" style="width:46px; height:46px;">
         <svg width="46" height="46" style="transform:rotate(-90deg);"><circle cx="23" cy="23" r="19.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4"/><circle cx="23" cy="23" r="19.5" fill="none" stroke="#22c55e" stroke-width="4" stroke-dasharray="122.52" stroke-dashoffset="0" stroke-linecap="round" class="ring-progress"/></svg>
@@ -161,7 +161,7 @@
     </div>
     <div class="best-box">🏆 Transolver++ — Best on Total Score</div>
     <div style="margin-top:8px; text-align:center;">
-      <a href="leaderboard.html?dim=3d&task=evaluation&size=XL" class="cta-link" onclick="event.stopPropagation()">View Leaderboard →</a>
+      <a href="leaderboard.html?dim=3d&task=prediction&size=XL" class="cta-link" onclick="event.stopPropagation()">View Leaderboard →</a>
     </div>
     <div class="metrics-panel" id="metrics-3de" style="border:1px solid rgba(56,189,248,0.12);">
       <div class="metrics-panel-label" style="color:#38bdf8;">METRICS</div>
@@ -308,7 +308,7 @@
   </div>
   <div class="roadmap-detail" id="roadmap-detail" style="background:rgba(167,139,250,0.05); border:1px solid rgba(167,139,250,0.12);">
     <div style="font-size:11px; font-weight:700; margin-bottom:4px; color:#818cf8;" id="rd-title">2Q Details (Current)</div>
-    <div style="font-size:11px; color:rgba(255,255,255,0.5); line-height:1.6;" id="rd-desc">New domain & task expansion — 2D/3D Evaluation pipelines, 3D Generation scaling, and dataset infrastructure</div>
+    <div style="font-size:11px; color:rgba(255,255,255,0.5); line-height:1.6;" id="rd-desc">New domain & task expansion — 2D/3D Prediction pipelines, 3D Generation scaling, and dataset infrastructure</div>
   </div>
   <div style="margin-top:12px;">
     <div class="flex" style="justify-content:space-between; font-size:10px; color:rgba(255,255,255,0.3); margin-bottom:4px;">
@@ -382,8 +382,8 @@ let activeStep = -1;
 let activeRoadmap = 1;
 
 const roadmapData = [
-  { color: "#a78bfa", title: "1Q Details (Complete)", desc: "2D Gen(Done), 3D Gen & Eval pipeline, BenchRank MVP, Pareto + PageRank ranking system" },
-  { color: "#818cf8", title: "2Q Details (Current)", desc: "New domain & task expansion — 2D/3D Evaluation pipelines (Field, Scalar, Time Series), 3D Generation scaling, and dataset infrastructure" },
+  { color: "#a78bfa", title: "1Q Details (Complete)", desc: "2D Gen(Done), 3D Gen & Pred pipeline, BenchRank MVP, Pareto + PageRank ranking system" },
+  { color: "#818cf8", title: "2Q Details (Current)", desc: "New domain & task expansion — 2D/3D Prediction pipelines (Field, Scalar, Time Series), 3D Generation scaling, and dataset infrastructure" },
   { color: "#34d399", title: "3Q Details", desc: "All AslanX workflows covered, Built-in model 100% automated verification" },
   { color: "#f472b6", title: "4Q Details", desc: "Auto model recommendation agent, Competitor AI benchmark comparison" },
 ];

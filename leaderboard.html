@@ -29,7 +29,7 @@
     height: 48px;
     background: linear-gradient(to bottom, transparent, rgba(10,5,32,0.95));
     pointer-events: none;
-    z-index: 2; 3d evaluation deepjeb object
+    z-index: 2; 3d prediction deepjeb object
   }
   .metrics-collapse-wrap.collapsed .metrics-collapse-fade {
     display: block;
@@ -90,20 +90,20 @@
     display: block;
   }
 
-  /* 3D Eval Viewer (leaderboard) */
-  .lb-eval3d-row { display:flex; gap:6px; width:100%; }
-  .lb-eval3d-panel { position:relative; flex:1; min-width:0; border-radius:10px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
-  .lb-eval3d-panel-label { position:absolute; top:6px; left:8px; z-index:10; font-size:10px; font-weight:700; letter-spacing:0.5px; padding:2px 6px; border-radius:4px; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); }
-  .lb-eval3d-panel-label.gt { color:#34d399; }
-  .lb-eval3d-panel-label.pred { color:#a78bfa; }
-  .lb-eval3d-panel-label.error { color:#f59e0b; }
-  .lb-eval3d-stats { position:absolute; bottom:6px; right:8px; z-index:10; font-size:9px; color:rgba(255,255,255,0.5); background:rgba(0,0,0,0.5); padding:2px 6px; border-radius:4px; backdrop-filter:blur(4px); }
-  .lb-eval3d-bar { display:flex; gap:4px; align-items:center; padding:8px 12px; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); border-radius:0 0 10px 10px; flex-wrap:wrap; }
-  .lb-eval3d-bar label { font-size:9px; color:rgba(255,255,255,0.35); text-transform:uppercase; letter-spacing:0.5px; }
-  .lb-eval3d-chbtn { padding:2px 7px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:9px; cursor:pointer; transition:all 0.15s; }
-  .lb-eval3d-chbtn.active { background:rgba(167,139,250,0.25); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
-  .lb-eval3d-chbtn:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
-  @media (max-width: 768px) { .lb-eval3d-row { flex-direction:column; } }
+  /* 3D Pred Viewer (leaderboard) */
+  .lb-pred3d-row { display:flex; gap:6px; width:100%; }
+  .lb-pred3d-panel { position:relative; flex:1; min-width:0; border-radius:10px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
+  .lb-pred3d-panel-label { position:absolute; top:6px; left:8px; z-index:10; font-size:10px; font-weight:700; letter-spacing:0.5px; padding:2px 6px; border-radius:4px; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); }
+  .lb-pred3d-panel-label.gt { color:#34d399; }
+  .lb-pred3d-panel-label.pred { color:#a78bfa; }
+  .lb-pred3d-panel-label.error { color:#f59e0b; }
+  .lb-pred3d-stats { position:absolute; bottom:6px; right:8px; z-index:10; font-size:9px; color:rgba(255,255,255,0.5); background:rgba(0,0,0,0.5); padding:2px 6px; border-radius:4px; backdrop-filter:blur(4px); }
+  .lb-pred3d-bar { display:flex; gap:4px; align-items:center; padding:8px 12px; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); border-radius:0 0 10px 10px; flex-wrap:wrap; }
+  .lb-pred3d-bar label { font-size:9px; color:rgba(255,255,255,0.35); text-transform:uppercase; letter-spacing:0.5px; }
+  .lb-pred3d-chbtn { padding:2px 7px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:9px; cursor:pointer; transition:all 0.15s; }
+  .lb-pred3d-chbtn.active { background:rgba(167,139,250,0.25); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
+  .lb-pred3d-chbtn:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
+  @media (max-width: 768px) { .lb-pred3d-row { flex-direction:column; } }
 
   /* Compact metrics table — no horizontal scroll */
   #metrics-table.compact-metrics {
@@ -207,13 +207,13 @@ window.addEventListener('unhandledrejection', function(e) {
     </div>
   </div>
 
-  <!-- Level 3: Target Key + Dimension (3D eval only) -->
+  <!-- Level 3: Target Key + Component (3D pred only) -->
   <div class="lb-filter-row" id="level3-filters" style="display:none; gap:16px; align-items:center; flex-wrap:wrap; margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.06);">
     <div class="filter-group" id="targetkey-filter">
       <span class="filter-label">Target Key</span>
     </div>
     <div class="filter-group" id="dimension-filter">
-      <span class="filter-label">Dimension</span>
+      <span class="filter-label">Component</span>
     </div>
   </div>
 
@@ -460,7 +460,7 @@ function renderTaskFilter() {
     document.getElementById('task-filter').innerHTML = `
       <span class="filter-label">Task</span>
       <span class="pill-wrap"><button class="filter-pill ${state.task==='generation'?'active':''}" onclick="setTask('generation',this)">Generation</button>
-      <button class="filter-pill ${state.task==='evaluation'?'active':''}" onclick="setTask('evaluation',this)">Evaluation</button></span>
+      <button class="filter-pill ${state.task==='prediction'?'active':''}" onclick="setTask('prediction',this)">Prediction</button></span>
     `;
   }
 }
@@ -482,11 +482,11 @@ function renderLevel2Filters(opts) {
     }).join('')}</span>
   `;
 
-  // Evaluation tasks: no "All" (cross-dataset mean is meaningless); auto-select first dataset
-  const isEval = state.task === 'evaluation';
-  if (isEval && !state.dataset && opts.datasets.length) state.dataset = opts.datasets[0];
+  // Prediction tasks: no "All" (cross-dataset mean is meaningless); auto-select first dataset
+  const isPred = state.task === 'prediction';
+  if (isPred && !state.dataset && opts.datasets.length) state.dataset = opts.datasets[0];
 
-  const allBtn = isEval ? '' : `<button class="filter-pill ${!state.dataset?'active':''}"
+  const allBtn = isPred ? '' : `<button class="filter-pill ${!state.dataset?'active':''}"
           onclick="setDataset('all',this)">All</button>`;
   document.getElementById('dataset-filter').innerHTML = `
     <span class="filter-label">Dataset</span>
@@ -511,14 +511,14 @@ function setDataset(ds, btn) {
   state.dimension = null;
   btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
-  if (state.dim === '3d' && state.task === 'evaluation') renderLevel3Filters(extractFilterOptions(allSummaryData));
+  if (state.dim === '3d' && state.task === 'prediction') renderLevel3Filters(extractFilterOptions(allSummaryData));
   else document.getElementById('level3-filters').style.display = 'none';
   applyFilters();
 }
 
 function renderLevel3Filters(opts) {
   const c = document.getElementById('level3-filters');
-  if (state.dim !== '3d' || state.task !== 'evaluation') { c.style.display = 'none'; return; }
+  if (state.dim !== '3d' || state.task !== 'prediction') { c.style.display = 'none'; return; }
   c.style.display = 'flex';
 
   // Always show all target keys in absolute order; clicking a specific one auto-selects its paired dataset
@@ -540,13 +540,13 @@ function renderLevel3Filters(opts) {
       onclick="setTargetKey('${tk}',this)">${tk}</button>`).join('')}
   `;
 
-  // Dimension filter: only show when a specific target key is selected
+  // Component filter: only show when a specific target key is selected
   const dimFilter = document.getElementById('dimension-filter');
   if (state.targetKey) {
     const dims = getDimensionsForTargetKey(allSummaryData, state.dataset, state.targetKey);
     if (!state.dimension && dims.length) state.dimension = dims[0];
     dimFilter.innerHTML = `
-      <span class="filter-label">Dimension</span>
+      <span class="filter-label">Component</span>
       ${dims.map(d => `<button class="filter-pill ${d===state.dimension?'active':''}"
         onclick="setDimensionFilter('${d}',this)">${d}</button>`).join('')}
     `;
@@ -586,7 +586,7 @@ function setTargetKey(tk, btn) {
     const dims = getDimensionsForTargetKey(allSummaryData, state.dataset, state.targetKey);
     if (dims.length) state.dimension = dims[0];
     dimFilter.innerHTML = `
-      <span class="filter-label">Dimension</span>
+      <span class="filter-label">Component</span>
       ${dims.map(d => `<button class="filter-pill ${d===state.dimension?'active':''}"
         onclick="setDimensionFilter('${d}',this)">${d}</button>`).join('')}
     `;
@@ -613,7 +613,7 @@ async function applyFilters() {
 
   // Filter summary data
   const filters = { dataset: state.dataset, dataScale: state.dataScale };
-  if (state.dim === '3d' && state.task === 'evaluation') {
+  if (state.dim === '3d' && state.task === 'prediction') {
     filters.targetKey = state.targetKey;
     filters.dimension = state.dimension;
   }
@@ -849,11 +849,11 @@ function renderMetricsTable(data) {
   const infoCols = state.dataset
     ? ['Model Name', 'Model Type', 'Parameters (M)']
     : ['Model Name', 'Model Type', 'Dataset', 'Parameters (M)'];
-  // For 3D evaluation, add Target Key & Dimension columns
-  if (state.dim === '3d' && state.task === 'evaluation') {
+  // For 3D prediction, add Target Key & Component columns
+  if (state.dim === '3d' && state.task === 'prediction') {
     const insertIdx = infoCols.indexOf('Parameters (M)');
     if (!state.targetKey) infoCols.splice(insertIdx, 0, 'Target Key');
-    if (!state.dimension) infoCols.splice(infoCols.indexOf('Parameters (M)'), 0, 'Dimension');
+    if (!state.dimension) infoCols.splice(infoCols.indexOf('Parameters (M)'), 0, 'Component');
   }
   // Ordered metric columns
   const metricCols = [];
@@ -874,7 +874,7 @@ function renderMetricsTable(data) {
     if (h === 'Dataset')       return `<th onclick="sortTable('metrics',${i})">Dataset</th>`;
     if (h === 'Model Type')    return `<th onclick="sortTable('metrics',${i})">Type</th>`;
     if (h === 'Target Key')    return `<th onclick="sortTable('metrics',${i})">Target Key</th>`;
-    if (h === 'Dimension')     return `<th onclick="sortTable('metrics',${i})">Dimension</th>`;
+    if (h === 'Component')     return `<th onclick="sortTable('metrics',${i})">Component</th>`;
     if (h === 'Parameters (M)') return `<th onclick="sortTable('metrics',${i})">Params</th>`;
     const short = shortMetricLabel(h);
     const dir = h.includes('↑') ? ' ↑' : h.includes('↓') ? ' ↓' : '';
@@ -898,7 +898,7 @@ function renderMetricsTable(data) {
       if (h === 'Dataset')    return `<td style="color:var(--text-tertiary); font-size:11px;">${displayDataset(row['Dataset'])}</td>`;
       if (h === 'Model Type') return `<td class="type-cell">${displayModelType(modelId)}</td>`;
       if (h === 'Target Key') return `<td style="color:var(--text-tertiary); font-size:11px;">${row['Target Key'] || '-'}</td>`;
-      if (h === 'Dimension')  return `<td style="color:var(--text-tertiary); font-size:11px;">${row['Dimension'] || '-'}</td>`;
+      if (h === 'Component')  return `<td style="color:var(--text-tertiary); font-size:11px;">${row['Component'] || '-'}</td>`;
       if (h === 'Parameters (M)') {
         const v = row['Parameters (M)'];
         return `<td class="metric-cell" style="color:var(--text-tertiary); font-size:11px;">${v != null ? parseFloat(v).toFixed(2)+' M' : '-'}</td>`;
@@ -916,7 +916,7 @@ function renderMetricsTable(data) {
   const metricsTitleParts = [];
   if (state.dataset) metricsTitleParts.push(displayDataset(state.dataset));
   else metricsTitleParts.push('All Datasets');
-  if (state.dim === '3d' && state.task === 'evaluation') {
+  if (state.dim === '3d' && state.task === 'prediction') {
     if (state.targetKey) metricsTitleParts.push(state.targetKey);
     if (state.dimension) metricsTitleParts.push(state.dimension);
   }
@@ -1047,7 +1047,7 @@ function getDefaultSampleCount() {
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
   if (isMobile) return 2;
   if (state.dim === '2d') return 8;
-  if (state.dim === '3d' && state.task === 'evaluation') return 2;
+  if (state.dim === '3d' && state.task === 'prediction') return 2;
   return 4;
 }
 
@@ -1062,7 +1062,7 @@ function explorerDetailURL(model, ds, dataSize) {
   let treeId;
   if (state.dim === '2d') treeId = '2d-gen';
   else if (state.task === 'generation') treeId = '3d-gen';
-  else treeId = '3d-eval';
+  else treeId = '3d-pred';
   const key = `${treeId}|${model}|${dataSize}|${ds}`;
   return `inference-explorer.html#view=detail&exp=${encodeURIComponent(key)}`;
 }
@@ -1074,9 +1074,9 @@ function renderVisualSection(data, rankOrder) {
   updateSampleCountVisibility();
 
   // Update section label based on task
-  const resultLabel = state.task === 'evaluation' ? 'Evaluated Results' : 'Generated Results';
+  const resultLabel = state.task === 'prediction' ? 'Predicted Results' : 'Generated Results';
   const visualParts = [state.dataset ? displayDataset(state.dataset) : 'All Datasets'];
-  if (state.dim === '3d' && state.task === 'evaluation') {
+  if (state.dim === '3d' && state.task === 'prediction') {
     if (state.targetKey) visualParts.push(state.targetKey);
     if (state.dimension) visualParts.push(state.dimension);
   }
@@ -1085,7 +1085,7 @@ function renderVisualSection(data, rankOrder) {
   const container = document.getElementById('visual-content');
   if (state.dim === '2d') {
     render2DAllModels(container, data, rankOrder);
-  } else if (state.task === 'evaluation') {
+  } else if (state.task === 'prediction') {
     render3DEvalAllModels(container, data, rankOrder);
   } else {
     render3DGenAllModels(container, data, rankOrder);
@@ -1153,7 +1153,7 @@ function cleanupAllViewers() {
     window._lbViewers.clear();
   }
   if (window._lbSyncGroups) window._lbSyncGroups.clear();
-  // Cleanup 3D eval viewers
+  // Cleanup 3D pred viewers
   if (window._lbEvalViewers) {
     window._lbEvalViewers.forEach(v => {
       v.cancel();
@@ -1277,7 +1277,7 @@ function render3DGenAllModels(container, data, rankOrder) {
   });
 }
 
-// ── 3D Eval Channel Config (same as inference-explorer) ──
+// ── 3D Pred Channel Config (same as inference-explorer) ──
 const EVAL3D_CHANNELS = {
   'deepjeb_3d_2d': {
     'vertical':     ['disp_x', 'disp_y', 'disp_z', 'stress'],
@@ -1372,8 +1372,8 @@ function render3DEvalAllModels(container, data, rankOrder) {
     return slots;
   }
 
-  const isMobileEval = window.matchMedia('(max-width: 768px)').matches;
-  const viewerHeight = isMobileEval ? 400 : 320;
+  const isMobilePred = window.matchMedia('(max-width: 768px)').matches;
+  const viewerHeight = isMobilePred ? 400 : 320;
   const sampleCount = state.sampleCount;
   const viewerSlots = buildViewerSlots(availableGroups, sampleCount, targetKey, dimension);
   let html = '';
@@ -1397,8 +1397,8 @@ function render3DEvalAllModels(container, data, rankOrder) {
       <div style="display:flex; flex-wrap:wrap; gap:8px; width:100%;">`;
 
     viewerSlots.forEach((slot, s) => {
-      const viewerId = `lb-eval3d-${model}-s${s}`.replace(/[^a-zA-Z0-9-]/g, '_');
-      html += `<div id="${viewerId}" class="lb-eval3d-viewer" style="width:100%;"
+      const viewerId = `lb-pred3d-${model}-s${s}`.replace(/[^a-zA-Z0-9-]/g, '_');
+      html += `<div id="${viewerId}" class="lb-pred3d-viewer" style="width:100%;"
            data-model="${model}" data-size="${dataSize}" data-size-code="${sizeCode}"
            data-dataset="${slot.ds}"
            data-target-key="${slot.tk}"
@@ -1407,7 +1407,7 @@ function render3DEvalAllModels(container, data, rankOrder) {
            data-viewer-height="${viewerHeight}"
            data-sample="${slot.sample}"
            data-all-groups='${JSON.stringify(availableGroups)}'>
-        <div style="text-align:center; padding:30px; color:rgba(255,255,255,0.3); font-size:13px;">Loading 3D Eval Viewer...</div>
+        <div style="text-align:center; padding:30px; color:rgba(255,255,255,0.3); font-size:13px;">Loading 3D Pred Viewer...</div>
       </div>`;
     });
 
@@ -1423,7 +1423,7 @@ function render3DEvalAllModels(container, data, rankOrder) {
 
   container.innerHTML = html;
 
-  // Lazy-init eval viewers via IntersectionObserver with pause/resume
+  // Lazy-init pred viewers via IntersectionObserver with pause/resume
   if (window._lbEvalObserver) window._lbEvalObserver.disconnect();
   window._lbEvalObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -1431,9 +1431,9 @@ function render3DEvalAllModels(container, data, rankOrder) {
       if (entry.isIntersecting && !el._evalInitialized) {
         el._evalInitialized = true;
         el.innerHTML = `<div style="height:${el.dataset.viewerHeight||320}px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">Loading...</div>`;
-        window.initLeaderboardEvalViewer(el).catch(e => console.warn('Eval viewer init failed:', e));
+        window.initLeaderboardPredViewer(el).catch(e => console.warn('Pred viewer init failed:', e));
       }
-      // Pause/resume eval viewer animation
+      // Pause/resume pred viewer animation
       if (el._evalInitialized && el._evalViewer) {
         const v = el._evalViewer;
         if (entry.isIntersecting) {
@@ -1454,7 +1454,7 @@ function render3DEvalAllModels(container, data, rankOrder) {
             el.innerHTML = `<div style="height:${el.dataset.viewerHeight||320}px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">Loading...</div>`;
             el._evalViewer = null;
             el._evalInitialized = true;
-            window.initLeaderboardEvalViewer(el).catch(e => console.warn('Eval viewer re-init failed:', e));
+            window.initLeaderboardPredViewer(el).catch(e => console.warn('Pred viewer re-init failed:', e));
           } else if (!v.isAnimating()) {
             v.resume();
           }
@@ -1465,7 +1465,7 @@ function render3DEvalAllModels(container, data, rankOrder) {
     });
   }, { rootMargin: '300px' });
 
-  container.querySelectorAll('.lb-eval3d-viewer').forEach(el => {
+  container.querySelectorAll('.lb-pred3d-viewer').forEach(el => {
     window._lbEvalObserver.observe(el);
   });
 }
@@ -1538,30 +1538,30 @@ function renderBenchRankDetails() {
 // ══════════════════════════════════════════
 const PAGE_CACHE_BUST = Date.now();
 
-// ── 3D Eval: global color ranges from manifest ──
-let eval3dManifestPromise = null;
-let eval3dGlobalErrorRangesByKey = {};
-let eval3dGlobalValueRangesByKey = {};
+// ── 3D Pred: global color ranges from manifest ──
+let pred3dManifestPromise = null;
+let pred3dGlobalErrorRangesByKey = {};
+let pred3dGlobalValueRangesByKey = {};
 
 function getEval3DErrorKey(dataset, targetKey, dimension, sizeCode, sampleSlot) {
   return `${dataset}::${targetKey}::${dimension}::${sizeCode}::${sampleSlot}`;
 }
 
 async function ensureEval3DManifestData() {
-  if (eval3dManifestPromise) return eval3dManifestPromise;
-  eval3dManifestPromise = fetch(`output/eval3d/manifest.json?t=${PAGE_CACHE_BUST}`)
+  if (pred3dManifestPromise) return pred3dManifestPromise;
+  pred3dManifestPromise = fetch(`output/pred3d/manifest.json?t=${PAGE_CACHE_BUST}`)
     .then(resp => resp.ok ? resp.json() : null)
     .then(manifest => {
-      eval3dGlobalErrorRangesByKey = {};
-      eval3dGlobalValueRangesByKey = {};
+      pred3dGlobalErrorRangesByKey = {};
+      pred3dGlobalValueRangesByKey = {};
       if (manifest) {
         (manifest.global_error_ranges || []).forEach(item => {
-          eval3dGlobalErrorRangesByKey[
+          pred3dGlobalErrorRangesByKey[
             getEval3DErrorKey(item.dataset, item.target_key, item.dimension, item.size, item.sample)
           ] = item.max_error;
         });
         (manifest.global_value_ranges || []).forEach(item => {
-          eval3dGlobalValueRangesByKey[
+          pred3dGlobalValueRangesByKey[
             getEval3DErrorKey(item.dataset, item.target_key, item.dimension, item.size, item.sample)
           ] = { vmin: item.value_min, vmax: item.value_max };
         });
@@ -1569,18 +1569,18 @@ async function ensureEval3DManifestData() {
       return manifest;
     })
     .catch(() => null);
-  return eval3dManifestPromise;
+  return pred3dManifestPromise;
 }
 
 function getEval3DGlobalErrorMax(dataset, targetKey, dimension, sizeCode, sampleSlot) {
-  const value = eval3dGlobalErrorRangesByKey[
+  const value = pred3dGlobalErrorRangesByKey[
     getEval3DErrorKey(dataset, targetKey, dimension, sizeCode, sampleSlot)
   ];
   return typeof value === 'number' ? value : null;
 }
 
 function getEval3DGlobalValueRange(dataset, targetKey, dimension, sizeCode, sampleSlot) {
-  const value = eval3dGlobalValueRangesByKey[
+  const value = pred3dGlobalValueRangesByKey[
     getEval3DErrorKey(dataset, targetKey, dimension, sizeCode, sampleSlot)
   ];
   return (value && typeof value.vmin === 'number' && typeof value.vmax === 'number') ? value : null;
@@ -1694,24 +1694,24 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const viewers = new Map();
 window._lbViewers = viewers;
 
-// ── Eval panel registry for zoom deactivation ──
+// ── Pred panel registry for zoom deactivation ──
 const evalPanelRegistry = [];
 window._lbEvalPanelRegistry = evalPanelRegistry;
 
 // ── Zoom deactivation: click outside any 3D canvas disables zoom on all viewers ──
 document.addEventListener('pointerdown', (e) => {
-  if (e.target.tagName === 'CANVAS' && e.target.closest('.lb-pc-wrap, .lb-eval3d-panel')) return;
+  if (e.target.tagName === 'CANVAS' && e.target.closest('.lb-pc-wrap, .lb-pred3d-panel')) return;
   // Deactivate point cloud mini-viewers
   viewers.forEach(v => {
     v.controls.enableZoom = false;
     const w = v.renderer.domElement.closest('.lb-pc-wrap');
     if (w) w.classList.remove('zoom-active');
   });
-  // Deactivate eval panels
+  // Deactivate pred panels
   evalPanelRegistry.forEach(panels => {
     panels.forEach(p => { p.controls.enableZoom = false; });
   });
-  document.querySelectorAll('.lb-eval3d-panel.zoom-active').forEach(el => el.classList.remove('zoom-active'));
+  document.querySelectorAll('.lb-pred3d-panel.zoom-active').forEach(el => el.classList.remove('zoom-active'));
 });
 
 // ── Camera sync: propagate camera pose across viewers in the same sync group ──
@@ -1970,7 +1970,7 @@ window.initLeaderboardPCViewer = function(el, model, size, dataset, sampleIdx, v
 };
 
 // ══════════════════════════════════════════════════════════════════════
-// ── 3D Evaluation Viewer (GT / Prediction / Error — synchronized) ──
+// ── 3D Prediction Viewer (GT / Prediction / Error — synchronized) ──
 // ══════════════════════════════════════════════════════════════════════
 
 function jetColormap(t) {
@@ -2097,7 +2097,7 @@ function setEvalCarMesh(panel, carPositions) {
   panel.scene.add(panel.carMesh);
 }
 
-window.initLeaderboardEvalViewer = async function(el) {
+window.initLeaderboardPredViewer = async function(el) {
   await ensureEval3DManifestData();
   const model = el.dataset.model;
   const dataSize = parseInt(el.dataset.size);
@@ -2127,22 +2127,22 @@ window.initLeaderboardEvalViewer = async function(el) {
 
   el.innerHTML = `
     <div style="border-radius:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.06);">
-      <div class="lb-eval3d-row" style="height:${viewerHeight}px;">
-        <div class="lb-eval3d-panel">
-          <div class="lb-eval3d-panel-label gt">GT</div>
+      <div class="lb-pred3d-row" style="height:${viewerHeight}px;">
+        <div class="lb-pred3d-panel">
+          <div class="lb-pred3d-panel-label gt">GT</div>
           <div id="${id}-gt" style="width:100%; height:100%; position:relative;"></div>
         </div>
-        <div class="lb-eval3d-panel">
-          <div class="lb-eval3d-panel-label pred">PRED</div>
+        <div class="lb-pred3d-panel">
+          <div class="lb-pred3d-panel-label pred">PRED</div>
           <div id="${id}-pred" style="width:100%; height:100%; position:relative;"></div>
         </div>
-        <div class="lb-eval3d-panel">
-          <div class="lb-eval3d-panel-label error">|ERROR|</div>
+        <div class="lb-pred3d-panel">
+          <div class="lb-pred3d-panel-label error">|ERROR|</div>
           <div id="${id}-error" style="width:100%; height:100%; position:relative;"></div>
-          <div class="lb-eval3d-stats" id="${id}-stats">—</div>
+          <div class="lb-pred3d-stats" id="${id}-stats">—</div>
         </div>
       </div>
-      <div class="lb-eval3d-bar">
+      <div class="lb-pred3d-bar">
         <span style="font-size:10px; color:rgba(167,139,250,0.7); font-weight:700;">${currentTK} · ${currentChs[currentChIdx]} · Sample ${currentSample}</span>
       </div>
     </div>
@@ -2208,7 +2208,7 @@ window.initLeaderboardEvalViewer = async function(el) {
     panel.renderer.domElement.addEventListener('pointerdown', () => {
       panels.forEach(p => {
         p.controls.enableZoom = true;
-        const w = p.renderer.domElement.closest('.lb-eval3d-panel');
+        const w = p.renderer.domElement.closest('.lb-pred3d-panel');
         if (w) w.classList.add('zoom-active');
       });
     });
@@ -2232,14 +2232,14 @@ window.initLeaderboardEvalViewer = async function(el) {
 
   async function loadEvalData() {
     const ch = currentChs[currentChIdx];
-    const binPath = `output/eval3d/${model}/${currentDS}/${currentTK}/${ch}/${sizeCode}_${String(currentSample).padStart(2, '0')}.bin`;
+    const binPath = `output/pred3d/${model}/${currentDS}/${currentTK}/${ch}/${sizeCode}_${String(currentSample).padStart(2, '0')}.bin`;
 
     // Show loading overlay
     panels.forEach(p => {
-      let ld = p.container.querySelector('.lb-eval3d-ld');
+      let ld = p.container.querySelector('.lb-pred3d-ld');
       if (!ld) {
         ld = document.createElement('div');
-        ld.className = 'lb-eval3d-ld';
+        ld.className = 'lb-pred3d-ld';
         ld.style.cssText = 'position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:11px; z-index:5;';
         p.container.appendChild(ld);
       }
@@ -2289,7 +2289,7 @@ window.initLeaderboardEvalViewer = async function(el) {
 
       // Car mesh for DrivAerNet
       if (driv) {
-        const carPath = `output/eval3d/${model}/${currentDS}/${currentTK}/_car/${sizeCode}_${String(currentSample).padStart(2, '0')}.bin`;
+        const carPath = `output/pred3d/${model}/${currentDS}/${currentTK}/_car/${sizeCode}_${String(currentSample).padStart(2, '0')}.bin`;
         try {
           const carResp = await fetch(carPath);
           if (carResp.ok) {
@@ -2312,13 +2312,13 @@ window.initLeaderboardEvalViewer = async function(el) {
       if (statsEl) statsEl.textContent = `MAE: ${formatSci(mae)}  RMSE: ${formatSci(rmse)}`;
       // Hide loading
       panels.forEach(p => {
-        const ld = p.container.querySelector('.lb-eval3d-ld');
+        const ld = p.container.querySelector('.lb-pred3d-ld');
         if (ld) ld.style.display = 'none';
       });
 
     } catch (e) {
       panels.forEach(p => {
-        const ld = p.container.querySelector('.lb-eval3d-ld');
+        const ld = p.container.querySelector('.lb-pred3d-ld');
         if (ld) {
           ld.innerHTML = `<div style="text-align:center;">
             <div style="color:rgba(255,255,255,0.4); font-size:10px;">Data N/A</div>

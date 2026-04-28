@@ -493,8 +493,8 @@
     grid-template-columns: 1fr !important;
   }
 
-  /* ── 3D eval viewer height ── */
-  .eval3d-canvas-wrap {
+  /* ── 3D pred viewer height ── */
+  .pred3d-canvas-wrap {
     height: 220px !important;
   }
 
@@ -506,7 +506,7 @@
   /* ── 3D viewer touch ── */
   .lb-pc-wrap canvas,
   .pc-viewer-container canvas,
-  .eval3d-panel canvas {
+  .pred3d-panel canvas {
     touch-action: none;
   }
 
@@ -545,9 +545,9 @@
     min-height: 36px;
   }
   .pc-color-btn,
-  .eval3d-channel-btn,
+  .pred3d-channel-btn,
   .lb-pc-cbtn,
-  .lb-eval3d-chbtn {
+  .lb-pred3d-chbtn {
     min-height: 32px;
     padding: 4px 10px !important;
   }
@@ -641,10 +641,10 @@
 
   /* M2: 3D viewer bar labels legibility */
   .lb-pc-bar label,
-  .lb-eval3d-bar label {
+  .lb-pred3d-bar label {
     font-size: 11px !important;
   }
-  .lb-eval3d-stats {
+  .lb-pred3d-stats {
     font-size: 11px !important;
   }
 
@@ -723,7 +723,7 @@
    LANDSCAPE — mobile + landscape orientation
    ═══════════════════════════════════════════════════════════ */
 @media (max-width: 768px) and (orientation: landscape) {
-  .eval3d-canvas-wrap {
+  .pred3d-canvas-wrap {
     height: 180px !important;
   }
   .lb-pc-wrap {
