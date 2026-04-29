@@ -102,16 +102,18 @@ body {
   text-decoration: none;
 }
 .nav-brand-text {
-  font-size: 15px;
-  font-weight: 800;
+  font-size: 16px;
+  font-weight: 900;
   color: var(--purple-400);
-  letter-spacing: 2px;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
+  line-height: 1;
 }
 .nav-brand-sub {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-tertiary);
   letter-spacing: 0.5px;
+  margin-top: 3px;
 }
 .nav-links {
   display: flex;
