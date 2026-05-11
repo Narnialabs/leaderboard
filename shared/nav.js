@@ -43,7 +43,7 @@ function initNav(activePageId) {
     <a href="index.html" class="nav-brand">
       <div>
         <div class="nav-brand-text">Narnia Labs</div>
-        <div class="nav-brand-sub">AI Benchmark Dashboard</div>
+        <div class="nav-brand-sub">Engineering AI Leaderboard</div>
       </div>
     </a>
     <button class="nav-hamburger" aria-label="Menu">&#9776;</button>
