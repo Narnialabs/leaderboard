@@ -1,14 +1,16 @@
 ﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6
-1,Density,0.1377,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf
-2,Coverage,0.1377,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf
-3,Precision,0.1377,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf
-4,F-Score,0.0663,pointflow,atlasnet,diffusionpointcloud,gan3d,deepsdf,shapegf
-5,Parameters (M),0.0654,pointflow,deepsdf,diffusionpointcloud,shapegf,atlasnet,gan3d
-6,Inference Time (s),0.0625,atlasnet,diffusionpointcloud,gan3d,pointflow,shapegf,deepsdf
-7,CD,0.0621,pointflow,atlasnet,diffusionpointcloud,shapegf,gan3d,deepsdf
-8,Training Time (s),0.0618,shapegf,diffusionpointcloud,atlasnet,gan3d,deepsdf,pointflow
-9,EMD,0.0603,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf,deepsdf
+1,Coverage,0.1074,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf
+2,Precision,0.1074,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf
+3,Density,0.1074,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf
+4,F-Score,0.0649,pointflow,atlasnet,diffusionpointcloud,deepsdf,gan3d,shapegf
+5,Parameters (M),0.0614,pointflow,deepsdf,diffusionpointcloud,shapegf,atlasnet,gan3d
+6,MS-SSIM,0.0601,deepsdf,atlasnet,gan3d,pointflow,diffusionpointcloud,shapegf
+7,CD,0.059,pointflow,atlasnet,diffusionpointcloud,deepsdf,gan3d,shapegf
+8,Inference Time (s),0.0583,atlasnet,diffusionpointcloud,gan3d,pointflow,shapegf,deepsdf
+9,Manifold-Δ,0.0573,deepsdf,atlasnet,pointflow,gan3d,shapegf,diffusionpointcloud
 10,MV-FID,0.0567,deepsdf,atlasnet,pointflow,gan3d,shapegf,diffusionpointcloud
-11,MS-SSIM,0.0539,deepsdf,gan3d,atlasnet,pointflow,diffusionpointcloud,shapegf
-12,Recall,0.0504,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf
-13,FPD,0.0475,pointflow,atlasnet,diffusionpointcloud,deepsdf,gan3d,shapegf
+11,Training Time (s),0.0558,shapegf,diffusionpointcloud,atlasnet,gan3d,deepsdf,pointflow
+12,Uniformity-Δ,0.0546,deepsdf,pointflow,diffusionpointcloud,gan3d,atlasnet,shapegf
+13,EMD,0.0531,pointflow,atlasnet,diffusionpointcloud,deepsdf,gan3d,shapegf
+14,Recall,0.0498,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf
+15,FPD,0.0466,pointflow,atlasnet,deepsdf,diffusionpointcloud,gan3d,shapegf

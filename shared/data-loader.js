@@ -4,12 +4,57 @@
  */
 
 const DATA_BASE = 'output/data';
+const DATA_BUILD = '20260520-1';
 
 const LEADERBOARD_PATHS = {
   'dimension_2d/generation': 'dimension_2d/generation',
+  'dimension_2d/prediction/field': 'dimension_2d/prediction/field',
+  'dimension_2d/prediction/scalar': 'dimension_2d/prediction/scalar',
   'dimension_3d/generation': 'dimension_3d/generation',
-  'dimension_3d/prediction': 'dimension_3d/prediction',
+  'dimension_3d/prediction/field': 'dimension_3d/prediction/field',
+  'dimension_3d/prediction/scalar': 'dimension_3d/prediction/scalar',
 };
+
+/**
+ * Display labels and metadata for target keys, keyed by dataset.
+ * Used by getTargetKeyLabel() to convert pipeline keys to human-readable names.
+ */
+const TARGET_KEY_META = {
+  'deepjeb_3d_2d': {
+    'vertical':     { label: 'Vertical Load',             category: 'Load Case',   unit: null },
+    'horizontal':   { label: 'Horizontal Load',           category: 'Load Case',   unit: null },
+    'diagonal':     { label: 'Diagonal Load',             category: 'Load Case',   unit: null },
+    'torsion':      { label: 'Torsional Load',            category: 'Load Case',   unit: null },
+    'mode_shape_1': { label: 'Mode Shape 1',              category: 'Modal (FEM)', unit: null },
+    'mode_shape_2': { label: 'Mode Shape 2',              category: 'Modal (FEM)', unit: null },
+  },
+  'drivaernet_3d_2d': {
+    'pressure':      { label: 'Surface Pressure',          category: 'CFD Field',   unit: 'Pa'  },
+    'velocity':      { label: 'Velocity Field',            category: 'CFD Field',   unit: 'm/s' },
+    'pv_coupled':    { label: 'Pressure-Velocity Coupled', category: 'CFD Field',   unit: null  },
+    'body_pressure': { label: 'Body Surface Pressure',     category: 'CFD Field',   unit: 'Pa'  },
+  },
+  'deepwheel_3d_1d': {
+    'mass':   { label: 'Mass',                          category: 'Structural',  unit: 'kg' },
+    'mode7':  { label: 'Natural Freq. (Mode 7)',        category: 'Modal (FEM)', unit: 'Hz' },
+    'mode11': { label: 'Natural Freq. (Mode 11)',       category: 'Modal (FEM)', unit: 'Hz' },
+  },
+  'deepwheel_2d_1d': {
+    'mass':   { label: 'Mass',                          category: 'Structural',  unit: 'kg' },
+    'mode7':  { label: 'Natural Freq. (Mode 7)',        category: 'Modal (FEM)', unit: 'Hz' },
+    'mode11': { label: 'Natural Freq. (Mode 11)',       category: 'Modal (FEM)', unit: 'Hz' },
+  },
+  'deepwheel_2d_2d': {
+    'depth':  { label: 'Depth Map',                     category: 'Geometry',    unit: null },
+  },
+};
+
+/**
+ * Return human-readable label for a target key, falling back to the raw key.
+ */
+function getTargetKeyLabel(datasetId, key) {
+  return TARGET_KEY_META[datasetId]?.[key]?.label ?? key;
+}
 
 const SIZES = ['S', 'M', 'L', 'XL'];
 
@@ -33,7 +78,8 @@ function branchPrefix(branch) {
  * @returns {Promise<Array>} Parsed CSV rows as objects
  */
 async function loadCSV(path) {
-  const response = await fetch(path);
+  const url = path + (path.includes('?') ? '&' : '?') + 'v=' + DATA_BUILD;
+  const response = await fetch(url, { cache: 'no-cache' });
   if (!response.ok) throw new Error(`Failed to load ${path}: ${response.status}`);
   const text = (await response.text()).replace(/^\uFEFF/, ''); // strip BOM
   return new Promise((resolve, reject) => {
@@ -59,21 +105,31 @@ function datasetToLeaderboardKey(datasetId) {
     'drivaernet_3d_3d': 'drivaernet',
     'deepjeb_3d_2d':    'deepjeb',
     'drivaernet_3d_2d': 'drivaernet',
+    'drivaernet_pressure_3d_3d': 'drivaernet', // milestone7.0: merged into drivaernet
+    'deepwheel_3d_1d':  'deepwheel',
+    'deepwheel_3d_3d':  'deepwheel',
+    'deepwheel_2d_1d':  'deepwheel',
+    'deepwheel_2d_2d':  'deepwheel',
   };
   return DATASET_KEY_MAP[datasetId] || null;
 }
 
 /**
- * Load leaderboard CSV for a specific dimension/task/size (and optionally dataset)
+ * Load leaderboard CSV for a specific dimension/task/size (and optionally dataset/targetKey/component)
  * @param {string} category - e.g. 'dimension_2d/generation'
  * @param {string} size - 'S', 'M', 'L', or 'XL'
  * @param {string} [dataset] - optional dataset id, e.g. 'deepjeb_2d_2d'
  * @param {string} [targetKey] - optional target key
+ * @param {string} [component] - optional component (e.g. 'disp_x'); only honored when dataset+targetKey are set
  * @param {string} [branch='quality'] - 'quality' or 'quality_efficiency'
  */
-async function loadLeaderboard(category, size, dataset, targetKey, branch = BRANCH_QUALITY) {
+async function loadLeaderboard(category, size, dataset, targetKey, component, branch = BRANCH_QUALITY) {
   const dsKey = datasetToLeaderboardKey(dataset);
   const prefix = branchPrefix(branch);
+  if (dsKey && targetKey && component) {
+    const path = `${DATA_BASE}/leaderboard/${category}/${branch}/${dsKey}/${targetKey}/${component}/${prefix}Leaderboard_${size}_${dsKey}_${targetKey}_${component}.csv`;
+    return loadCSV(path);
+  }
   if (dsKey && targetKey) {
     const path = `${DATA_BASE}/leaderboard/${category}/${branch}/${dsKey}/${targetKey}/${prefix}Leaderboard_${size}_${dsKey}_${targetKey}.csv`;
     return loadCSV(path);
@@ -87,13 +143,18 @@ async function loadLeaderboard(category, size, dataset, targetKey, branch = BRAN
 }
 
 /**
- * Load metric rankings for a specific dimension/task/size (and optionally dataset)
+ * Load metric rankings for a specific dimension/task/size (and optionally dataset/targetKey/component)
  * @param {string} [dataset] - optional dataset id, e.g. 'deepjeb_2d_2d'
+ * @param {string} [component] - optional component (e.g. 'disp_x'); only honored when dataset+targetKey are set
  * @param {string} [branch='quality'] - 'quality' or 'quality_efficiency'
  */
-async function loadMetricsRanking(category, size, dataset, targetKey, branch = BRANCH_QUALITY) {
+async function loadMetricsRanking(category, size, dataset, targetKey, component, branch = BRANCH_QUALITY) {
   const dsKey = datasetToLeaderboardKey(dataset);
   const prefix = branchPrefix(branch);
+  if (dsKey && targetKey && component) {
+    const path = `${DATA_BASE}/leaderboard/${category}/${branch}/${dsKey}/${targetKey}/${component}/${prefix}Leaderboard_${size}_${dsKey}_${targetKey}_${component}_metrics.csv`;
+    return loadCSV(path);
+  }
   if (dsKey && targetKey) {
     const path = `${DATA_BASE}/leaderboard/${category}/${branch}/${dsKey}/${targetKey}/${prefix}Leaderboard_${size}_${dsKey}_${targetKey}_metrics.csv`;
     return loadCSV(path);
@@ -248,8 +309,11 @@ const INFERENCE_BASE = 'output/data/inference';
 
 const SUMMARY_METRICS_PATHS = {
   'dimension_2d/generation': 'dimension_2d/generation',
+  'dimension_2d/prediction/field': 'dimension_2d/prediction/field',
+  'dimension_2d/prediction/scalar': 'dimension_2d/prediction/scalar',
   'dimension_3d/generation': 'dimension_3d/generation',
-  'dimension_3d/prediction': 'dimension_3d/prediction',
+  'dimension_3d/prediction/field': 'dimension_3d/prediction/field',
+  'dimension_3d/prediction/scalar': 'dimension_3d/prediction/scalar',
 };
 
 const SCALE_MAP = {
@@ -274,7 +338,10 @@ async function loadSummaryMetrics(category) {
  */
 function extractFilterOptions(data) {
   const models = [...new Set(data.map(r => r['Model Name']))].sort();
-  const datasets = [...new Set(data.map(r => r['Dataset']))].sort();
+  // Use canonical dataset order (deepjeb → deepwheel → drivaernet) instead
+  // of plain alphabetic so 2D/3D variants stay grouped by family on filter
+  // pills. See sortDatasets() below for the rank table.
+  const datasets = sortDatasets([...new Set(data.map(r => r['Dataset']))]);
   const scales = [...new Set(data.map(r => r['Data Scale']))];
   const sizes = [...new Set(data.map(r => r['Data Size']))].sort((a, b) => a - b);
   const targetKeys = [...new Set(data.map(r => r['Target Key']).filter(Boolean))].sort();
@@ -327,16 +394,24 @@ function getSummaryMetricColumns(headers) {
 const TARGET_KEY_ABSOLUTE_ORDER = [
   'vertical', 'horizontal', 'torsion', 'diagonal',
   'mode_shape_1', 'mode_shape_2',
-  'pressure', 'velocity', 'pv_coupled',
+  'velocity', 'pressure', 'pv_coupled', 'body_pressure',
+  'mass', 'mode7', 'mode11',
+  'depth',
 ];
 
 const TARGET_KEY_ORDER = {
   'deepjeb_3d_2d': ['vertical', 'horizontal', 'torsion', 'diagonal', 'mode_shape_1', 'mode_shape_2'],
-  'drivaernet_3d_2d': ['pressure', 'velocity', 'pv_coupled'],
+  'drivaernet_3d_2d': ['velocity', 'pressure', 'pv_coupled', 'body_pressure'],
+  'deepwheel_3d_1d': ['mass', 'mode7', 'mode11'],
+  'deepwheel_2d_1d': ['mass', 'mode7', 'mode11'],
+  'deepwheel_2d_2d': ['depth'],
 };
 
 /**
- * Map target key → required dataset id (null means any dataset)
+ * Map target key → required dataset id. For target keys that exist in multiple
+ * datasets (e.g. mass/mode7/mode11 in both 2D and 3D DeepWheel), the value is
+ * an object keyed by state.dim — callers should index with the active dim.
+ * A string value means the key is unique to that dataset regardless of dim.
  */
 const TARGET_KEY_DATASET_MAP = {
   'vertical': 'deepjeb_3d_2d',
@@ -348,7 +423,19 @@ const TARGET_KEY_DATASET_MAP = {
   'pressure': 'drivaernet_3d_2d',
   'velocity': 'drivaernet_3d_2d',
   'pv_coupled': 'drivaernet_3d_2d',
+  'body_pressure': 'drivaernet_3d_2d',
+  'mass':   { '2d': 'deepwheel_2d_1d', '3d': 'deepwheel_3d_1d' },
+  'mode7':  { '2d': 'deepwheel_2d_1d', '3d': 'deepwheel_3d_1d' },
+  'mode11': { '2d': 'deepwheel_2d_1d', '3d': 'deepwheel_3d_1d' },
+  'depth':  'deepwheel_2d_2d',
 };
+
+function resolveTargetKeyDataset(targetKey, dim) {
+  const v = TARGET_KEY_DATASET_MAP[targetKey];
+  if (!v) return null;
+  if (typeof v === 'string') return v;
+  return v[dim] || null;
+}
 
 const DIMENSION_ORDER = [
   'disp_x', 'disp_y', 'disp_z', 'stress',
@@ -427,6 +514,37 @@ const MODEL_DISPLAY = {
   'regdgcnn':        { name: 'RegDGCNN',     type: 'GNN (DGCNN)' },
   'transolver':      { name: 'Transolver',   type: 'Transformer' },
   'geofno':          { name: 'GeoFNO',       type: 'Fourier Neural Operator' },
+
+  // 3D scalar prediction (DeepWheel · mass/mode7/mode11) — paper-default + small variants
+  'pointnet_scalar':                { name: 'PointNet',                type: 'PointNet' },
+  'pointnet2_scalar':               { name: 'PointNet++',              type: 'PointNet++' },
+  'pointnet2_lite_scalar':          { name: 'PointNet++ Lite',         type: 'PointNet++' },
+  'dgcnn_scalar':                   { name: 'DGCNN',                   type: 'GNN (DGCNN)' },
+  'pct_scalar':                     { name: 'PCT',                     type: 'Transformer' },
+  'pct_small_scalar':               { name: 'PCT-Small',               type: 'Transformer' },
+  'point_transformer_scalar':       { name: 'Point Transformer',       type: 'Transformer' },
+  'point_transformer_small_scalar': { name: 'Point Transformer-Small', type: 'Transformer' },
+  'pointmlp_scalar':                { name: 'PointMLP',                type: 'MLP' },
+  'pointmlp_elite_scalar':          { name: 'PointMLP-Elite',          type: 'MLP' },
+
+  // 2D scalar prediction (DeepWheel)
+  'simplecnn':       { name: 'SimpleCNN',       type: 'CNN (Basic)' },
+  'resnet18':        { name: 'ResNet-18',       type: 'CNN (Pretrained)' },
+  'resnet34':        { name: 'ResNet-34',       type: 'CNN (Pretrained)' },
+  'efficientnet_b0': { name: 'EfficientNet-B0', type: 'CNN (Pretrained)' },
+  'convnext_tiny':   { name: 'ConvNeXt-Tiny',   type: 'CNN (Pretrained)' },
+  'densenet121':     { name: 'DenseNet-121',    type: 'CNN (Pretrained)' },
+  'vit_tiny':        { name: 'ViT-Tiny',        type: 'Transformer' },
+
+  // 2D field prediction (DeepWheel · depth)
+  'unet_simple':     { name: 'U-Net',           type: 'U-Net (Basic)' },
+  'resnet_unet':     { name: 'ResNet-UNet',     type: 'U-Net (Pretrained)' },
+  'attention_unet':  { name: 'Attention U-Net', type: 'U-Net (Attention)' },
+  'unetpp':          { name: 'U-Net++',         type: 'U-Net (Nested)' },
+  'segformer_b0':    { name: 'SegFormer-B0',    type: 'Transformer' },
+  'fpn_resnet18':    { name: 'FPN (ResNet-18)', type: 'FPN' },
+  'glpn':            { name: 'GLPN',            type: 'DPT (Depth)' },
+  'dpt_hybrid':      { name: 'DPT-Hybrid',      type: 'DPT (Depth)' },
 };
 
 const DATASET_DISPLAY = {
@@ -436,6 +554,11 @@ const DATASET_DISPLAY = {
   'drivaernet_3d_3d': 'DrivAerNet',
   'deepjeb_3d_2d': 'DeepJEB',
   'drivaernet_3d_2d': 'DrivAerNet',
+  'drivaernet_pressure_3d_3d': 'DrivAerNet', // milestone7.0: merged into drivaernet_3d_2d display
+  'deepwheel_3d_1d': 'DeepWheel',
+  'deepwheel_3d_3d': 'DeepWheel',
+  'deepwheel_2d_1d': 'DeepWheel',
+  'deepwheel_2d_2d': 'DeepWheel',
 };
 
 function displayModelName(id) {
@@ -452,6 +575,26 @@ function displayDataset(id) {
   return DATASET_DISPLAY[id] || id;
 }
 
+// Canonical dataset order: DeepJEB → DeepWheel → DrivAerNet. CSV rows arrive
+// in Step-B insertion order (deepjeb → drivaernet → deepwheel for 3D Gen),
+// which leaks into any `[...new Set(...)]` of `r['Dataset']`. Pass the array
+// through this helper before rendering buttons / output rows so the visible
+// order matches the curated narrative on the site.
+const _DATASET_RANK = { deepjeb: 0, deepwheel: 1, drivaernet: 2 };
+function _datasetFamily(id) {
+  const s = (id || '').toLowerCase();
+  for (const k of Object.keys(_DATASET_RANK)) if (s.startsWith(k)) return k;
+  return '';
+}
+function sortDatasets(arr) {
+  return [...arr].sort((a, b) => {
+    const ra = _DATASET_RANK[_datasetFamily(a)];
+    const rb = _DATASET_RANK[_datasetFamily(b)];
+    if (ra !== rb) return (ra ?? 999) - (rb ?? 999);
+    return String(a).localeCompare(String(b));
+  });
+}
+
 function displaySizeLabel(scale, size) {
   const code = SCALE_MAP[scale] || scale;
   return `${code} (${Math.round(size)})`;
@@ -465,45 +608,60 @@ function displayResolution(res, dim) {
 
 // ── Metric Categories ──
 
-const CATEGORY_ORDER_2D = ['Efficiency', 'Fidelity', 'Diversity'];
-const CATEGORY_ORDER_3D_GEN = ['Efficiency', 'Fidelity', 'Diversity'];
-const CATEGORY_ORDER_3D_EVAL = ['Efficiency', 'Absolute Error', 'Relative Error', 'Model Fit', 'Worst-case Error', 'Directional Accuracy'];
+const CATEGORY_ORDER_GEN = ['Efficiency', 'Fidelity', 'Diversity', 'Manifold Quality'];
+const CATEGORY_ORDER_PRED = ['Efficiency', 'Absolute Error', 'Relative Error', 'Model Fit', 'Worst-case Error', 'Threshold Accuracy', 'Rank Correlation', 'Directional Accuracy', 'Pattern Quality'];
+// Backwards compat aliases
+const CATEGORY_ORDER_2D = CATEGORY_ORDER_GEN;
+const CATEGORY_ORDER_3D_GEN = CATEGORY_ORDER_GEN;
+const CATEGORY_ORDER_3D_EVAL = CATEGORY_ORDER_PRED;
 
 const CATEGORY_COLORS = {
   'Efficiency':           'rgba(56,189,248,0.12)',
   'Fidelity':             'rgba(52,211,153,0.1)',
   'Diversity':            'rgba(167,139,250,0.1)',
+  'Manifold Quality':     'rgba(20,184,166,0.1)',
   'Absolute Error':       'rgba(248,113,113,0.1)',
   'Relative Error':       'rgba(251,146,60,0.1)',
   'Model Fit':            'rgba(52,211,153,0.1)',
   'Worst-case Error':     'rgba(244,114,182,0.1)',
+  'Threshold Accuracy':   'rgba(132,204,22,0.1)',
+  'Rank Correlation':     'rgba(234,179,8,0.1)',
   'Directional Accuracy': 'rgba(56,189,248,0.1)',
+  'Pattern Quality':      'rgba(192,132,252,0.1)',
 };
 
 const CATEGORY_TEXT_COLORS = {
   'Efficiency':           '#38bdf8',
   'Fidelity':             '#34d399',
   'Diversity':            '#a78bfa',
+  'Manifold Quality':     '#14b8a6',
   'Absolute Error':       '#f87171',
   'Relative Error':       '#fb923c',
   'Model Fit':            '#34d399',
   'Worst-case Error':     '#f472b6',
+  'Threshold Accuracy':   '#84cc16',
+  'Rank Correlation':     '#eab308',
   'Directional Accuracy': '#38bdf8',
+  'Pattern Quality':      '#c084fc',
 };
 
 function getMetricCategory(metricName, dim, task) {
   const clean = metricName.replace(/\s*[↑↓]\s*$/,'').trim();
   if (['Parameters (M)','Training Time (s)','Inference Time (s)'].includes(clean)) return 'Efficiency';
-  if (dim === '2d' || (dim === '3d' && task === 'generation')) {
+  if (task === 'generation') {
     if (['IS','FID','MV-FID','FPD','CD','EMD','PSNR','Precision','Density'].includes(clean)) return 'Fidelity';
     if (['LPIPS','MS-SSIM','F-Score','Recall','Coverage'].includes(clean)) return 'Diversity';
-  }
-  if (dim === '3d' && task !== 'generation') {
+    if (['Manifold-Δ','Uniformity-Δ'].includes(clean)) return 'Manifold Quality';
+  } else {
+    // Prediction (2D field/scalar, 3D field/scalar) shares the regression metric taxonomy
     if (['MAE','RMSE'].includes(clean)) return 'Absolute Error';
-    if (['MAPE (%)','Rel-L2'].includes(clean)) return 'Relative Error';
-    if (['R²'].includes(clean)) return 'Model Fit';
+    if (['MAPE (%)','Rel-L2','AbsRel','sqRel'].includes(clean)) return 'Relative Error';
+    if (['R²','PSNR','SSIM'].includes(clean)) return 'Model Fit';
     if (['MaxAE'].includes(clean)) return 'Worst-case Error';
+    if (['δ<1.25','δ<1.25²','δ<1.25³'].includes(clean)) return 'Threshold Accuracy';
+    if (['Pearson','Spearman'].includes(clean)) return 'Rank Correlation';
     if (['MAC'].includes(clean)) return 'Directional Accuracy';
+    if (['Sign Agree','Extremal Agree'].includes(clean)) return 'Pattern Quality';
   }
   return 'Other';
 }
@@ -513,8 +671,7 @@ function getMetricCategory(metricName, dim, task) {
  * Returns: [{ category, color, textColor, metrics: [metricName, ...] }, ...]
  */
 function groupMetricsByCategory(metrics, dim, task) {
-  const order = dim === '2d' ? CATEGORY_ORDER_2D
-    : (task === 'generation' ? CATEGORY_ORDER_3D_GEN : CATEGORY_ORDER_3D_EVAL);
+  const order = task === 'generation' ? CATEGORY_ORDER_GEN : CATEGORY_ORDER_PRED;
   const groups = {};
   order.forEach(c => groups[c] = []);
 
@@ -547,4 +704,79 @@ function shortMetricLabel(name) {
     .replace('Training Time', 'Train T.')
     .replace('Inference Time', 'Inf. T.')
     .replace('Parameters', 'Params');
+}
+
+/**
+ * Load per-model publication metadata for analysis.html → Progression.
+ * Cached after first call.  Returns the inner `models` map (not the wrapper).
+ */
+let _modelsMetaCache = null;
+async function loadModelsMeta() {
+  if (_modelsMetaCache) return _modelsMetaCache;
+  const resp = await fetch(`${INFERENCE_BASE.replace('/inference','')}/models_meta.json`);
+  if (!resp.ok) throw new Error(`models_meta.json HTTP ${resp.status}`);
+  const j = await resp.json();
+  _modelsMetaCache = j.models || {};
+  return _modelsMetaCache;
+}
+
+/**
+ * Load 3D field per-sample residuals for analysis.html Distribution &
+ * Disagreement tabs.  Schema (written by Step B's calculate_per_sample_metrics):
+ *   { model, dataset, data_size, target_key, n_samples,
+ *     samples: { mae, rmse, mape, rel_l2, max_ae } } — each array length = n_samples.
+ * Cached per (model, size, dataset, targetKey) tuple.
+ */
+const _fieldResidualsCache = {};
+async function loadFieldPerSampleResiduals(model, dataSize, dataset, targetKey) {
+  const key = `${model}|${dataSize}|${dataset}|${targetKey}`;
+  if (_fieldResidualsCache[key]) return _fieldResidualsCache[key];
+  const url = `${INFERENCE_BASE}/dimension_3d/prediction/field/${model}_${dataSize}_${targetKey}/${dataset}/per_sample_residuals.json`;
+  const resp = await fetch(url);
+  if (!resp.ok) throw new Error(`per_sample_residuals.json HTTP ${resp.status} (${url})`);
+  const j = await resp.json();
+  _fieldResidualsCache[key] = j;
+  return j;
+}
+
+/**
+ * Inline error card for failed CSV/JSON fetches.
+ * Used by analysis.html categories — keeps a fetch failure scoped to one
+ * category container instead of leaving a blank screen.  Style follows the
+ * existing site conventions (glass-like card, red accent matching .warn-box).
+ */
+function renderError(container, msg, retryFn) {
+  if (!container) return;
+  // Build via DOM (not innerHTML) so caller-supplied `msg` — which may contain
+  // URL-derived strings like target keys — cannot inject markup.  The previous
+  // template literal also stringified `retryFn`, which lost its closure scope
+  // and was a latent XSS sink.  addEventListener fixes both.
+  container.textContent = '';
+  const card = document.createElement('div');
+  card.style.cssText = 'margin:14px 0; padding:14px 18px;' +
+    'background: rgba(239,68,68,0.06);' +
+    'border: 1px solid rgba(239,68,68,0.18);' +
+    'border-radius: 10px;' +
+    'color: var(--red-400, #f87171);' +
+    'font-size: 13px; line-height: 1.6;';
+  const title = document.createElement('div');
+  title.style.cssText = 'font-weight: 700; margin-bottom: 4px;';
+  title.textContent = "Couldn't load data";
+  const body = document.createElement('div');
+  body.style.cssText = 'color: rgba(255,255,255,0.55); font-size: 12px;';
+  body.textContent = msg || 'Check the browser console for details.';
+  card.appendChild(title);
+  card.appendChild(body);
+  if (typeof retryFn === 'function') {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = 'Retry';
+    btn.style.cssText = 'margin-top:10px; padding:5px 14px; border-radius:8px;' +
+      'background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3);' +
+      'color: #fff; font-size: 12px; font-weight: 600; cursor: pointer;' +
+      'transition: transform 0.4s var(--ease-snappy), background 0.25s ease;';
+    btn.addEventListener('click', () => { try { retryFn(); } catch (e) { console.error(e); } });
+    card.appendChild(btn);
+  }
+  container.appendChild(card);
 }

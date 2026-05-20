@@ -1,0 +1,3263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Explorer — Narnia Labs</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<link rel="stylesheet" href="shared/style.css">
+<link rel="stylesheet" href="shared/mobile.css">
+<script src="shared/lib/papaparse.min.js"></script>
+<script src="shared/lib/chart.umd.min.js"></script>
+<style>
+  .gf-label { font-size:11px; color:rgba(255,255,255,0.45); text-transform:uppercase; letter-spacing:1px; font-weight:700; }
+  .gf-select { width:100%; background:rgba(255,255,255,0.06); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:7px 11px; font-size:14px; outline:none; margin-top:4px; }
+  .gf-select option { background:#1a1a2e; }
+  .gf-pill { cursor:pointer; padding:4px 11px; font-size:13px; border-radius:6px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); transition:all 0.15s; }
+  .gf-pill.active { background:rgba(167,139,250,0.2); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
+  .gf-pill:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
+
+  /* Stat-card click-to-expand — purple-tinted ring when active so users see
+     which card the detail panel below corresponds to. */
+  .stat-card { transition: transform 0.25s var(--ease-snappy), border-color 0.2s ease; }
+  .stat-card:hover { transform: translateY(-2px); border-color: rgba(167,139,250,0.35); }
+  .stat-card.active { border-color: rgba(167,139,250,0.6); box-shadow: 0 0 12px rgba(167,139,250,0.18); }
+
+  /* 3D Viewer */
+  .pc-viewer-container { position:relative; width:100%; border-radius:12px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
+  .pc-viewer-container canvas { display:block; width:100% !important; height:100% !important; }
+  .pc-controls { display:flex; gap:6px; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); flex-wrap:wrap; }
+  .pc-controls label { font-size:10px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; }
+  .pc-sample-strip { display:flex; gap:4px; flex-wrap:wrap; }
+  .pc-sample-btn { width:28px; height:28px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:11px; font-weight:700; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; }
+  .pc-sample-btn.active { background:rgba(167,139,250,0.25); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
+  .pc-sample-btn:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
+  .pc-info { font-size:10px; color:rgba(255,255,255,0.3); padding:6px 14px; display:flex; justify-content:space-between; }
+  .pc-color-btn { padding:2px 8px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:10px; cursor:pointer; transition:all 0.15s; }
+  .pc-color-btn.active { background:rgba(56,189,248,0.2); border-color:rgba(56,189,248,0.4); color:#38bdf8; }
+
+  /* 3D Pred Viewer */
+  .pred3d-viewer-wrap { display:flex; flex-direction:column; gap:8px; }
+  .pred3d-panel { position:relative; border-radius:12px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
+  .pred3d-panel-label { position:absolute; top:8px; left:10px; z-index:10; font-size:11px; font-weight:700; letter-spacing:0.5px; padding:2px 8px; border-radius:4px; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); }
+  .pred3d-panel-label.pred { color:#a78bfa; }
+  .pred3d-panel-label.gt { color:#34d399; }
+  .pred3d-panel-label.error { color:#f59e0b; }
+  .pred3d-canvas-wrap { width:100%; height:500px; position:relative; }
+  .pred3d-stats { position:absolute; bottom:8px; right:10px; z-index:10; font-size:10px; color:rgba(255,255,255,0.5); background:rgba(0,0,0,0.5); padding:2px 8px; border-radius:4px; backdrop-filter:blur(4px); }
+  .pred3d-controls { display:flex; gap:6px; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:10px; flex-wrap:wrap; }
+  .pred3d-controls label { font-size:10px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; }
+  .pred3d-channel-btn { padding:2px 10px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:10px; cursor:pointer; transition:all 0.15s; }
+  .pred3d-channel-btn.active { background:rgba(167,139,250,0.25); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
+  .pred3d-channel-btn:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
+  @media (max-width: 900px) { .pred3d-canvas-wrap { height:300px; } }
+
+  /* Back button — distinct from filter pills */
+  .back-btn {
+    padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 600;
+    color: var(--text-secondary); background: transparent;
+    border: 1px solid rgba(255,255,255,0.12); cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .back-btn:hover { color: #fff; border-color: rgba(129,140,248,0.4); background: rgba(129,140,248,0.08); }
+
+  /* Disabled state for sample nav buttons */
+  .gf-pill.disabled { opacity: 0.25; pointer-events: none; }
+  /* .scalar-card and friends moved to shared/style.css so benchmark.html can reuse */
+
+  /* Scalar-scatter metric chips (R²/MAE/RMSE leading, then Params/Train/etc.) */
+  .sm-chip { display:inline-flex; align-items:baseline; gap:5px; white-space:nowrap; }
+  .sm-chip .sm-k { color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .sm-chip-dim { opacity: 0.85; padding-left: 10px; border-left: 1px solid rgba(255,255,255,0.1); }
+  .sm-chip-dim + .sm-chip-dim { border-left: none; padding-left: 0; }
+
+  /* Mobile: the detail switcher's Model row can wrap to 4–5 lines on phone
+     widths (3D scalar prediction has 10 model pills).  Keeping it sticky
+     would shrink the actual viewer (point cloud / scatter / triptych) to
+     half-viewport.  Drop sticky here — users scroll back to flip models. */
+  @media (max-width: 768px) {
+    #detail-switcher {
+      position: static !important;
+      top: auto !important;
+      z-index: auto !important;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="glow1"></div>
+<div class="glow2"></div>
+
+<script src="shared/nav.js"></script>
+<script>initNav('explorer');</script>
+<script src="shared/data-loader.js"></script>
+<script src="shared/url-state.js"></script>
+
+<div class="page-content">
+
+<!-- Page Header -->
+<div style="padding-top:6px; margin-bottom:24px;">
+  <div style="font-size:25px; font-weight:900; color:#fff; letter-spacing:-0.3px;">Explorer</div>
+  <div style="font-size:14px; color:rgba(255,255,255,0.4); margin-top:4px;">Explore Inference Results by Model · Generated Images · Performance Metrics</div>
+</div>
+
+<!-- Sticky filter strip — narrows the gallery to a Task / Dimension subset
+     without leaving the page. Same .glass + pill convention as Benchmark's
+     filter row, replacing the old sidebar tree (sidebar gone for visual
+     parity with Overview / Benchmark / Analysis). -->
+<div class="glass lb-filters" id="explorer-filters" style="padding:12px 18px 14px; margin-bottom:18px; position:sticky; top:var(--nav-bar-height); z-index:40;">
+  <!-- Header strip — explorer's identity layer on top of the shared
+       benchmark-style filter convention.  Left = a quiet "Browse" tag so
+       the filter card reads as "you're browsing the inventory" rather than
+       "you're configuring a leaderboard view".  Right = a live counter that
+       updates as filters narrow the gallery — purpose-specific to Explorer
+       (no other page has a result count surface). -->
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.06);">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#34d399; box-shadow:0 0 8px rgba(52,211,153,0.55);"></span>
+      <span style="font-size:11px; font-weight:800; letter-spacing:1.4px; text-transform:uppercase; color:rgba(255,255,255,0.7);">Browse Inventory</span>
+    </div>
+    <div id="explorer-result-count" style="font-size:11px; color:rgba(255,255,255,0.55); font-variant-numeric:tabular-nums;">— / — models</div>
+  </div>
+  <!-- Level 1: Dimension + Task (+ Output) — matches benchmark.html /
+       analysis.html two-level task taxonomy so the site keeps one mental
+       model for Task. Output is a sub-axis of Prediction (Field vs Scalar)
+       and only appears when Task=Prediction is selected. -->
+  <div class="lb-filter-row" style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;">
+    <div class="filter-group">
+      <span class="filter-label">Dimension</span>
+      <button class="filter-pill active" data-explorer-dim="all" onclick="explorerSetFilter('dim','all',this)">All</button>
+      <button class="filter-pill"        data-explorer-dim="3d"  onclick="explorerSetFilter('dim','3d',this)">3D</button>
+      <button class="filter-pill"        data-explorer-dim="2d"  onclick="explorerSetFilter('dim','2d',this)">2D</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Task</span>
+      <button class="filter-pill active" data-explorer-task="all"        onclick="explorerSetFilter('task','all',this)">All</button>
+      <button class="filter-pill"        data-explorer-task="generation" onclick="explorerSetFilter('task','generation',this)">Generation</button>
+      <button class="filter-pill"        data-explorer-task="prediction" onclick="explorerSetFilter('task','prediction',this)">Prediction</button>
+    </div>
+    <div class="filter-group" id="explorer-output-group">
+      <span class="filter-label">Output</span>
+      <button class="filter-pill active" data-explorer-output="all"    onclick="explorerSetFilter('output','all',this)">All</button>
+      <button class="filter-pill"        data-explorer-output="field"  onclick="explorerSetFilter('output','field',this)">Field</button>
+      <button class="filter-pill"        data-explorer-output="scalar" onclick="explorerSetFilter('output','scalar',this)">Scalar</button>
+    </div>
+  </div>
+  <!-- Level 2: Data Size + Dataset — matches benchmark.html label and order. -->
+  <div class="lb-filter-row" style="display:flex; gap:16px; align-items:center; flex-wrap:wrap; margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.06);">
+    <div class="filter-group">
+      <span class="filter-label">Data Size</span>
+      <button class="filter-pill active" data-explorer-size="all" onclick="explorerSetFilter('size','all',this)">All</button>
+      <button class="filter-pill"        data-explorer-size="XL"  onclick="explorerSetFilter('size','XL',this)">XL</button>
+      <button class="filter-pill"        data-explorer-size="L"   onclick="explorerSetFilter('size','L',this)">L</button>
+      <button class="filter-pill"        data-explorer-size="M"   onclick="explorerSetFilter('size','M',this)">M</button>
+      <button class="filter-pill"        data-explorer-size="S"   onclick="explorerSetFilter('size','S',this)">S</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Dataset</span>
+      <button class="filter-pill active" data-explorer-dataset="all"        onclick="explorerSetFilter('dataset','all',this)">All</button>
+      <button class="filter-pill"        data-explorer-dataset="deepjeb"    onclick="explorerSetFilter('dataset','deepjeb',this)">DeepJEB</button>
+      <button class="filter-pill"        data-explorer-dataset="deepwheel"  onclick="explorerSetFilter('dataset','deepwheel',this)">DeepWheel</button>
+      <button class="filter-pill"        data-explorer-dataset="drivaernet" onclick="explorerSetFilter('dataset','drivaernet',this)">DrivAerNet</button>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div>
+    <!-- Default: Summary Cards -->
+    <div id="summary-view">
+      <!-- Each section carries data-task / data-dim so the sticky filter strip
+           above can show/hide the entire .glass card via attribute matching.
+           Group headers (.summary-task-group) carry the task tag too so they
+           hide alongside their child sections. -->
+      <div class="summary-task-group" data-task="generation" style="color:#22c55e;">Generation</div>
+
+      <!-- 3D Generation Summary -->
+      <div class="glass exp-section" data-task="generation" data-dim="3d" style="padding:16px 20px; margin-bottom:16px;">
+        <div class="section-label" style="color:#22c55e; margin-bottom:14px;">3D Generation</div>
+        <div class="flex gap-8 flex-wrap" id="perf-cards-3d-gen"></div>
+      </div>
+
+      <!-- 2D Generation Summary -->
+      <div class="glass exp-section" data-task="generation" data-dim="2d" style="padding:16px 20px; margin-bottom:16px;">
+        <div class="section-label" style="color:#22c55e; margin-bottom:14px;">2D Generation</div>
+        <div class="flex gap-8 flex-wrap" id="perf-cards-2d"></div>
+      </div>
+
+      <div class="summary-task-group" data-task="field" style="color:#38bdf8;">Field Prediction</div>
+
+      <!-- 3D Field Prediction Summary -->
+      <div class="glass exp-section" data-task="field" data-dim="3d" style="padding:16px 20px; margin-bottom:16px;">
+        <div class="section-label" style="color:#38bdf8; margin-bottom:14px;">3D — Field</div>
+        <div class="flex gap-8 flex-wrap" id="perf-cards-3d"></div>
+      </div>
+
+      <!-- 2D Field Prediction Summary -->
+      <div class="glass exp-section" data-task="field" data-dim="2d" style="padding:16px 20px; margin-bottom:16px;">
+        <div class="section-label" style="color:#38bdf8; margin-bottom:14px;">2D — Field</div>
+        <div class="flex gap-8 flex-wrap" id="perf-cards-2d-field"></div>
+      </div>
+
+      <div class="summary-task-group" data-task="scalar" style="color:#38bdf8;">Scalar Prediction</div>
+
+      <!-- 3D Scalar Prediction Summary -->
+      <div class="glass exp-section" data-task="scalar" data-dim="3d" style="padding:16px 20px; margin-bottom:16px;">
+        <div class="section-label" style="color:#38bdf8; margin-bottom:14px;">3D — Scalar</div>
+        <div class="flex gap-8 flex-wrap" id="perf-cards-3d-scalar"></div>
+      </div>
+
+      <!-- 2D Scalar Prediction Summary -->
+      <div class="glass exp-section" data-task="scalar" data-dim="2d" style="padding:16px 20px; margin-bottom:16px;">
+        <div class="section-label" style="color:#38bdf8; margin-bottom:14px;">2D — Scalar</div>
+        <div class="flex gap-8 flex-wrap" id="perf-cards-2d-scalar"></div>
+      </div>
+
+      <!-- Overview Stats — clickable cards reveal a detail panel below
+           (mirrors index.html's roadmap interaction). Click again to collapse. -->
+      <div class="glass" style="padding:16px 20px;" id="exp-stats">
+        <div class="section-label section-label-purple" style="margin-bottom:14px;">Experiment Statistics</div>
+        <div class="flex gap-12 flex-wrap">
+          <div class="glass perf-card flex-1 stat-card" data-stat="categories"  onclick="explorerToggleStat('categories')" style="cursor:pointer;">
+            <div class="perf-value" style="color:#a78bfa;">6</div>
+            <div class="perf-label">Categories</div>
+          </div>
+          <div class="glass perf-card flex-1 stat-card" data-stat="3d-gen"      onclick="explorerToggleStat('3d-gen')" style="cursor:pointer;">
+            <div class="perf-value" style="color:#22c55e;">6</div>
+            <div class="perf-label">3D Gen Models</div>
+          </div>
+          <div class="glass perf-card flex-1 stat-card" data-stat="3d-pred"     onclick="explorerToggleStat('3d-pred')" style="cursor:pointer;">
+            <div class="perf-value" style="color:#38bdf8;">16</div>
+            <div class="perf-label">3D Pred Models<br/><span style="font-size:9px; color:rgba(255,255,255,0.4);">(6 field + 10 scalar)</span></div>
+          </div>
+          <div class="glass perf-card flex-1 stat-card" data-stat="2d-gen"      onclick="explorerToggleStat('2d-gen')" style="cursor:pointer;">
+            <div class="perf-value" style="color:#22c55e;">9</div>
+            <div class="perf-label">2D Gen Models</div>
+          </div>
+          <div class="glass perf-card flex-1 stat-card" data-stat="2d-pred"     onclick="explorerToggleStat('2d-pred')" style="cursor:pointer;">
+            <div class="perf-value" style="color:#38bdf8;">9</div>
+            <div class="perf-label">2D Pred Models<br/><span style="font-size:9px; color:rgba(255,255,255,0.4);">(2 field + 7 scalar)</span></div>
+          </div>
+          <div class="glass perf-card flex-1 stat-card" data-stat="sizes"       onclick="explorerToggleStat('sizes')" style="cursor:pointer;">
+            <div class="perf-value" style="color:#f59e0b;">4</div>
+            <div class="perf-label">Sizes (S/M/L/XL)</div>
+          </div>
+          <div class="glass perf-card flex-1 stat-card" data-stat="datasets"    onclick="explorerToggleStat('datasets')" style="cursor:pointer;">
+            <div class="perf-value" style="color:#f472b6;">3</div>
+            <div class="perf-label">Datasets<br/><span style="font-size:9px; color:rgba(255,255,255,0.4);">(DeepJEB, DeepWheel, DrivAerNet)</span></div>
+          </div>
+        </div>
+        <div id="stat-detail" class="collapsible-body" style="margin-top:0;"></div>
+      </div>
+    </div>
+
+    <!-- Detail View (shown when selecting a model) -->
+    <div id="detail-view" style="display:none;">
+      <div class="flex justify-between items-center action-bar">
+        <button onclick="backToSummary()" class="back-btn">← Back</button>
+        <div id="detail-breadcrumb" style="font-size:13px; color:rgba(255,255,255,0.55);"></div>
+      </div>
+
+      <!-- In-detail switcher — flip model/size/dataset without going back to
+           the gallery.  Uses .lb-filters so mobile.css picks up the compact
+           pill sizing (32px vs default 44px touch-target), and .lb-filter-row
+           so multi-group rows stack vertically on narrow screens.  Sticky on
+           desktop only — on mobile the switcher would steal too much viewport
+           given 6–10 model pills wrapping. -->
+      <div class="glass lb-filters" id="detail-switcher" style="padding:10px 14px; margin-bottom:12px; position:sticky; top:var(--nav-bar-height); z-index:40; display:none;">
+      </div>
+
+      <!-- Performance Card -->
+      <div class="glass" style="padding:16px 20px; margin-bottom:16px;" id="detail-perf">
+      </div>
+
+      <!-- Image Grid (2D) or Data View (3D) -->
+      <div class="glass" style="padding:16px 20px;" id="detail-content">
+      </div>
+    </div>
+
+    <!-- Comparisons View -->
+
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="page-footer">
+  <div class="divider"></div>
+  <div class="text">NARNIA LABS · Engineering AI Leaderboard</div>
+  <div class="footer-links">
+    <a href="https://www.narnia.ai/" target="_blank" class="footer-link">narnia.ai</a>
+    <span class="footer-sep">|</span>
+    <a href="https://github.com/Narnialabs/leaderboard" target="_blank" class="footer-link">GitHub</a>
+  </div><span class="footer-sep footer-sep-mid">|</span><div class="footer-contacts">
+    <span class="contact-copy" onclick="copyEmail(this)" data-email="simon.lee@narnia.ai">simon.lee@narnia.ai</span>
+    <a href="https://www.linkedin.com/in/korsangwonlee/" target="_blank" class="footer-link" style="margin-left:2px; vertical-align:middle;" title="Simon Lee LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:middle;"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+    <span class="footer-sep">|</span>
+    <span class="contact-copy" onclick="copyEmail(this)" data-email="paul.jeong@narnia.ai">paul.jeong@narnia.ai</span>
+    <a href="https://www.linkedin.com/in/pauljeong96/" target="_blank" class="footer-link" style="margin-left:2px; vertical-align:middle;" title="Paul Jeong LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:middle;"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+  </div>
+</div>
+
+</div><!-- /page-content -->
+
+<script>
+function copyEmail(el) {
+  navigator.clipboard.writeText(el.dataset.email).then(() => {
+    el.classList.add('copied');
+    setTimeout(() => el.classList.remove('copied'), 1200);
+  });
+}
+
+// Stable across page loads so the browser cache is actually used for the
+// hundreds of PNG/bin/JSON assets each session touches. Bump on deploy when
+// the underlying data regenerates (kept in sync across explorer/benchmark/analysis).
+const PAGE_CACHE_BUST = 'v20260512';
+
+// ── Sticky filter strip — narrows the gallery to a Task / Dim / Dataset
+// subset and sets the default Size used when opening a card.
+//   Task    → hide sections (and their group header)
+//   Dim     → hide sections
+//   Dataset → hide cards inside surviving sections; if a section is left
+//             with no visible cards, hide the section too
+//   Size    → no card hiding (every model exists at all four sizes);
+//             navigateToModel reads the active value to decide which
+//             trained checkpoint to open.  size='all' falls back to the
+//             model's largest size (XL) for navigation — same effective
+//             behaviour as the prior default while keeping the pill row
+//             symmetric with Dim / Task / Output / Dataset (all default
+//             to 'all').
+const _explorerFilter = { task: 'all', output: 'all', dim: 'all', dataset: 'all', size: 'all' };
+
+// Task/Output → section.data-task matcher.  Sections still tag themselves
+// with the leaf value ('generation' | 'field' | 'scalar') so this helper
+// translates the two-level pill state down to a single-axis check.
+//
+// Output is a sub-axis of Prediction (Field vs Scalar) — for task=All it
+// stays visible since "All" includes Prediction, and picking Output=Field
+// / Scalar acts as a constraint that narrows out Generation (which has no
+// Output type).  For task=Generation the Output row is hidden entirely
+// (forced back to 'all') because the axis doesn't apply.
+//
+// Truth table:
+//   task='all',        output='all'    → any section
+//   task='all',        output='field'  → only sections tagged 'field'
+//   task='all',        output='scalar' → only sections tagged 'scalar'
+//   task='generation', output='all'    → only sections tagged 'generation'
+//                                        (output row hidden in UI)
+//   task='prediction', output='all'    → sections tagged 'field' or 'scalar'
+//   task='prediction', output='field'  → only sections tagged 'field'
+//   task='prediction', output='scalar' → only sections tagged 'scalar'
+function _explorerSectionTaskOk(sectionTask) {
+  const t = _explorerFilter.task;
+  const o = _explorerFilter.output;
+  // Task constraint
+  if (t === 'generation' && sectionTask !== 'generation') return false;
+  if (t === 'prediction' && sectionTask === 'generation') return false;
+  // Output constraint (any non-'all' value is a strict match — Generation
+  // sections fail this because they're tagged 'generation', not field/scalar).
+  if (o !== 'all') return sectionTask === o;
+  return true;
+}
+
+function explorerSetFilter(kind, value, btn) {
+  _explorerFilter[kind] = value;
+  if (btn && btn.parentElement) {
+    btn.parentElement.querySelectorAll(`[data-explorer-${kind}]`).forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  // Output row is hidden only when Task=Generation (Output doesn't apply
+  // there).  For Task=All and Task=Prediction it stays visible — Output
+  // is a meaningful constraint in both cases (see _explorerSectionTaskOk).
+  if (kind === 'task') {
+    const outputGroup = document.getElementById('explorer-output-group');
+    if (outputGroup) outputGroup.style.display = (value === 'generation') ? 'none' : '';
+    if (value === 'generation' && _explorerFilter.output !== 'all') {
+      _explorerFilter.output = 'all';
+      document.querySelectorAll('[data-explorer-output]').forEach(b => b.classList.remove('active'));
+      const allBtn = document.querySelector('[data-explorer-output="all"]');
+      if (allBtn) allBtn.classList.add('active');
+    }
+  }
+  applyExplorerFilter();
+}
+function applyExplorerFilter() {
+  const d = _explorerFilter.dim, ds = _explorerFilter.dataset;
+
+  // Pass 1: collect the union of dataset tokens that are reachable under the
+  // current Task + Dim selection (ignoring the dataset filter itself). Used
+  // by pass 3 to grey out Dataset pills that would render an empty gallery
+  // if clicked — same UX pattern Benchmark uses for its Output / Target Key
+  // pills. Without this, picking Task=Scalar leaves DeepJEB / DrivAerNet as
+  // selectable pills that always yield "no models".
+  const reachable = new Set();
+  document.querySelectorAll('.exp-section').forEach(section => {
+    const taskOk = _explorerSectionTaskOk(section.dataset.task);
+    const dimOk  = (d === 'all') || (section.dataset.dim  === d);
+    if (!taskOk || !dimOk) return;
+    section.querySelectorAll('.exp-card').forEach(card => {
+      (card.dataset.datasets || '').split(',').filter(Boolean).forEach(tok => reachable.add(tok));
+    });
+  });
+
+  // Pass 2: actually show/hide sections + cards using all three filters.
+  let visibleTotal = 0, grandTotal = 0;
+  document.querySelectorAll('.exp-section').forEach(section => {
+    const taskOk = _explorerSectionTaskOk(section.dataset.task);
+    const dimOk  = (d === 'all') || (section.dataset.dim  === d);
+    const cards = section.querySelectorAll('.exp-card');
+    grandTotal += cards.length;
+    if (!taskOk || !dimOk) {
+      section.style.display = 'none';
+      return;
+    }
+    let visibleCardCount = 0;
+    cards.forEach(card => {
+      const tokens = (card.dataset.datasets || '').split(',').filter(Boolean);
+      const datasetOk = (ds === 'all') || tokens.includes(ds);
+      card.style.display = datasetOk ? '' : 'none';
+      if (datasetOk) visibleCardCount++;
+    });
+    visibleTotal += visibleCardCount;
+    section.style.display = (visibleCardCount > 0) ? '' : 'none';
+  });
+  // Live counter — explorer-specific identity element. Shows "X / Y" so
+  // users have a quick read on how aggressively their filters are
+  // narrowing the gallery.
+  const counter = document.getElementById('explorer-result-count');
+  if (counter) {
+    counter.textContent = `${visibleTotal} / ${grandTotal} models`;
+    counter.style.color = (visibleTotal === grandTotal)
+      ? 'rgba(255,255,255,0.45)'
+      : 'rgba(167,139,250,0.85)';
+  }
+
+  document.querySelectorAll('.summary-task-group').forEach(el => {
+    el.style.display = _explorerSectionTaskOk(el.dataset.task) ? '' : 'none';
+  });
+
+  // Output↔Task coupling: when Output is constrained to field/scalar, only
+  // Prediction is meaningful — Generation has no output type, so disable the
+  // Task=Generation pill (same disabling pattern as Dataset below). If the
+  // active task becomes invalid, fall back to 'all' and re-run.
+  const oNow = _explorerFilter.output;
+  document.querySelectorAll('[data-explorer-task]').forEach(btn => {
+    const v = btn.dataset.explorerTask;
+    const taskOk = (oNow === 'all') || v !== 'generation';
+    btn.classList.toggle('pill-disabled', !taskOk);
+    btn.disabled = !taskOk;
+    if (!taskOk && _explorerFilter.task === v) {
+      _explorerFilter.task = 'all';
+      document.querySelectorAll('[data-explorer-task]').forEach(b => b.classList.remove('active'));
+      const allBtn = document.querySelector('[data-explorer-task="all"]');
+      if (allBtn) allBtn.classList.add('active');
+    }
+  });
+
+  // Pass 3: disable Dataset pills whose token isn't reachable under Task+Dim.
+  // If the active dataset becomes invalid, fall back to 'all' and re-run the
+  // filter so the gallery doesn't sit on an empty selection.
+  let needsRerun = false;
+  document.querySelectorAll('[data-explorer-dataset]').forEach(btn => {
+    const v = btn.dataset.explorerDataset;
+    const ok = (v === 'all') || reachable.has(v);
+    btn.classList.toggle('pill-disabled', !ok);
+    btn.disabled = !ok;
+    if (!ok && _explorerFilter.dataset === v) {
+      _explorerFilter.dataset = 'all';
+      document.querySelectorAll('[data-explorer-dataset]').forEach(b => b.classList.remove('active'));
+      const allBtn = document.querySelector('[data-explorer-dataset="all"]');
+      if (allBtn) allBtn.classList.add('active');
+      needsRerun = true;
+    }
+  });
+  if (needsRerun) applyExplorerFilter();
+}
+window.explorerSetFilter = explorerSetFilter;
+
+// ── Experiment Statistics — click-to-expand detail panel ──
+// Mirrors index.html's roadmap-quarter interaction. Each stat card opens
+// a paragraph + chip list explaining what's behind the headline number.
+const _STAT_DETAIL = {
+  categories: {
+    color: '#a78bfa',
+    title: '6 model categories',
+    body: 'Two output dimensions × three task families. Each cell holds a full model lineup trained at four data scales.',
+    chips: ['3D Generation', '2D Generation', '3D Field Prediction', '2D Field Prediction', '3D Scalar Prediction', '2D Scalar Prediction'],
+  },
+  '3d-gen': {
+    color: '#22c55e',
+    title: '6 × 3D Generation models',
+    body: 'Point-cloud generators on DeepJEB / DrivAerNet — one model per architectural family from GAN to diffusion.',
+    chips: ['3D-GAN', 'DeepSDF', 'PointFlow', 'ShapeGF', 'AtlasNet', 'Diffusion3D'],
+  },
+  '3d-pred': {
+    color: '#38bdf8',
+    title: '16 × 3D Prediction models',
+    body: '6 field-prediction networks (point-cloud → per-point displacement / pressure / velocity) + 10 scalar-prediction networks (point-cloud → mass / natural frequency).',
+    chips: ['Transolver++', 'Transolver', 'AB-UPT', 'PointNet', 'RegDGCNN', 'GeoFNO', '— Scalar —', 'PointNet', 'PointNet++', 'PointNet++ Lite', 'DGCNN', 'PCT', 'PCT-Small', 'Point Transformer', 'PT-Small', 'PointMLP', 'PointMLP-Elite'],
+  },
+  '2d-gen': {
+    color: '#22c55e',
+    title: '9 × 2D Generation models',
+    body: 'Image generators on DeepJEB / DrivAerNet / DeepWheel — covering classical GAN variants, VAE/VQ-VAE, and DDPM diffusion.',
+    chips: ['DDPM', 'VAE', 'VQ-VAE', 'GAN', 'DCGAN', 'LSGAN', 'WGAN-CP', 'WGAN-GP', 'R1GAN'],
+  },
+  '2d-pred': {
+    color: '#38bdf8',
+    title: '15 × 2D Prediction models',
+    body: '8 field-prediction (RGB → depth) + 7 scalar-prediction (RGB → mass / mode) — U-Net family, FPN, depth-pretrained DPT/GLPN, plus CNN/ViT backbones for scalars.',
+    chips: ['U-Net', 'ResNet-UNet', 'Attention U-Net', 'U-Net++', 'SegFormer-B0', 'FPN', 'GLPN', 'DPT-Hybrid', '— Scalar —', 'SimpleCNN', 'ResNet-18', 'ResNet-34', 'EfficientNet-B0', 'ConvNeXt-Tiny', 'DenseNet-121', 'ViT-Tiny'],
+  },
+  sizes: {
+    color: '#f59e0b',
+    title: '4 training-set sizes',
+    body: 'Each model is trained at four data scales so scaling-curve analysis is built in. 2D image tasks use larger N because images are cheaper than point clouds.',
+    chips: ['S — 20 / 50', 'M — 50 / 100', 'L — 100 / 200', 'XL — 200 / 500', '(3D / 2D respectively)'],
+  },
+  datasets: {
+    color: '#f472b6',
+    title: '3 engineering datasets',
+    body: 'Real-world CAD-derived geometry, not toy shapes. Each dataset emphasises a different physics regime.',
+    chips: ['DeepJEB — engine bracket topology', 'DeepWheel — wheel rim modal analysis', 'DrivAerNet — automotive aerodynamics'],
+  },
+};
+let _activeStatKey = null;
+function explorerToggleStat(key) {
+  const detail = document.getElementById('stat-detail');
+  if (!detail) return;
+  const same = _activeStatKey === key;
+  document.querySelectorAll('.stat-card').forEach(el => el.classList.remove('active'));
+  if (same) {
+    _activeStatKey = null;
+    detail.classList.remove('expanded');
+    detail.innerHTML = '';
+    return;
+  }
+  _activeStatKey = key;
+  const card = document.querySelector(`.stat-card[data-stat="${key}"]`);
+  if (card) card.classList.add('active');
+  const d = _STAT_DETAIL[key];
+  if (!d) return;
+  const chips = d.chips.map(c => {
+    const isDivider = c.startsWith('—');
+    return isDivider
+      ? `<span style="font-size:10px; color:rgba(255,255,255,0.35); text-transform:uppercase; letter-spacing:0.5px; padding:2px 6px;">${c}</span>`
+      : `<span class="purple-badge" style="background:${d.color}1a; border-color:${d.color}55; color:${d.color};">${c}</span>`;
+  }).join('');
+  detail.innerHTML = `
+    <div style="padding:14px 16px 4px;">
+      <div style="font-size:13px; font-weight:800; color:${d.color}; margin-bottom:6px;">${d.title}</div>
+      <div style="font-size:12px; color:rgba(255,255,255,0.6); line-height:1.6; margin-bottom:10px;">${d.body}</div>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">${chips}</div>
+    </div>`;
+  detail.classList.add('expanded');
+}
+window.explorerToggleStat = explorerToggleStat;
+
+// ── Experiment Structure (static manifest) ──
+const EXPERIMENTS = {
+  '2d-gen': {
+    basePath: 'output/data/inference/dimension_2d/generation',
+    models: [
+      { name: 'gan', sizes: [50, 100, 200, 500] },
+      { name: 'vae', sizes: [50, 100, 200, 500] },
+      { name: 'dcgan', sizes: [50, 100, 200, 500] },
+      { name: 'lsgan', sizes: [50, 100, 200, 500] },
+      { name: 'wgan_cp', sizes: [50, 100, 200, 500] },
+      { name: 'wgan_gp', sizes: [50, 100, 200, 500] },
+      { name: 'r1gan', sizes: [50, 100, 200, 500] },
+      { name: 'ddpm', sizes: [50, 100, 200, 500] },
+      { name: 'vqvae', sizes: [50, 100, 200, 500] },
+    ],
+    datasets: ['deepjeb_2d_2d', 'drivaernet_2d_2d'],
+    type: '2d',
+  },
+  '3d-pred-field': {
+    basePath: 'output/data/inference/dimension_3d/prediction/field',
+    models: [
+      { name: 'transolver_pp', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
+      { name: 'transolver', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
+      { name: 'abupt', sizes: [20, 50, 100, 200], datasets: ['drivaernet_3d_2d'] },
+      { name: 'pointnet', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
+      { name: 'regdgcnn', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
+      { name: 'geofno', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
+    ],
+    datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'],
+    type: '3d',
+    variantsByDataset: {
+      'deepjeb_3d_2d': ['vertical', 'horizontal', 'torsion', 'diagonal', 'mode_shape_1', 'mode_shape_2'],
+      'drivaernet_3d_2d': ['velocity', 'pressure', 'pv_coupled', 'body_pressure'],
+    },
+    variants: ['vertical', 'horizontal', 'torsion', 'diagonal', 'mode_shape_1', 'mode_shape_2', 'velocity', 'pressure', 'pv_coupled', 'body_pressure'],
+  },
+  '2d-pred-field': {
+    basePath: 'output/data/inference/dimension_2d/prediction/field',
+    models: [
+      { name: 'unet_simple',    sizes: [50, 100, 200, 500] },
+      { name: 'resnet_unet',    sizes: [50, 100, 200, 500] },
+      { name: 'attention_unet', sizes: [50, 100, 200, 500] },
+      { name: 'unetpp',         sizes: [50, 100, 200, 500] },
+      { name: 'segformer_b0',   sizes: [50, 100, 200, 500] },
+      { name: 'fpn_resnet18',   sizes: [50, 100, 200, 500] },
+      { name: 'glpn',           sizes: [50, 100, 200, 500] },
+      { name: 'dpt_hybrid',     sizes: [50, 100, 200, 500] },
+    ],
+    datasets: ['deepwheel_2d_2d'],
+    type: '2d-pred',
+    variants: ['depth'],
+  },
+  '2d-pred-scalar': {
+    basePath: 'output/data/inference/dimension_2d/prediction/scalar',
+    models: [
+      { name: 'convnext_tiny',     sizes: [20, 50, 100, 200] },
+      { name: 'densenet121',       sizes: [20, 50, 100, 200] },
+      { name: 'efficientnet_b0',   sizes: [20, 50, 100, 200] },
+      { name: 'resnet18',          sizes: [20, 50, 100, 200] },
+      { name: 'resnet34',          sizes: [20, 50, 100, 200] },
+      { name: 'simplecnn',         sizes: [20, 50, 100, 200] },
+      { name: 'vit_tiny',          sizes: [20, 50, 100, 200] },
+    ],
+    datasets: ['deepwheel_2d_1d'],
+    type: 'scalar',
+    variants: ['mass', 'mode7', 'mode11'],
+    scalarBase: 'output/pred2d_scalar',
+  },
+  '3d-pred-scalar': {
+    basePath: 'output/data/inference/dimension_3d/prediction/scalar',
+    models: [
+      { name: 'pointnet_scalar',                sizes: [20, 50, 100, 200] },
+      { name: 'pointnet2_scalar',               sizes: [20, 50, 100, 200] },
+      { name: 'pointnet2_lite_scalar',          sizes: [20, 50, 100, 200] },
+      { name: 'dgcnn_scalar',                   sizes: [20, 50, 100, 200] },
+      { name: 'pct_scalar',                     sizes: [20, 50, 100, 200] },
+      { name: 'pct_small_scalar',               sizes: [20, 50, 100, 200] },
+      { name: 'point_transformer_scalar',       sizes: [20, 50, 100, 200] },
+      { name: 'point_transformer_small_scalar', sizes: [20, 50, 100, 200] },
+      { name: 'pointmlp_scalar',                sizes: [20, 50, 100, 200] },
+      { name: 'pointmlp_elite_scalar',          sizes: [20, 50, 100, 200] },
+    ],
+    datasets: ['deepwheel_3d_1d'],
+    type: 'scalar',
+    variants: ['mass', 'mode7', 'mode11'],
+    scalarBase: 'output/pred3d_scalar',
+  },
+  '3d-gen': {
+    basePath: 'output/data/inference/dimension_3d/generation',
+    models: [
+      { name: 'gan3d', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_3d', 'deepwheel_3d_3d', 'drivaernet_3d_3d'] },
+      { name: 'deepsdf', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_3d', 'deepwheel_3d_3d', 'drivaernet_3d_3d'] },
+      { name: 'pointflow', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_3d', 'deepwheel_3d_3d', 'drivaernet_3d_3d'] },
+      { name: 'shapegf', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_3d', 'deepwheel_3d_3d', 'drivaernet_3d_3d'] },
+      { name: 'atlasnet', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_3d', 'deepwheel_3d_3d', 'drivaernet_3d_3d'] },
+      { name: 'diffusionpointcloud', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_3d', 'deepwheel_3d_3d', 'drivaernet_3d_3d'] },
+    ],
+    datasets: ['deepjeb_3d_3d', 'deepwheel_3d_3d', 'drivaernet_3d_3d'],
+    type: '3d-gen',
+  },
+};
+
+
+// ── Build Sidebar Trees ──
+const SIZE_CODE_2D = { 50: 'S', 100: 'M', 200: 'L', 500: 'XL' };
+const SIZE_CODE_3D = { 20: 'S', 50: 'M', 100: 'L', 200: 'XL' };
+
+// (Tree build / toggle removed with the sidebar — gallery cards in
+// #summary-view drive navigation now, with the sticky filter strip narrowing
+// what's visible. selectExperiment() is still called by deep links and by
+// model cards, so it stays.)
+
+// ── Detail switcher — model · size · dataset pills inside the detail view ──
+// The summary-view filter strip is hidden once a model is opened (its pills
+// would no-op inside the detail view), so without this surface users had to
+// click Back → re-pick to flip size or compare to another model.  Switcher
+// rebuilds on every selectExperiment so the active state always matches.
+const _MODEL_LABEL_OVERRIDES = {
+  gan3d: '3D-GAN',
+  diffusionpointcloud: 'Diffusion3D',
+  transolver_pp: 'Transolver++',
+  pointnet2_scalar: 'PointNet++',
+  pointnet2_lite_scalar: 'PointNet++ Lite',
+  pct_scalar: 'PCT',
+  pct_small_scalar: 'PCT-Small',
+  point_transformer_scalar: 'Point Transformer',
+  point_transformer_small_scalar: 'PT-Small',
+  pointmlp_scalar: 'PointMLP',
+  pointmlp_elite_scalar: 'PointMLP-Elite',
+  pointnet_scalar: 'PointNet',
+  dgcnn_scalar: 'DGCNN',
+  unet_simple: 'U-Net',
+  resnet_unet: 'ResNet-UNet',
+  attention_unet: 'Attention U-Net',
+  unetpp: 'U-Net++',
+  segformer_b0: 'SegFormer-B0',
+  fpn_resnet18: 'FPN (ResNet-18)',
+  glpn: 'GLPN',
+  dpt_hybrid: 'DPT-Hybrid',
+};
+function _switcherModelLabel(name) {
+  return _MODEL_LABEL_OVERRIDES[name] || (typeof displayModelName === 'function' ? displayModelName(name) : name);
+}
+function buildDetailSwitcher(treeId, model, size, dataset) {
+  const el = document.getElementById('detail-switcher');
+  if (!el) return;
+  const exp = EXPERIMENTS[treeId];
+  if (!exp) { el.style.display = 'none'; return; }
+  const curModel = exp.models.find(m => m.name === model);
+  if (!curModel) { el.style.display = 'none'; return; }
+
+  const sizeMap = (exp.type === '2d' || exp.type === '2d-pred') ? SIZE_CODE_2D : SIZE_CODE_3D;
+  const sizes = curModel.sizes || [];
+  const datasets = curModel.datasets || exp.datasets || [];
+
+  // Model row — every model in this treeId.  Carries data-datasets so a future
+  // gating could grey out models that don't share the active dataset, but for
+  // now every click just resolves to the model's first dataset if the current
+  // pick is unavailable.
+  const modelPills = exp.models.map(m => {
+    const isActive = m.name === model;
+    return `<button class="filter-pill ${isActive ? 'active' : ''}"
+      onclick="window._detailSwitchModel('${treeId}','${m.name}')"
+      title="${m.name}">${_switcherModelLabel(m.name)}</button>`;
+  }).join('');
+
+  const sizePills = sizes.map(s => {
+    const code = sizeMap[s] || String(s);
+    const isActive = String(s) === String(size);
+    return `<button class="filter-pill ${isActive ? 'active' : ''}"
+      onclick="window._detailSwitchSize('${treeId}','${model}',${s})"
+      title="dataset_size=${s}">${code}</button>`;
+  }).join('');
+
+  const datasetPills = datasets.length > 1
+    ? datasets.map(d => {
+        const isActive = d === dataset;
+        return `<button class="filter-pill ${isActive ? 'active' : ''}"
+          onclick="window._detailSwitchDataset('${treeId}','${model}','${d}')">${displayDataset(d)}</button>`;
+      }).join('')
+    : '';
+
+  // Row 1 = Model on its own line (label + many pills wrap as a unit).
+  // Row 2 = Size + Dataset together — short rows that fit side-by-side on
+  // desktop and stack vertically on mobile via .lb-filter-row's rule.
+  el.innerHTML = `
+    <div class="lb-filter-row" style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
+      <div class="filter-group" style="flex:1; min-width:0;">
+        <span class="filter-label">Model</span>
+        ${modelPills}
+      </div>
+    </div>
+    <div class="lb-filter-row" style="display:flex; gap:14px; align-items:center; flex-wrap:wrap; margin-top:8px; padding-top:8px; border-top:1px solid rgba(255,255,255,0.06);">
+      <div class="filter-group">
+        <span class="filter-label">Size</span>
+        ${sizePills}
+      </div>
+      ${datasetPills ? `<div class="filter-group">
+        <span class="filter-label">Dataset</span>
+        ${datasetPills}
+      </div>` : ''}
+    </div>`;
+  el.style.display = '';
+}
+
+// Switch handlers — resolve a new (treeId, model, size, dataset) tuple, falling
+// back gracefully when the user's pick doesn't exist for the target model
+// (e.g., abupt only has drivaernet — clicking it from a deepjeb context picks
+// drivaernet automatically rather than 404ing).
+window._detailSwitchModel = function(treeId, modelName) {
+  const exp = EXPERIMENTS[treeId];
+  if (!exp) return;
+  const cur = (document.getElementById('detail-view').dataset.current || '').split('|');
+  const [, , curSize, curDataset] = cur;
+  const target = exp.models.find(m => m.name === modelName);
+  if (!target) return;
+  const sizes = target.sizes || [];
+  const size = sizes.includes(parseInt(curSize)) ? parseInt(curSize) : sizes[sizes.length - 1];
+  const datasets = target.datasets || exp.datasets || [];
+  const dataset = datasets.includes(curDataset) ? curDataset : datasets[0];
+  selectExperiment(`${treeId}|${modelName}|${size}|${dataset}`);
+};
+window._detailSwitchSize = function(treeId, modelName, newSize) {
+  const cur = (document.getElementById('detail-view').dataset.current || '').split('|');
+  const [, , , curDataset] = cur;
+  selectExperiment(`${treeId}|${modelName}|${newSize}|${curDataset}`);
+};
+window._detailSwitchDataset = function(treeId, modelName, newDataset) {
+  const cur = (document.getElementById('detail-view').dataset.current || '').split('|');
+  const [, , curSize] = cur;
+  selectExperiment(`${treeId}|${modelName}|${curSize}|${newDataset}`);
+};
+
+// ── Select Experiment ──
+async function selectExperiment(key) {
+  const [treeId, model, size, dataset] = key.split('|');
+  const exp = EXPERIMENTS[treeId];
+
+  // Reset auto-rotate to default for new viewers
+  if (typeof pcAutoRotate !== 'undefined') pcAutoRotate = true;
+  if (typeof evalAutoRotate !== 'undefined') evalAutoRotate = true;
+
+  // Show detail view + record current key (drives ieSync URL hash since we
+  // dropped the .tree-item.active marker the old sidebar relied on).
+  // Hide the gallery's filter strip — its pills only narrow the summary
+  // gallery, so leaving it visible inside the detail view would invite
+  // clicks that have no observable effect.
+  document.getElementById('summary-view').style.display = 'none';
+  const detailEl = document.getElementById('detail-view');
+  detailEl.style.display = 'block';
+  detailEl.dataset.current = key;
+  const filtersEl = document.getElementById('explorer-filters');
+  if (filtersEl) filtersEl.style.display = 'none';
+
+  // Guard against stale deep links — old shared URLs may carry the pre-split
+  // treeId "3d-pred" (now "3d-pred-field") and similar legacy slugs.  Without
+  // this, `exp.type` below throws "Cannot read properties of undefined" and
+  // the whole detail view is blank with only a console error.
+  if (!exp) {
+    document.getElementById('detail-breadcrumb').textContent = `Unknown experiment: ${treeId}`;
+    document.getElementById('detail-content').innerHTML = `
+      <div style="padding:18px 20px; margin-top:14px; background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.18); border-radius:10px; color:var(--red-400, #f87171); font-size:13px;">
+        <div style="font-weight:700; margin-bottom:6px;">No experiment registered for "${treeId}"</div>
+        <div style="color:rgba(255,255,255,0.55); font-size:12px;">This URL may have been generated before a recent rename. Try
+          <a href="#view=summary" style="color:#a78bfa;">back to the gallery</a> and pick a model card.</div>
+      </div>`;
+    document.getElementById('detail-perf').innerHTML = '';
+    return;
+  }
+
+  const sizeCode = (exp.type === '2d' ? SIZE_CODE_2D : SIZE_CODE_3D)[size] || size;
+  document.getElementById('detail-breadcrumb').textContent =
+    `${treeId.replace(/-/g, ' ')} / ${displayModelName(model)} · ${sizeCode} · ${displayDataset(dataset)}`;
+
+  // Rebuild the model/size/dataset pill row so the active pills reflect the
+  // current selection.  Has to happen after the !exp guard above but before
+  // any await — otherwise the switcher stays stale during the fetch.
+  buildDetailSwitcher(treeId, model, size, dataset);
+
+  // Try to load performance.json
+  const datasetVariants = exp.variantsByDataset ? exp.variantsByDataset[dataset] : exp.variants;
+  const basePath = datasetVariants
+    ? `${exp.basePath}/${model}_${size}_${datasetVariants[0]}/${dataset}`
+    : `${exp.basePath}/${model}_${size}/${dataset}`;
+
+  const perfDiv = document.getElementById('detail-perf');
+  const contentDiv = document.getElementById('detail-content');
+
+  try {
+    const resp = await fetch(`${basePath}/performance.json`);
+    if (resp.ok) {
+      const perf = await resp.json();
+      perfDiv.innerHTML = `
+        <div class="section-label" style="color:#a78bfa; margin-bottom:12px;">Performance — ${displayModelName(model)} · ${sizeCode}</div>
+        <div class="flex gap-12">
+          <div class="glass perf-card flex-1">
+            <div class="perf-value" style="color:#a78bfa; font-size:20px;">${(perf.model_parameters / 1e6).toFixed(2)}M</div>
+            <div class="perf-label">Parameters</div>
+          </div>
+          <div class="glass perf-card flex-1">
+            <div class="perf-value" style="color:#34d399; font-size:20px;">${perf.training_time_sec.toFixed(1)}s</div>
+            <div class="perf-label">Training Time</div>
+          </div>
+          <div class="glass perf-card flex-1">
+            <div class="perf-value" style="color:#38bdf8; font-size:20px;">${perf.inference_time_sec.toFixed(2)}s</div>
+            <div class="perf-label">Inference Time</div>
+          </div>
+          <div class="glass perf-card flex-1">
+            <div class="perf-value" style="color:#f59e0b; font-size:20px;">${perf.total_generated}</div>
+            <div class="perf-label">${treeId.includes('pred') ? 'Predicted' : 'Generated'} Samples</div>
+          </div>
+        </div>
+      `;
+    } else {
+      perfDiv.innerHTML = `<div style="font-size:13px; color:rgba(255,255,255,0.3);">performance.json not found</div>`;
+    }
+  } catch {
+    perfDiv.innerHTML = `<div style="font-size:13px; color:rgba(255,255,255,0.3);">Could not load performance data</div>`;
+  }
+
+  // Show images for 2D or info for 3D
+  if (exp.type === '2d') {
+    const imgPath = `output/gen2d/${model}/${dataset}/${size}`;
+    let imagesHtml = '<div class="section-label" style="color:#22c55e; margin-bottom:12px;">Generated Samples</div>';
+    imagesHtml += '<div class="image-grid">';
+    for (let i = 0; i < 12; i++) {
+      const idx = String(i).padStart(5, '0');
+      imagesHtml += `
+        <div class="image-card">
+          <img src="${imgPath}/img_${idx}.png?t=${PAGE_CACHE_BUST}"
+               onerror="this.parentElement.style.display='none'"
+               loading="lazy"
+               alt="sample ${i}">
+          <div class="caption">img_${idx}.png</div>
+        </div>
+      `;
+    }
+    imagesHtml += '</div>';
+    contentDiv.innerHTML = imagesHtml;
+  } else if (exp.type === '2d-pred') {
+    // 2D field prediction (depth) — GT / pred / |error| triptych per sample
+    const PRED_2D_GRID_COUNT = 12;
+    const tk = (exp.variants && exp.variants[0]) || 'depth';
+    const predPath = `output/pred2d_field/${model}/${dataset}/${size}`;
+    const gtPath = `output/pred2d_field/_gt/${dataset}/${tk}`;
+    let html = `<div class="section-label" style="color:#38bdf8; margin-bottom:12px;">2D Field Prediction — ${tk} (GT · Pred · |Error|, first ${PRED_2D_GRID_COUNT})</div>`;
+    html += '<div class="f2d-samples" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(420px, 1fr)); gap:12px;">';
+    for (let i = 0; i < PRED_2D_GRID_COUNT; i++) {
+      const idx = String(i).padStart(5, '0');
+      html += `<div class="f2d-cell"
+        data-pred="${predPath}/img_${idx}.png"
+        data-gt="${gtPath}/img_${idx}.png">
+        <div class="f2d-triptych">
+          <div class="f2d-panel"><canvas class="f2d-gt-cv"></canvas><div class="f2d-tag">GT</div></div>
+          <div class="f2d-panel"><canvas class="f2d-pred-cv"></canvas><div class="f2d-tag">pred</div></div>
+          <div class="f2d-panel"><canvas class="f2d-err-cv"></canvas><div class="f2d-tag">|err|</div></div>
+        </div>
+        <div class="f2d-caption"><span class="f2d-idx">#${i}</span><span class="f2d-mae">—</span></div>
+      </div>`;
+    }
+    html += '</div>';
+    html += `<div class="f2d-legend" style="margin-top:14px;">
+      <div class="f2d-legend-row">
+        <span class="f2d-legend-title">Depth (GT &amp; Pred)</span>
+        <div class="f2d-legend-bar f2d-legend-grayscale"></div>
+        <div class="f2d-legend-labels"><span>near</span><span>far</span></div>
+      </div>
+      <div class="f2d-legend-row">
+        <span class="f2d-legend-title">|Pred − GT|</span>
+        <div class="f2d-legend-bar f2d-legend-jet"></div>
+        <div class="f2d-legend-labels"><span>0</span><span>p95</span></div>
+      </div>
+      <div class="f2d-legend-note">Depth rendered as grayscale over the GT/Pred union range; error uses inferno capped at 95th-percentile |Δ|.</div>
+    </div>`;
+    contentDiv.innerHTML = html;
+    initField2DCells(contentDiv);
+  } else if (exp.type === 'scalar') {
+    // 2D / 3D scalar prediction — Chart.js scatter pred vs GT, target switcher,
+    // and a per-sample gallery (matches the per-sample convention used by every
+    // other task: gen2d/gen3d/pred2d_field/pred3d_field).
+    const variants = exp.variants || [];
+    const dataUrl = `${exp.scalarBase}/${model}_${size}/${dataset}.json`;
+    let html = `<div class="section-label" style="color:#38bdf8; margin-bottom:12px;">Scalar Prediction — Pred vs Ground Truth</div>`;
+    html += '<div id="scalar-target-btns" style="margin-bottom:12px; display:flex; gap:6px; flex-wrap:wrap;">';
+    variants.forEach((v, i) => {
+      html += `<button class="filter-pill ${i === 0 ? 'active' : ''}"
+        data-target="${v}" onclick="window._scalarSelectTarget('${v}', this)">${v}</button>`;
+    });
+    html += '</div>';
+    html += '<div style="position:relative; height:380px; background:rgba(0,0,0,0.25); border-radius:8px; padding:8px;"><canvas id="scalar-scatter"></canvas></div>';
+    html += '<div id="scalar-metrics-row" style="margin-top:10px; font-size:12px; color:rgba(255,255,255,0.7);"></div>';
+    html += `<div style="margin-top:18px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.06);">
+      <div class="section-label" style="color:#a78bfa; margin-bottom:10px;">Per-Sample Gallery</div>
+      <div id="scalar-gallery-content"></div>
+    </div>`;
+    contentDiv.innerHTML = html;
+    initScalarScatter(dataUrl, variants[0]);
+    // Detail-view gallery state: model/size/dataset are bound at this point;
+    // _scalarSelectTarget hands off to renderDetailScalarGallery to re-render
+    // when the user switches target.
+    window._detailScalarCtx = { model, size, dataset, variants };
+    renderDetailScalarGallery(variants[0]);
+  } else if (exp.type === '3d-gen') {
+    // 3D generation — interactive Three.js point cloud viewer
+    const sizeMap3d = { '20': 'S', '50': 'M', '100': 'L', '200': 'XL' };
+    const sizeCode3d = sizeMap3d[String(size)] || 'S';
+    let viewerHtml = `<div class="section-label" style="color:#22c55e; margin-bottom:12px;">3D Generation — Interactive Point Cloud Viewer</div>`;
+    viewerHtml += `<div id="pc-viewer-root" data-model="${model}" data-size="${size}" data-dataset="${dataset}" data-size-code="${sizeCode3d}"></div>`;
+    contentDiv.innerHTML = viewerHtml;
+    initPointCloudViewer(model, parseInt(size), dataset);
+  } else {
+    // 3D prediction — interactive 3D viewer with Prediction / GT / Error
+    const EVAL_CHANNELS = {
+      'deepjeb_3d_2d': {
+        'vertical':     ['disp_x', 'disp_y', 'disp_z', 'stress'],
+        'horizontal':   ['disp_x', 'disp_y', 'disp_z', 'stress'],
+        'diagonal':     ['disp_x', 'disp_y', 'disp_z', 'stress'],
+        'torsion':      ['disp_x', 'disp_y', 'disp_z', 'stress'],
+        'mode_shape_1': ['mode_x', 'mode_y', 'mode_z'],
+        'mode_shape_2': ['mode_x', 'mode_y', 'mode_z'],
+      },
+      'drivaernet_3d_2d': {
+        'velocity':      ['velocity_x', 'velocity_y', 'velocity_z'],
+        'pressure':      ['pressure'],
+        'pv_coupled':    ['pressure', 'velocity_x', 'velocity_y', 'velocity_z'],
+        'body_pressure': ['body_pressure'],
+      },
+    };
+
+    const variants = datasetVariants || exp.variants || [];
+    let infoHtml = `<div class="section-label" style="color:#38bdf8; margin-bottom:12px;">3D Prediction — Interactive Viewer (Prediction / GT / Error)</div>`;
+
+    // Target key selector
+    infoHtml += `<div style="margin-bottom:12px; display:flex; gap:6px; flex-wrap:wrap;" id="pred3d-tk-btns">`;
+    variants.forEach((v, i) => {
+      infoHtml += `<button class="filter-pill ${i === 0 ? 'active' : ''}"
+        onclick="window._evalSelectTargetKey('${model}','${dataset}','${v}',${size},this)">${v}</button>`;
+    });
+    infoHtml += `</div>`;
+
+    // Viewer container
+    infoHtml += `<div id="pred3d-viewer-root"></div>`;
+    contentDiv.innerHTML = infoHtml;
+
+    // Target key switcher
+    window._evalSelectTargetKey = function(m, ds, tk, sz, btn) {
+      if (btn) {
+        btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+      }
+      const chs = (EVAL_CHANNELS[ds] && EVAL_CHANNELS[ds][tk]) || [];
+      if (chs.length) {
+        initEvalViewer(m, sz, ds, tk, chs);
+      }
+    };
+
+    // Auto-load first variant
+    if (variants.length) {
+      const firstTK = variants[0];
+      const firstChs = (EVAL_CHANNELS[dataset] && EVAL_CHANNELS[dataset][firstTK]) || [];
+      if (firstChs.length) {
+        initEvalViewer(model, parseInt(size), dataset, firstTK, firstChs);
+      }
+    }
+  }
+  ieSync();
+}
+
+function backToSummary() {
+  document.getElementById('summary-view').style.display = 'block';
+  document.getElementById('detail-view').style.display = 'none';
+  const filtersEl = document.getElementById('explorer-filters');
+  if (filtersEl) filtersEl.style.display = '';
+  pushHashState({});
+}
+
+// Sync registry placeholders — referenced by the module script's PC viewer
+// sync logic, which is now dead in explorer.html (analysis.html owns the
+// .cmp-pc-viewer DOM).  Kept declared so the module's `window._cmpPcSyncGroups[side]`
+// reads don't TypeError if some future entry point ever exercises that path.
+// (The original sed strip lost the SyncGroups line; restoring for parity with HEAD.)
+window._cmpPcSyncGroups = {};
+window._cmpPcSyncLock = false;
+
+Chart.defaults.color = 'rgba(255,255,255,0.6)';
+Chart.defaults.borderColor = 'rgba(255,255,255,0.08)';
+Chart.defaults.font.family = 'Inter, system-ui, sans-serif';
+Chart.defaults.font.size = 11;
+
+// ── 2D field prediction triptych painters (shared by detail + cmp views) ──
+// Error magnitude is unsigned (|pred - gt|, always ≥ 0), so a sequential
+// perceptually-uniform colormap fits better than jet. Inferno reads cleanly on
+// the dark theme: low error blends into the background, high error pops bright.
+// Polynomial fit by Matt Zucker (Shadertoy WlfXRN), max channel error ~2/255.
+function _f2dInfernoColormap(t) {
+  t = Math.max(0, Math.min(1, t));
+  const r = 0.000219 + t * (0.1065 + t * (11.602 + t * (-41.70 + t * ( 77.16 + t * (-71.32 + t *  25.13)))));
+  const g = 0.001651 + t * (0.5640 + t * (-3.973 + t * ( 17.44 + t * (-33.40 + t * ( 32.63 + t * -12.24)))));
+  const b = -0.01948 + t * (3.9330 + t * (-15.94 + t * ( 44.35 + t * (-81.81 + t * ( 73.21 + t * -23.07)))));
+  return [
+    Math.round(Math.max(0, Math.min(1, r)) * 255),
+    Math.round(Math.max(0, Math.min(1, g)) * 255),
+    Math.round(Math.max(0, Math.min(1, b)) * 255),
+  ];
+}
+function _f2dLoadImage(url) {
+  return new Promise((resolve, reject) => {
+    const img = new Image(); img.crossOrigin = 'anonymous';
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error(`load failed: ${url}`));
+    img.src = url;
+  });
+}
+function _f2dImageToGray(img) {
+  const W = img.naturalWidth, H = img.naturalHeight;
+  const tmp = document.createElement('canvas'); tmp.width = W; tmp.height = H;
+  const ctx = tmp.getContext('2d'); ctx.drawImage(img, 0, 0);
+  const data = ctx.getImageData(0, 0, W, H).data;
+  const gray = new Float32Array(W * H);
+  for (let i = 0; i < gray.length; i++) gray[i] = data[i * 4] / 255;
+  return { gray, W, H };
+}
+function _f2dPaintGrayscale(canvas, gray, W, H, vmin, vmax) {
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+  const out = ctx.createImageData(W, H);
+  const range = (vmax - vmin) || 1;
+  for (let i = 0; i < gray.length; i++) {
+    const v = Math.round(Math.max(0, Math.min(1, (gray[i] - vmin) / range)) * 255);
+    out.data[i * 4] = v; out.data[i * 4 + 1] = v; out.data[i * 4 + 2] = v; out.data[i * 4 + 3] = 255;
+  }
+  ctx.putImageData(out, 0, 0);
+}
+function _f2dPaintError(canvas, predGray, gtGray, W, H, errCap) {
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+  const out = ctx.createImageData(W, H);
+  const cap = errCap || 1e-6;
+  for (let i = 0; i < predGray.length; i++) {
+    const e = Math.abs(predGray[i] - gtGray[i]);
+    const [r, g, b] = _f2dInfernoColormap(Math.min(1, e / cap));
+    out.data[i * 4] = r; out.data[i * 4 + 1] = g; out.data[i * 4 + 2] = b; out.data[i * 4 + 3] = 255;
+  }
+  ctx.putImageData(out, 0, 0);
+}
+function _f2dPercentile(arr, q) {
+  const sorted = Float32Array.from(arr).sort();
+  return sorted[Math.min(sorted.length - 1, Math.floor(q * sorted.length))];
+}
+async function _f2dPaintCell(cell) {
+  const predUrl = `${cell.dataset.pred}?t=${PAGE_CACHE_BUST}`;
+  const gtUrl   = `${cell.dataset.gt}?t=${PAGE_CACHE_BUST}`;
+  let predImg, gtImg;
+  try {
+    [predImg, gtImg] = await Promise.all([_f2dLoadImage(predUrl), _f2dLoadImage(gtUrl)]);
+  } catch {
+    cell.querySelector('.f2d-triptych').style.opacity = '0.2';
+    cell.querySelector('.f2d-mae').textContent = 'N/A';
+    return;
+  }
+  const { gray: pGray, W, H } = _f2dImageToGray(predImg);
+  const { gray: gGray }       = _f2dImageToGray(gtImg);
+  let lo = Infinity, hi = -Infinity;
+  for (let i = 0; i < pGray.length; i++) {
+    if (pGray[i] < lo) lo = pGray[i]; if (pGray[i] > hi) hi = pGray[i];
+    if (gGray[i] < lo) lo = gGray[i]; if (gGray[i] > hi) hi = gGray[i];
+  }
+  const errs = new Float32Array(pGray.length);
+  let sumE = 0;
+  for (let i = 0; i < errs.length; i++) { errs[i] = Math.abs(pGray[i] - gGray[i]); sumE += errs[i]; }
+  const errCap = _f2dPercentile(errs, 0.95) || 1e-6;
+  const mae = sumE / errs.length;
+  _f2dPaintGrayscale(cell.querySelector('.f2d-gt-cv'),   gGray, W, H, lo, hi);
+  _f2dPaintGrayscale(cell.querySelector('.f2d-pred-cv'), pGray, W, H, lo, hi);
+  _f2dPaintError(cell.querySelector('.f2d-err-cv'), pGray, gGray, W, H, errCap);
+  cell.querySelector('.f2d-mae').textContent = `MAE ${mae.toFixed(3)}`;
+}
+function initField2DCells(root) {
+  const cells = root.querySelectorAll('.f2d-cell');
+  if (!cells.length) return;
+  if (window._explorerF2DObserver) window._explorerF2DObserver.disconnect();
+  window._explorerF2DObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !e.target._f2dInited) {
+        e.target._f2dInited = true;
+        window._explorerF2DObserver.unobserve(e.target);
+        _f2dPaintCell(e.target);
+      }
+    });
+  }, { rootMargin: '300px' });
+  cells.forEach(c => window._explorerF2DObserver.observe(c));
+}
+
+// Cache for the per-dataset shape manifest (slot → input-shape glTF/PNG
+// metadata). The companion `_scalarPredCache` below is declared the same
+// way; this one was missing because the helper was lift-shifted from
+// analysis.html where the const lives a few lines above the function —
+// here the loader was orphaned without its cache and threw
+// "ReferenceError: _scalarManifestCache is not defined" the first time
+// renderDetailScalarGallery awaited it, leaving the gallery stuck on the
+// "Loading shapes…" placeholder forever.
+// Note: caches store only successful resolutions.  Previously a transient 404
+// or network failure was cached as `null` (via `.catch(() => null)` saved into
+// the map), permanently locking the gallery onto an empty placeholder until
+// page reload.  Now failures fall through so the next call retries.
+const _scalarManifestCache = {};
+async function loadScalarShapeManifest(dataset) {
+  if (_scalarManifestCache[dataset]) return _scalarManifestCache[dataset];
+  const subdir = dataset.includes('_3d_') ? 'pred3d_scalar' : 'pred2d_scalar';
+  const url = `output/${subdir}/_shapes/${dataset}/manifest.json?t=${PAGE_CACHE_BUST}`;
+  const p = fetch(url).then(r => r.ok ? r.json() : null);
+  _scalarManifestCache[dataset] = p;
+  try {
+    return await p;
+  } catch (e) {
+    delete _scalarManifestCache[dataset];
+    return null;
+  }
+}
+
+const _scalarPredCache = {};
+async function loadScalarPredJson(model, size, dataset) {
+  const key = `${model}|${size}|${dataset}`;
+  if (_scalarPredCache[key]) return _scalarPredCache[key];
+  const subdir = dataset.includes('_3d_') ? 'pred3d_scalar' : 'pred2d_scalar';
+  const url = `output/${subdir}/${model}_${size}/${dataset}.json?t=${PAGE_CACHE_BUST}`;
+  const p = fetch(url).then(r => r.ok ? r.json() : null);
+  _scalarPredCache[key] = p;
+  try {
+    return await p;
+  } catch (e) {
+    delete _scalarPredCache[key];
+    return null;
+  }
+}
+
+// Map a value to [pad, W-pad] using an axis range [lo, hi] (clipped).
+function _scalarAxisX(v, lo, hi, W, pad) {
+  if (!isFinite(v) || hi <= lo) return W / 2;
+  const t = Math.max(0, Math.min(1, (v - lo) / (hi - lo)));
+  return pad + t * (W - 2 * pad);
+}
+
+// HTML+CSS horizontal axis with GT marker (white ring) + Pred marker (filled, model color).
+// Switched from SVG (preserveAspectRatio="none") because that path stretched the
+// markers into ellipses on full-row leaderboard cards. Markers are now sized in
+// fixed pixels so they stay perfectly round at any container width.
+function scalarBuildAxisSVG(gtVal, predVal, lo, hi, predColor) {
+  const t = (v) => (isFinite(v) && hi > lo)
+    ? Math.max(0, Math.min(1, (v - lo) / (hi - lo)))
+    : 0.5;
+  const gtT = t(gtVal);
+  const predT = t(predVal);
+  const segLeftT = Math.min(gtT, predT);
+  const segRightT = Math.max(gtT, predT);
+  // calc(8px + t * (100% - 16px)) anchors marker centers to a 8px-inset track,
+  // matching the original SVG pad=10 (220 px viewBox) at any rendered width.
+  const pos = (tt) => `calc(8px + ${tt} * (100% - 16px))`;
+  return `<div class="scalar-axis">
+    <div class="scalar-axis-track"></div>
+    <div class="scalar-axis-tick" style="left:8px;"></div>
+    <div class="scalar-axis-tick" style="left:calc(100% - 8px);"></div>
+    <div class="scalar-axis-segment" style="left:${pos(segLeftT)}; right:calc(100% - ${pos(segRightT)}); background:${predColor}; opacity:0.45;"></div>
+    <div class="scalar-axis-marker scalar-axis-marker-gt" style="left:${pos(gtT)};"></div>
+    <div class="scalar-axis-marker scalar-axis-marker-pred" style="left:${pos(predT)}; background:${predColor};"></div>
+  </div>`;
+}
+
+// Format a scalar with sane decimal count (matches scatter axis convention).
+function _scalarFmt(v) {
+  if (!isFinite(v)) return '—';
+  const a = Math.abs(v);
+  if (a >= 100) return v.toFixed(1);
+  if (a >= 1)   return v.toFixed(2);
+  return v.toFixed(3);
+}
+
+// Build a single scalar sample card. Layout: shape thumbnail (left, small) +
+// info column (right) with side-by-side GT/PRED hero numbers and a prominent
+// axis. The shape is supporting context, not the focal point — scalar values
+// dominate visually so the user sees prediction vs GT at a glance.
+function scalarBuildCard(slot, shapeHTML, gtVal, predVal, range, accentColor) {
+  const err = predVal - gtVal;
+  const relPct = (gtVal !== 0) ? (err / Math.abs(gtVal)) * 100 : 0;
+  const absRel = Math.abs(relPct);
+  // Color the error tag green→amber→red by relative magnitude (5%/15% break points).
+  const errColor = absRel < 5 ? '#34d399' : absRel < 15 ? '#fbbf24' : '#f87171';
+  const sign = err >= 0 ? '+' : '−';
+  // Use p05/p95 for axis bounds — full min/max can be skewed by outliers, p05–p95
+  // makes typical predictions land mid-axis where they're easiest to read.
+  const lo = range.p05, hi = range.p95;
+  const okPred = isFinite(predVal);
+  const predDisplay = okPred ? _scalarFmt(predVal) : '—';
+  const deltaDisplay = okPred
+    ? `Δ ${sign}${_scalarFmt(Math.abs(err))} (${sign}${absRel.toFixed(1)}%)`
+    : 'pred N/A';
+  return `<div class="scalar-card">
+    <div class="scalar-card-shape">${shapeHTML}</div>
+    <div class="scalar-card-info">
+      <div class="scalar-card-header">
+        <span class="scalar-card-slot">#${slot}</span>
+        <span class="scalar-card-delta" style="color:${okPred ? errColor : 'rgba(255,255,255,0.4)'};">${deltaDisplay}</span>
+      </div>
+      <div class="scalar-card-values">
+        <div class="scalar-tile scalar-tile-gt">
+          <div class="scalar-tile-label">GT</div>
+          <div class="scalar-tile-num">${_scalarFmt(gtVal)}</div>
+        </div>
+        <div class="scalar-tile scalar-tile-pred" style="border-color:${accentColor}55;background:${accentColor}10;">
+          <div class="scalar-tile-label" style="color:${accentColor};">PRED</div>
+          <div class="scalar-tile-num" style="color:${accentColor};">${predDisplay}</div>
+        </div>
+      </div>
+      <div class="scalar-card-axis">${scalarBuildAxisSVG(gtVal, isFinite(predVal) ? predVal : gtVal, lo, hi, accentColor)}</div>
+    </div>
+  </div>`;
+}
+
+// Build the shape-thumbnail markup for a slot. 2D = <img>; 3D = mini viewer placeholder
+// initialized lazily by initScalarShapeViewer3D (defined in module script).
+// Returns *inner* markup only — the .scalar-card-shape wrapper is provided by
+// scalarBuildCard so layout/sizing is controlled in CSS.
+function scalarBuildShapeHTML(dataset, slot) {
+  const is3D = dataset.includes('_3d_');
+  if (is3D) {
+    const id = `scalar-shape-${dataset}-${slot}-${Math.random().toString(36).slice(2, 7)}`;
+    return `<div id="${id}" class="scalar-shape-3d" data-dataset="${dataset}" data-slot="${slot}">
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.25);font-size:11px;">…</div>
+    </div>`;
+  }
+  const url = `output/pred2d_scalar/_shapes/${dataset}/img_${String(slot).padStart(2, '0')}.png?t=${PAGE_CACHE_BUST}`;
+  return `<img src="${url}" loading="lazy" onerror="this.style.opacity='0.2'">`;
+}
+
+// Initialize all 3D shape viewers inside `root` lazily as they scroll into view.
+function initScalarShape3DCells(root) {
+  const cells = root.querySelectorAll('.scalar-shape-3d');
+  if (!cells.length) return;
+  if (window._scalarShapeObs) window._scalarShapeObs.disconnect();
+  window._scalarShapeObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      const el = e.target;
+      if (e.isIntersecting && !el._scalarShapeInit && window.initScalarShapeViewer3D) {
+        el._scalarShapeInit = true;
+        window._scalarShapeObs.unobserve(el);
+        window.initScalarShapeViewer3D(el, el.dataset.dataset, parseInt(el.dataset.slot));
+      }
+    });
+  }, { rootMargin: '200px' });
+  cells.forEach(c => window._scalarShapeObs.observe(c));
+  // Fallback init if Three.js module hasn't loaded yet on first paint
+  function _retry(n) {
+    if (!window.initScalarShapeViewer3D) {
+      if (n > 0) setTimeout(() => _retry(n - 1), 200);
+      return;
+    }
+    cells.forEach(el => {
+      if (!el._scalarShapeInit) {
+        el._scalarShapeInit = true;
+        window.initScalarShapeViewer3D(el, el.dataset.dataset, parseInt(el.dataset.slot));
+      }
+    });
+  }
+  requestAnimationFrame(() => _retry(15));
+}
+
+// Resolve the active value of a filter pill by data attribute name.
+// Translates kebab-case (data-explorer-size) → camelCase (explorerSize).
+function _activeFilterValue(kind) {
+  const btn = document.querySelector(`[data-explorer-${kind}].active`);
+  return btn ? btn.dataset[`explorer${kind.charAt(0).toUpperCase() + kind.slice(1)}`] : null;
+}
+// S / M / L / XL → the integer at that ordinal position in the model's own
+// sizes array. Avoids the type→ranges lookup table (which had to enumerate
+// 2d / 3d / 2d-pred / scalar / 3d-gen separately and silently broke for any
+// new EXPERIMENTS.type added later). All current EXPERIMENTS entries ship
+// 4-element sizes arrays in S→XL order, so the index mapping is intrinsic.
+const _SIZE_INDEX = { S: 0, M: 1, L: 2, XL: 3 };
+
+function navigateToModel(treeId, modelName) {
+  const exp = EXPERIMENTS[treeId];
+  if (!exp) return;
+  const model = exp.models.find(m => m.name === modelName);
+  if (!model || !Array.isArray(model.sizes) || !model.sizes.length) return;
+
+  // Honour the active Size pill: pull the size at that ordinal position.
+  // Falls back to the model's largest when the pill is unset.
+  const sizeLabel = _activeFilterValue('size') || 'XL';
+  const idx = _SIZE_INDEX[sizeLabel];
+  const size = (idx != null && model.sizes[idx] != null)
+    ? model.sizes[idx]
+    : model.sizes[model.sizes.length - 1];
+
+  // Honour the active Dataset pill: pick the model's dataset whose name
+  // contains the filter token (deepjeb / drivaernet / deepwheel). Fallback
+  // to the model's first dataset when no match.
+  const datasets = model.datasets || exp.datasets;
+  const dsToken = _activeFilterValue('dataset');
+  const dataset = (dsToken && dsToken !== 'all')
+    ? (datasets.find(d => d.toLowerCase().includes(dsToken)) || datasets[0])
+    : datasets[0];
+
+  selectExperiment(`${treeId}|${modelName}|${size}|${dataset}`);
+}
+
+// ── Build Performance Summary Cards ──
+// Cards carry data-datasets="deepjeb,drivaernet" so the dataset filter pill
+// can hide entries whose model has no data on the picked dataset.  Section
+// containers (.exp-section) hide when ALL their cards become hidden.
+function _datasetTokens(treeId, modelName) {
+  const exp = EXPERIMENTS[treeId];
+  if (!exp) return '';
+  const model = (exp.models || []).find(m => m.name === modelName);
+  const datasets = (model && model.datasets) || exp.datasets || [];
+  const tokens = new Set();
+  // Iteration order here is the visible order of dataset chips on each card.
+  // Keep deepjeb → deepwheel → drivaernet (matches the canonical sort in
+  // shared/data-loader.js#sortDatasets and the dataset filter pill row above).
+  datasets.forEach(d => {
+    if (d.toLowerCase().includes('deepjeb')) tokens.add('deepjeb');
+    if (d.toLowerCase().includes('deepwheel')) tokens.add('deepwheel');
+    if (d.toLowerCase().includes('drivaernet')) tokens.add('drivaernet');
+  });
+  return [...tokens].join(',');
+}
+function _datasetCaption(treeId, modelName) {
+  const t = _datasetTokens(treeId, modelName).split(',').filter(Boolean);
+  if (!t.length) return '';
+  const map = { deepjeb: 'DeepJEB', drivaernet: 'DrivAerNet', deepwheel: 'DeepWheel' };
+  return t.map(x => map[x] || x).join(' + ');
+}
+function _renderCard(treeId, modelName, label, kind, color) {
+  const ds = _datasetTokens(treeId, modelName);
+  const caption = _datasetCaption(treeId, modelName);
+  return `
+    <div class="glass perf-card exp-card" style="min-width:120px; flex:1; cursor:pointer;"
+         data-datasets="${ds}"
+         onclick="navigateToModel('${treeId}','${modelName}')">
+      <div style="font-size:14px; font-weight:800; color:#fff;">${label}</div>
+      <div style="font-size:10px; color:rgba(255,255,255,0.3); margin-top:2px;">${kind}</div>
+      <div style="font-size:10px; color:${color}; margin-top:4px;">S/M/L/XL</div>
+      ${caption ? `<div style="font-size:9px; color:rgba(255,255,255,0.25); margin-top:1px;">${caption}</div>` : ''}
+    </div>
+  `;
+}
+function buildPerfSummary() {
+  const models2dGen = ['ddpm','vae','vqvae','gan','dcgan','lsgan','wgan_cp','wgan_gp','r1gan'];
+  document.getElementById('perf-cards-2d').innerHTML =
+    models2dGen.map(m => _renderCard('2d-gen', m, m.toUpperCase(), '2D Generation', '#22c55e')).join('');
+
+  const models3dGen = [
+    { name: 'gan3d', label: '3D-GAN' },
+    { name: 'deepsdf', label: 'DeepSDF' },
+    { name: 'pointflow', label: 'PointFlow' },
+    { name: 'shapegf', label: 'ShapeGF' },
+    { name: 'atlasnet', label: 'AtlasNet' },
+    { name: 'diffusionpointcloud', label: 'Diffusion3D' },
+  ];
+  document.getElementById('perf-cards-3d-gen').innerHTML =
+    models3dGen.map(m => _renderCard('3d-gen', m.name, m.label, '3D Generation', '#22c55e')).join('');
+
+  const models3dField = [
+    { name: 'transolver_pp', label: 'Transolver++' },
+    { name: 'transolver', label: 'Transolver' },
+    { name: 'abupt', label: 'AB-UPT' },
+    { name: 'pointnet', label: 'PointNet' },
+    { name: 'regdgcnn', label: 'RegDGCNN' },
+    { name: 'geofno', label: 'GeoFNO' },
+  ];
+  document.getElementById('perf-cards-3d').innerHTML =
+    models3dField.map(m => _renderCard('3d-pred-field', m.name, m.label, '3D Pred · Field', '#38bdf8')).join('');
+
+  const models3dScalar = [
+    { name: 'pointnet_scalar', label: 'PointNet' },
+    { name: 'pointnet2_scalar', label: 'PointNet++' },
+    { name: 'pointnet2_lite_scalar', label: 'PointNet++ Lite' },
+    { name: 'dgcnn_scalar', label: 'DGCNN' },
+    { name: 'pct_scalar', label: 'PCT' },
+    { name: 'pct_small_scalar', label: 'PCT-Small' },
+    { name: 'point_transformer_scalar', label: 'Point Transformer' },
+    { name: 'point_transformer_small_scalar', label: 'Point Transformer-Small' },
+    { name: 'pointmlp_scalar', label: 'PointMLP' },
+    { name: 'pointmlp_elite_scalar', label: 'PointMLP-Elite' },
+  ];
+  document.getElementById('perf-cards-3d-scalar').innerHTML =
+    models3dScalar.map(m => _renderCard('3d-pred-scalar', m.name, m.label, '3D Pred · Scalar', '#38bdf8')).join('');
+
+  const models2dField = [
+    { name: 'unet_simple',    label: 'U-Net' },
+    { name: 'resnet_unet',    label: 'ResNet-UNet' },
+    { name: 'attention_unet', label: 'Attention U-Net' },
+    { name: 'unetpp',         label: 'U-Net++' },
+    { name: 'segformer_b0',   label: 'SegFormer-B0' },
+    { name: 'fpn_resnet18',   label: 'FPN (ResNet-18)' },
+    { name: 'glpn',           label: 'GLPN' },
+    { name: 'dpt_hybrid',     label: 'DPT-Hybrid' },
+  ];
+  document.getElementById('perf-cards-2d-field').innerHTML =
+    models2dField.map(m => _renderCard('2d-pred-field', m.name, m.label, '2D Pred · Field', '#38bdf8')).join('');
+
+  const models2dScalar = [
+    { name: 'simplecnn', label: 'SimpleCNN' },
+    { name: 'resnet18', label: 'ResNet-18' },
+    { name: 'resnet34', label: 'ResNet-34' },
+    { name: 'efficientnet_b0', label: 'EfficientNet-B0' },
+    { name: 'convnext_tiny', label: 'ConvNeXt-Tiny' },
+    { name: 'densenet121', label: 'DenseNet-121' },
+    { name: 'vit_tiny', label: 'ViT-Tiny' },
+  ];
+  document.getElementById('perf-cards-2d-scalar').innerHTML =
+    models2dScalar.map(m => _renderCard('2d-pred-scalar', m.name, m.label, '2D Pred · Scalar', '#38bdf8')).join('');
+}
+
+// ══════════════════════════════════════════
+// URL STATE SYNC
+// ══════════════════════════════════════════
+function ieSync() {
+  // Selected (model, size, dataset) is stashed on detail-view as data-current
+  // by selectExperiment so we can rebuild the URL hash without the old
+  // tree-item DOM lookup.
+  if (document.getElementById('detail-view').style.display === 'block') {
+    const cur = document.getElementById('detail-view').dataset.current || '';
+    pushHashState({ view: 'detail', exp: cur });
+  }
+  // Comparisons removed — A/B analysis lives in analysis.html now (sibling page).
+}
+
+// ── Init ──
+buildPerfSummary();
+// applyExplorerFilter doesn't change visibility on first paint (defaults are
+// all=all=all), but it does compute the reachable-dataset set and disable
+// pills accordingly. Without this, all four Dataset pills are clickable on
+// load even though only one combo is actually populated.
+applyExplorerFilter();
+
+// Restore state from URL hash.
+//
+// IMPORTANT: this MUST run after the <script type="module"> block at the bottom
+// has executed, because selectExperiment / showComparisons end up calling
+// window.initPointCloudViewer / initScalarScatter / initEvalViewer / etc.
+// — all defined in the module.  Module scripts are implicitly deferred, so
+// they run AFTER parsing finishes, whereas regular <script> blocks run during
+// parse.  If we called selectExperiment immediately, its async tail (after the
+// fetch await) sometimes resolved BEFORE the module had a chance to attach the
+// init functions to window — undefined call, blank panels, "refresh fixes it"
+// race.  DOMContentLoaded fires only after all deferred / module scripts have
+// run, so it's a reliable barrier here.
+function ieInitFromURL() {
+  const h = readHashState();
+  if (!h.view) {
+    // Hash cleared (e.g. browser back from a detail view) — restore summary.
+    const detailEl = document.getElementById('detail-view');
+    if (detailEl && detailEl.style.display !== 'none') {
+      backToSummary();
+    }
+    return;
+  }
+  if (h.view === 'detail' && h.exp) {
+    // Sidebar tree is gone — selectExperiment handles its own DOM toggling.
+    selectExperiment(h.exp);
+  }
+  // Comparisons branch removed — A/B analysis lives in analysis.html now.
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', ieInitFromURL);
+} else {
+  // Document already parsed — module scripts may or may not have run yet, but
+  // queue to next task so the importmap-loaded module finishes initialising.
+  setTimeout(ieInitFromURL, 0);
+}
+// Browser back/forward — re-run the URL-driven view so the page stays in sync.
+window.addEventListener('hashchange', ieInitFromURL);
+</script>
+
+<!-- Three.js for 3D point cloud viewer -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// ── Zoom deactivation: click outside any 3D canvas disables zoom on all viewers ──
+document.addEventListener('pointerdown', (e) => {
+  if (e.target.tagName === 'CANVAS' && e.target.closest('.pc-viewer-container, .pred3d-panel, .lb-pc-wrap, .lb-pred3d-panel')) return;
+  // Deactivate point cloud viewer
+  if (typeof pcControls !== 'undefined' && pcControls) {
+    pcControls.enableZoom = false;
+    document.querySelectorAll('.pc-viewer-container.zoom-active').forEach(el => el.classList.remove('zoom-active'));
+  }
+  // Deactivate pred panels
+  if (typeof evalPanels !== 'undefined' && evalPanels) {
+    evalPanels.forEach(p => { if (p.controls) p.controls.enableZoom = false; });
+    document.querySelectorAll('.pred3d-panel.zoom-active').forEach(el => el.classList.remove('zoom-active'));
+  }
+  // Deactivate comparison PC viewers (keys are lowercase 'a','b')
+  ['a','b'].forEach(side => {
+    const group = window._cmpPcSyncGroups && window._cmpPcSyncGroups[side];
+    if (group) group.forEach(g => { g.controls.enableZoom = false; });
+  });
+  // Deactivate comparison pred viewers
+  if (window._cmpEvalPanelRegistry) {
+    window._cmpEvalPanelRegistry.forEach(panels => {
+      panels.forEach(p => { p.controls.enableZoom = false; });
+    });
+  }
+  document.querySelectorAll('.zoom-active').forEach(el => el.classList.remove('zoom-active'));
+});
+
+// ── Point Cloud Viewer State ──
+let pcScene, pcCamera, pcRenderer, pcControls, pcPoints, pcAnimId;
+let pcAutoRotate = true;
+let pcColorMode = 'height'; // 'height' | 'depth' | 'uniform'
+let pcCurrentData = null;   // Float32Array of positions
+let pcNumPoints = 0;
+
+function cleanupViewer() {
+  if (pcAnimId) cancelAnimationFrame(pcAnimId);
+  pcAnimId = null;
+  if (pcRenderer) pcRenderer.dispose();
+  if (pcControls) pcControls.dispose();
+  if (pcPoints) {
+    pcPoints.geometry.dispose();
+    pcPoints.material.dispose();
+  }
+  pcScene = pcCamera = pcRenderer = pcControls = pcPoints = null;
+}
+
+function createViewer(container, width, height) {
+  cleanupViewer();
+
+  pcScene = new THREE.Scene();
+  pcScene.background = new THREE.Color(0x08051a);
+
+  pcCamera = new THREE.PerspectiveCamera(45, width / height, 0.01, 100);
+  pcCamera.position.set(2.1, 1.4, 2.1);
+
+  pcRenderer = new THREE.WebGLRenderer({ antialias: true });
+  pcRenderer.setSize(width, height);
+  pcRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.appendChild(pcRenderer.domElement);
+
+  pcControls = new OrbitControls(pcCamera, pcRenderer.domElement);
+  pcControls.enableDamping = true;
+  pcControls.dampingFactor = 0.08;
+  pcControls.enableZoom = false;
+  pcControls.autoRotate = pcAutoRotate;
+  pcControls.autoRotateSpeed = 1.5;
+  pcControls.minDistance = 0.5;
+  pcControls.maxDistance = 8;
+
+  // Stop autoRotate on user interaction + sync button state
+  pcControls.addEventListener('start', () => {
+    pcControls.autoRotate = false;
+    pcAutoRotate = false;
+    const btn = document.getElementById('pc-rotate-btn');
+    if (btn) btn.classList.remove('active');
+  });
+
+  // Zoom activation on click
+  pcRenderer.domElement.addEventListener('pointerdown', () => {
+    pcControls.enableZoom = true;
+    const wrap = pcRenderer.domElement.closest('.pc-viewer-container');
+    if (wrap) wrap.classList.add('zoom-active');
+  });
+
+  // Subtle grid
+  const gridHelper = new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30);
+  pcScene.add(gridHelper);
+
+  // Ambient light for visibility
+  pcScene.add(new THREE.AmbientLight(0xffffff, 0.5));
+
+  // Handle WebGL context loss
+  let _pcContextLost = false;
+  pcRenderer.domElement.addEventListener('webglcontextlost', (e) => {
+    e.preventDefault();
+    _pcContextLost = true;
+    if (pcAnimId) { cancelAnimationFrame(pcAnimId); pcAnimId = null; }
+  });
+  pcRenderer.domElement.addEventListener('webglcontextrestored', () => {
+    _pcContextLost = false;
+    if (!pcAnimId) animate();
+  });
+
+  // Recovery observer: re-create viewer if context lost while off-screen
+  if (window._pcRecoveryObs) window._pcRecoveryObs.disconnect();
+  window._pcRecoveryObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && _pcContextLost && pcCurrentData) {
+        const wrap = document.getElementById('pc-canvas-wrap');
+        if (wrap) {
+          const inner = wrap.querySelector('#pc-canvas-inner') || wrap;
+          inner.innerHTML = '';
+          createViewer(inner, inner.clientWidth, inner.clientHeight);
+          // Reload current data into the new viewer
+          if (pcCurrentData) {
+            const geom = new THREE.BufferGeometry();
+            geom.setAttribute('position', new THREE.Float32BufferAttribute(pcCurrentData, 3));
+            geom.setAttribute('color', new THREE.Float32BufferAttribute(colorPointCloud(pcCurrentData, pcColorMode), 3));
+            geom.computeBoundingSphere();
+            if (pcPoints) { pcScene.remove(pcPoints); pcPoints.geometry.dispose(); pcPoints.material.dispose(); }
+            pcPoints = new THREE.Points(geom, new THREE.PointsMaterial({ size: 0.008, vertexColors: true }));
+            pcScene.add(pcPoints);
+          }
+        }
+      }
+    });
+  }, { rootMargin: '50px' });
+  const pcWrap = container.closest('.pc-viewer-container') || container;
+  window._pcRecoveryObs.observe(pcWrap);
+
+  function animate() {
+    pcAnimId = requestAnimationFrame(animate);
+    pcControls.update();
+    pcRenderer.render(pcScene, pcCamera);
+  }
+  animate();
+}
+
+function colorPointCloud(positions, mode) {
+  const count = positions.length / 3;
+  const colors = new Float32Array(count * 3);
+
+  // Find bounds
+  let minY = Infinity, maxY = -Infinity;
+  let minZ = Infinity, maxZ = -Infinity;
+  for (let i = 0; i < count; i++) {
+    const y = positions[i * 3 + 1];
+    const z = positions[i * 3 + 2];
+    if (y < minY) minY = y;
+    if (y > maxY) maxY = y;
+    if (z < minZ) minZ = z;
+    if (z > maxZ) maxZ = z;
+  }
+  const rangeY = maxY - minY || 1;
+  const rangeZ = maxZ - minZ || 1;
+
+  for (let i = 0; i < count; i++) {
+    let t;
+    if (mode === 'height') {
+      t = (positions[i * 3 + 1] - minY) / rangeY;
+    } else if (mode === 'depth') {
+      t = (positions[i * 3 + 2] - minZ) / rangeZ;
+    } else {
+      t = 0.55; // uniform purple tint
+    }
+
+    // Cool-to-warm colormap (blue → cyan → green → yellow → red)
+    let r, g, b;
+    if (mode === 'uniform') {
+      r = 0.65; g = 0.55; b = 0.98; // purple
+    } else if (t < 0.25) {
+      const s = t / 0.25;
+      r = 0.1; g = 0.2 + 0.6 * s; b = 0.9 - 0.2 * s;
+    } else if (t < 0.5) {
+      const s = (t - 0.25) / 0.25;
+      r = 0.1 + 0.3 * s; g = 0.8 + 0.1 * s; b = 0.7 - 0.5 * s;
+    } else if (t < 0.75) {
+      const s = (t - 0.5) / 0.25;
+      r = 0.4 + 0.5 * s; g = 0.9 - 0.1 * s; b = 0.2 - 0.1 * s;
+    } else {
+      const s = (t - 0.75) / 0.25;
+      r = 0.9 + 0.1 * s; g = 0.8 - 0.5 * s; b = 0.1;
+    }
+    colors[i * 3] = r;
+    colors[i * 3 + 1] = g;
+    colors[i * 3 + 2] = b;
+  }
+  return colors;
+}
+
+function swapYZ(positions) {
+  for (let i = 0; i < positions.length; i += 3) {
+    const tmp = positions[i + 1];
+    positions[i + 1] = positions[i + 2];
+    positions[i + 2] = tmp;
+  }
+  return positions;
+}
+
+function loadPointCloud(positions, dataset) {
+  const isDeepWheel = dataset && dataset.toLowerCase().includes('deepwheel');
+  // DeepJEB / DrivAerNet store Z as up (CAD convention) → swap to Y-up.
+  // DeepWheel stores Z as the wheel's axle; swapping would lay the wheel
+  // flat and the default camera would look down the axle (cylinder view).
+  // Skip the swap so the wheel face stays vertical → classic 3/4 wheel view.
+  if (!isDeepWheel) swapYZ(positions);
+  pcCurrentData = positions;
+  pcNumPoints = positions.length / 3;
+
+  if (pcPoints) {
+    pcScene.remove(pcPoints);
+    pcPoints.geometry.dispose();
+    pcPoints.material.dispose();
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+
+  const colors = colorPointCloud(positions, pcColorMode);
+  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+  const material = new THREE.PointsMaterial({
+    size: 0.012,
+    vertexColors: true,
+    sizeAttenuation: true,
+    transparent: true,
+    opacity: 0.85,
+  });
+
+  pcPoints = new THREE.Points(geometry, material);
+  pcScene.add(pcPoints);
+
+  // Reset camera to center on cloud
+  geometry.computeBoundingSphere();
+  const center = geometry.boundingSphere.center;
+  pcControls.target.copy(center);
+  // DeepWheel: camera distance = 5 × bounding radius so every sample lands
+  // at the same on-screen size (different generators output wheels at
+  // wildly different scales).  DeepJEB / DrivAerNet keep their fixed
+  // world-unit offset because samples are already consistently normalised.
+  const baseLen = 3.29;  // = |(2.1, 1.4, 2.1)|
+  const radius = (geometry.boundingSphere && geometry.boundingSphere.radius) || 1;
+  const k = isDeepWheel ? (5.0 * radius / baseLen) : 1.0;
+  pcCamera.position.set(center.x + 2.1 * k, center.y + 1.4 * k, center.z + 2.1 * k);
+  pcControls.update();
+}
+
+function updateColors(mode) {
+  pcColorMode = mode;
+  if (!pcCurrentData || !pcPoints) return;
+  const colors = colorPointCloud(pcCurrentData, mode);
+  pcPoints.geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  pcPoints.geometry.attributes.color.needsUpdate = true;
+}
+
+// ── Main init function (called from selectExperiment) ──
+window.initPointCloudViewer = async function(model, size, dataset) {
+  const root = document.getElementById('pc-viewer-root');
+  if (!root) return;
+
+  const NUM_SAMPLES = 12;
+
+  // Build viewer HTML
+  root.innerHTML = `
+    <div class="pc-viewer-container">
+      <div id="pc-canvas-wrap" style="width:100%; height:500px; position:relative;">
+        <div id="pc-loading" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:14px;">
+          Loading point cloud...
+        </div>
+      </div>
+      <div class="pc-info">
+        <span id="pc-points-info">—</span>
+        <span id="pc-file-info">—</span>
+      </div>
+      <div class="pc-controls">
+        <label>Sample</label>
+        <div class="pc-sample-strip" id="pc-sample-strip"></div>
+        <div style="margin-left:auto; display:flex; gap:6px; align-items:center;">
+          <label>Color</label>
+          <button class="pc-color-btn active" onclick="window._pcSetColor('height',this)">Height</button>
+          <button class="pc-color-btn" onclick="window._pcSetColor('depth',this)">Depth</button>
+          <button class="pc-color-btn" onclick="window._pcSetColor('uniform',this)">Uniform</button>
+          <div style="width:1px; height:16px; background:rgba(255,255,255,0.1); margin:0 4px;"></div>
+          <button class="pc-color-btn ${pcAutoRotate ? 'active' : ''}" id="pc-rotate-btn" onclick="window._pcToggleRotate(this)">Auto-Rotate</button>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:8px; font-size:10px; color:rgba(255,255,255,0.25); text-align:center;">
+      Drag to rotate · Scroll to zoom · Right-drag to pan
+    </div>
+  `;
+
+  // Init Three.js
+  const canvasWrap = document.getElementById('pc-canvas-wrap');
+  createViewer(canvasWrap, canvasWrap.clientWidth, canvasWrap.clientHeight);
+
+  // Handle resize
+  const resizeObserver = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      const { width, height } = entry.contentRect;
+      if (pcRenderer && width > 0 && height > 0) {
+        pcRenderer.setSize(width, height);
+        pcCamera.aspect = width / height;
+        pcCamera.updateProjectionMatrix();
+      }
+    }
+  });
+  resizeObserver.observe(canvasWrap);
+
+  // Build sample buttons
+  const strip = document.getElementById('pc-sample-strip');
+  strip.innerHTML = Array.from({length: NUM_SAMPLES}, (_, i) =>
+    `<button class="pc-sample-btn ${i === 0 ? 'active' : ''}" onclick="window._pcLoadSample(${i}, this)">${i}</button>`
+  ).join('');
+
+  // Load first sample.
+  // Per-viewer token: fast clicks across sample buttons issue overlapping
+  // fetches whose resolution order is not guaranteed.  Without a token,
+  // an earlier-resolving fetch overwrites the user's latest selection.
+  let _pcSampleToken = 0;
+  window._pcLoadSample = async function(idx, btn) {
+    if (btn) {
+      strip.querySelectorAll('.pc-sample-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    const myToken = ++_pcSampleToken;
+
+    const binPath = `output/gen3d/${model}/${dataset}/${size}/sample_${String(idx).padStart(5, '0')}.bin`;
+    const loadingEl = document.getElementById('pc-loading');
+
+    try {
+      if (loadingEl) {
+        // Reset to "Loading point cloud..." — the catch below replaces this
+        // with red error HTML on a 404, and the next sample-strip click would
+        // otherwise re-show the stale error while the new fetch is in flight.
+        loadingEl.innerHTML = 'Loading point cloud...';
+        loadingEl.style.display = 'flex';
+      }
+      const resp = await fetch(binPath);
+      if (myToken !== _pcSampleToken) return;
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const buffer = await resp.arrayBuffer();
+      if (myToken !== _pcSampleToken) return;
+      const positions = new Float32Array(buffer);
+
+      if (loadingEl) loadingEl.style.display = 'none';
+      loadPointCloud(positions, dataset);
+
+      document.getElementById('pc-points-info').textContent = `${positions.length / 3} points`;
+      document.getElementById('pc-file-info').textContent = `sample_${String(idx).padStart(5, '0')} · ${displayModelName(model)} · ${displayDataset(dataset)} · ${size}`;
+    } catch (e) {
+      if (myToken !== _pcSampleToken) return;
+      if (loadingEl) {
+        loadingEl.style.display = 'flex';
+        loadingEl.innerHTML = `
+          <div style="text-align:center;">
+            <div style="color:rgba(255,255,255,0.4); margin-bottom:8px;">Point cloud not available</div>
+            <div style="font-size:11px; color:rgba(255,255,255,0.25);">
+              Run <code style="background:rgba(255,255,255,0.05); padding:1px 6px; border-radius:3px;">python scripts/convert_gen_pointcloud.py</code> to generate .bin files
+            </div>
+          </div>`;
+      }
+    }
+  };
+
+  window._pcSetColor = function(mode, btn) {
+    btn.parentElement.querySelectorAll('.pc-color-btn').forEach(b => {
+      if (b.id !== 'pc-rotate-btn') b.classList.remove('active');
+    });
+    btn.classList.add('active');
+    updateColors(mode);
+  };
+
+  window._pcToggleRotate = function(btn) {
+    pcAutoRotate = !pcAutoRotate;
+    btn.classList.toggle('active', pcAutoRotate);
+    if (pcControls) pcControls.autoRotate = pcAutoRotate;
+  };
+
+  // Auto-load first sample
+  window._pcLoadSample(0, null);
+};
+
+// ══════════════════════════════════════════════════════════════════════
+// ── 3D Prediction Viewer (Prediction / GT / Error — synchronized) ──
+// ══════════════════════════════════════════════════════════════════════
+
+let evalPanels = [];   // [{scene, camera, renderer, controls, points, container}]
+let predAnimId = null;
+let evalAutoRotate = true;
+let evalCurrentChannel = 0;
+let evalData = null;   // { pos, pred, gt, numPoints }
+
+function cleanupEvalViewer() {
+  if (predAnimId) cancelAnimationFrame(predAnimId);
+  predAnimId = null;
+  evalPanels.forEach(p => {
+    if (p.renderer) p.renderer.dispose();
+    if (p.controls) p.controls.dispose();
+    if (p.points) { p.points.geometry.dispose(); p.points.material.dispose(); }
+    if (p.carMesh) { p.carMesh.geometry.dispose(); p.carMesh.material.dispose(); }
+  });
+  evalPanels = [];
+  evalData = null;
+}
+
+function jetColormap(t) {
+  // JET colormap: blue → cyan → green → yellow → red (matches matplotlib jet).
+  // Used for SIGNED scalar fields (GT/Pred displacement etc.) where the color
+  // travelling through hue space encodes negative-vs-positive direction.
+  t = Math.max(0, Math.min(1, t));
+  let r, g, b;
+  if (t < 0.125) {
+    r = 0; g = 0; b = 0.5 + t * 4;
+  } else if (t < 0.375) {
+    const s = (t - 0.125) / 0.25;
+    r = 0; g = s; b = 1;
+  } else if (t < 0.625) {
+    const s = (t - 0.375) / 0.25;
+    r = s; g = 1; b = 1 - s;
+  } else if (t < 0.875) {
+    const s = (t - 0.625) / 0.25;
+    r = 1; g = 1 - s; b = 0;
+  } else {
+    const s = (t - 0.875) / 0.125;
+    r = 1 - 0.5 * s; g = 0; b = 0;
+  }
+  return [r, g, b];
+}
+
+// Inferno: matplotlib's perceptually-uniform sequential colormap.
+// Used for UNSIGNED magnitudes (|error|) where 0 should fade into the dark
+// background and large values should pop bright. Polynomial fit by Matt Zucker.
+function infernoColormap(t) {
+  t = Math.max(0, Math.min(1, t));
+  const r = 0.000219 + t * (0.1065 + t * (11.602 + t * (-41.70 + t * ( 77.16 + t * (-71.32 + t *  25.13)))));
+  const g = 0.001651 + t * (0.5640 + t * (-3.973 + t * ( 17.44 + t * (-33.40 + t * ( 32.63 + t * -12.24)))));
+  const b = -0.01948 + t * (3.9330 + t * (-15.94 + t * ( 44.35 + t * (-81.81 + t * ( 73.21 + t * -23.07)))));
+  return [
+    Math.max(0, Math.min(1, r)),
+    Math.max(0, Math.min(1, g)),
+    Math.max(0, Math.min(1, b)),
+  ];
+}
+
+function colorByField(values, vmin, vmax, cmap) {
+  const fn = cmap || jetColormap;
+  const count = values.length;
+  const colors = new Float32Array(count * 3);
+  const range = (vmax - vmin) || 1;
+  for (let i = 0; i < count; i++) {
+    const t = (values[i] - vmin) / range;
+    const [r, g, b] = fn(t);
+    colors[i * 3] = r;
+    colors[i * 3 + 1] = g;
+    colors[i * 3 + 2] = b;
+  }
+  return colors;
+}
+
+function createEvalPanel(container, width, height, labelClass, labelText) {
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x08051a);
+
+  const camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 100);
+  camera.position.set(2.1, 1.4, 2.1);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(width, height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.appendChild(renderer.domElement);
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.enableZoom = false;
+  controls.autoRotate = evalAutoRotate;
+  controls.autoRotateSpeed = 0.35;
+  controls.minDistance = 0.5;
+  controls.maxDistance = 20;
+
+  const grid = new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30);
+  scene.add(grid);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+
+  // Zoom activation on click — will be wired to sibling panels after creation
+  renderer.domElement.addEventListener('pointerdown', () => {
+    if (typeof evalPanels !== 'undefined' && evalPanels.length) {
+      evalPanels.forEach(p => {
+        p.controls.enableZoom = true;
+        const w = p.renderer.domElement.closest('.pred3d-panel');
+        if (w) w.classList.add('zoom-active');
+      });
+    } else {
+      controls.enableZoom = true;
+    }
+  });
+
+  const panel = { scene, camera, renderer, controls, points: null, container, _contextLost: false };
+
+  // Handle WebGL context loss
+  renderer.domElement.addEventListener('webglcontextlost', (e) => {
+    e.preventDefault();
+    panel._contextLost = true;
+  });
+  renderer.domElement.addEventListener('webglcontextrestored', () => {
+    panel._contextLost = false;
+  });
+
+  return panel;
+}
+
+let _evalSyncLock = false;
+
+function syncEvalFromPanel(srcIdx) {
+  if (_evalSyncLock) return;
+  if (!evalPanels || evalPanels.length < 2) return;
+  const src = evalPanels[srcIdx];
+  if (!src) return;
+  _evalSyncLock = true;
+  evalPanels.forEach((dst, i) => {
+    if (i === srcIdx) return;
+    dst.camera.position.copy(src.camera.position);
+    dst.camera.quaternion.copy(src.camera.quaternion);
+    dst.controls.target.copy(src.controls.target);
+    dst.controls.update();
+  });
+  _evalSyncLock = false;
+}
+
+function syncEvalControls() {
+  // Sync all panels to the first panel's camera (used in animation loop)
+  syncEvalFromPanel(0);
+}
+
+function setEvalPointCloud(panel, positions, fieldValues, vmin, vmax, isDrivAerNet, cmap, dataset, targetKey) {
+  // After milestone7.0 drivaernet merge, body_pressure is a target key under
+  // drivaernet_3d_2d (not its own dataset id). Detect by target_key so the
+  // body-surface camera framing still applies.
+  const isBodyPressure = targetKey === 'body_pressure' || dataset === 'drivaernet_pressure_3d_3d';
+  if (panel.points) {
+    panel.scene.remove(panel.points);
+    panel.points.geometry.dispose();
+    panel.points.material.dispose();
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+
+  const colors = colorByField(fieldValues, vmin, vmax, cmap);
+  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+  const material = new THREE.PointsMaterial({
+    // Body-surface pressure shares DeepJEB's tighter point size (0.012) because
+    // its 8192 points are packed into a unit-sphere body, not spread over a
+    // wake plane. The 0.018 size is wake-specific.
+    size: (isDrivAerNet && !isBodyPressure) ? 0.018 : 0.012,
+    vertexColors: true,
+    sizeAttenuation: true,
+    transparent: true,
+    opacity: 0.85,
+  });
+
+  panel.points = new THREE.Points(geometry, material);
+  panel.scene.add(panel.points);
+
+  geometry.computeBoundingBox();
+  const center = new THREE.Vector3();
+  geometry.boundingBox.getCenter(center);
+  panel.controls.target.copy(center);
+  if (isDrivAerNet && !isBodyPressure) {
+    const tgtY = center.y * 0.55;
+    const tgtX = center.x * 1.50;
+    panel.controls.target.set(tgtX, tgtY, center.z);
+    panel.camera.position.set(tgtX + 0.8, tgtY, center.z + 5.8);
+  } else if (isBodyPressure) {
+    // Body-surface pressure: full car in unit-sphere space — side view, slightly elevated
+    panel.controls.target.set(center.x, center.y, center.z);
+    panel.camera.position.set(center.x, center.y + 0.3, center.z + 2.5);
+  } else {
+    // DeepJEB: rotation axis at object center, slight offset for colorbar clearance
+    panel.camera.position.set(center.x, center.y + 0.3, center.z + 2.3);
+    const vw = panel.renderer.domElement.width, vh = panel.renderer.domElement.height;
+    panel.camera.setViewOffset(vw, vh, vw * 0.02, 0, vw, vh);
+  }
+  panel.controls.update();
+}
+
+function setCarMesh(panel, carPositions) {
+  // Remove previous car mesh if any
+  if (panel.carMesh) {
+    panel.scene.remove(panel.carMesh);
+    panel.carMesh.geometry.dispose();
+    panel.carMesh.material.dispose();
+    panel.carMesh = null;
+  }
+  if (!carPositions) return;
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(carPositions, 3));
+
+  const material = new THREE.PointsMaterial({
+    size: 0.02,
+    color: 0xffffff,
+    sizeAttenuation: true,
+    transparent: true,
+    opacity: 0.7,
+  });
+
+  panel.carMesh = new THREE.Points(geometry, material);
+  panel.scene.add(panel.carMesh);
+}
+
+function animatePred() {
+  predAnimId = requestAnimationFrame(animatePred);
+  // Update all panels' controls (each is independently controllable)
+  evalPanels.forEach(p => { if (p.controls) p.controls.update(); });
+  // Sync cameras (autoRotate on panel 0 drives the sync)
+  if (evalAutoRotate) syncEvalControls();
+  // Render all
+  evalPanels.forEach(p => p.renderer.render(p.scene, p.camera));
+}
+
+function parseEvalBin(buffer, numPoints) {
+  const floats = new Float32Array(buffer);
+  // Layout: pos(N*3) + pred(N) + gt(N)
+  const pos = new Float32Array(numPoints * 3);
+  const pred = new Float32Array(numPoints);
+  const gt = new Float32Array(numPoints);
+
+  pos.set(floats.subarray(0, numPoints * 3));
+  pred.set(floats.subarray(numPoints * 3, numPoints * 4));
+  gt.set(floats.subarray(numPoints * 4, numPoints * 5));
+
+  // Swap Y/Z for Three.js coordinate system
+  for (let i = 0; i < numPoints; i++) {
+    const tmp = pos[i * 3 + 1];
+    pos[i * 3 + 1] = pos[i * 3 + 2];
+    pos[i * 3 + 2] = tmp;
+  }
+
+  return { pos, pred, gt };
+}
+
+function computeError(pred, gt) {
+  const err = new Float32Array(pred.length);
+  for (let i = 0; i < pred.length; i++) err[i] = Math.abs(pred[i] - gt[i]);
+  return err;
+}
+
+function computeStats(pred, gt) {
+  let sumAE = 0, sumSE = 0;
+  const n = pred.length;
+  for (let i = 0; i < n; i++) {
+    const d = Math.abs(pred[i] - gt[i]);
+    sumAE += d;
+    sumSE += d * d;
+  }
+  return { mae: sumAE / n, rmse: Math.sqrt(sumSE / n) };
+}
+
+function formatSci(v) {
+  if (v === 0) return '0';
+  return v.toExponential(3);
+}
+
+let pred3dManifestPromise = null;
+let pred3dRepresentativeSamplesByGroup = {};
+let pred3dGlobalErrorRangesByKey = {};
+let pred3dGlobalValueRangesByKey = {};
+
+function getEval3DSizeCode(size) {
+  const sizeMap = { '20': 'S', '50': 'M', '100': 'L', '200': 'XL' };
+  return sizeMap[String(size)] || String(size);
+}
+
+function getEval3DGroupKey(dataset, targetKey, sizeCode) {
+  return `${dataset}::${targetKey}::${sizeCode}`;
+}
+
+function getEval3DErrorKey(dataset, targetKey, dimension, sizeCode, sampleSlot) {
+  return `${dataset}::${targetKey}::${dimension}::${sizeCode}::${sampleSlot}`;
+}
+
+function getSourceName(sourceFile) {
+  if (!sourceFile) return '';
+  const parts = String(sourceFile).split('/');
+  return parts[parts.length - 1] || sourceFile;
+}
+
+async function ensureEval3DManifestData() {
+  if (pred3dManifestPromise) return pred3dManifestPromise;
+  // Cache the promise so concurrent callers share a single fetch.  On failure
+  // (transient 404, network blip) we clear the cache so a later call retries
+  // — previously a single failure stuck the page with the 12-element
+  // placeholder gallery until the user reloaded.
+  const p = fetch(`output/pred3d_field/manifest.json?t=${PAGE_CACHE_BUST}`)
+    .then(resp => resp.ok ? resp.json() : null)
+    .then(manifest => {
+      pred3dRepresentativeSamplesByGroup = {};
+      pred3dGlobalErrorRangesByKey = {};
+      pred3dGlobalValueRangesByKey = {};
+      if (manifest) {
+        (manifest.representative_samples || []).forEach(group => {
+          pred3dRepresentativeSamplesByGroup[
+            getEval3DGroupKey(group.dataset, group.target_key, group.size)
+          ] = group.samples || [];
+        });
+        (manifest.global_error_ranges || []).forEach(item => {
+          pred3dGlobalErrorRangesByKey[
+            getEval3DErrorKey(item.dataset, item.target_key, item.dimension, item.size, item.sample)
+          ] = item.max_error;
+        });
+        (manifest.global_value_ranges || []).forEach(item => {
+          pred3dGlobalValueRangesByKey[
+            getEval3DErrorKey(item.dataset, item.target_key, item.dimension, item.size, item.sample)
+          ] = { vmin: item.value_min, vmax: item.value_max };
+        });
+      }
+      return manifest;
+    });
+  pred3dManifestPromise = p;
+  try {
+    return await p;
+  } catch (e) {
+    pred3dManifestPromise = null;
+    return null;
+  }
+}
+
+function getEval3DRepresentativeSamples(dataset, targetKey, sizeCode) {
+  const samples = pred3dRepresentativeSamplesByGroup[getEval3DGroupKey(dataset, targetKey, sizeCode)];
+  if (samples && samples.length) return samples;
+  return Array.from({ length: 12 }, (_, slot) => ({
+    slot,
+    sample_index: slot,
+    source_file: '',
+  }));
+}
+
+function getEval3DRepresentativeSample(dataset, targetKey, sizeCode, sampleSlot) {
+  const samples = getEval3DRepresentativeSamples(dataset, targetKey, sizeCode);
+  return samples.find(sample => sample.slot === sampleSlot) || samples[sampleSlot] || {
+    slot: sampleSlot,
+    sample_index: sampleSlot,
+    source_file: '',
+  };
+}
+
+// Expose to global scope so regular <script> (Comparisons) can call them
+window.getEval3DSizeCode = getEval3DSizeCode;
+window.getEval3DRepresentativeSamples = getEval3DRepresentativeSamples;
+window.getEval3DRepresentativeSample = getEval3DRepresentativeSample;
+
+function getEval3DGlobalErrorMax(dataset, targetKey, dimension, sizeCode, sampleSlot) {
+  const value = pred3dGlobalErrorRangesByKey[
+    getEval3DErrorKey(dataset, targetKey, dimension, sizeCode, sampleSlot)
+  ];
+  return typeof value === 'number' ? value : null;
+}
+
+function getEval3DGlobalValueRange(dataset, targetKey, dimension, sizeCode, sampleSlot) {
+  const value = pred3dGlobalValueRangesByKey[
+    getEval3DErrorKey(dataset, targetKey, dimension, sizeCode, sampleSlot)
+  ];
+  return (value && typeof value.vmin === 'number' && typeof value.vmax === 'number') ? value : null;
+}
+
+// ── Scalar Prediction Scatter Plot ──
+let _scalarChart = null;
+let _scalarPayload = null;
+
+window._scalarSelectTarget = function(targetKey, btn) {
+  if (btn) {
+    btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  if (_scalarPayload) drawScalarScatter(targetKey);
+  // Re-render the detail-view per-sample gallery for the new target if present
+  if (window.renderDetailScalarGallery && window._detailScalarCtx) {
+    window.renderDetailScalarGallery(targetKey);
+  }
+};
+
+// Detail-view per-sample gallery for scalar prediction. Renders a 12-card grid
+// showing input shape + GT-vs-Pred axis for the selected target. Reuses the
+// scalarBuild* helpers shared with the comparison view.
+// Exposed on window because selectExperiment lives in the regular (non-module)
+// script and module-scope function declarations aren't globally visible.
+window.renderDetailScalarGallery = async function(targetKey) {
+  const root = document.getElementById('scalar-gallery-content');
+  const ctx = window._detailScalarCtx;
+  if (!root || !ctx) return;
+  root.innerHTML = '<div style="text-align:center;padding:16px;color:rgba(255,255,255,0.4);font-size:12px;">Loading shapes…</div>';
+  const [manifest, predJson] = await Promise.all([
+    loadScalarShapeManifest(ctx.dataset),
+    loadScalarPredJson(ctx.model, ctx.size, ctx.dataset),
+  ]);
+  if (!manifest) {
+    root.innerHTML = `<div style="padding:14px;color:rgba(255,255,255,0.4);font-size:12px;background:rgba(255,255,255,0.025);border:1px dashed rgba(255,255,255,0.12);border-radius:8px;text-align:center;">
+      Per-sample shapes not exported yet — run <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:3px;">python tools/websites/scripts/convert_pred_scalar_shapes.py</code>
+    </div>`;
+    return;
+  }
+  const range = manifest.target_ranges[targetKey] || { min: 0, max: 1, p05: 0, p95: 1 };
+  const target = (predJson && predJson.targets && predJson.targets[targetKey]) || null;
+
+  const cards = manifest.samples.map(sample => {
+    const slot = sample.slot;
+    const gtVal = sample.gt[targetKey];
+    const predVal = target ? target.pred[slot] : NaN;
+    return scalarBuildCard(slot, scalarBuildShapeHTML(ctx.dataset, slot), gtVal, predVal, range, '#a78bfa');
+  }).join('');
+  root.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));gap:10px;">${cards}</div>
+    <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.3);text-align:center;">
+      Axis spans the dataset's 5–95th percentile of ${targetKey}. Hollow ring = GT, filled dot = prediction.
+    </div>`;
+  initScalarShape3DCells(root);
+}
+
+window.initScalarScatter = async function(dataUrl, defaultTarget) {
+  _scalarPayload = null;
+  if (_scalarChart) { _scalarChart.destroy(); _scalarChart = null; }
+  try {
+    const resp = await fetch(`${dataUrl}?t=${PAGE_CACHE_BUST}`);
+    if (!resp.ok) throw new Error(`fetch ${dataUrl} → ${resp.status}`);
+    _scalarPayload = await resp.json();
+  } catch (e) {
+    document.getElementById('scalar-metrics-row').innerHTML =
+      `<div style="color:#ef4444;">Failed to load ${dataUrl} — run <code>scripts/convert_pred_scalar.py</code></div>`;
+    return;
+  }
+  drawScalarScatter(defaultTarget);
+};
+
+function drawScalarScatter(targetKey) {
+  if (!_scalarPayload) return;
+  const t = _scalarPayload.targets[targetKey];
+  if (!t) return;
+
+  const canvas = document.getElementById('scalar-scatter');
+  if (!canvas) return;
+  if (_scalarChart) _scalarChart.destroy();
+
+  // Build scatter points
+  const points = t.pred.map((p, i) => ({ x: t.gt[i], y: p }));
+  // y=x reference line endpoints — use reduce to avoid call-stack limit on large arrays
+  let lo = Infinity, hi = -Infinity;
+  for (const v of t.pred) { if (v < lo) lo = v; if (v > hi) hi = v; }
+  for (const v of t.gt)   { if (v < lo) lo = v; if (v > hi) hi = v; }
+  const pad = (hi - lo) * 0.05;
+  const lineMin = lo - pad, lineMax = hi + pad;
+
+  // Accuracy stats computed from pred/gt (mirrors benchmark.html's scalar card
+  // logic so the same numbers appear here and on the leaderboard).
+  const n = t.gt.length;
+  let meanGt = 0;
+  for (let i = 0; i < n; i++) meanGt += t.gt[i];
+  meanGt /= n;
+  let ssRes = 0, ssTot = 0, sumAbs = 0, sumSq = 0;
+  for (let i = 0; i < n; i++) {
+    const e = t.gt[i] - t.pred[i];
+    ssRes += e * e;
+    ssTot += (t.gt[i] - meanGt) ** 2;
+    sumAbs += Math.abs(e);
+    sumSq  += e * e;
+  }
+  const r2   = ssTot > 0 ? 1 - ssRes / ssTot : NaN;
+  const mae  = sumAbs / n;
+  const rmse = Math.sqrt(sumSq / n);
+
+  _scalarChart = new Chart(canvas.getContext('2d'), {
+    type: 'scatter',
+    data: {
+      datasets: [
+        {
+          label: 'pred vs gt',
+          data: points,
+          backgroundColor: 'rgba(167,139,250,0.55)',
+          borderColor: 'rgba(167,139,250,0.9)',
+          pointRadius: 3,
+          pointHoverRadius: 5,
+        },
+        {
+          label: 'y = x (ideal)',
+          data: [{ x: lineMin, y: lineMin }, { x: lineMax, y: lineMax }],
+          type: 'line',
+          borderColor: 'rgba(34,197,94,0.7)',
+          borderDash: [6, 4],
+          borderWidth: 1.5,
+          pointRadius: 0,
+          fill: false,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      responsive: true,
+      plugins: {
+        legend: { labels: { color: 'rgba(255,255,255,0.7)' } },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => `gt=${ctx.parsed.x.toFixed(4)}, pred=${ctx.parsed.y.toFixed(4)}`,
+          },
+        },
+      },
+      scales: {
+        x: {
+          title: { display: true, text: `Ground Truth (${targetKey})`, color: 'rgba(255,255,255,0.6)' },
+          min: lineMin, max: lineMax,
+          ticks: { color: 'rgba(255,255,255,0.5)' },
+          grid: { color: 'rgba(255,255,255,0.06)' },
+        },
+        y: {
+          title: { display: true, text: `Predicted (${targetKey})`, color: 'rgba(255,255,255,0.6)' },
+          min: lineMin, max: lineMax,
+          ticks: { color: 'rgba(255,255,255,0.5)' },
+          grid: { color: 'rgba(255,255,255,0.06)' },
+        },
+      },
+    },
+  });
+
+  // Render metric chips below.  Accuracy stats (R²/MAE/RMSE) lead so users see
+  // them before timing chips — they're what the scatter is actually about.
+  const m = t.metrics || {};
+  const fmtErr = v => (Math.abs(v) < 0.01) ? v.toExponential(2) : v.toFixed(3);
+  const r2Color = isFinite(r2)
+    ? (r2 > 0.7 ? '#34d399' : r2 > 0.3 ? '#fbbf24' : '#f87171')
+    : 'rgba(255,255,255,0.4)';
+  // Flex-gap layout so chips wrap as discrete units; with inline-block the
+  // separator chip could land alone at the start of a new line on narrow
+  // viewports.  Accuracy chips get a heavier left border to act as the
+  // section divider instead of a textual "|".
+  const accuracyChips = [
+    `<span class="sm-chip"><span class="sm-k">R²</span> <strong style="color:${r2Color}; font-variant-numeric:tabular-nums;">${isFinite(r2) ? r2.toFixed(3) : '—'}</strong></span>`,
+    `<span class="sm-chip"><span class="sm-k">MAE</span> <strong style="font-variant-numeric:tabular-nums;">${fmtErr(mae)}</strong></span>`,
+    `<span class="sm-chip"><span class="sm-k">RMSE</span> <strong style="font-variant-numeric:tabular-nums;">${fmtErr(rmse)}</strong></span>`,
+  ].join('');
+  const fields = [
+    ['model_parameters', 'Params', v => `${(v/1e6).toFixed(2)}M`],
+    ['training_time_sec', 'Train', v => `${v.toFixed(1)}s`],
+    ['inference_time_sec', 'Infer', v => `${v.toFixed(2)}s`],
+    ['best_epoch', 'Best Epoch', v => `${v}`],
+  ];
+  const timingChips = fields
+    .filter(([k]) => m[k] !== undefined && m[k] !== null)
+    .map(([k, label, fmt]) => `<span class="sm-chip sm-chip-dim"><span class="sm-k">${label}</span> <strong>${fmt(m[k])}</strong></span>`)
+    .join('');
+  document.getElementById('scalar-metrics-row').innerHTML =
+    `<div style="display:flex; flex-wrap:wrap; gap:6px 14px; align-items:center;">${accuracyChips}${timingChips}</div>`;
+}
+
+window.initEvalViewer = async function(model, size, dataset, targetKey, channels) {
+  const root = document.getElementById('pred3d-viewer-root');
+  if (!root) return;
+
+  cleanupEvalViewer();
+
+  await ensureEval3DManifestData();
+
+  const sizeCode = getEval3DSizeCode(size);
+  const representativeSamples = getEval3DRepresentativeSamples(dataset, targetKey, sizeCode);
+  const sampleCount = representativeSamples.length;
+
+  root.innerHTML = `
+    <div class="pred3d-viewer-wrap" id="pred3d-panels">
+      <div class="pred3d-panel">
+        <div class="pred3d-panel-label gt">GROUND TRUTH</div>
+        <div class="pred3d-canvas-wrap" id="pred3d-canvas-gt"></div>
+      </div>
+      <div class="pred3d-controls">
+        <label>Channel</label>
+        <div id="pred3d-channel-strip" style="display:flex; gap:4px; flex-wrap:wrap;"></div>
+        <div style="width:1px; height:16px; background:rgba(255,255,255,0.1); margin:0 6px;"></div>
+        <label>Sample</label>
+        <div class="pc-sample-strip" id="pred3d-sample-strip"></div>
+        <div style="margin-left:auto; display:flex; gap:6px; align-items:center;">
+          <button class="pc-color-btn ${evalAutoRotate ? 'active' : ''}" id="pred3d-rotate-btn" onclick="window._evalToggleRotate(this)">Auto-Rotate</button>
+        </div>
+      </div>
+      <div class="pred3d-panel">
+        <div class="pred3d-panel-label pred">PREDICTION</div>
+        <div class="pred3d-canvas-wrap" id="pred3d-canvas-pred"></div>
+      </div>
+      <div class="pred3d-panel">
+        <div class="pred3d-panel-label error">|ERROR|</div>
+        <div class="pred3d-canvas-wrap" id="pred3d-canvas-error"></div>
+        <div class="pred3d-stats" id="pred3d-stats">—</div>
+      </div>
+    </div>
+    <div style="margin-top:6px; font-size:10px; color:rgba(255,255,255,0.25); text-align:center;">
+      Drag to rotate (synced) · Scroll to zoom · Right-drag to pan
+    </div>
+  `;
+
+  // Create 3 panels: GT, Prediction, Error
+  const gtWrap = document.getElementById('pred3d-canvas-gt');
+  const predWrap = document.getElementById('pred3d-canvas-pred');
+  const errorWrap = document.getElementById('pred3d-canvas-error');
+
+  const w = gtWrap.clientWidth;
+  const h = gtWrap.clientHeight;
+
+  evalPanels = [
+    createEvalPanel(gtWrap, w, h, 'gt', 'Ground Truth'),
+    createEvalPanel(predWrap, w, h, 'pred', 'Prediction'),
+    createEvalPanel(errorWrap, w, h, 'error', '|Error|'),
+  ];
+
+  animatePred();
+
+  // Handle resize
+  const resizeObserver = new ResizeObserver(entries => {
+    evalPanels.forEach(p => {
+      const rect = p.container.getBoundingClientRect();
+      if (p.renderer && rect.width > 0 && rect.height > 0) {
+        p.renderer.setSize(rect.width, rect.height);
+        p.camera.aspect = rect.width / rect.height;
+        p.camera.updateProjectionMatrix();
+      }
+    });
+  });
+  resizeObserver.observe(gtWrap);
+
+  // Context loss recovery: re-init pred viewer when panels come back into view.
+  // Re-entrancy guard — if the re-init itself crashes (GPU pressure, fresh
+  // context-loss before data finishes loading), the IntersectionObserver
+  // would otherwise fire again with `lost && evalData` and recurse.  A flag
+  // bounds this to one outstanding re-init at a time.
+  if (window._evalRecoveryObs) window._evalRecoveryObs.disconnect();
+  window._evalRecoveryObs = new IntersectionObserver(entries => {
+    if (window._evalReinitInFlight) return;
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const lost = evalPanels.some(p => {
+        if (p._contextLost) return true;
+        try { return p.renderer && p.renderer.getContext().isContextLost(); } catch(e) { return true; }
+      });
+      if (lost && evalData) {
+        // Stop animation, re-init from scratch
+        if (predAnimId) { cancelAnimationFrame(predAnimId); predAnimId = null; }
+        window._evalReinitInFlight = true;
+        try {
+          window.initEvalViewer(model, size, dataset, targetKey, channels);
+        } finally {
+          // Release on next frame so the freshly-installed observer
+          // doesn't immediately re-fire against the now-uninstalled state.
+          requestAnimationFrame(() => { window._evalReinitInFlight = false; });
+        }
+      }
+    });
+  }, { rootMargin: '50px' });
+  window._evalRecoveryObs.observe(root);
+
+  // Sync: all panels can be controlled independently, but camera syncs across all
+  evalPanels.forEach((panel, idx) => {
+    panel.controls.addEventListener('change', () => syncEvalFromPanel(idx));
+    panel.controls.addEventListener('start', () => {
+      // Stop autoRotate on all panels when user interacts with any
+      evalPanels.forEach(p => { p.controls.autoRotate = false; });
+      const rotBtn = document.getElementById('pred3d-rotate-btn');
+      if (rotBtn) { rotBtn.classList.remove('active'); evalAutoRotate = false; }
+    });
+  });
+
+  // Channel buttons
+  const chStrip = document.getElementById('pred3d-channel-strip');
+  chStrip.innerHTML = channels.map((ch, i) =>
+    `<button class="pred3d-channel-btn ${i === 0 ? 'active' : ''}" onclick="window._evalSetChannel(${i}, this)">${ch}</button>`
+  ).join('');
+
+  // Sample buttons
+  const sampleStrip = document.getElementById('pred3d-sample-strip');
+  sampleStrip.innerHTML = representativeSamples.map((sample, slot) =>
+    `<button class="pc-sample-btn ${slot === 0 ? 'active' : ''}" onclick="window._evalLoadSample(${slot}, this)" title="Sample ${slot}">${slot}</button>`
+  ).join('');
+
+  // State
+  let currentSampleIdx = 0;
+  evalCurrentChannel = 0;
+
+  // Load sample
+  window._evalLoadSample = async function(idx, btn) {
+    currentSampleIdx = idx;
+    if (btn) {
+      sampleStrip.querySelectorAll('.pc-sample-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    await loadEvalData(idx, evalCurrentChannel);
+  };
+
+  window._evalSetChannel = async function(chIdx, btn) {
+    evalCurrentChannel = chIdx;
+    if (btn) {
+      chStrip.querySelectorAll('.pred3d-channel-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    await loadEvalData(currentSampleIdx, chIdx);
+  };
+
+  window._evalToggleRotate = function(btn) {
+    evalAutoRotate = !evalAutoRotate;
+    btn.classList.toggle('active', evalAutoRotate);
+    evalPanels.forEach(p => { if (p.controls) p.controls.autoRotate = evalAutoRotate; });
+  };
+
+  const isDrivAerNet = dataset.includes('drivaernet');
+
+  // Per-viewer in-flight token — rapid sample/channel switches issue
+  // overlapping fetches; without this guard a stale earlier response can
+  // overwrite the panels after the user has moved on.
+  let _evalLoadToken = 0;
+  async function loadEvalData(sampleIdx, chIdx) {
+    const myToken = ++_evalLoadToken;
+    const ch = channels[chIdx];
+    const sampleMeta = getEval3DRepresentativeSample(dataset, targetKey, sizeCode, sampleIdx);
+    const binPath = `output/pred3d_field/${model}/${dataset}/${targetKey}/${ch}/${sizeCode}_${String(sampleIdx).padStart(2, '0')}.bin`;
+
+    // Show loading
+    evalPanels.forEach(p => {
+      const existing = p.container.querySelector('.pred3d-loading');
+      if (existing) existing.remove();
+      const el = document.createElement('div');
+      el.className = 'pred3d-loading';
+      el.style.cssText = 'position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:13px; z-index:5;';
+      el.textContent = 'Loading...';
+      p.container.appendChild(el);
+    });
+
+    try {
+      const resp = await fetch(binPath);
+      if (myToken !== _evalLoadToken) return;
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const buffer = await resp.arrayBuffer();
+      if (myToken !== _evalLoadToken) return;
+
+      // Infer num_points from buffer size: N*5 floats (3 pos + 1 pred + 1 gt)
+      const totalFloats = buffer.byteLength / 4;
+      const numPoints = totalFloats / 5;
+
+      const { pos, pred, gt } = parseEvalBin(buffer, numPoints);
+      const error = computeError(pred, gt);
+      const stats = computeStats(pred, gt);
+      let errorMax = 0;
+
+      // Shared color range for pred and gt (cross-model global)
+      const globalValueRange = getEval3DGlobalValueRange(dataset, targetKey, ch, sizeCode, sampleIdx);
+      let vmin, vmax;
+      if (globalValueRange) {
+        vmin = globalValueRange.vmin;
+        vmax = globalValueRange.vmax;
+      } else {
+        vmin = Infinity; vmax = -Infinity;
+        for (let i = 0; i < numPoints; i++) {
+          if (pred[i] < vmin) vmin = pred[i];
+          if (pred[i] > vmax) vmax = pred[i];
+          if (gt[i] < vmin) vmin = gt[i];
+          if (gt[i] > vmax) vmax = gt[i];
+        }
+      }
+      for (let i = 0; i < numPoints; i++) {
+        if (error[i] > errorMax) errorMax = error[i];
+      }
+      const globalErrorMax = getEval3DGlobalErrorMax(dataset, targetKey, ch, sizeCode, sampleIdx);
+      const errorScaleMax = (typeof globalErrorMax === 'number' && globalErrorMax > 0) ? globalErrorMax : errorMax;
+
+      setEvalPointCloud(evalPanels[0], pos, gt, vmin, vmax, isDrivAerNet, undefined, dataset, targetKey);
+      setEvalPointCloud(evalPanels[1], pos, pred, vmin, vmax, isDrivAerNet, undefined, dataset, targetKey);
+      // All three panels share the jet colormap (default) so the error
+      // panel reads on the same colour axis as GT / Pred — direct visual
+      // comparison across panels.  2D field prediction keeps inferno for
+      // its error heatmap (different rendering path).
+      setEvalPointCloud(evalPanels[2], pos, error, 0, errorScaleMax, isDrivAerNet, undefined, dataset, targetKey);
+
+      // Car mesh overlay for DrivAerNet wake-plane (skipped for body-surface
+      // pressure since pred points already lie on the car surface).
+      if (isDrivAerNet && targetKey !== 'body_pressure') {
+        const carPath = `output/pred3d_field/${model}/${dataset}/${targetKey}/_car/${sizeCode}_${String(sampleIdx).padStart(2, '0')}.bin`;
+        try {
+          const carResp = await fetch(carPath);
+          if (myToken !== _evalLoadToken) return;
+          if (carResp.ok) {
+            const carBuf = await carResp.arrayBuffer();
+            if (myToken !== _evalLoadToken) return;
+            const carFloats = new Float32Array(carBuf);
+            const nCar = carFloats.length / 3;
+            // Swap Y/Z for Three.js coordinate system (same as parseEvalBin)
+            for (let i = 0; i < nCar; i++) {
+              const tmp = carFloats[i * 3 + 1];
+              carFloats[i * 3 + 1] = carFloats[i * 3 + 2];
+              carFloats[i * 3 + 2] = tmp;
+            }
+            evalPanels.forEach(p => setCarMesh(p, carFloats));
+          }
+        } catch(e) { /* car mesh optional */ }
+      } else {
+        evalPanels.forEach(p => setCarMesh(p, null));
+      }
+
+      // Sync cameras
+      syncEvalControls();
+
+      // Update stats
+      document.getElementById('pred3d-stats').textContent = `MAE: ${formatSci(stats.mae)}  RMSE: ${formatSci(stats.rmse)}`;
+      // Remove loading
+      evalPanels.forEach(p => {
+        const el = p.container.querySelector('.pred3d-loading');
+        if (el) el.remove();
+      });
+
+    } catch (e) {
+      if (myToken !== _evalLoadToken) return;
+      evalPanels.forEach(p => {
+        const el = p.container.querySelector('.pred3d-loading');
+        if (el) {
+          el.innerHTML = `
+            <div style="text-align:center;">
+              <div style="color:rgba(255,255,255,0.4); margin-bottom:6px;">Data not available</div>
+              <div style="font-size:10px; color:rgba(255,255,255,0.25);">
+                Run <code style="background:rgba(255,255,255,0.05); padding:1px 6px; border-radius:3px;">python scripts/convert_pred_pointcloud.py</code>
+              </div>
+            </div>`;
+        }
+      });
+    }
+  }
+
+  // Auto-load first sample
+  if (sampleCount > 0) window._evalLoadSample(0, null);
+};
+
+// ══════════════════════════════════════════════════════════════════════
+// ── Comparisons: 3D Gen Point Cloud Mini-Viewer ──
+// ══════════════════════════════════════════════════════════════════════
+
+// Sync registry: uses window._cmpPcSyncGroups / window._cmpPcSyncLock (defined in main script)
+
+function _cmpPcSync(side, fromSampleIdx) {
+  if (window._cmpPcSyncLock) return;
+  const group = window._cmpPcSyncGroups[side];
+  if (!group || group.length < 2) return;
+  const src = group.find(v => v.sampleIdx === fromSampleIdx);
+  if (!src) return;
+  window._cmpPcSyncLock = true;
+  group.forEach(dst => {
+    if (dst.sampleIdx === fromSampleIdx) return;
+    dst.camera.position.copy(src.camera.position);
+    dst.camera.quaternion.copy(src.camera.quaternion);
+    dst.controls.target.copy(src.controls.target);
+    dst.controls.update();
+  });
+  window._cmpPcSyncLock = false;
+}
+
+window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
+  const id = el.id;
+  const isMobileCmp = window.matchMedia('(max-width: 768px)').matches;
+  const viewerHeight = isMobileCmp ? 200 : 240;
+  el.innerHTML = `
+    <div class="pc-viewer-container" style="height:${viewerHeight}px;">
+      <div id="${id}-canvas" style="width:100%; height:100%; position:relative;">
+        <div id="${id}-ld" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-size:13px;">Loading...</div>
+      </div>
+    </div>`;
+
+  const wrap = document.getElementById(`${id}-canvas`);
+  const w = wrap.clientWidth, h = wrap.clientHeight;
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x08051a);
+  const camera = new THREE.PerspectiveCamera(45, w/h, 0.01, 100);
+  const camDist = isMobileCmp ? 1.35 : 1.0;
+  camera.position.set(2.1 * camDist, 1.4 * camDist, 2.1 * camDist);
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(w, h);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  wrap.appendChild(renderer.domElement);
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true; controls.dampingFactor = 0.08;
+  controls.enableZoom = false;
+  controls.autoRotate = true; controls.autoRotateSpeed = 0.25;
+  controls.minDistance = 0.5; controls.maxDistance = 20;
+  scene.add(new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30));
+
+  // Slow down autoRotate to 66% after user interaction
+  controls.addEventListener('start', () => {
+    const group = window._cmpPcSyncGroups[side] || [];
+    group.forEach(g => { g.controls.autoRotateSpeed = 0.25; });
+  });
+
+  // Zoom activation on click — enables zoom on all synced viewers in same side
+  renderer.domElement.addEventListener('pointerdown', () => {
+    const group = window._cmpPcSyncGroups[side] || [];
+    group.forEach(g => {
+      g.controls.enableZoom = true;
+    });
+    const w = renderer.domElement.closest('.lb-pc-wrap, .pc-viewer-container');
+    if (w) w.classList.add('zoom-active');
+  });
+
+  let pts = null;
+  let cmpPcAnimId = null;
+
+  // Register in sync group (same model/side syncs across samples)
+  if (!window._cmpPcSyncGroups[side]) window._cmpPcSyncGroups[side] = [];
+  window._cmpPcSyncGroups[side].push({ camera, controls, sampleIdx });
+
+  function animate() {
+    cmpPcAnimId = requestAnimationFrame(animate);
+    controls.update();
+    _cmpPcSync(side, sampleIdx);
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // Handle WebGL context loss
+  renderer.domElement.addEventListener('webglcontextlost', (e) => {
+    e.preventDefault();
+    el._contextLost = true;
+    if (cmpPcAnimId) { cancelAnimationFrame(cmpPcAnimId); cmpPcAnimId = null; }
+  });
+  renderer.domElement.addEventListener('webglcontextrestored', () => {
+    el._contextLost = false;
+    if (!cmpPcAnimId) animate();
+  });
+
+  // Store viewer handle for pause/resume
+  el._cmpPcViewer = {
+    _renderer: renderer,
+    pause: () => { if (cmpPcAnimId) { cancelAnimationFrame(cmpPcAnimId); cmpPcAnimId = null; } },
+    resume: () => { if (!cmpPcAnimId) animate(); },
+    isAnimating: () => !!cmpPcAnimId,
+    cleanup: () => {
+      if (cmpPcAnimId) cancelAnimationFrame(cmpPcAnimId);
+      // forceContextLoss + canvas removal — same pattern as benchmark.html.
+      if (renderer) {
+        try { renderer.forceContextLoss(); } catch(e) {}
+        try { renderer.dispose(); } catch(e) {}
+        const cv = renderer.domElement;
+        if (cv && cv.parentNode) cv.parentNode.removeChild(cv);
+      }
+      if (controls) controls.dispose();
+      if (pts) { pts.geometry.dispose(); pts.material.dispose(); }
+    },
+  };
+
+  const ro = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      const {width,height}=entry.contentRect;
+      if(width>0&&height>0){renderer.setSize(width,height);camera.aspect=width/height;camera.updateProjectionMatrix();}
+    }
+  });
+  ro.observe(wrap);
+
+  async function loadSample(idx) {
+    const binPath = `output/gen3d/${model}/${dataset}/${size}/sample_${String(idx).padStart(5,'0')}.bin`;
+    const ld = document.getElementById(`${id}-ld`);
+    try {
+      const resp = await fetch(binPath);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const positions = new Float32Array(await resp.arrayBuffer());
+      const isDeepWheel = dataset.toLowerCase().includes('deepwheel');
+      // DeepWheel's axle is along Z; skip the Y/Z swap so the wheel face
+      // stays vertical (see loadPointCloud comment for the full story).
+      if (!isDeepWheel) swapYZ(positions);
+      if (ld) ld.style.display = 'none';
+      if (pts) { scene.remove(pts); pts.geometry.dispose(); pts.material.dispose(); }
+      const geom = new THREE.BufferGeometry();
+      geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geom.setAttribute('color', new THREE.Float32BufferAttribute(colorPointCloud(positions, 'height'), 3));
+      pts = new THREE.Points(geom, new THREE.PointsMaterial({ size:0.012, vertexColors:true, sizeAttenuation:true, transparent:true, opacity:0.85 }));
+      scene.add(pts);
+      geom.computeBoundingBox();
+      geom.computeBoundingSphere();
+      const c = new THREE.Vector3();
+      geom.boundingBox.getCenter(c);
+      controls.target.copy(c);
+      const isDriv = dataset.toLowerCase().includes('drivaernet');
+      const mz = isMobileCmp ? 1.35 : 1.0;
+      // DeepWheel: distance = 5 × bounding radius for consistent on-screen
+      // size across generators that output at different scales.
+      // DrivAerNet: fixed 110% bigger.  DeepJEB: fixed unit.
+      const baseLen = 2.345;  // = |(1.5, 1.0, 1.5)|
+      const radius = (geom.boundingSphere && geom.boundingSphere.radius) || 1;
+      const k = isDeepWheel
+        ? (5.0 * radius / baseLen)
+        : (isDriv ? (1.0 / 1.1) : 1.0);
+      camera.position.set(c.x + 1.5*k*mz, c.y + 1.0*k*mz, c.z + 1.5*k*mz);
+      controls.update();
+    } catch {
+      if (ld) ld.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,0.4);font-size:11px;">Sample ${idx} N/A</div>`;
+    }
+  }
+  loadSample(sampleIdx);
+};
+
+// ══════════════════════════════════════════════════════════════════════
+// ── Comparisons: 3D Pred Viewer (GT / Pred / Error) ──
+// ══════════════════════════════════════════════════════════════════════
+window.initCmpEvalViewer = async function(el) {
+  const model = el.dataset.model;
+  const sizeCode = el.dataset.sizeCode;
+  const ds = el.dataset.dataset;
+  const tk = el.dataset.targetKey;
+  const channels = JSON.parse(el.dataset.channels || '[]');
+  const chIdx = parseInt(el.dataset.initChannel) || 0;
+  const sampleIdx = parseInt(el.dataset.sample) || 0;
+  const id = el.id;
+  const isVertical = el.dataset.layout === 'vertical';
+  const vH = isVertical ? 240 : 250;
+
+  if (!channels.length) { el.innerHTML='<div style="text-align:center;padding:20px;color:rgba(255,255,255,0.3);font-size:11px;">No channels</div>'; return; }
+
+  const rowStyle = isVertical
+    ? `display:flex;flex-direction:column;gap:4px;`
+    : `display:flex;gap:4px;height:${vH}px;`;
+  const panelStyle = isVertical
+    ? `width:100%;height:${vH}px;position:relative;`
+    : `flex:1;min-width:0;position:relative;`;
+
+  el.innerHTML = `
+    <div style="border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);">
+      <div class="lb-pred3d-row" style="${rowStyle}">
+        <div class="pred3d-panel" style="${panelStyle}">
+          <div class="pred3d-panel-label gt">GT</div>
+          <div id="${id}-gt" style="width:100%;height:100%;position:relative;"></div>
+        </div>
+        <div class="pred3d-panel" style="${panelStyle}">
+          <div class="pred3d-panel-label pred">PRED</div>
+          <div id="${id}-pred" style="width:100%;height:100%;position:relative;"></div>
+        </div>
+        <div class="pred3d-panel" style="${panelStyle}">
+          <div class="pred3d-panel-label error">|ERROR|</div>
+          <div id="${id}-error" style="width:100%;height:100%;position:relative;"></div>
+          <div class="pred3d-stats" id="${id}-stats">—</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;padding:6px 12px;background:rgba(255,255,255,0.03);border-top:1px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(167,139,250,0.7);font-weight:700;">
+        ${tk} · ${channels[chIdx]} · #${sampleIdx}
+      </div>
+    </div>`;
+
+  const gtW = document.getElementById(`${id}-gt`);
+  const prW = document.getElementById(`${id}-pred`);
+  const erW = document.getElementById(`${id}-error`);
+  const w = gtW.clientWidth, h = gtW.clientHeight;
+
+  const isMobileCmpPred = window.matchMedia('(max-width: 768px)').matches;
+  function mkPanel(cont) {
+    const s = new THREE.Scene(); s.background = new THREE.Color(0x08051a);
+    const camDist = isMobileCmpPred ? 1.35 : 1.0;
+    const cam = new THREE.PerspectiveCamera(45,w/h,0.01,100); cam.position.set(2.1*camDist,1.4*camDist,2.1*camDist);
+    const ren = new THREE.WebGLRenderer({antialias:true}); ren.setSize(w,h); ren.setPixelRatio(Math.min(window.devicePixelRatio,2)); cont.appendChild(ren.domElement);
+    const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.enableZoom=false; ctrl.autoRotate=true; ctrl.autoRotateSpeed=0.25; ctrl.minDistance=0.5; ctrl.maxDistance=20;
+    s.add(new THREE.GridHelper(2,10,0x1a1045,0x140e30)); s.add(new THREE.AmbientLight(0xffffff,0.5));
+    return {scene:s,camera:cam,renderer:ren,controls:ctrl,points:null,carMesh:null,container:cont};
+  }
+
+  const panels = [mkPanel(gtW), mkPanel(prW), mkPanel(erW)];
+  // Register panels for global zoom deactivation
+  if (!window._cmpEvalPanelRegistry) window._cmpEvalPanelRegistry = [];
+  window._cmpEvalPanelRegistry.push(panels);
+  let animId = null;
+  function animate() { animId=requestAnimationFrame(animate); panels.forEach(p=>p.controls.update()); if(panels[0].controls.autoRotate){const src=panels[0];panels.slice(1).forEach(d=>{d.camera.position.copy(src.camera.position);d.camera.quaternion.copy(src.camera.quaternion);d.controls.target.copy(src.controls.target);d.controls.update();});} panels.forEach(p=>p.renderer.render(p.scene,p.camera)); }
+  animate();
+
+  // Handle WebGL context loss on each panel
+  panels.forEach(p => {
+    p.renderer.domElement.addEventListener('webglcontextlost', (e) => {
+      e.preventDefault();
+      el._contextLost = true;
+      if (animId) { cancelAnimationFrame(animId); animId = null; }
+    });
+    p.renderer.domElement.addEventListener('webglcontextrestored', () => {
+      // Check if all panels are restored
+      const anyLost = panels.some(pp => {
+        try { return pp.renderer.getContext().isContextLost(); } catch(e) { return true; }
+      });
+      if (!anyLost) {
+        el._contextLost = false;
+        if (!animId) animate();
+      }
+    });
+  });
+
+  // Store viewer handle for pause/resume
+  el._cmpEvalViewer = {
+    panels,
+    pause: () => { if (animId) { cancelAnimationFrame(animId); animId = null; } },
+    resume: () => { if (!animId) animate(); },
+    isAnimating: () => !!animId,
+    cleanup: () => {
+      if (animId) cancelAnimationFrame(animId);
+      panels.forEach(p => {
+        // forceContextLoss + canvas removal — same pattern as benchmark.html.
+        if (p.renderer) {
+          try { p.renderer.forceContextLoss(); } catch(e) {}
+          try { p.renderer.dispose(); } catch(e) {}
+          const cv = p.renderer.domElement;
+          if (cv && cv.parentNode) cv.parentNode.removeChild(cv);
+        }
+        if (p.controls) p.controls.dispose();
+        if (p.points) { p.points.geometry.dispose(); p.points.material.dispose(); }
+        if (p.carMesh) { p.carMesh.geometry.dispose(); p.carMesh.material.dispose(); }
+      });
+    },
+  };
+
+  let _sl=false;
+  function syncFrom(si){if(_sl)return;_sl=true;const src=panels[si];panels.forEach((d,i)=>{if(i===si)return;d.camera.position.copy(src.camera.position);d.camera.quaternion.copy(src.camera.quaternion);d.controls.target.copy(src.controls.target);d.controls.update();});_sl=false;}
+  panels.forEach((p,i)=>{p.controls.addEventListener('change',()=>syncFrom(i));p.controls.addEventListener('start',()=>{panels.forEach(pp=>{pp.controls.autoRotate=false;});});p.renderer.domElement.addEventListener('pointerdown',()=>{panels.forEach(pp=>{pp.controls.enableZoom=true;const w=pp.renderer.domElement.closest('.lb-pred3d-panel,.pred3d-panel');if(w)w.classList.add('zoom-active');});});});
+  const ro=new ResizeObserver(()=>{panels.forEach(p=>{const r=p.container.getBoundingClientRect();if(r.width>0&&r.height>0){p.renderer.setSize(r.width,r.height);p.camera.aspect=r.width/r.height;p.camera.updateProjectionMatrix();}});});
+  ro.observe(gtW);
+
+  const isDriv = () => ds.includes('drivaernet');
+
+  async function load() {
+    const ch = channels[chIdx];
+    const binPath = `output/pred3d_field/${model}/${ds}/${tk}/${ch}/${sizeCode}_${String(sampleIdx).padStart(2,'0')}.bin`;
+    try {
+      // Race bin fetch against the 5MB pred3d manifest (only used below for
+      // colour-range lookups) — same parallelization as initLeaderboardPredViewer.
+      const binPromise = fetch(binPath).then(async r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.arrayBuffer();
+      });
+      await ensureEval3DManifestData();
+      const buf = await binPromise;
+      const floats = new Float32Array(buf);
+      const nP = floats.length/5;
+      const pos=new Float32Array(nP*3), pred=new Float32Array(nP), gt=new Float32Array(nP);
+      pos.set(floats.subarray(0,nP*3)); pred.set(floats.subarray(nP*3,nP*4)); gt.set(floats.subarray(nP*4,nP*5));
+      for(let i=0;i<nP;i++){const t=pos[i*3+1];pos[i*3+1]=pos[i*3+2];pos[i*3+2]=t;}
+      const error=new Float32Array(nP);let sAE=0,sSE=0,errMax=0;
+      for(let i=0;i<nP;i++){const d=Math.abs(pred[i]-gt[i]);error[i]=d;sAE+=d;sSE+=d*d;}
+      for(let i=0;i<nP;i++){if(error[i]>errMax)errMax=error[i];}
+      const mae=sAE/nP, rmse=Math.sqrt(sSE/nP);
+      const globalVR = getEval3DGlobalValueRange(ds, tk, ch, sizeCode, sampleIdx);
+      let vmin, vmax;
+      if (globalVR) { vmin = globalVR.vmin; vmax = globalVR.vmax; }
+      else { vmin=Infinity; vmax=-Infinity; for(let i=0;i<nP;i++){if(pred[i]<vmin)vmin=pred[i];if(pred[i]>vmax)vmax=pred[i];if(gt[i]<vmin)vmin=gt[i];if(gt[i]>vmax)vmax=gt[i];} }
+      const globalErrorMax = getEval3DGlobalErrorMax(ds, tk, ch, sizeCode, sampleIdx);
+      const errorScaleMax = (typeof globalErrorMax === 'number' && globalErrorMax > 0) ? globalErrorMax : errMax;
+
+      function setPtCloud(panel,vals,mn,mx,cmap){
+        if(panel.points){panel.scene.remove(panel.points);panel.points.geometry.dispose();panel.points.material.dispose();}
+        const isBody = tk === 'body_pressure';
+        const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('color',new THREE.Float32BufferAttribute(colorByField(vals,mn,mx,cmap),3));
+        panel.points=new THREE.Points(g,new THREE.PointsMaterial({size:(isDriv()&&!isBody)?0.018:0.012,vertexColors:true,sizeAttenuation:true,transparent:true,opacity:0.85}));
+        panel.scene.add(panel.points);g.computeBoundingBox();const c=new THREE.Vector3();g.boundingBox.getCenter(c);panel.controls.target.copy(c);
+        if(isDriv()&&!isBody){const ty=c.y*0.55,tx=c.x*1.5;panel.controls.target.set(tx,ty,c.z);panel.camera.position.set(tx+0.8,ty,c.z+(isMobileCmpPred?7.5:5.8));}else if(isBody){panel.controls.target.set(c.x,c.y,c.z);panel.camera.position.set(c.x,c.y+0.3,c.z+(isMobileCmpPred?3.2:2.5));}else{const mz=isMobileCmpPred?3.1:2.3;panel.camera.position.set(c.x,c.y+0.3,c.z+mz);const vw=panel.renderer.domElement.width,vh=panel.renderer.domElement.height;panel.camera.setViewOffset(vw,vh,vw*0.02,0,vw,vh);}
+        panel.controls.update();
+      }
+      // All three panels share jet (default cmap) so error reads on the
+      // same colour axis as GT/Pred for direct cross-panel comparison.
+      setPtCloud(panels[0],gt,vmin,vmax);setPtCloud(panels[1],pred,vmin,vmax);setPtCloud(panels[2],error,0,errorScaleMax);
+
+      if(isDriv() && tk!=='body_pressure'){
+        const carPath=`output/pred3d_field/${model}/${ds}/${tk}/_car/${sizeCode}_${String(sampleIdx).padStart(2,'0')}.bin`;
+        try{const cr=await fetch(carPath);if(cr.ok){const cf=new Float32Array(await cr.arrayBuffer());for(let i=0;i<cf.length/3;i++){const t=cf[i*3+1];cf[i*3+1]=cf[i*3+2];cf[i*3+2]=t;}panels.forEach(p=>setCarMesh(p,cf));}}catch(e){}
+      }else{panels.forEach(p=>setCarMesh(p,null));}
+      syncFrom(0);
+      const st=document.getElementById(`${id}-stats`);if(st)st.textContent=`MAE: ${formatSci(mae)}  RMSE: ${formatSci(rmse)}`;
+    } catch(e) {
+      [gtW,prW,erW].forEach(c=>{c.innerHTML=`<div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(255,255,255,0.4);font-size:10px;">Data N/A</div>`;});
+    }
+  }
+  load();
+};
+
+// ══════════════════════════════════════════════════════════════════════
+// ── Scalar Prediction: per-sample input shape mini-viewer (3D) ──
+// ══════════════════════════════════════════════════════════════════════
+// Loads a single 8192×3 point cloud (raw float32) from
+// output/pred3d_scalar/_shapes/<dataset>/sample_NN.bin and renders it as a
+// height-colored, auto-rotating mini viewer. Used by both the comparison view
+// (per-model row of scalar cards) and the detail view's sample gallery.
+window.initScalarShapeViewer3D = function(el, dataset, slot) {
+  const w = el.clientWidth || 160;
+  const h = el.clientHeight || 160;
+
+  el.innerHTML = '';
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x08051a);
+  const camera = new THREE.PerspectiveCamera(45, w / h, 0.01, 100);
+  // DeepWheel point clouds have their rotation axis along Z (verified: Z range
+  // ~[-0.46, 0.33], std 0.25 vs X/Y std ~0.52). Camera placed on +Z and looking
+  // toward origin → wheel face visible (the side you see on a parked car).
+  camera.position.set(0, 0, 2.6);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(w, h);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  el.appendChild(renderer.domElement);
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.enableZoom = false;
+  // Disable OrbitControls.autoRotate (azimuthal around Y) — instead we spin the
+  // point cloud itself around its own Z axis to mimic a wheel rolling. Camera
+  // stays on the wheel's axis so the spin reads as "wheel turning in place".
+  controls.autoRotate = false;
+  controls.minDistance = 0.5;
+  controls.maxDistance = 8;
+  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+
+  let pts = null;
+  let animId = null;
+  let lastT = performance.now();
+  // ~0.6 rad/sec (about 5.5 sec per full revolution) — smooth, not dizzying.
+  const ROLL_SPEED = 0.6;
+  let rollEnabled = true;
+  function animate() {
+    animId = requestAnimationFrame(animate);
+    const now = performance.now();
+    const dt = Math.min(0.05, (now - lastT) / 1000);
+    lastT = now;
+    if (pts && rollEnabled) pts.rotation.z += ROLL_SPEED * dt;
+    controls.update();
+    renderer.render(scene, camera);
+  }
+  animate();
+  // Pause rolling while dragging so the user can inspect a static pose; resume
+  // on release to match the autoRotate-on-'end' convention used by the rest
+  // of the 3D viewers (3D gen / field pred).
+  controls.addEventListener('start', () => { rollEnabled = false; });
+  controls.addEventListener('end', () => { rollEnabled = true; });
+
+  // Pause animation when off-screen to keep many cards cheap.
+  if (!window._scalarShapeAnimObs) {
+    window._scalarShapeAnimObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        const v = e.target._scalarViewer;
+        if (!v) return;
+        if (e.isIntersecting && !v.animId) v.resume();
+        else if (!e.isIntersecting && v.animId) v.pause();
+      });
+    }, { rootMargin: '100px' });
+  }
+  window._scalarShapeAnimObs.observe(el);
+
+  el._scalarViewer = {
+    get animId() { return animId; },
+    pause() { if (animId) { cancelAnimationFrame(animId); animId = null; } },
+    resume() { if (!animId) animate(); },
+  };
+
+  renderer.domElement.addEventListener('webglcontextlost', (e) => {
+    e.preventDefault();
+    if (animId) { cancelAnimationFrame(animId); animId = null; }
+  });
+
+  const ro = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      const { width, height } = entry.contentRect;
+      if (width > 0 && height > 0) {
+        renderer.setSize(width, height);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+      }
+    }
+  });
+  ro.observe(el);
+
+  const binPath = `output/pred3d_scalar/_shapes/${dataset}/sample_${String(slot).padStart(2, '0')}.bin`;
+  fetch(binPath)
+    .then(resp => resp.ok ? resp.arrayBuffer() : Promise.reject(new Error(`HTTP ${resp.status}`)))
+    .then(buf => {
+      const positions = new Float32Array(buf);
+      // No Y/Z swap for DeepWheel: original Z is already the wheel's rotation axis,
+      // so we keep it as-is and place the camera on +Z (see camera.position above).
+      const geom = new THREE.BufferGeometry();
+      geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      // Soft monochrome shading uses radial distance from the wheel axis (XY plane
+      // distance from origin) — emphasizes spokes/rim structure that a viewer of
+      // a rolling wheel naturally focuses on, rather than vertical luminance.
+      const N = positions.length / 3;
+      const colors = new Float32Array(N * 3);
+      let rMax = 0;
+      for (let i = 0; i < N; i++) {
+        const x = positions[i * 3], y = positions[i * 3 + 1];
+        const r = Math.hypot(x, y);
+        if (r > rMax) rMax = r;
+      }
+      rMax = rMax || 1;
+      for (let i = 0; i < N; i++) {
+        const x = positions[i * 3], y = positions[i * 3 + 1];
+        const t = Math.hypot(x, y) / rMax;                    // 0 (hub) → 1 (rim)
+        const lum = 0.30 + 0.60 * t;                          // [0.30, 0.90]
+        colors[i * 3]     = lum * 0.78;                       // mild cool tint
+        colors[i * 3 + 1] = lum * 0.82;
+        colors[i * 3 + 2] = lum * 1.00;
+      }
+      geom.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+      pts = new THREE.Points(geom, new THREE.PointsMaterial({
+        size: 0.016, vertexColors: true, sizeAttenuation: true, transparent: true, opacity: 0.75,
+      }));
+      scene.add(pts);
+      geom.computeBoundingBox();
+      const c = new THREE.Vector3();
+      geom.boundingBox.getCenter(c);
+      controls.target.copy(c);
+      // Side view: camera straight in front of the wheel face, +Z direction.
+      camera.position.set(c.x, c.y, c.z + 2.6);
+      camera.up.set(0, 1, 0);
+      controls.update();
+    })
+    .catch(() => {
+      el.innerHTML = '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.35);font-size:10px;text-align:center;padding:8px;">Shape N/A</div>';
+    });
+};
+</script>
+
+</body>
+</html>

@@ -1,0 +1,3486 @@
+{
+  "generated": "2026-05-11T09:27:53.668776",
+  "total_samples": 384,
+  "filters": {
+    "models": [
+      "attention_unet",
+      "dpt_hybrid",
+      "fpn_resnet18",
+      "glpn",
+      "resnet_unet",
+      "segformer_b0",
+      "unet_simple",
+      "unetpp"
+    ],
+    "datasets": [
+      "deepwheel_2d_2d"
+    ],
+    "targets": [
+      "depth"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ]
+  },
+  "entries": [
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "attention_unet/deepwheel_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "attention_unet/deepwheel_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "attention_unet/deepwheel_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "attention_unet/deepwheel_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "attention_unet/deepwheel_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "attention_unet/deepwheel_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "attention_unet/deepwheel_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "attention_unet/deepwheel_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "attention_unet/deepwheel_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "attention_unet/deepwheel_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "attention_unet/deepwheel_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "attention_unet/deepwheel_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "attention_unet/deepwheel_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "attention_unet/deepwheel_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "attention_unet/deepwheel_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "attention_unet/deepwheel_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "attention_unet/deepwheel_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "attention_unet/deepwheel_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "attention_unet/deepwheel_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "attention_unet/deepwheel_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "attention_unet/deepwheel_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "attention_unet/deepwheel_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "attention_unet/deepwheel_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "attention_unet/deepwheel_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "attention_unet/deepwheel_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "attention_unet/deepwheel_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "attention_unet/deepwheel_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "attention_unet/deepwheel_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "attention_unet/deepwheel_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "attention_unet/deepwheel_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "attention_unet/deepwheel_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "attention_unet/deepwheel_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "attention_unet/deepwheel_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "attention_unet/deepwheel_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "attention_unet/deepwheel_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "attention_unet/deepwheel_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "attention_unet/deepwheel_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "attention_unet/deepwheel_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "attention_unet/deepwheel_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "attention_unet/deepwheel_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "attention_unet/deepwheel_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "attention_unet/deepwheel_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "attention_unet/deepwheel_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "attention_unet/deepwheel_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "attention_unet/deepwheel_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "attention_unet/deepwheel_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "attention_unet/deepwheel_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "attention_unet/deepwheel_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "dpt_hybrid/deepwheel_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "dpt_hybrid/deepwheel_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "dpt_hybrid/deepwheel_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "dpt_hybrid/deepwheel_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "dpt_hybrid/deepwheel_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "dpt_hybrid/deepwheel_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "dpt_hybrid/deepwheel_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "dpt_hybrid/deepwheel_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "dpt_hybrid/deepwheel_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "dpt_hybrid/deepwheel_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "dpt_hybrid/deepwheel_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "dpt_hybrid/deepwheel_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "dpt_hybrid/deepwheel_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "dpt_hybrid/deepwheel_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "dpt_hybrid/deepwheel_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "dpt_hybrid/deepwheel_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "dpt_hybrid/deepwheel_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "dpt_hybrid/deepwheel_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "dpt_hybrid/deepwheel_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "dpt_hybrid/deepwheel_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "dpt_hybrid/deepwheel_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "dpt_hybrid/deepwheel_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "dpt_hybrid/deepwheel_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "dpt_hybrid/deepwheel_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "dpt_hybrid/deepwheel_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "dpt_hybrid/deepwheel_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "dpt_hybrid/deepwheel_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "dpt_hybrid/deepwheel_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "dpt_hybrid/deepwheel_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "dpt_hybrid/deepwheel_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "dpt_hybrid/deepwheel_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "dpt_hybrid/deepwheel_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "dpt_hybrid/deepwheel_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "dpt_hybrid/deepwheel_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "dpt_hybrid/deepwheel_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "dpt_hybrid/deepwheel_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "dpt_hybrid/deepwheel_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "dpt_hybrid/deepwheel_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "dpt_hybrid/deepwheel_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "dpt_hybrid/deepwheel_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "dpt_hybrid/deepwheel_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "dpt_hybrid/deepwheel_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "dpt_hybrid/deepwheel_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "dpt_hybrid/deepwheel_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "dpt_hybrid/deepwheel_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "dpt_hybrid/deepwheel_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "dpt_hybrid/deepwheel_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "dpt_hybrid/deepwheel_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "fpn_resnet18/deepwheel_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "fpn_resnet18/deepwheel_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "fpn_resnet18/deepwheel_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "fpn_resnet18/deepwheel_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "fpn_resnet18/deepwheel_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "fpn_resnet18/deepwheel_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "fpn_resnet18/deepwheel_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "fpn_resnet18/deepwheel_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "fpn_resnet18/deepwheel_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "fpn_resnet18/deepwheel_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "fpn_resnet18/deepwheel_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "fpn_resnet18/deepwheel_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "fpn_resnet18/deepwheel_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "fpn_resnet18/deepwheel_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "fpn_resnet18/deepwheel_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "fpn_resnet18/deepwheel_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "fpn_resnet18/deepwheel_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "fpn_resnet18/deepwheel_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "fpn_resnet18/deepwheel_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "fpn_resnet18/deepwheel_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "fpn_resnet18/deepwheel_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "fpn_resnet18/deepwheel_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "fpn_resnet18/deepwheel_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "fpn_resnet18/deepwheel_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "fpn_resnet18/deepwheel_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "fpn_resnet18/deepwheel_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "fpn_resnet18/deepwheel_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "fpn_resnet18/deepwheel_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "fpn_resnet18/deepwheel_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "fpn_resnet18/deepwheel_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "fpn_resnet18/deepwheel_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "fpn_resnet18/deepwheel_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "fpn_resnet18/deepwheel_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "fpn_resnet18/deepwheel_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "fpn_resnet18/deepwheel_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "fpn_resnet18/deepwheel_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "fpn_resnet18/deepwheel_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "fpn_resnet18/deepwheel_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "fpn_resnet18/deepwheel_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "fpn_resnet18/deepwheel_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "fpn_resnet18/deepwheel_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "fpn_resnet18/deepwheel_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "fpn_resnet18/deepwheel_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "fpn_resnet18/deepwheel_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "fpn_resnet18/deepwheel_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "fpn_resnet18/deepwheel_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "fpn_resnet18/deepwheel_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "fpn_resnet18/deepwheel_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "glpn/deepwheel_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "glpn/deepwheel_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "glpn/deepwheel_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "glpn/deepwheel_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "glpn/deepwheel_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "glpn/deepwheel_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "glpn/deepwheel_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "glpn/deepwheel_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "glpn/deepwheel_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "glpn/deepwheel_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "glpn/deepwheel_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "glpn/deepwheel_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "glpn/deepwheel_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "glpn/deepwheel_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "glpn/deepwheel_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "glpn/deepwheel_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "glpn/deepwheel_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "glpn/deepwheel_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "glpn/deepwheel_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "glpn/deepwheel_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "glpn/deepwheel_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "glpn/deepwheel_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "glpn/deepwheel_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "glpn/deepwheel_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "glpn/deepwheel_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "glpn/deepwheel_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "glpn/deepwheel_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "glpn/deepwheel_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "glpn/deepwheel_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "glpn/deepwheel_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "glpn/deepwheel_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "glpn/deepwheel_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "glpn/deepwheel_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "glpn/deepwheel_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "glpn/deepwheel_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "glpn/deepwheel_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "glpn/deepwheel_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "glpn/deepwheel_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "glpn/deepwheel_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "glpn/deepwheel_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "glpn/deepwheel_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "glpn/deepwheel_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "glpn/deepwheel_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "glpn/deepwheel_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "glpn/deepwheel_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "glpn/deepwheel_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "glpn/deepwheel_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "glpn/deepwheel_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "resnet_unet/deepwheel_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "resnet_unet/deepwheel_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "resnet_unet/deepwheel_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "resnet_unet/deepwheel_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "resnet_unet/deepwheel_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "resnet_unet/deepwheel_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "resnet_unet/deepwheel_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "resnet_unet/deepwheel_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "resnet_unet/deepwheel_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "resnet_unet/deepwheel_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "resnet_unet/deepwheel_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "resnet_unet/deepwheel_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "resnet_unet/deepwheel_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "resnet_unet/deepwheel_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "resnet_unet/deepwheel_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "resnet_unet/deepwheel_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "resnet_unet/deepwheel_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "resnet_unet/deepwheel_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "resnet_unet/deepwheel_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "resnet_unet/deepwheel_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "resnet_unet/deepwheel_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "resnet_unet/deepwheel_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "resnet_unet/deepwheel_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "resnet_unet/deepwheel_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "resnet_unet/deepwheel_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "resnet_unet/deepwheel_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "resnet_unet/deepwheel_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "resnet_unet/deepwheel_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "resnet_unet/deepwheel_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "resnet_unet/deepwheel_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "resnet_unet/deepwheel_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "resnet_unet/deepwheel_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "resnet_unet/deepwheel_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "resnet_unet/deepwheel_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "resnet_unet/deepwheel_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "resnet_unet/deepwheel_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "resnet_unet/deepwheel_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "resnet_unet/deepwheel_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "resnet_unet/deepwheel_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "resnet_unet/deepwheel_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "resnet_unet/deepwheel_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "resnet_unet/deepwheel_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "resnet_unet/deepwheel_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "resnet_unet/deepwheel_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "resnet_unet/deepwheel_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "resnet_unet/deepwheel_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "resnet_unet/deepwheel_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "resnet_unet/deepwheel_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "segformer_b0/deepwheel_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "segformer_b0/deepwheel_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "segformer_b0/deepwheel_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "segformer_b0/deepwheel_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "segformer_b0/deepwheel_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "segformer_b0/deepwheel_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "segformer_b0/deepwheel_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "segformer_b0/deepwheel_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "segformer_b0/deepwheel_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "segformer_b0/deepwheel_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "segformer_b0/deepwheel_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "segformer_b0/deepwheel_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "segformer_b0/deepwheel_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "segformer_b0/deepwheel_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "segformer_b0/deepwheel_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "segformer_b0/deepwheel_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "segformer_b0/deepwheel_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "segformer_b0/deepwheel_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "segformer_b0/deepwheel_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "segformer_b0/deepwheel_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "segformer_b0/deepwheel_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "segformer_b0/deepwheel_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "segformer_b0/deepwheel_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "segformer_b0/deepwheel_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "segformer_b0/deepwheel_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "segformer_b0/deepwheel_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "segformer_b0/deepwheel_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "segformer_b0/deepwheel_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "segformer_b0/deepwheel_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "segformer_b0/deepwheel_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "segformer_b0/deepwheel_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "segformer_b0/deepwheel_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "segformer_b0/deepwheel_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "segformer_b0/deepwheel_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "segformer_b0/deepwheel_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "segformer_b0/deepwheel_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "segformer_b0/deepwheel_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "segformer_b0/deepwheel_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "segformer_b0/deepwheel_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "segformer_b0/deepwheel_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "segformer_b0/deepwheel_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "segformer_b0/deepwheel_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "segformer_b0/deepwheel_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "segformer_b0/deepwheel_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "segformer_b0/deepwheel_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "segformer_b0/deepwheel_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "segformer_b0/deepwheel_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "segformer_b0/deepwheel_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "unet_simple/deepwheel_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "unet_simple/deepwheel_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "unet_simple/deepwheel_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "unet_simple/deepwheel_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "unet_simple/deepwheel_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "unet_simple/deepwheel_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "unet_simple/deepwheel_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "unet_simple/deepwheel_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "unet_simple/deepwheel_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "unet_simple/deepwheel_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "unet_simple/deepwheel_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "unet_simple/deepwheel_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "unet_simple/deepwheel_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "unet_simple/deepwheel_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "unet_simple/deepwheel_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "unet_simple/deepwheel_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "unet_simple/deepwheel_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "unet_simple/deepwheel_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "unet_simple/deepwheel_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "unet_simple/deepwheel_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "unet_simple/deepwheel_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "unet_simple/deepwheel_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "unet_simple/deepwheel_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "unet_simple/deepwheel_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "unet_simple/deepwheel_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "unet_simple/deepwheel_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "unet_simple/deepwheel_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "unet_simple/deepwheel_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "unet_simple/deepwheel_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "unet_simple/deepwheel_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "unet_simple/deepwheel_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "unet_simple/deepwheel_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "unet_simple/deepwheel_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "unet_simple/deepwheel_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "unet_simple/deepwheel_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "unet_simple/deepwheel_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "unet_simple/deepwheel_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "unet_simple/deepwheel_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "unet_simple/deepwheel_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "unet_simple/deepwheel_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "unet_simple/deepwheel_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "unet_simple/deepwheel_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "unet_simple/deepwheel_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "unet_simple/deepwheel_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "unet_simple/deepwheel_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "unet_simple/deepwheel_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "unet_simple/deepwheel_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "unet_simple/deepwheel_2d_2d/50/img_00011.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "unetpp/deepwheel_2d_2d/100/img_00000.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "unetpp/deepwheel_2d_2d/100/img_00001.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "unetpp/deepwheel_2d_2d/100/img_00002.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "unetpp/deepwheel_2d_2d/100/img_00003.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "unetpp/deepwheel_2d_2d/100/img_00004.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "unetpp/deepwheel_2d_2d/100/img_00005.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "unetpp/deepwheel_2d_2d/100/img_00006.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "unetpp/deepwheel_2d_2d/100/img_00007.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "unetpp/deepwheel_2d_2d/100/img_00008.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "unetpp/deepwheel_2d_2d/100/img_00009.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "unetpp/deepwheel_2d_2d/100/img_00010.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "M",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "unetpp/deepwheel_2d_2d/100/img_00011.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "unetpp/deepwheel_2d_2d/200/img_00000.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "unetpp/deepwheel_2d_2d/200/img_00001.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "unetpp/deepwheel_2d_2d/200/img_00002.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "unetpp/deepwheel_2d_2d/200/img_00003.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "unetpp/deepwheel_2d_2d/200/img_00004.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "unetpp/deepwheel_2d_2d/200/img_00005.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "unetpp/deepwheel_2d_2d/200/img_00006.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "unetpp/deepwheel_2d_2d/200/img_00007.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "unetpp/deepwheel_2d_2d/200/img_00008.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "unetpp/deepwheel_2d_2d/200/img_00009.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "unetpp/deepwheel_2d_2d/200/img_00010.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "L",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "unetpp/deepwheel_2d_2d/200/img_00011.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "unetpp/deepwheel_2d_2d/500/img_00000.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "unetpp/deepwheel_2d_2d/500/img_00001.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "unetpp/deepwheel_2d_2d/500/img_00002.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "unetpp/deepwheel_2d_2d/500/img_00003.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "unetpp/deepwheel_2d_2d/500/img_00004.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "unetpp/deepwheel_2d_2d/500/img_00005.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "unetpp/deepwheel_2d_2d/500/img_00006.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "unetpp/deepwheel_2d_2d/500/img_00007.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "unetpp/deepwheel_2d_2d/500/img_00008.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "unetpp/deepwheel_2d_2d/500/img_00009.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "unetpp/deepwheel_2d_2d/500/img_00010.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 500,
+      "size": "XL",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "unetpp/deepwheel_2d_2d/500/img_00011.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 0,
+      "path": "unetpp/deepwheel_2d_2d/50/img_00000.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 1,
+      "path": "unetpp/deepwheel_2d_2d/50/img_00001.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 2,
+      "path": "unetpp/deepwheel_2d_2d/50/img_00002.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 3,
+      "path": "unetpp/deepwheel_2d_2d/50/img_00003.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 4,
+      "path": "unetpp/deepwheel_2d_2d/50/img_00004.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 5,
+      "path": "unetpp/deepwheel_2d_2d/50/img_00005.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 6,
+      "path": "unetpp/deepwheel_2d_2d/50/img_00006.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 7,
+      "path": "unetpp/deepwheel_2d_2d/50/img_00007.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 8,
+      "path": "unetpp/deepwheel_2d_2d/50/img_00008.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 9,
+      "path": "unetpp/deepwheel_2d_2d/50/img_00009.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 10,
+      "path": "unetpp/deepwheel_2d_2d/50/img_00010.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "S",
+      "dataset": "deepwheel_2d_2d",
+      "target": "depth",
+      "sample": 11,
+      "path": "unetpp/deepwheel_2d_2d/50/img_00011.png"
+    }
+  ]
+}

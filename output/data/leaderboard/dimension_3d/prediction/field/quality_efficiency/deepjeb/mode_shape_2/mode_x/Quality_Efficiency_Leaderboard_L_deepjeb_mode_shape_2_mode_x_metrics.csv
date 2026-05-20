@@ -1,0 +1,13 @@
+﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5
+1,Extremal Agree,0.1738,regdgcnn,pointnet,transolver,geofno,transolver_pp
+2,Inference Time (s),0.1114,geofno,pointnet,transolver,transolver_pp,regdgcnn
+3,Training Time (s),0.1065,geofno,pointnet,transolver,regdgcnn,transolver_pp
+4,Sign Agree,0.1059,regdgcnn,pointnet,transolver,transolver_pp,geofno
+5,Parameters (M),0.072,regdgcnn,geofno,transolver_pp,pointnet,transolver
+6,MaxAE,0.0667,transolver,pointnet,transolver_pp,regdgcnn,geofno
+7,MAC,0.0623,regdgcnn,geofno,transolver_pp,transolver,pointnet
+8,MAE,0.0603,pointnet,transolver_pp,transolver,regdgcnn,geofno
+9,Rel-L2,0.0603,pointnet,transolver_pp,transolver,regdgcnn,geofno
+10,R²,0.0603,pointnet,transolver_pp,transolver,regdgcnn,geofno
+11,MAPE (%),0.0603,geofno,regdgcnn,transolver,transolver_pp,pointnet
+12,RMSE,0.0603,pointnet,transolver_pp,transolver,regdgcnn,geofno

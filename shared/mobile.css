@@ -16,6 +16,16 @@
    ═══════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
 
+  /* Mobile nav-bar is ~60px tall (10px top + 40px hamburger + 10px bottom),
+     plus the notch safe-area inset on iPhone X+ devices.  Bumping the
+     shared --nav-bar-height variable here automatically slides every
+     secondary sticky panel (explorer filter strip, detail switcher,
+     analysis tabs, legacy sidebar) down to clear the taller mobile nav
+     without per-page media-query overrides. */
+  :root {
+    --nav-bar-height: max(60px, calc(54px + env(safe-area-inset-top)));
+  }
+
   /* ── Base ── */
   html {
     -webkit-user-select: auto !important;
@@ -46,6 +56,22 @@
   /* Hide glow effects — fixed radial-gradient hurts mobile GPU */
   .glow1, .glow2 {
     display: none !important;
+  }
+
+  /* Nav-bar fade-out apron — tightened for mobile.
+       (a) Height shrunk 22px → 14px so the fade tail stays inside the
+           .page-content padding-top (12px) + page-header padding (~6px)
+           clearance, instead of bleeding ~4px into the actual header.
+       (b) backdrop-filter dropped — three stacked blur layers (nav +
+           apron + sticky panel) compound into noticeable scroll jank
+           on low-end Androids.  The apron's role here is purely
+           decorative (sticky panels pin flush to the nav via
+           --nav-bar-height, so there's no gap to occlude); the solid
+           fill + mask fade is enough to read as a soft drop-shadow. */
+  .nav-bar::after {
+    height: 14px;
+    -webkit-backdrop-filter: none;
+            backdrop-filter: none;
   }
 
   /* ──────────────────────────────────────────────────────────
@@ -134,7 +160,6 @@
   .data-table { font-size: 12px; }
   .data-table thead th { font-size: 11px; }
   .data-table .type-cell { font-size: 11px; }
-  .metric-tag { font-size: 11px; }
   .model-bar-overlay { font-size: 11px; }
   .model-bar-info { font-size: 11px; }
   .visual-card-label { font-size: 11px; }
@@ -199,13 +224,7 @@
     display: none;
   }
 
-  /* Domain Cards: 3 cols → 1 col */
-  #domain-cards-row {
-    flex-direction: column !important;
-  }
-  .domain-card {
-    min-width: 100% !important;
-  }
+  /* Domain Cards: 2×3 matrix → 1 col (handled by .domain-matrix media query in style.css) */
 
   /* Roadmap: 4 cols → 2×2 grid */
   #roadmap-items {
@@ -225,7 +244,7 @@
      LEADERBOARD.HTML
      ══════════════════════════════════════════════════════════ */
 
-  /* Unified filter box — compact like inference-explorer */
+  /* Unified filter box — compact like explorer */
   .lb-filters {
     padding: 12px 14px !important;
   }
@@ -297,6 +316,13 @@
     aspect-ratio: 1;
   }
 
+  /* 2D field triptychs: shrink panels and scroll horizontally */
+  .f2d-samples { flex-wrap: nowrap !important; overflow-x: auto !important; padding-bottom: 4px; }
+  .f2d-panel { width: 72px !important; height: 72px !important; }
+
+  /* Scalar prediction cards: fill width on narrow screens */
+  .scalar-pred-grid { grid-template-columns: 1fr !important; }
+
   /* Metrics table: force horizontal scroll instead of compact truncation */
   .data-table-wrapper:has(.compact-metrics) {
     overflow-x: auto !important;
@@ -327,63 +353,28 @@
   }
 
   /* ══════════════════════════════════════════════════════════
-     INFERENCE-EXPLORER.HTML
+     EXPLORER.HTML + ANALYSIS.HTML (renamed from inference-explorer)
+     The sidebar drawer that used to drive navigation was removed when
+     explorer.html switched to gallery cards; analysis.html keeps the
+     `#comparisons-view` filter card, so all of the `#cmp-*` and
+     `#exp-stats` selectors below now target analysis.html / explorer.html
+     respectively. Dead-sidebar rules (`.explorer-sidebar`, `.sidebar-toggle`,
+     `.sidebar-backdrop`, `body.sidebar-open`) were removed — no element
+     carries those classes anymore.
      ══════════════════════════════════════════════════════════ */
 
-  /* ── Sidebar Drawer ── */
-  .explorer-sidebar {
-    position: fixed !important;
-    left: 0;
-    top: 0;
-    height: 100vh !important;
-    max-height: 100vh !important;
-    max-width: 70vw;
-    z-index: 200;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    background: rgba(10,5,32,0.98) !important;
-    padding-top: max(60px, calc(54px + env(safe-area-inset-top))) !important;
-    border-right: 1px solid var(--border-subtle);
-    border-radius: 0 !important;
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-
-  body.sidebar-open .explorer-sidebar {
-    transform: translateX(0);
-  }
-
-  .sidebar-backdrop {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 199;
-  }
-
-  body.sidebar-open .sidebar-backdrop {
-    display: block;
-  }
-
-  .sidebar-toggle {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 12px;
-    padding: 10px 16px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 8px;
-    color: #a78bfa;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    min-height: 44px;
-  }
-
-  /* Main content: full width when sidebar is hidden */
-  .explorer-main {
-    width: 100% !important;
+  /* ── analysis.html chart card grids: force single column on phones ──
+     The Distribution / Disagreement / Mathematical / Frontier tabs use
+     inline `grid-template-columns: repeat(auto-fit, minmax(360px, 1fr))`
+     for the chart cards. At 375px viewport with .glass padding the
+     container is ~310px wide — auto-fit still keeps tracks at 360px and
+     lets them overflow into the parent's max-width clip, which visually
+     truncates the right edge of the chart on the smallest phones. Forcing
+     one column gives each chart the full available width. */
+  #analysis-distribution-content div[style*="grid-template-columns"],
+  #analysis-disagreement-content div[style*="grid-template-columns"],
+  #analysis-trajectory-content div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
   }
 
   /* ── Experiment Statistics: 6 cards → 3×2 ── */
@@ -400,8 +391,13 @@
     flex-direction: row !important;
     gap: 6px !important;
   }
-  /* VS text: hide on mobile */
-  #cmp-model-selector > div > div[style*="font-size:20px"] {
+  /* VS text: hide on mobile. The selector pinned `font-size:20px` originally
+     but the actual inline style in analysis.html:357 is `font-size:18px`, so
+     the rule never matched and the 34px-wide VS chip kept stealing space
+     from the Series A/B boxes on 320px phones. Match both values defensively
+     in case the inline style is tweaked again. */
+  #cmp-model-selector > div > div[style*="font-size:20px"],
+  #cmp-model-selector > div > div[style*="font-size:18px"] {
     display: none !important;
   }
   /* Model A/B boxes: tighter padding */
@@ -510,10 +506,20 @@
     touch-action: none;
   }
 
-  /* ── Performance summary cards: 2-per-row on mobile ── */
+  /* ── Performance summary cards: 2-per-row on mobile ──
+     Originally only 3 sections (2d, 3d, 3d-gen). After explorer.html added
+     the prediction split, three more containers appeared (2d-field, 3d-scalar,
+     2d-scalar). Without their own rule they fell back to the inline
+     `min-width:120px; flex:1` from _renderCard(), which is fine but leaves
+     them slightly out of step with the older sections at the 375px breakpoint
+     (3 cards/row instead of 2). Bundle all six under one selector so each
+     gallery section consistently lands at 2-per-row on phones. */
   #perf-cards-2d .perf-card,
   #perf-cards-3d .perf-card,
-  #perf-cards-3d-gen .perf-card {
+  #perf-cards-3d-gen .perf-card,
+  #perf-cards-2d-field .perf-card,
+  #perf-cards-3d-scalar .perf-card,
+  #perf-cards-2d-scalar .perf-card {
     flex: 1 1 calc(50% - 4px) !important;
     min-width: calc(50% - 4px) !important;
   }
@@ -565,10 +571,10 @@
     align-items: center;
     padding: 8px 14px;
   }
-  #detail-view > .flex[style*="sticky"],
-  #comparisons-view > .flex[style*="sticky"] {
-    top: max(50px, calc(44px + env(safe-area-inset-top))) !important;
-  }
+  /* (Removed: legacy sticky-flex top override for #detail-view /
+     #comparisons-view — no DOM matches `.flex[style*="sticky"]` anymore,
+     and the shared --nav-bar-height variable now drives every sticky
+     offset on mobile.) */
 
   /* H5: detail-view breadcrumb truncation */
   #detail-breadcrumb {
@@ -577,13 +583,6 @@
     white-space: nowrap;
     max-width: 60%;
     min-width: 0;
-  }
-
-  /* H6: "View Leaderboard →" link touch targets (index.html) */
-  .domain-card .cta-link {
-    padding: 6px 16px;
-    min-height: unset;
-    line-height: normal;
   }
 
   /* H7: KPI ring + label grouping — wrap as a unit */
@@ -658,20 +657,14 @@
     gap: 3px !important;
   }
 
-  /* M6: iOS sidebar momentum scroll */
-  .explorer-sidebar {
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-  }
+  /* M6: removed — the iOS sidebar momentum-scroll rule targeted
+     `.explorer-sidebar`, which no longer exists in any HTML (gallery
+     cards drive navigation in explorer.html now). */
 
   /* M7: glass card padding reduction on mobile */
   .glass {
     padding-left: 14px !important;
     padding-right: 14px !important;
-  }
-  .explorer-sidebar.glass {
-    padding-left: 12px !important;
-    padding-right: 12px !important;
   }
 
   /* M8: header spacing — more breathing room above & below title */
@@ -731,8 +724,5 @@
   }
   #pc-canvas-wrap {
     height: 220px !important;
-  }
-  .explorer-sidebar {
-    max-height: 100vh;
   }
 }

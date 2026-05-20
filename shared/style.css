@@ -28,12 +28,45 @@
   --glass-border: rgba(255,255,255,0.09);
   --glass-hover-border: rgba(129,140,248,0.45);
   --glass-hover-shadow: rgba(129,140,248,0.12);
+
+  /* "쫀득한" easing — narnia.ai 시그니처. easeOutExpo 계열, 빠르게 시작했다가
+     끝부분에서 길게 감속해 관성·탄성감을 준다. transform/scale/translate/width에
+     적용. 단순 색 변화에는 적용하지 않는다(끝부분 늘어짐이 어색). */
+  --ease-snappy: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft:   cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* Single source of truth for the .nav-bar's actual height. Every
+     secondary sticky panel (Explorer filter strip, Explorer detail
+     switcher, Analysis tabs strip, legacy explorer-sidebar) pins to this
+     value so they sit flush against the nav with no gap for the page
+     gradient to leak through.  Override in mobile.css for the slightly
+     taller hamburger nav + notch safe-area on phones. */
+  --nav-bar-height: 56px;
+
+  /* Shared sticky-glass fill — keyed to the page gradient's mid-tone so
+     pinned panels read as "lifted from the page" rather than a heavier
+     darker slab.  Every sticky surface (.nav-bar, #analysis-tabs-bar,
+     and inline .glass[style*="sticky"] panels on Explorer) pulls from
+     this single token so their occlusion strength is identical.
+     0.72 + blur is enough to hide bright captions / chart whites that
+     scroll underneath without losing the glassy material feel. */
+  --sticky-glass-bg: rgba(20, 14, 48, 0.72);
+  --sticky-glass-bg-opaque: rgba(20, 14, 48, 0.96); /* backdrop-filter fallback */
 }
 
 /* ── Reset & Base ── */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 /* zoom removed — font sizes adjusted to standard px values */
+
+/* Always render the vertical scrollbar so its track doesn't blink in/out when
+   sections reveal asynchronously (notably benchmark.html). `overflow-y: scroll`
+   pins the scrollbar visible regardless of content height; `scrollbar-gutter`
+   is the modern equivalent kept as a fallback for the gutter reservation. */
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
 
 body {
   background: linear-gradient(160deg, var(--bg-primary) 0%, var(--bg-secondary) 30%, var(--bg-tertiary) 60%, var(--bg-deep) 100%);
@@ -43,14 +76,16 @@ body {
   font-family: 'Inter', -apple-system, system-ui, sans-serif;
   color: var(--text-primary);
   position: relative;
-  overflow-x: hidden;
+  /* `clip` (not `hidden`) so descendant `position: sticky` keeps tracking the
+     viewport instead of an implicit scroll container created by overflow:hidden. */
+  overflow-x: clip;
 }
 
 .page-content {
   padding: 24px 28px 36px;
   max-width: 1580px;
   margin: 0 auto;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* ── Glow Effects ── */
@@ -72,7 +107,10 @@ body {
   border-radius: 16px;
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
-  transition: all 0.3s ease;
+  transition: transform 0.5s var(--ease-snappy),
+              border-color 0.3s ease,
+              box-shadow 0.5s var(--ease-snappy),
+              background 0.3s ease;
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -81,19 +119,63 @@ body {
   box-shadow: 0 8px 32px var(--glass-hover-shadow);
 }
 
+/* Sticky glass panels need a more opaque fill than regular cards — they
+   overlay other content during scroll, and the default 3.5% white tint
+   isn't enough to hide bright images / white captions that slide
+   underneath.  Uses the shared --sticky-glass-bg token so every pinned
+   panel (Explorer filter strip, detail switcher, nav-bar, analysis tabs
+   strip) renders with identical occlusion strength. */
+.glass[style*="sticky"] {
+  background: var(--sticky-glass-bg);
+}
+
 /* ── Navigation ── */
 .nav-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 12px 28px;
-  background: rgba(10,5,32,0.55);
+  /* Same shared sticky-glass token as every other pinned panel — keeps
+     all sticky surfaces visually identical. */
+  background: var(--sticky-glass-bg);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-subtle);
   position: sticky;
   top: 0;
   z-index: 100;
+}
+/* Fallback for browsers without backdrop-filter support (older Firefox,
+   some embedded webviews) — go nearly opaque so the sticky strip never
+   reveals bright content underneath when the blur isn't doing its job. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .nav-bar { background: var(--sticky-glass-bg-opaque); }
+}
+
+/* Fade-out "apron" hanging below the nav-bar.  Originally added to bridge
+   a 16-20px gap between the nav and secondary sticky panels back when
+   those panels used hard-coded top:72px; the panels now pin flush to the
+   nav via `top: var(--nav-bar-height)`, so the apron's primary job is
+   purely cosmetic — providing the soft fade at the first-paint (no-
+   scroll) state where the secondary sticky panel is still inline below
+   the page-header.  When the page is scrolled, the apron sits behind the
+   pinned secondary panel and is mostly hidden by it. */
+.nav-bar::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: 100%;
+  /* Trimmed from 22→16px now that the gap below the nav is closed. The
+     apron's only remaining job is the first-paint (no-scroll) soft fade,
+     so a tighter strip stays out of the secondary sticky panel's way
+     once the page is scrolled. */
+  height: 16px;
+  background: var(--sticky-glass-bg);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+          mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+  -webkit-backdrop-filter: blur(14px);
+          backdrop-filter: blur(14px);
+  pointer-events: none;
 }
 .nav-brand {
   display: flex;
@@ -102,12 +184,15 @@ body {
   text-decoration: none;
 }
 .nav-brand-text {
-  font-size: 16px;
+  /* 18px reads as a logo line (matching the page-header weight on Benchmark)
+     while staying clearly subordinate to the page title below. Without the
+     dropped sub-text, line-height: 1 was leaving the brand sitting too high
+     in the nav-bar — `normal` re-centres it vertically. */
+  font-size: 18px;
   font-weight: 900;
   color: var(--purple-400);
-  letter-spacing: 0.8px;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  line-height: 1;
 }
 .nav-brand-sub {
   font-size: 12px;
@@ -192,15 +277,15 @@ body {
   display: flex; align-items: center; justify-content: center;
   font-size: 10px; font-weight: 800;
 }
-svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
+svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy); }
 
 /* ── Model Bar ── */
 .model-bar-track {
   display: flex; height: 5px; border-radius: 3px;
   overflow: hidden; background: var(--border-subtle); width: 120px;
 }
-.model-bar-done { border-radius: 3px; transition: width 0.8s ease; }
-.model-bar-wip { transition: width 0.8s ease 0.2s; }
+.model-bar-done { border-radius: 3px; transition: width 1s var(--ease-snappy); }
+.model-bar-wip { transition: width 1s var(--ease-snappy) 0.2s; }
 .model-bar-info {
   display: flex; gap: 6px; margin-top: 3px;
   font-size: 10px; color: var(--text-muted);
@@ -241,11 +326,49 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
   border-color: rgba(124,58,237,0.5);
   box-shadow: 0 0 8px rgba(124,58,237,0.15);
 }
+/* Disabled pill — used when an option is incompatible with the current
+   selection (e.g. DrivAerNet under Task=Scalar in explorer, or prev/next
+   sample at edges in analysis). Just dims ("lights off") and blocks clicks
+   — no strikethrough, which felt like an error message rather than a
+   quiet "not applicable here". */
+.filter-pill.pill-disabled {
+  opacity: 0.32;
+  cursor: not-allowed;
+  pointer-events: none;
+}
 
 /* ── Data Table ── */
 .data-table-wrapper {
   overflow-x: auto;
   border-radius: 12px;
+  /* Hide scrollbar visually — keeps scroll behaviour for trackpad/touch.
+     Matches the mobile feel the rest of the dashboard uses. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* Soft inline-end fade hints at horizontal overflow when content extends
+     past the viewport. Only the trailing edge is masked so the table reads
+     as continuing off-screen rather than ending in a hard scrollbar. */
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), rgba(0,0,0,0.55) 100%);
+          mask-image: linear-gradient(to right, #000 calc(100% - 32px), rgba(0,0,0,0.55) 100%);
+}
+.data-table-wrapper::-webkit-scrollbar {
+  display: none;
+}
+.data-table-wrapper[data-scrollable] {
+  cursor: grab;
+}
+/* Sortable headers and other interactive children keep their own cursors. */
+.data-table-wrapper[data-scrollable] thead th,
+.data-table-wrapper[data-scrollable] button,
+.data-table-wrapper[data-scrollable] a {
+  cursor: pointer;
+}
+/* When the table fits its container (no overflow) or has been scrolled to
+   the end, drop the trailing fade so the final column isn't dimmed. JS
+   toggles data-overflow on the wrapper based on scroll state. */
+.data-table-wrapper:not([data-overflow="end-cut"]) {
+  -webkit-mask-image: none;
+          mask-image: none;
 }
 .data-table {
   width: 100%;
@@ -333,7 +456,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
   border-radius: 2px;
   margin-left: 6px;
   vertical-align: middle;
-  transition: width 0.8s ease;
+  transition: width 1s var(--ease-snappy);
   max-width: 32px;
 }
 #ranking-table td {
@@ -356,16 +479,6 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
 .chart-container {
   position: relative;
   padding: 16px;
-}
-
-/* ── Metric Tag ── */
-.metric-tag {
-  font-size: 10px;
-  color: rgba(255,255,255,0.5);
-  padding: 2px 8px;
-  border-radius: 6px;
-  display: inline-block;
-  margin: 2px;
 }
 
 /* ── Alert Boxes ── */
@@ -396,13 +509,44 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
 }
 
 /* ── Card Variants ── */
-.domain-card { padding: 16px 18px; cursor: pointer; }
-.domain-card .metrics-panel {
-  margin-top: 10px; padding: 8px 10px;
-  background: rgba(255,255,255,0.02);
-  border-radius: 8px; display: none;
+/* Domain cards are anchors — entire card navigates to its leaderboard. */
+.domain-card {
+  display: block;
+  padding: 16px 18px 18px;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.45s var(--ease-snappy),
+              border-color 0.25s ease,
+              box-shadow 0.45s var(--ease-snappy);
 }
-.domain-card .metrics-panel.visible { display: block; }
+.domain-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255,255,255,0.18);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+.domain-card:focus-visible {
+  outline: 2px solid rgba(167,139,250,0.7);
+  outline-offset: 2px;
+}
+
+/* Domain matrix: 2 rows (3D / 2D) × 3 cols (Gen / Field / Scalar) on desktop;
+   single column on mobile, source order = column-major reading. */
+.domain-matrix {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  grid-auto-flow: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+@media (max-width: 768px) {
+  .domain-matrix {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-auto-flow: row;
+  }
+}
 
 /* ── Step Box (Pipeline) ── */
 .step-box {
@@ -413,38 +557,59 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
   text-align: center;
   flex: 1;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.4s var(--ease-snappy),
+              background 0.25s ease,
+              border-color 0.25s ease;
 }
 .step-box:hover, .step-box.active {
   background: rgba(129,140,248,0.12);
   border-color: rgba(129,140,248,0.4);
-  transform: scale(1.02);
+  transform: scale(1.035);
 }
 .step-box.accent {
   background: rgba(129,140,248,0.1);
   border-color: rgba(129,140,248,0.25);
 }
 
-/* ── Step Detail ── */
+/* ── Step Detail ──
+   닫힘 상태에서는 border/background 가 transparent + max-height 0 + padding/margin 0
+   이라 layout 점유가 거의 0 (border 1px). visible 시 시그니처 곡선으로 펼침. */
 .step-detail {
-  margin-top: 10px; padding: 10px 14px;
-  background: rgba(129,140,248,0.06);
-  border: 1px solid rgba(129,140,248,0.15);
+  margin-top: 0; padding: 0 14px;
+  background: rgba(129,140,248,0);
+  border: 1px solid transparent;
   border-radius: 10px;
   font-size: 11px; color: rgba(255,255,255,0.55);
-  line-height: 1.6; display: none;
+  line-height: 1.6;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.55s var(--ease-snappy),
+              opacity 0.35s ease,
+              margin 0.55s var(--ease-snappy),
+              padding 0.55s var(--ease-snappy),
+              background 0.35s ease,
+              border-color 0.35s ease;
 }
-.step-detail.visible { display: block; }
+.step-detail.visible {
+  margin-top: 10px; padding: 10px 14px;
+  background: rgba(129,140,248,0.06);
+  border-color: rgba(129,140,248,0.15);
+  max-height: 400px;
+  opacity: 1;
+}
 
 /* ── Roadmap ── */
 .roadmap-item {
   flex: 1; border-radius: 12px; padding: 12px 10px;
   text-align: center; position: relative; cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.4s var(--ease-snappy),
+              background 0.25s ease,
+              border-color 0.25s ease;
   background: rgba(255,255,255,0.02);
   border: 1px solid var(--border-light);
 }
-.roadmap-item:hover, .roadmap-item.active { transform: scale(1.02); }
+.roadmap-item:hover, .roadmap-item.active { transform: scale(1.035); }
 .roadmap-detail {
   margin-top: 10px; padding: 10px 14px;
   border-radius: 10px; transition: all 0.3s ease;
@@ -464,30 +629,51 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
 }
 
 /* ── Inference Explorer ── */
+/* Action bar (Back + breadcrumb) at top of detail/comparisons views.
+   Static — scrolls away with content.  Uses the same glass tokens as all other
+   panels on the page so the tone is consistent (smaller padding/radius keeps
+   it visually a "control strip" rather than a content card). */
+.action-bar {
+  margin-bottom: 12px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+}
+
 .explorer-sidebar {
   width: 310px;
   flex-shrink: 0;
+  /* Sticky so the navigation tree stays in view when scrolling deep into
+     the main content.  Uses the shared --nav-bar-height variable so this
+     legacy sidebar tracks the same offset as every other sticky panel
+     even when the nav-bar grows or shrinks. */
+  position: sticky;
+  top: var(--nav-bar-height);
+  align-self: flex-start;
   overflow-y: auto;
-  max-height: calc(100vh - 80px);
+  max-height: calc(100vh - var(--nav-bar-height) - 32px);
   padding-right: 12px;
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,0.1) transparent;
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0px,
-    rgba(0,0,0,0.6) 12px,
-    black 28px,
-    black calc(100% - 32px),
-    rgba(0,0,0,0.4) calc(100% - 12px),
+    rgba(0,0,0,0.75) 6px,
+    black 14px,
+    black calc(100% - 16px),
+    rgba(0,0,0,0.5) calc(100% - 6px),
     transparent 100%
   );
   mask-image: linear-gradient(
     to bottom,
     transparent 0px,
-    rgba(0,0,0,0.6) 12px,
-    black 28px,
-    black calc(100% - 32px),
-    rgba(0,0,0,0.4) calc(100% - 12px),
+    rgba(0,0,0,0.75) 6px,
+    black 14px,
+    black calc(100% - 16px),
+    rgba(0,0,0,0.5) calc(100% - 6px),
     transparent 100%
   );
 }
@@ -535,9 +721,47 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
 }
 .tree-children {
   padding-left: 16px;
-  display: none;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.5s var(--ease-snappy),
+              opacity 0.3s ease;
 }
-.tree-children.expanded { display: block; }
+.tree-children.expanded {
+  max-height: 1500px;
+  opacity: 1;
+}
+
+/* Sidebar task-group divider — labels each pair of dim variants (3D/2D) under one task. */
+.tree-task-group {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  color: rgba(255,255,255,0.32);
+  padding: 10px 6px 4px;
+  margin-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  user-select: none;
+}
+.tree-task-group:first-of-type {
+  margin-top: 4px;
+  border-top: none;
+  padding-top: 4px;
+}
+
+/* Summary view task-group header — visually pairs the 3D/2D summary cards under one task. */
+.summary-task-group {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  color: rgba(255,255,255,0.45);
+  padding: 6px 2px 10px;
+  margin: 22px 0 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.summary-task-group:first-of-type { margin-top: 0; }
 
 .image-grid {
   display: grid;
@@ -549,11 +773,13 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
   overflow: hidden;
   background: rgba(255,255,255,0.02);
   border: 1px solid var(--border-subtle);
-  transition: all 0.2s ease;
+  transition: transform 0.45s var(--ease-snappy),
+              border-color 0.25s ease,
+              background 0.25s ease;
 }
 .image-card:hover {
   border-color: var(--glass-hover-border);
-  transform: scale(1.02);
+  transform: scale(1.04);
 }
 .image-card img {
   width: 100%;
@@ -641,11 +867,13 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
   overflow: hidden;
   background: rgba(255,255,255,0.025);
   border: 1px solid var(--border-subtle);
-  transition: all 0.2s ease;
+  transition: transform 0.45s var(--ease-snappy),
+              border-color 0.25s ease,
+              background 0.25s ease;
 }
 .visual-card:hover {
   border-color: var(--glass-hover-border);
-  transform: scale(1.01);
+  transform: scale(1.03);
 }
 .visual-card img {
   width: 100%;
@@ -733,12 +961,49 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
   color: var(--text-muted);
   transition: transform 0.2s ease;
 }
+/* max-height 천장은 가장 긴 collapsible 콘텐츠(roadmap details, leaderboard sections)를
+   넉넉히 덮을 만큼 크게. cubic-bezier(0.16, 1, 0.3, 1) 곡선이 끝부분에서 길게 감속하므로
+   콘텐츠 크기보다 천장이 커도 실제 펼치는 시간은 비슷하게 느껴진다. */
 .collapsible-body {
-  display: none;
-  padding: 0 20px 16px;
+  padding: 0 20px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.6s var(--ease-snappy),
+              opacity 0.4s ease,
+              padding 0.6s var(--ease-snappy);
 }
 .collapsible-body.expanded {
-  display: block;
+  /* Top padding leaves room for badges that sit above their container (e.g.
+     the roadmap NOW tag at top:-7px) — without it, the parent's overflow
+     hidden clips the badge to its top edge. */
+  padding: 10px 20px 16px;
+  max-height: 2000px;
+  opacity: 1;
+}
+
+/* index.html Statement 패널 — togglePurpose() 가 .expanded 클래스 토글.
+   닫힘 상태에서는 border 가 transparent + padding/margin 0 이라 시각적으로 자연스럽게 사라진다. */
+.purpose-body {
+  text-align: center;
+  border-top: 1px solid transparent;
+  margin-top: 0;
+  padding-top: 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.55s var(--ease-snappy),
+              opacity 0.35s ease,
+              margin 0.55s var(--ease-snappy),
+              padding 0.55s var(--ease-snappy),
+              border-color 0.35s ease;
+}
+.purpose-body.expanded {
+  border-top-color: rgba(167,139,250,0.12);
+  margin-top: 10px;
+  padding-top: 10px;
+  max-height: 500px;
+  opacity: 1;
 }
 
 /* ── Score highlight ── */
@@ -752,7 +1017,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
 }
 
 /* ── Animations ── */
-.animate-bar { transition: width 1.5s ease 0.3s; }
+.animate-bar { transition: width 1.6s var(--ease-snappy) 0.3s; }
 
 /* ── 3D Viewer Zoom Active State ── */
 .zoom-active {
@@ -761,18 +1026,81 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.fade-in { animation: fadeIn 0.4s ease; }
+.fade-in { animation: fadeIn 0.7s var(--ease-snappy); }
+
+/* ── 진입 모션 (page load) ──
+   page-content 직속 자식들이 위로 떠오르며 순차 등장. domain-matrix 의 카드들은
+   부모 등장 후 더 잘게 쪼개진 stagger 로 다시 들어와서 narnia 풍의 "쏟아지는" 첫 인상을 만든다. */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-content > * {
+  animation: rise-in 0.9s var(--ease-snappy) both;
+}
+.page-content > *:nth-child(1) { animation-delay: 0.04s; }
+.page-content > *:nth-child(2) { animation-delay: 0.12s; }
+.page-content > *:nth-child(3) { animation-delay: 0.20s; }
+.page-content > *:nth-child(4) { animation-delay: 0.28s; }
+.page-content > *:nth-child(5) { animation-delay: 0.36s; }
+.page-content > *:nth-child(6) { animation-delay: 0.44s; }
+.page-content > *:nth-child(n+7) { animation-delay: 0.52s; }
+
+.domain-matrix > .domain-card {
+  animation: rise-in 0.85s var(--ease-snappy) both;
+}
+/* Stagger in HTML order, which is column-major for the 2×3 matrix:
+   (1)3D-Gen → (2)2D-Gen → (3)3D-Field → (4)2D-Field → (5)3D-Scalar → (6)2D-Scalar.
+   Prior delays were diagonal/scrambled (3D-Field at 0.48 s came AFTER 2D-Field
+   at 0.36 s) which felt jumbled. Tight 0.06 s gap gives the snappy "타라락" cascade. */
+.domain-matrix > .domain-card:nth-child(1) { animation-delay: 0.30s; }
+.domain-matrix > .domain-card:nth-child(2) { animation-delay: 0.36s; }
+.domain-matrix > .domain-card:nth-child(3) { animation-delay: 0.42s; }
+.domain-matrix > .domain-card:nth-child(4) { animation-delay: 0.48s; }
+.domain-matrix > .domain-card:nth-child(5) { animation-delay: 0.54s; }
+.domain-matrix > .domain-card:nth-child(6) { animation-delay: 0.60s; }
+
+/* Programmatic re-cascade — used by benchmark / explorer when async
+   data renders panels that started as display:none.  CSS-only :nth-child stagger
+   on .page-content > * has already finished by the time the data resolves, so
+   we re-play the animation with a per-element --cascade-delay set in JS. */
+.cascade-reveal {
+  animation: rise-in 0.65s var(--ease-snappy) var(--cascade-delay, 0s) both !important;
+}
+
+/* ── 스크롤 진입 모션 (Chrome/Edge 115+ 지원) ──
+   요소가 viewport 에 들어오는 순간 짧게 떠오름. Safari/구버전은 fallback 없이 정적 등장.
+   `entry 0% cover 25%` = 진입 시작 ~ 25% 노출 사이에 끝남 → 너무 길게 끌지 않음. */
+@supports (animation-timeline: view()) {
+  .compare-row,
+  .sp-row,
+  .f2d-cell,
+  .visual-card,
+  .image-card {
+    animation: rise-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 25%;
+  }
+}
+
+/* ── Press feedback ──
+   클릭 가능한 작은 컨트롤은 누르는 순간 살짝 줄어들었다가 시그니처 곡선으로 풀린다.
+   transform 만 잠깐 덮어쓰기 때문에 hover 의 색/border 는 유지된다. */
+.filter-pill:active,
+.nav-link:active,
+.step-box:active,
+.roadmap-item:active,
+.tree-item:active {
+  transform: scale(0.96);
+  transition: transform 0.08s ease-out;
+}
 
 /* ══════════════════════════════════════════════════════════
    Extracted from inline styles — index.html refactoring
    ══════════════════════════════════════════════════════════ */
-
-/* ── Metric tag color variants ── */
-.metric-tag-green { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.1); }
-.metric-tag-blue  { background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.1); }
 
 /* ── Purple keyword badge ── */
 .purple-badge {
@@ -794,11 +1122,6 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
 .domain-card-sub   { font-size: 11px; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
 .domain-card-count { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6; }
 
-/* ── Metrics panel title ── */
-.metrics-panel-label { font-size: 10px; font-weight: 700; margin-bottom: 6px; letter-spacing: 1px; }
-
-/* ── Hint text ── */
-.hint-text { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 8px; text-align: center; }
 
 /* ── Pipeline step box children ── */
 .step-label { font-size: 10px; color: var(--indigo-400); font-weight: 700; letter-spacing: 1px; }
@@ -827,22 +1150,375 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.2s ease; }
 .contact-copy:hover { opacity: 1; }
 .contact-copy.copied { color: #34d399; opacity: 1; }
 
-/* ── Domain Card CTA ── */
-.domain-card .cta-link {
-  display: inline-block; font-size: 11px; font-weight: 600; color: #c4b5fd;
-  background: rgba(124,58,237,0.08); border: 1px solid rgba(129,140,248,0.2);
-  padding: 5px 16px; border-radius: 6px; text-decoration: none;
-  transition: all 0.2s ease; letter-spacing: 0.2px;
-}
-.domain-card .cta-link:hover {
-  color: #fff; background: rgba(129,140,248,0.15);
-  border-color: rgba(129,140,248,0.5);
-}
-
 /* ── Roadmap elements ── */
 .roadmap-quarter { font-size: 20px; font-weight: 900; }
 .roadmap-desc    { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 6px; line-height: 1.5; }
 .roadmap-date    { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 4px; }
+
+/* ── Scalar prediction rows (leaderboard visual section) ──
+   Per-model row: left info column + right strip of one scatter per target key.
+   All targets visible simultaneously for cross-target comparison without tab switching. */
+.sp-row {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.sp-row-info {
+  width: 200px;
+  flex-shrink: 0;
+  display: flex; flex-direction: column;
+  gap: 6px;
+}
+.sp-row-charts {
+  flex: 1;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.sp-target-chart {
+  flex: 1;
+  min-width: 0;
+  display: flex; flex-direction: column;
+  gap: 4px;
+}
+.sp-target-name {
+  font-size: 11px; font-weight: 700;
+  color: var(--text-tertiary);
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+.sp-rank {
+  align-self: flex-start;
+  font-size: 11px; font-weight: 800; color: #a78bfa;
+  background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.25);
+  padding: 2px 10px; border-radius: 999px;
+}
+.sp-name {
+  font-size: 14px; font-weight: 800; color: #fff;
+  text-decoration: none; display: inline-block;
+  line-height: 1.2;
+}
+.sp-name:hover { color: #c4b5fd; }
+.sp-sub {
+  font-size: 10px; color: var(--text-muted);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sp-canvas-wrap {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: rgba(0,0,0,0.25);
+  border-radius: 6px;
+  padding: 6px;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+}
+.sp-canvas { width: 100% !important; height: 100% !important; }
+.sp-loading {
+  position: absolute; inset: 0; display: flex;
+  align-items: center; justify-content: center;
+  font-size: 11px; color: var(--text-muted); pointer-events: none;
+}
+.sp-target-stats {
+  display: flex; justify-content: center;
+  gap: 10px; font-size: 10px; color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.sp-target-stats .sp-stat-name { color: rgba(255,255,255,0.4); margin-right: 3px; }
+.sp-target-stats .sp-r2-val,
+.sp-target-stats .sp-mae-val { color: #fff; font-weight: 700; }
+.sp-metric-chips {
+  display: flex; flex-wrap: wrap; gap: 4px;
+  margin-top: 4px;
+}
+.sp-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10px; padding: 2px 7px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 999px;
+}
+.sp-chip-name { color: var(--text-muted); }
+.sp-chip-val  { color: #e5e7eb; font-weight: 600; }
+
+@media (max-width: 768px) {
+  .sp-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .sp-row-info { width: 100%; }
+  .sp-row-charts {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .sp-canvas-wrap { max-width: 280px; }
+}
+
+/* ── Scalar prediction sample card (shared by explorer & benchmark) ──
+   Layout: shape thumbnail on the left (supporting context), hero GT/PRED tiles
+   side-by-side on the right, prominent axis below. Designed so the scalar
+   comparison reads first — the prior version got out-shouted by the rainbow
+   shape thumbnail. */
+.scalar-card {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 12px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  align-items: stretch;
+}
+.scalar-card-shape {
+  width: 110px; aspect-ratio: 1;
+  background: #08051a; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  overflow: hidden; position: relative;
+}
+.scalar-card-shape img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.scalar-card-shape .scalar-shape-3d { position: absolute; inset: 0; }
+.scalar-card-info {
+  display: flex; flex-direction: column; gap: 8px; min-width: 0; justify-content: center;
+}
+.scalar-card-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 11px; line-height: 1;
+}
+.scalar-card-slot {
+  font-weight: 800; color: rgba(255,255,255,0.55);
+  letter-spacing: 0.5px;
+}
+.scalar-card-delta {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700; font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.scalar-card-values {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+}
+.scalar-tile {
+  padding: 6px 9px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 6px;
+  line-height: 1.15;
+}
+.scalar-tile .scalar-tile-label {
+  font-size: 9px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+  color: rgba(255,255,255,0.45); margin-bottom: 3px;
+}
+.scalar-tile .scalar-tile-num {
+  font-size: 18px; font-weight: 700;
+  font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums;
+}
+.scalar-tile-gt { border-color: rgba(255,255,255,0.14); }
+.scalar-tile-gt .scalar-tile-num { color: rgba(255,255,255,0.92); }
+.scalar-card-axis { padding-top: 2px; }
+/* HTML/CSS axis (replaces SVG) — markers stay perfectly round at any container
+   width because they're sized in fixed pixels and positioned via calc(); the
+   prior SVG used preserveAspectRatio="none" which stretched circles into
+   ellipses on full-row leaderboard cards. */
+.scalar-axis {
+  position: relative;
+  height: 22px;
+  margin: 2px 0;
+}
+.scalar-axis-track {
+  position: absolute;
+  left: 8px; right: 8px;
+  top: 50%;
+  height: 2px;
+  background: rgba(255,255,255,0.22);
+  transform: translateY(-50%);
+  border-radius: 1px;
+}
+.scalar-axis-tick {
+  position: absolute;
+  top: 50%;
+  width: 1.5px;
+  height: 11px;
+  background: rgba(255,255,255,0.32);
+  transform: translate(-50%, -50%);
+  border-radius: 1px;
+}
+.scalar-axis-segment {
+  position: absolute;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+  border-radius: 1px;
+  pointer-events: none;
+}
+.scalar-axis-marker {
+  position: absolute;
+  top: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.scalar-axis-marker-gt {
+  width: 13px; height: 13px;
+  border: 2px solid rgba(255,255,255,0.95);
+  background: rgba(8,5,26,0.9);
+  z-index: 2;
+}
+.scalar-axis-marker-pred {
+  width: 11px; height: 11px;
+  border: 1px solid rgba(0,0,0,0.4);
+  z-index: 1;
+}
+/* Compact variant: leaderboard rows.  Shape is large enough to read the wheel's
+   spoke pattern at a glance; bigger card → taller row → fewer rows on screen
+   at once, which naturally caps how many 3D Three.js viewers are alive
+   simultaneously (browser WebGL context limit ~16).  Disposal-on-scroll-out
+   handles the rest. */
+.scalar-card-compact {
+  grid-template-columns: 130px minmax(0, 1fr);
+  gap: 11px;
+  padding: 10px 12px;
+}
+.scalar-card-compact .scalar-card-shape { width: 130px; }
+.scalar-card-compact .scalar-tile-num { font-size: 15px; }
+.scalar-card-compact .scalar-tile { padding: 5px 8px; }
+.scalar-card-compact .scalar-tile-label { margin-bottom: 2px; }
+/* Mini variant: kicks in when ≥6 samples are packed per row. Horizontal layout
+   collapses (shape would crowd out the values at ~150px card width); stack the
+   thumbnail on top of the info block so each card stays usable in a narrow
+   column. */
+.scalar-card-mini {
+  grid-template-columns: 1fr;
+  gap: 6px;
+  padding: 6px 7px;
+}
+.scalar-card-mini .scalar-card-shape { width: 100%; }
+.scalar-card-mini .scalar-card-header { font-size: 10px; }
+.scalar-card-mini .scalar-card-delta { font-size: 10px; }
+.scalar-card-mini .scalar-card-values { gap: 4px; }
+.scalar-card-mini .scalar-tile { padding: 3px 5px; }
+.scalar-card-mini .scalar-tile-label { font-size: 8px; margin-bottom: 1px; }
+.scalar-card-mini .scalar-tile-num { font-size: 12px; }
+.scalar-card-mini .scalar-axis { height: 16px; }
+.scalar-card-mini .scalar-axis-marker-gt { width: 10px; height: 10px; border-width: 1.5px; }
+.scalar-card-mini .scalar-axis-marker-pred { width: 8px; height: 8px; }
+@media (max-width: 600px) {
+  .scalar-card { grid-template-columns: 1fr; }
+  .scalar-card-shape { width: 100%; max-width: 220px; margin: 0 auto; }
+}
+
+/* Leaderboard per-sample gallery rows: rank chip · model name · scalar card */
+.sp-gallery-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+}
+.sp-gallery-row .sp-rank { align-self: center; }
+.sp-gallery-row .sp-gallery-card { flex: 1; min-width: 0; }
+@media (max-width: 768px) {
+  .sp-gallery-row { flex-wrap: wrap; }
+  .sp-gallery-row .sp-gallery-card { flex-basis: 100%; }
+}
+
+/* ── 2D field prediction triptychs (leaderboard visual section) ── */
+.f2d-samples {
+  display: flex; flex: 1; gap: 10px; flex-wrap: wrap;
+}
+.f2d-cell {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.f2d-triptych {
+  display: flex; gap: 2px;
+}
+.f2d-panel {
+  position: relative;
+  width: 128px; height: 128px;
+  background: rgba(0,0,0,0.4); border-radius: 6px;
+  overflow: hidden; border: 1px solid rgba(255,255,255,0.1);
+}
+.f2d-panel canvas {
+  width: 100%; height: 100%; display: block;
+  image-rendering: pixelated;
+}
+.f2d-panel .f2d-tag {
+  position: absolute; top: 2px; left: 2px;
+  font-size: 9px; font-weight: 700;
+  color: #fff;
+  background: rgba(0,0,0,0.6);
+  padding: 1px 5px; border-radius: 3px;
+  letter-spacing: 0.3px;
+}
+/* Caption pairs sample index + MAE on the left so they read as one unit
+   ("this cell's stats") instead of getting separated to opposite edges,
+   which made the right-side MAE visually drift toward the adjacent cell. */
+.f2d-caption {
+  display: flex; justify-content: flex-start; align-items: baseline;
+  gap: 8px;
+  font-size: 10px; color: var(--text-muted);
+  padding: 0 2px;
+}
+.f2d-caption .f2d-idx { color: var(--text-tertiary); font-weight: 600; }
+.f2d-caption .f2d-mae { color: #fbbf24; font-variant-numeric: tabular-nums; }
+
+.f2d-legend {
+  margin-top: 12px; padding: 10px 14px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  font-size: 10px; color: var(--text-muted);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.f2d-legend-row {
+  display: grid;
+  grid-template-columns: 130px 1fr 70px;
+  align-items: center;
+  gap: 10px;
+}
+.f2d-legend-title {
+  font-size: 11px; font-weight: 700; color: var(--text-tertiary);
+}
+.f2d-legend-bar {
+  height: 8px; border-radius: 4px;
+}
+.f2d-legend-grayscale {
+  background: linear-gradient(to right, rgb(0,0,0) 0%, rgb(255,255,255) 100%);
+}
+.f2d-legend-jet {
+  /* matplotlib inferno stops — sequential, perceptually uniform, dark-theme friendly.
+     Class name kept (.f2d-legend-jet) to avoid touching every legend call site;
+     the *colormap* is now inferno, which is the right choice for unsigned |error|. */
+  background: linear-gradient(to right,
+    rgb(0,0,4) 0%, rgb(40,11,84) 13%, rgb(101,21,110) 25%,
+    rgb(159,42,99) 38%, rgb(212,72,66) 50%, rgb(245,125,21) 63%,
+    rgb(250,193,39) 79%, rgb(252,255,164) 100%);
+}
+.f2d-legend-labels {
+  display: flex; justify-content: space-between;
+  font-size: 9px; color: rgba(255,255,255,0.4);
+}
+.f2d-legend-note {
+  font-size: 10px; color: var(--text-muted); line-height: 1.4;
+}
+
+/* ── Skeleton loader bars ──
+   Used inside .glass cards while async data is fetched (Distribution /
+   Disagreement / Progression on Slow 3G). Three stacked bars at varying
+   widths shimmer with a 1.4s sliding gradient — same visual language as
+   common skeleton patterns, scoped to our colour tokens. */
+.skel-bar {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(255,255,255,0.10) 50%,
+    rgba(255,255,255,0.04) 100%);
+  background-size: 200% 100%;
+  animation: skelShimmer 1.4s ease-in-out infinite;
+  margin-bottom: 10px;
+}
+.skel-bar:last-child { margin-bottom: 0; }
+@keyframes skelShimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
 
 /* ── Accessibility: respect reduced motion preference ── */
 @media (prefers-reduced-motion: reduce) {

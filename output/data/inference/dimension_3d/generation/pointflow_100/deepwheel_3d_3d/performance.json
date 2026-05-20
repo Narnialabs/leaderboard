@@ -1,0 +1,18 @@
+{
+    "model_parameters": 1426842,
+    "training_time_sec": 243116.50132107735,
+    "inference_time_sec": 104.21613883972168,
+    "total_generated": 500,
+    "training_time_sec_resume_recorded": 73551.50132107735,
+    "training_time_sec_prior_wall_sacct": 86405,
+    "training_time_sec_prior_pure_estimate": 83165.0,
+    "training_time_sec_intermediate_runs_sec": 86400,
+    "training_time_sec_correction_method": "sacct_minus_val_estimate",
+    "training_time_sec_correction_inputs": {
+        "prior_jobid": "5252_18",
+        "prior_last_epoch": 580,
+        "val_event_seconds": 60.0,
+        "check_every_n_epoch": 10,
+        "min_epochs_before_validation": 50
+    }
+}

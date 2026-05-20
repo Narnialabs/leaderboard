@@ -31,9 +31,10 @@
 })();
 
 const NAV_PAGES = [
-  { id: 'overview', label: 'Overview', href: 'index.html' },
-  { id: 'leaderboard', label: 'Leaderboard', href: 'leaderboard.html' },
-  { id: 'inference', label: 'Inference Explorer', href: 'inference-explorer.html' },
+  { id: 'overview',  label: 'Overview',  href: 'index.html' },
+  { id: 'benchmark', label: 'Benchmark', href: 'benchmark.html' },
+  { id: 'analysis',  label: 'Analysis',  href: 'analysis.html' },
+  { id: 'explorer',  label: 'Explorer',  href: 'explorer.html' },
 ];
 
 function initNav(activePageId) {
@@ -43,7 +44,6 @@ function initNav(activePageId) {
     <a href="index.html" class="nav-brand">
       <div>
         <div class="nav-brand-text">Narnia Labs</div>
-        <div class="nav-brand-sub">Engineering AI Leaderboard</div>
       </div>
     </a>
     <button class="nav-hamburger" aria-label="Menu">&#9776;</button>
@@ -59,3 +59,89 @@ function initNav(activePageId) {
   nav.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', () => links.classList.remove('mobile-open')));
   document.body.insertBefore(nav, document.body.firstChild);
 }
+
+// ── Data-table edge fade ──
+// Hides the visible horizontal scrollbar on .data-table-wrapper and applies
+// a subtle right-edge fade only when the table actually overflows AND the
+// user hasn't scrolled to the end. This makes wide BenchRank tables feel
+// natural like mobile, while still hinting that more columns exist.
+(function() {
+  function updateOverflow(el) {
+    const overflows = el.scrollWidth - el.clientWidth > 1;
+    const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1;
+    if (overflows && !atEnd) el.setAttribute('data-overflow', 'end-cut');
+    else el.removeAttribute('data-overflow');
+    // Separate flag (independent of scroll position) for cursor:grab affordance —
+    // we want the grab cursor even after the user has scrolled to the end.
+    if (overflows) el.setAttribute('data-scrollable', '');
+    else el.removeAttribute('data-scrollable');
+  }
+  function bind(el) {
+    if (el.__edgeFadeBound) return;
+    el.__edgeFadeBound = true;
+    el.addEventListener('scroll', () => updateOverflow(el), { passive: true });
+    updateOverflow(el);
+    bindDrag(el);
+  }
+  // Mouse drag-to-scroll. Touch + trackpad already scroll natively; this only
+  // kicks in for the mouse case where there's no horizontal wheel. The click
+  // capture below suppresses the synthetic click after a real drag so sortable
+  // <th> handlers don't fire when the user is just panning the table.
+  function bindDrag(el) {
+    if (el.__dragBound) return;
+    el.__dragBound = true;
+    let isDown = false, startX = 0, startScroll = 0, moved = 0;
+    el.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      if (el.scrollWidth - el.clientWidth <= 1) return;
+      if (e.altKey) return; // hold Alt to text-select instead of drag
+      isDown = true;
+      moved = 0;
+      startX = e.clientX;
+      startScroll = el.scrollLeft;
+      try { el.setPointerCapture(e.pointerId); } catch {}
+      el.style.cursor = 'grabbing';
+      el.style.userSelect = 'none';
+    });
+    el.addEventListener('pointermove', (e) => {
+      if (!isDown) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > moved) moved = Math.abs(dx);
+      el.scrollLeft = startScroll - dx;
+    });
+    const end = (e) => {
+      if (!isDown) return;
+      isDown = false;
+      el.style.cursor = '';
+      el.style.userSelect = '';
+      try { el.releasePointerCapture(e.pointerId); } catch {}
+    };
+    el.addEventListener('pointerup', end);
+    el.addEventListener('pointercancel', end);
+    el.addEventListener('click', (e) => {
+      if (moved > 4) { e.preventDefault(); e.stopPropagation(); moved = 0; }
+    }, true);
+  }
+  // Coalesce bursty mutations (table renders insert many rows at once) into
+  // a single rAF tick so we don't force layout on every appended <tr>.
+  let pending = false;
+  function schedule() {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(() => {
+      pending = false;
+      document.querySelectorAll('.data-table-wrapper').forEach(el => { bind(el); updateOverflow(el); });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', schedule);
+  } else {
+    schedule();
+  }
+  // Tables are rendered async after data loads; observe new wrappers/rows on
+  // body only (head mutations are irrelevant) and let the rAF debounce keep
+  // it cheap even on chart-heavy pages.
+  const mo = new MutationObserver(schedule);
+  mo.observe(document.body || document.documentElement, { childList: true, subtree: true });
+  window.addEventListener('resize', schedule, { passive: true });
+})();
