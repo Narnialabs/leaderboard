@@ -3,37 +3,111 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Explorer — Narnia Labs</title>
+<title>Narnia Labs - Explorer</title>
 <link rel="icon" type="image/png" href="favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Joungkyun/font-d2coding@1.3.2/d2coding.css">
 <link rel="stylesheet" href="shared/style.css">
 <link rel="stylesheet" href="shared/mobile.css">
 <script src="shared/lib/papaparse.min.js"></script>
 <script src="shared/lib/chart.umd.min.js"></script>
 <style>
   .gf-label { font-size:11px; color:rgba(255,255,255,0.45); text-transform:uppercase; letter-spacing:1px; font-weight:700; }
-  .gf-select { width:100%; background:rgba(255,255,255,0.06); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:7px 11px; font-size:14px; outline:none; margin-top:4px; }
+  .gf-select { width:100%; background:rgba(255,255,255,0.06); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:0; padding:7px 11px; font-size:14px; outline:none; margin-top:4px; }
   .gf-select option { background:#1a1a2e; }
-  .gf-pill { cursor:pointer; padding:4px 11px; font-size:13px; border-radius:6px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); transition:all 0.15s; }
-  .gf-pill.active { background:rgba(167,139,250,0.2); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
+  .gf-pill { cursor:pointer; padding:4px 11px; font-size:13px; border-radius:0; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); transition:all 0.15s; }
+  .gf-pill.active { background:rgba(153,97,255,0.2); border-color:rgba(153,97,255,0.5); color:#9961FF; }
   .gf-pill:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
 
   /* Stat-card click-to-expand — purple-tinted ring when active so users see
      which card the detail panel below corresponds to. */
   .stat-card { transition: transform 0.25s var(--ease-snappy), border-color 0.2s ease; }
-  .stat-card:hover { transform: translateY(-2px); border-color: rgba(167,139,250,0.35); }
-  .stat-card.active { border-color: rgba(167,139,250,0.6); box-shadow: 0 0 12px rgba(167,139,250,0.18); }
+  .stat-card:hover { transform: translateY(-2px); border-color: rgba(153,97,255,0.35); }
+  .stat-card.active { border-color: rgba(153,97,255,0.6); box-shadow: 0 0 12px rgba(153,97,255,0.18); }
+
+  /* Slim inventory strip — single-row click-to-expand chips that replace the
+     7-card stat grid. The chips read as inline counters; expanding a chip
+     pops the same detail panel underneath as the old card grid. */
+  .exp-strip {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px;
+  }
+  .exp-strip-title {
+    font-size: 10px; font-weight: 800; letter-spacing: 1px;
+    text-transform: uppercase; color: rgba(255,255,255,0.45);
+    padding-right: 6px;
+  }
+  .exp-strip-sep {
+    color: rgba(255,255,255,0.18); font-size: 14px; user-select: none;
+  }
+  .exp-strip-chip {
+    appearance: none; -webkit-appearance: none;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.7);
+    padding: 4px 10px; border-radius: 0; cursor: pointer;
+    font-size: 12px; font-weight: 600;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+  .exp-strip-chip:hover {
+    background: rgba(153,97,255,0.06);
+    border-color: rgba(153,97,255,0.3);
+    color: #fff;
+  }
+  .exp-strip-chip.active {
+    background: rgba(153,97,255,0.12);
+    border-color: rgba(153,97,255,0.55);
+    color: #fff;
+    box-shadow: 0 0 8px rgba(153,97,255,0.18);
+  }
+  .exp-strip-num {
+    font-weight: 800; margin-right: 4px;
+  }
+
+  /* Grouped stat detail (Field · Scalar split for prediction model counters).
+     Sub-headers carry a small count chip + a soft horizontal rule that
+     extends to the right, giving each group a clean "section" boundary
+     without locking it inside a heavy bordered box. */
+  .stat-group-head {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 7px;
+  }
+  .stat-group-label {
+    font-size: 10px; font-weight: 800; letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid currentColor;
+    border-opacity: 0.4; /* fallback, overridden by inline */
+  }
+  .stat-group-count {
+    font-size: 10px; font-weight: 700;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.3px;
+  }
+  .stat-group-sub {
+    font-size: 10px; font-style: italic;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.2px;
+  }
+  .stat-group-rule {
+    flex: 1; height: 1px; min-width: 24px;
+    margin-left: 4px;
+    align-self: center;
+    opacity: 0.7;
+  }
+  .stat-group-chips {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
 
   /* 3D Viewer */
-  .pc-viewer-container { position:relative; width:100%; border-radius:12px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
+  .pc-viewer-container { position:relative; width:100%; border-radius:0; overflow:hidden; background:var(--bg-deep); border:1px solid rgba(255,255,255,0.08); }
   .pc-viewer-container canvas { display:block; width:100% !important; height:100% !important; }
   .pc-controls { display:flex; gap:6px; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); flex-wrap:wrap; }
   .pc-controls label { font-size:10px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; }
   .pc-sample-strip { display:flex; gap:4px; flex-wrap:wrap; }
-  .pc-sample-btn { width:28px; height:28px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:11px; font-weight:700; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; }
-  .pc-sample-btn.active { background:rgba(167,139,250,0.25); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
+  .pc-sample-btn { width:28px; height:28px; border-radius:0; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:11px; font-weight:700; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; }
+  .pc-sample-btn.active { background:rgba(153,97,255,0.25); border-color:rgba(153,97,255,0.5); color:#9961FF; }
   .pc-sample-btn:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
   .pc-info { font-size:10px; color:rgba(255,255,255,0.3); padding:6px 14px; display:flex; justify-content:space-between; }
   .pc-color-btn { padding:2px 8px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:10px; cursor:pointer; transition:all 0.15s; }
@@ -41,28 +115,28 @@
 
   /* 3D Pred Viewer */
   .pred3d-viewer-wrap { display:flex; flex-direction:column; gap:8px; }
-  .pred3d-panel { position:relative; border-radius:12px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
+  .pred3d-panel { position:relative; border-radius:0; overflow:hidden; background:var(--bg-deep); border:1px solid rgba(255,255,255,0.08); }
   .pred3d-panel-label { position:absolute; top:8px; left:10px; z-index:10; font-size:11px; font-weight:700; letter-spacing:0.5px; padding:2px 8px; border-radius:4px; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); }
-  .pred3d-panel-label.pred { color:#a78bfa; }
+  .pred3d-panel-label.pred { color:#9961FF; }
   .pred3d-panel-label.gt { color:#34d399; }
   .pred3d-panel-label.error { color:#f59e0b; }
   .pred3d-canvas-wrap { width:100%; height:500px; position:relative; }
   .pred3d-stats { position:absolute; bottom:8px; right:10px; z-index:10; font-size:10px; color:rgba(255,255,255,0.5); background:rgba(0,0,0,0.5); padding:2px 8px; border-radius:4px; backdrop-filter:blur(4px); }
-  .pred3d-controls { display:flex; gap:6px; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:10px; flex-wrap:wrap; }
+  .pred3d-controls { display:flex; gap:6px; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:0; flex-wrap:wrap; }
   .pred3d-controls label { font-size:10px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; }
   .pred3d-channel-btn { padding:2px 10px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:10px; cursor:pointer; transition:all 0.15s; }
-  .pred3d-channel-btn.active { background:rgba(167,139,250,0.25); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
+  .pred3d-channel-btn.active { background:rgba(153,97,255,0.25); border-color:rgba(153,97,255,0.5); color:#9961FF; }
   .pred3d-channel-btn:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
   @media (max-width: 900px) { .pred3d-canvas-wrap { height:300px; } }
 
   /* Back button — distinct from filter pills */
   .back-btn {
-    padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 600;
+    padding: 6px 14px; border-radius: 0; font-size: 13px; font-weight: 600;
     color: var(--text-secondary); background: transparent;
     border: 1px solid rgba(255,255,255,0.12); cursor: pointer;
     transition: all 0.2s ease;
   }
-  .back-btn:hover { color: #fff; border-color: rgba(129,140,248,0.4); background: rgba(129,140,248,0.08); }
+  .back-btn:hover { color: #fff; border-color: rgba(153,97,255,0.4); background: rgba(153,97,255,0.08); }
 
   /* Disabled state for sample nav buttons */
   .gf-pill.disabled { opacity: 0.25; pointer-events: none; }
@@ -170,6 +244,40 @@
 <div>
     <!-- Default: Summary Cards -->
     <div id="summary-view">
+      <!-- Inventory strip — slim single-row summary that gives the page
+           shape at a glance (counts/categories/datasets/sizes) without
+           hijacking vertical space above the model cards.  Each chip is a
+           click-target that expands stat-detail below for the deeper view. -->
+      <div class="glass" style="padding:10px 14px; margin-bottom:16px;" id="exp-stats">
+        <div class="exp-strip">
+          <span class="exp-strip-title">Inventory</span>
+          <button class="exp-strip-chip" data-stat="categories" onclick="explorerToggleStat('categories')">
+            <span class="exp-strip-num" style="color:#9961FF;">6</span> Categories
+          </button>
+          <span class="exp-strip-sep">·</span>
+          <button class="exp-strip-chip" data-stat="3d-gen" onclick="explorerToggleStat('3d-gen')">
+            <span class="exp-strip-num" style="color:#22c55e;">6</span> 3D Gen
+          </button>
+          <button class="exp-strip-chip" data-stat="3d-pred" onclick="explorerToggleStat('3d-pred')">
+            <span class="exp-strip-num" style="color:#38bdf8;">16</span> 3D Pred
+          </button>
+          <button class="exp-strip-chip" data-stat="2d-gen" onclick="explorerToggleStat('2d-gen')">
+            <span class="exp-strip-num" style="color:#22c55e;">9</span> 2D Gen
+          </button>
+          <button class="exp-strip-chip" data-stat="2d-pred" onclick="explorerToggleStat('2d-pred')">
+            <span class="exp-strip-num" style="color:#38bdf8;">9</span> 2D Pred
+          </button>
+          <span class="exp-strip-sep">·</span>
+          <button class="exp-strip-chip" data-stat="datasets" onclick="explorerToggleStat('datasets')">
+            <span class="exp-strip-num" style="color:#f472b6;">3</span> Datasets
+          </button>
+          <button class="exp-strip-chip" data-stat="sizes" onclick="explorerToggleStat('sizes')">
+            <span class="exp-strip-num" style="color:#f59e0b;">4</span> Sizes
+          </button>
+        </div>
+        <div id="stat-detail" class="collapsible-body" style="margin-top:0;"></div>
+      </div>
+
       <!-- Each section carries data-task / data-dim so the sticky filter strip
            above can show/hide the entire .glass card via attribute matching.
            Group headers (.summary-task-group) carry the task tag too so they
@@ -216,42 +324,6 @@
         <div class="flex gap-8 flex-wrap" id="perf-cards-2d-scalar"></div>
       </div>
 
-      <!-- Overview Stats — clickable cards reveal a detail panel below
-           (mirrors index.html's roadmap interaction). Click again to collapse. -->
-      <div class="glass" style="padding:16px 20px;" id="exp-stats">
-        <div class="section-label section-label-purple" style="margin-bottom:14px;">Experiment Statistics</div>
-        <div class="flex gap-12 flex-wrap">
-          <div class="glass perf-card flex-1 stat-card" data-stat="categories"  onclick="explorerToggleStat('categories')" style="cursor:pointer;">
-            <div class="perf-value" style="color:#a78bfa;">6</div>
-            <div class="perf-label">Categories</div>
-          </div>
-          <div class="glass perf-card flex-1 stat-card" data-stat="3d-gen"      onclick="explorerToggleStat('3d-gen')" style="cursor:pointer;">
-            <div class="perf-value" style="color:#22c55e;">6</div>
-            <div class="perf-label">3D Gen Models</div>
-          </div>
-          <div class="glass perf-card flex-1 stat-card" data-stat="3d-pred"     onclick="explorerToggleStat('3d-pred')" style="cursor:pointer;">
-            <div class="perf-value" style="color:#38bdf8;">16</div>
-            <div class="perf-label">3D Pred Models<br/><span style="font-size:9px; color:rgba(255,255,255,0.4);">(6 field + 10 scalar)</span></div>
-          </div>
-          <div class="glass perf-card flex-1 stat-card" data-stat="2d-gen"      onclick="explorerToggleStat('2d-gen')" style="cursor:pointer;">
-            <div class="perf-value" style="color:#22c55e;">9</div>
-            <div class="perf-label">2D Gen Models</div>
-          </div>
-          <div class="glass perf-card flex-1 stat-card" data-stat="2d-pred"     onclick="explorerToggleStat('2d-pred')" style="cursor:pointer;">
-            <div class="perf-value" style="color:#38bdf8;">9</div>
-            <div class="perf-label">2D Pred Models<br/><span style="font-size:9px; color:rgba(255,255,255,0.4);">(2 field + 7 scalar)</span></div>
-          </div>
-          <div class="glass perf-card flex-1 stat-card" data-stat="sizes"       onclick="explorerToggleStat('sizes')" style="cursor:pointer;">
-            <div class="perf-value" style="color:#f59e0b;">4</div>
-            <div class="perf-label">Sizes (S/M/L/XL)</div>
-          </div>
-          <div class="glass perf-card flex-1 stat-card" data-stat="datasets"    onclick="explorerToggleStat('datasets')" style="cursor:pointer;">
-            <div class="perf-value" style="color:#f472b6;">3</div>
-            <div class="perf-label">Datasets<br/><span style="font-size:9px; color:rgba(255,255,255,0.4);">(DeepJEB, DeepWheel, DrivAerNet)</span></div>
-          </div>
-        </div>
-        <div id="stat-detail" class="collapsible-body" style="margin-top:0;"></div>
-      </div>
     </div>
 
     <!-- Detail View (shown when selecting a model) -->
@@ -431,7 +503,7 @@ function applyExplorerFilter() {
     counter.textContent = `${visibleTotal} / ${grandTotal} models`;
     counter.style.color = (visibleTotal === grandTotal)
       ? 'rgba(255,255,255,0.45)'
-      : 'rgba(167,139,250,0.85)';
+      : 'rgba(153,97,255,0.85)';
   }
 
   document.querySelectorAll('.summary-task-group').forEach(el => {
@@ -482,7 +554,7 @@ window.explorerSetFilter = explorerSetFilter;
 // a paragraph + chip list explaining what's behind the headline number.
 const _STAT_DETAIL = {
   categories: {
-    color: '#a78bfa',
+    color: '#9961FF',
     title: '6 model categories',
     body: 'Two output dimensions × three task families. Each cell holds a full model lineup trained at four data scales.',
     chips: ['3D Generation', '2D Generation', '3D Field Prediction', '2D Field Prediction', '3D Scalar Prediction', '2D Scalar Prediction'],
@@ -497,7 +569,10 @@ const _STAT_DETAIL = {
     color: '#38bdf8',
     title: '16 × 3D Prediction models',
     body: '6 field-prediction networks (point-cloud → per-point displacement / pressure / velocity) + 10 scalar-prediction networks (point-cloud → mass / natural frequency).',
-    chips: ['Transolver++', 'Transolver', 'AB-UPT', 'PointNet', 'RegDGCNN', 'GeoFNO', '— Scalar —', 'PointNet', 'PointNet++', 'PointNet++ Lite', 'DGCNN', 'PCT', 'PCT-Small', 'Point Transformer', 'PT-Small', 'PointMLP', 'PointMLP-Elite'],
+    groups: [
+      { label: 'Field', sub: 'point-cloud → per-point', chips: ['Transolver++', 'Transolver', 'AB-UPT', 'PointNet', 'RegDGCNN', 'GeoFNO'] },
+      { label: 'Scalar', sub: 'point-cloud → 1 value', chips: ['PointNet', 'PointNet++', 'PointNet++ Lite', 'DGCNN', 'PCT', 'PCT-Small', 'Point Transformer', 'PT-Small', 'PointMLP', 'PointMLP-Elite'] },
+    ],
   },
   '2d-gen': {
     color: '#22c55e',
@@ -509,7 +584,10 @@ const _STAT_DETAIL = {
     color: '#38bdf8',
     title: '15 × 2D Prediction models',
     body: '8 field-prediction (RGB → depth) + 7 scalar-prediction (RGB → mass / mode) — U-Net family, FPN, depth-pretrained DPT/GLPN, plus CNN/ViT backbones for scalars.',
-    chips: ['U-Net', 'ResNet-UNet', 'Attention U-Net', 'U-Net++', 'SegFormer-B0', 'FPN', 'GLPN', 'DPT-Hybrid', '— Scalar —', 'SimpleCNN', 'ResNet-18', 'ResNet-34', 'EfficientNet-B0', 'ConvNeXt-Tiny', 'DenseNet-121', 'ViT-Tiny'],
+    groups: [
+      { label: 'Field', sub: 'RGB → depth map', chips: ['U-Net', 'ResNet-UNet', 'Attention U-Net', 'U-Net++', 'SegFormer-B0', 'FPN', 'GLPN', 'DPT-Hybrid'] },
+      { label: 'Scalar', sub: 'RGB → 1 value', chips: ['SimpleCNN', 'ResNet-18', 'ResNet-34', 'EfficientNet-B0', 'ConvNeXt-Tiny', 'DenseNet-121', 'ViT-Tiny'] },
+    ],
   },
   sizes: {
     color: '#f59e0b',
@@ -529,7 +607,7 @@ function explorerToggleStat(key) {
   const detail = document.getElementById('stat-detail');
   if (!detail) return;
   const same = _activeStatKey === key;
-  document.querySelectorAll('.stat-card').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.stat-card, .exp-strip-chip').forEach(el => el.classList.remove('active'));
   if (same) {
     _activeStatKey = null;
     detail.classList.remove('expanded');
@@ -537,21 +615,41 @@ function explorerToggleStat(key) {
     return;
   }
   _activeStatKey = key;
-  const card = document.querySelector(`.stat-card[data-stat="${key}"]`);
-  if (card) card.classList.add('active');
+  const chip = document.querySelector(`.stat-card[data-stat="${key}"], .exp-strip-chip[data-stat="${key}"]`);
+  if (chip) chip.classList.add('active');
   const d = _STAT_DETAIL[key];
   if (!d) return;
-  const chips = d.chips.map(c => {
-    const isDivider = c.startsWith('—');
-    return isDivider
-      ? `<span style="font-size:10px; color:rgba(255,255,255,0.35); text-transform:uppercase; letter-spacing:0.5px; padding:2px 6px;">${c}</span>`
-      : `<span class="purple-badge" style="background:${d.color}1a; border-color:${d.color}55; color:${d.color};">${c}</span>`;
-  }).join('');
+  const renderChip = (c) => `<span class="purple-badge" style="background:${d.color}1a; border-color:${d.color}55; color:${d.color};">${c}</span>`;
+
+  // Stats with grouped sub-categories (e.g., 3d-pred / 2d-pred → Field · Scalar)
+  // render each group as a labelled row with a divider above it, instead of
+  // dumping every chip in one flat wrap.  Visually it reads as "two distinct
+  // model families share this counter" rather than a single long list.
+  let chipsBlock;
+  if (d.groups) {
+    chipsBlock = d.groups.map((g, i) => `
+      <div class="stat-group" ${i > 0 ? 'style="margin-top:12px;"' : ''}>
+        <div class="stat-group-head">
+          <span class="stat-group-label" style="color:${d.color};">${g.label}</span>
+          <span class="stat-group-count">${g.chips.length} ${g.chips.length === 1 ? 'model' : 'models'}</span>
+          ${g.sub ? `<span class="stat-group-sub">${g.sub}</span>` : ''}
+          <span class="stat-group-rule" style="background:linear-gradient(90deg, ${d.color}55, transparent);"></span>
+        </div>
+        <div class="stat-group-chips">${g.chips.map(renderChip).join('')}</div>
+      </div>
+    `).join('');
+  } else {
+    chipsBlock = `<div style="display:flex; flex-wrap:wrap; gap:6px;">${
+      d.chips.map(c => c.startsWith('—')
+        ? `<span style="font-size:10px; color:rgba(255,255,255,0.35); text-transform:uppercase; letter-spacing:0.5px; padding:2px 6px;">${c}</span>`
+        : renderChip(c)).join('')
+    }</div>`;
+  }
   detail.innerHTML = `
     <div style="padding:14px 16px 4px;">
       <div style="font-size:13px; font-weight:800; color:${d.color}; margin-bottom:6px;">${d.title}</div>
       <div style="font-size:12px; color:rgba(255,255,255,0.6); line-height:1.6; margin-bottom:10px;">${d.body}</div>
-      <div style="display:flex; flex-wrap:wrap; gap:6px;">${chips}</div>
+      ${chipsBlock}
     </div>`;
   detail.classList.add('expanded');
 }
@@ -723,7 +821,9 @@ function buildDetailSwitcher(treeId, model, size, dataset) {
       title="${m.name}">${_switcherModelLabel(m.name)}</button>`;
   }).join('');
 
-  const sizePills = sizes.map(s => {
+  // Render XL → L → M → S so the largest (and default-landed) bucket sits on
+  // the left.  `sizes` is stored ascending; reverse a shallow copy for display.
+  const sizePills = [...sizes].reverse().map(s => {
     const code = sizeMap[s] || String(s);
     const isActive = String(s) === String(size);
     return `<button class="filter-pill ${isActive ? 'active' : ''}"
@@ -818,10 +918,10 @@ async function selectExperiment(key) {
   if (!exp) {
     document.getElementById('detail-breadcrumb').textContent = `Unknown experiment: ${treeId}`;
     document.getElementById('detail-content').innerHTML = `
-      <div style="padding:18px 20px; margin-top:14px; background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.18); border-radius:10px; color:var(--red-400, #f87171); font-size:13px;">
+      <div style="padding:18px 20px; margin-top:14px; background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.18); border-radius:0; color:var(--red-400, #f87171); font-size:13px;">
         <div style="font-weight:700; margin-bottom:6px;">No experiment registered for "${treeId}"</div>
         <div style="color:rgba(255,255,255,0.55); font-size:12px;">This URL may have been generated before a recent rename. Try
-          <a href="#view=summary" style="color:#a78bfa;">back to the gallery</a> and pick a model card.</div>
+          <a href="#view=summary" style="color:#9961FF;">back to the gallery</a> and pick a model card.</div>
       </div>`;
     document.getElementById('detail-perf').innerHTML = '';
     return;
@@ -850,10 +950,10 @@ async function selectExperiment(key) {
     if (resp.ok) {
       const perf = await resp.json();
       perfDiv.innerHTML = `
-        <div class="section-label" style="color:#a78bfa; margin-bottom:12px;">Performance — ${displayModelName(model)} · ${sizeCode}</div>
+        <div class="section-label" style="color:#9961FF; margin-bottom:12px;">Performance — ${displayModelName(model)} · ${sizeCode}</div>
         <div class="flex gap-12">
           <div class="glass perf-card flex-1">
-            <div class="perf-value" style="color:#a78bfa; font-size:20px;">${(perf.model_parameters / 1e6).toFixed(2)}M</div>
+            <div class="perf-value" style="color:#9961FF; font-size:20px;">${(perf.model_parameters / 1e6).toFixed(2)}M</div>
             <div class="perf-label">Parameters</div>
           </div>
           <div class="glass perf-card flex-1">
@@ -946,10 +1046,10 @@ async function selectExperiment(key) {
         data-target="${v}" onclick="window._scalarSelectTarget('${v}', this)">${v}</button>`;
     });
     html += '</div>';
-    html += '<div style="position:relative; height:380px; background:rgba(0,0,0,0.25); border-radius:8px; padding:8px;"><canvas id="scalar-scatter"></canvas></div>';
+    html += '<div style="position:relative; height:380px; background:rgba(0,0,0,0.25); border-radius:0; padding:8px;"><canvas id="scalar-scatter"></canvas></div>';
     html += '<div id="scalar-metrics-row" style="margin-top:10px; font-size:12px; color:rgba(255,255,255,0.7);"></div>';
     html += `<div style="margin-top:18px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.06);">
-      <div class="section-label" style="color:#a78bfa; margin-bottom:10px;">Per-Sample Gallery</div>
+      <div class="section-label" style="color:#9961FF; margin-bottom:10px;">Per-Sample Gallery</div>
       <div id="scalar-gallery-content"></div>
     </div>`;
     contentDiv.innerHTML = html;
@@ -1594,10 +1694,10 @@ function createViewer(container, width, height) {
   cleanupViewer();
 
   pcScene = new THREE.Scene();
-  pcScene.background = new THREE.Color(0x08051a);
+  pcScene.background = new THREE.Color(0x0C0C0C);
 
   pcCamera = new THREE.PerspectiveCamera(45, width / height, 0.01, 100);
-  pcCamera.position.set(2.1, 1.4, 2.1);
+  pcCamera.position.set(2.4, 0.4, 1.6);
 
   pcRenderer = new THREE.WebGLRenderer({ antialias: true });
   pcRenderer.setSize(width, height);
@@ -1628,11 +1728,9 @@ function createViewer(container, width, height) {
     if (wrap) wrap.classList.add('zoom-active');
   });
 
-  // Subtle grid
-  const gridHelper = new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30);
-  pcScene.add(gridHelper);
-
-  // Ambient light for visibility
+  // Ambient light for visibility (XY-plane grid intentionally omitted — the
+  // viewer reads cleaner without it, and the point cloud carries its own
+  // sense of scale via auto-rotation + zoom controls).
   pcScene.add(new THREE.AmbientLight(0xffffff, 0.5));
 
   // Handle WebGL context loss
@@ -1753,6 +1851,13 @@ function loadPointCloud(positions, dataset) {
   pcCurrentData = positions;
   pcNumPoints = positions.length / 3;
 
+  // pcPoints existing means this is a *sample switch*, not the first load
+  // for this model/size/dataset combo (initPointCloudViewer resets pcPoints
+  // to null before its first _pcLoadSample call). On sample switches the
+  // user's camera state (position / zoom / auto-rotate) is preserved so
+  // they can inspect the same region across consecutive samples.
+  const isFirstLoad = !pcPoints;
+
   if (pcPoints) {
     pcScene.remove(pcPoints);
     pcPoints.geometry.dispose();
@@ -1776,18 +1881,20 @@ function loadPointCloud(positions, dataset) {
   pcPoints = new THREE.Points(geometry, material);
   pcScene.add(pcPoints);
 
-  // Reset camera to center on cloud
-  geometry.computeBoundingSphere();
-  const center = geometry.boundingSphere.center;
-  pcControls.target.copy(center);
-  // DeepWheel: camera distance = 5 × bounding radius so every sample lands
-  // at the same on-screen size (different generators output wheels at
-  // wildly different scales).  DeepJEB / DrivAerNet keep their fixed
-  // world-unit offset because samples are already consistently normalised.
-  const baseLen = 3.29;  // = |(2.1, 1.4, 2.1)|
-  const radius = (geometry.boundingSphere && geometry.boundingSphere.radius) || 1;
-  const k = isDeepWheel ? (5.0 * radius / baseLen) : 1.0;
-  pcCamera.position.set(center.x + 2.1 * k, center.y + 1.4 * k, center.z + 2.1 * k);
+  if (isFirstLoad) {
+    // First load → set the default front-quarter camera framing.
+    // DeepWheel: camera distance = 5 × bounding radius so every sample
+    // lands at the same on-screen size (different generators output wheels
+    // at wildly different scales).  DeepJEB / DrivAerNet keep their fixed
+    // world-unit offset because samples are already consistently normalised.
+    geometry.computeBoundingSphere();
+    const center = geometry.boundingSphere.center;
+    pcControls.target.copy(center);
+    const baseLen = Math.sqrt(2.4*2.4 + 0.4*0.4 + 1.6*1.6);  // ≈ 2.92
+    const radius = (geometry.boundingSphere && geometry.boundingSphere.radius) || 1;
+    const k = isDeepWheel ? (5.0 * radius / baseLen) : 1.0;
+    pcCamera.position.set(center.x + 2.4 * k, center.y + 0.4 * k, center.z + 1.6 * k);
+  }
   pcControls.update();
 }
 
@@ -1869,6 +1976,11 @@ window.initPointCloudViewer = async function(model, size, dataset) {
       strip.querySelectorAll('.pc-sample-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
     }
+    // Sample switches intentionally do NOT touch camera/controls — only the
+    // point geometry is swapped under the hood. This preserves whatever
+    // position/zoom/auto-rotate state the user has set so they can inspect
+    // the same region across consecutive samples (e.g., wheel hub at the
+    // same angle, multiple bracket samples from a stress-comparison view).
     const myToken = ++_pcSampleToken;
 
     const binPath = `output/gen3d/${model}/${dataset}/${size}/sample_${String(idx).padStart(5, '0')}.bin`;
@@ -1902,7 +2014,7 @@ window.initPointCloudViewer = async function(model, size, dataset) {
           <div style="text-align:center;">
             <div style="color:rgba(255,255,255,0.4); margin-bottom:8px;">Point cloud not available</div>
             <div style="font-size:11px; color:rgba(255,255,255,0.25);">
-              Run <code style="background:rgba(255,255,255,0.05); padding:1px 6px; border-radius:3px;">python scripts/convert_gen_pointcloud.py</code> to generate .bin files
+              Run <code style="background:rgba(255,255,255,0.05); padding:1px 6px; border-radius:1px;">python scripts/convert_gen_pointcloud.py</code> to generate .bin files
             </div>
           </div>`;
       }
@@ -2006,10 +2118,10 @@ function colorByField(values, vmin, vmax, cmap) {
 
 function createEvalPanel(container, width, height, labelClass, labelText) {
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x08051a);
+  scene.background = new THREE.Color(0x0C0C0C);
 
   const camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 100);
-  camera.position.set(2.1, 1.4, 2.1);
+  camera.position.set(2.4, 0.4, 1.6);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(width, height);
@@ -2025,8 +2137,6 @@ function createEvalPanel(container, width, height, labelClass, labelText) {
   controls.minDistance = 0.5;
   controls.maxDistance = 20;
 
-  const grid = new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30);
-  scene.add(grid);
   scene.add(new THREE.AmbientLight(0xffffff, 0.5));
 
   // Zoom activation on click — will be wired to sibling panels after creation
@@ -2084,6 +2194,12 @@ function setEvalPointCloud(panel, positions, fieldValues, vmin, vmax, isDrivAerN
   // drivaernet_3d_2d (not its own dataset id). Detect by target_key so the
   // body-surface camera framing still applies.
   const isBodyPressure = targetKey === 'body_pressure' || dataset === 'drivaernet_pressure_3d_3d';
+  // Detect first load: panel.points is null before the first call to this
+  // function (initEvalViewer assigns panel.points only after the first
+  // setEvalPointCloud).  On subsequent calls (sample switch, component
+  // switch) we preserve the user's camera framing so consecutive views
+  // share the same vantage point.
+  const isFirstLoad = !panel.points;
   if (panel.points) {
     panel.scene.remove(panel.points);
     panel.points.geometry.dispose();
@@ -2110,24 +2226,26 @@ function setEvalPointCloud(panel, positions, fieldValues, vmin, vmax, isDrivAerN
   panel.points = new THREE.Points(geometry, material);
   panel.scene.add(panel.points);
 
-  geometry.computeBoundingBox();
-  const center = new THREE.Vector3();
-  geometry.boundingBox.getCenter(center);
-  panel.controls.target.copy(center);
-  if (isDrivAerNet && !isBodyPressure) {
-    const tgtY = center.y * 0.55;
-    const tgtX = center.x * 1.50;
-    panel.controls.target.set(tgtX, tgtY, center.z);
-    panel.camera.position.set(tgtX + 0.8, tgtY, center.z + 5.8);
-  } else if (isBodyPressure) {
-    // Body-surface pressure: full car in unit-sphere space — side view, slightly elevated
-    panel.controls.target.set(center.x, center.y, center.z);
-    panel.camera.position.set(center.x, center.y + 0.3, center.z + 2.5);
-  } else {
-    // DeepJEB: rotation axis at object center, slight offset for colorbar clearance
-    panel.camera.position.set(center.x, center.y + 0.3, center.z + 2.3);
-    const vw = panel.renderer.domElement.width, vh = panel.renderer.domElement.height;
-    panel.camera.setViewOffset(vw, vh, vw * 0.02, 0, vw, vh);
+  if (isFirstLoad) {
+    geometry.computeBoundingBox();
+    const center = new THREE.Vector3();
+    geometry.boundingBox.getCenter(center);
+    panel.controls.target.copy(center);
+    if (isDrivAerNet && !isBodyPressure) {
+      const tgtY = center.y * 0.55;
+      const tgtX = center.x * 1.50;
+      panel.controls.target.set(tgtX, tgtY, center.z);
+      panel.camera.position.set(tgtX + 0.8, tgtY, center.z + 5.8);
+    } else if (isBodyPressure) {
+      // Body-surface pressure: full car in unit-sphere space — side view, slightly elevated
+      panel.controls.target.set(center.x, center.y, center.z);
+      panel.camera.position.set(center.x, center.y + 0.3, center.z + 2.5);
+    } else {
+      // DeepJEB: rotation axis at object center, slight offset for colorbar clearance
+      panel.camera.position.set(center.x, center.y + 0.3, center.z + 2.3);
+      const vw = panel.renderer.domElement.width, vh = panel.renderer.domElement.height;
+      panel.camera.setViewOffset(vw, vh, vw * 0.02, 0, vw, vh);
+    }
   }
   panel.controls.update();
 }
@@ -2343,8 +2461,8 @@ window.renderDetailScalarGallery = async function(targetKey) {
     loadScalarPredJson(ctx.model, ctx.size, ctx.dataset),
   ]);
   if (!manifest) {
-    root.innerHTML = `<div style="padding:14px;color:rgba(255,255,255,0.4);font-size:12px;background:rgba(255,255,255,0.025);border:1px dashed rgba(255,255,255,0.12);border-radius:8px;text-align:center;">
-      Per-sample shapes not exported yet — run <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:3px;">python tools/websites/scripts/convert_pred_scalar_shapes.py</code>
+    root.innerHTML = `<div style="padding:14px;color:rgba(255,255,255,0.4);font-size:12px;background:rgba(255,255,255,0.025);border:1px dashed rgba(255,255,255,0.12);border-radius:0;text-align:center;">
+      Per-sample shapes not exported yet — run <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:1px;">python tools/websites/scripts/convert_pred_scalar_shapes.py</code>
     </div>`;
     return;
   }
@@ -2355,7 +2473,7 @@ window.renderDetailScalarGallery = async function(targetKey) {
     const slot = sample.slot;
     const gtVal = sample.gt[targetKey];
     const predVal = target ? target.pred[slot] : NaN;
-    return scalarBuildCard(slot, scalarBuildShapeHTML(ctx.dataset, slot), gtVal, predVal, range, '#a78bfa');
+    return scalarBuildCard(slot, scalarBuildShapeHTML(ctx.dataset, slot), gtVal, predVal, range, '#9961FF');
   }).join('');
   root.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));gap:10px;">${cards}</div>
     <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.3);text-align:center;">
@@ -2422,8 +2540,8 @@ function drawScalarScatter(targetKey) {
         {
           label: 'pred vs gt',
           data: points,
-          backgroundColor: 'rgba(167,139,250,0.55)',
-          borderColor: 'rgba(167,139,250,0.9)',
+          backgroundColor: 'rgba(153,97,255,0.55)',
+          borderColor: 'rgba(153,97,255,0.9)',
           pointRadius: 3,
           pointHoverRadius: 5,
         },
@@ -2633,6 +2751,12 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
       sampleStrip.querySelectorAll('.pc-sample-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
     }
+    // Camera/controls intentionally left untouched on sample switch — only
+    // the field data swaps. Same rationale as `_pcLoadSample`: the user
+    // may have positioned the viewer to inspect a specific region (e.g.,
+    // stress peak around a bolt hole) and wants to compare that exact
+    // view across samples. Component switches (`_evalSetChannel`) DO
+    // re-arm auto-rotate because they swap physical quantities entirely.
     await loadEvalData(idx, evalCurrentChannel);
   };
 
@@ -2642,6 +2766,15 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
       chStrip.querySelectorAll('.pred3d-channel-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
     }
+    // Re-arm auto-rotate when the user switches to a different component.
+    // Rationale: switching component (disp_x → stress, etc.) is effectively
+    // a new field — the previous "stopped" state belongs to the previous
+    // view. Same idea is applied to target switches (those go through
+    // selectExperiment which already resets `evalAutoRotate = true`).
+    evalAutoRotate = true;
+    evalPanels.forEach(p => { if (p.controls) p.controls.autoRotate = true; });
+    const rotBtn = document.getElementById('pred3d-rotate-btn');
+    if (rotBtn) rotBtn.classList.add('active');
     await loadEvalData(currentSampleIdx, chIdx);
   };
 
@@ -2764,7 +2897,7 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
             <div style="text-align:center;">
               <div style="color:rgba(255,255,255,0.4); margin-bottom:6px;">Data not available</div>
               <div style="font-size:10px; color:rgba(255,255,255,0.25);">
-                Run <code style="background:rgba(255,255,255,0.05); padding:1px 6px; border-radius:3px;">python scripts/convert_pred_pointcloud.py</code>
+                Run <code style="background:rgba(255,255,255,0.05); padding:1px 6px; border-radius:1px;">python scripts/convert_pred_pointcloud.py</code>
               </div>
             </div>`;
         }
@@ -2814,10 +2947,10 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   const w = wrap.clientWidth, h = wrap.clientHeight;
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x08051a);
+  scene.background = new THREE.Color(0x0C0C0C);
   const camera = new THREE.PerspectiveCamera(45, w/h, 0.01, 100);
   const camDist = isMobileCmp ? 1.35 : 1.0;
-  camera.position.set(2.1 * camDist, 1.4 * camDist, 2.1 * camDist);
+  camera.position.set(2.4 * camDist, 0.4 * camDist, 1.6 * camDist);
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(w, h);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -2827,7 +2960,6 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   controls.enableZoom = false;
   controls.autoRotate = true; controls.autoRotateSpeed = 0.25;
   controls.minDistance = 0.5; controls.maxDistance = 20;
-  scene.add(new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30));
 
   // Slow down autoRotate to 66% after user interaction
   controls.addEventListener('start', () => {
@@ -2932,7 +3064,7 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
       const k = isDeepWheel
         ? (5.0 * radius / baseLen)
         : (isDriv ? (1.0 / 1.1) : 1.0);
-      camera.position.set(c.x + 1.5*k*mz, c.y + 1.0*k*mz, c.z + 1.5*k*mz);
+      camera.position.set(c.x + 1.7*k*mz, c.y + 0.3*k*mz, c.z + 1.1*k*mz);
       controls.update();
     } catch {
       if (ld) ld.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,0.4);font-size:11px;">Sample ${idx} N/A</div>`;
@@ -2966,7 +3098,7 @@ window.initCmpEvalViewer = async function(el) {
     : `flex:1;min-width:0;position:relative;`;
 
   el.innerHTML = `
-    <div style="border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);">
+    <div style="border-radius:0;overflow:hidden;border:1px solid rgba(255,255,255,0.06);">
       <div class="lb-pred3d-row" style="${rowStyle}">
         <div class="pred3d-panel" style="${panelStyle}">
           <div class="pred3d-panel-label gt">GT</div>
@@ -2982,7 +3114,7 @@ window.initCmpEvalViewer = async function(el) {
           <div class="pred3d-stats" id="${id}-stats">—</div>
         </div>
       </div>
-      <div style="display:flex;gap:8px;padding:6px 12px;background:rgba(255,255,255,0.03);border-top:1px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(167,139,250,0.7);font-weight:700;">
+      <div style="display:flex;gap:8px;padding:6px 12px;background:rgba(255,255,255,0.03);border-top:1px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(153,97,255,0.7);font-weight:700;">
         ${tk} · ${channels[chIdx]} · #${sampleIdx}
       </div>
     </div>`;
@@ -2994,12 +3126,12 @@ window.initCmpEvalViewer = async function(el) {
 
   const isMobileCmpPred = window.matchMedia('(max-width: 768px)').matches;
   function mkPanel(cont) {
-    const s = new THREE.Scene(); s.background = new THREE.Color(0x08051a);
+    const s = new THREE.Scene(); s.background = new THREE.Color(0x0C0C0C);
     const camDist = isMobileCmpPred ? 1.35 : 1.0;
-    const cam = new THREE.PerspectiveCamera(45,w/h,0.01,100); cam.position.set(2.1*camDist,1.4*camDist,2.1*camDist);
+    const cam = new THREE.PerspectiveCamera(45,w/h,0.01,100); cam.position.set(2.4*camDist,0.4*camDist,1.6*camDist);
     const ren = new THREE.WebGLRenderer({antialias:true}); ren.setSize(w,h); ren.setPixelRatio(Math.min(window.devicePixelRatio,2)); cont.appendChild(ren.domElement);
     const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.enableZoom=false; ctrl.autoRotate=true; ctrl.autoRotateSpeed=0.25; ctrl.minDistance=0.5; ctrl.maxDistance=20;
-    s.add(new THREE.GridHelper(2,10,0x1a1045,0x140e30)); s.add(new THREE.AmbientLight(0xffffff,0.5));
+    s.add(new THREE.AmbientLight(0xffffff,0.5));
     return {scene:s,camera:cam,renderer:ren,controls:ctrl,points:null,carMesh:null,container:cont};
   }
 
@@ -3128,7 +3260,7 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
 
   el.innerHTML = '';
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x08051a);
+  scene.background = new THREE.Color(0x0C0C0C);
   const camera = new THREE.PerspectiveCamera(45, w / h, 0.01, 100);
   // DeepWheel point clouds have their rotation axis along Z (verified: Z range
   // ~[-0.46, 0.33], std 0.25 vs X/Y std ~0.52). Camera placed on +Z and looking

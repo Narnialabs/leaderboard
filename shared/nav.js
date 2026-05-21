@@ -56,7 +56,27 @@ function initNav(activePageId) {
   const hamburger = nav.querySelector('.nav-hamburger');
   const links = nav.querySelector('.nav-links');
   hamburger.addEventListener('click', () => links.classList.toggle('mobile-open'));
-  nav.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', () => links.classList.remove('mobile-open')));
+  // Clicking the nav link for the page you're already on should reset to the
+  // bare URL — without this, browsers treat a same-path link as a hash update
+  // and the user is stuck on whatever state (?dim=...#cat=...) they navigated
+  // in with.  preventDefault + location.assign forces a clean reload to the
+  // base href.
+  nav.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      links.classList.remove('mobile-open');
+      const href = link.getAttribute('href');
+      const pageOnly = window.location.pathname.split('/').pop() || 'index.html';
+      if (href === pageOnly && (window.location.search || window.location.hash)) {
+        // Same-document navigation: browsers won't reload when only hash/query
+        // differ, so the page would stay on its current state and the URL bar
+        // would never clear.  Clear the URL via replaceState first, then force
+        // a true reload so the page re-inits from defaults.
+        e.preventDefault();
+        history.replaceState(null, '', href);
+        window.location.reload();
+      }
+    });
+  });
   document.body.insertBefore(nav, document.body.firstChild);
 }
 

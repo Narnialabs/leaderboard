@@ -618,7 +618,7 @@ const CATEGORY_ORDER_3D_EVAL = CATEGORY_ORDER_PRED;
 const CATEGORY_COLORS = {
   'Efficiency':           'rgba(56,189,248,0.12)',
   'Fidelity':             'rgba(52,211,153,0.1)',
-  'Diversity':            'rgba(167,139,250,0.1)',
+  'Diversity':            'rgba(153,97,255,0.1)',
   'Manifold Quality':     'rgba(20,184,166,0.1)',
   'Absolute Error':       'rgba(248,113,113,0.1)',
   'Relative Error':       'rgba(251,146,60,0.1)',
@@ -633,7 +633,7 @@ const CATEGORY_COLORS = {
 const CATEGORY_TEXT_COLORS = {
   'Efficiency':           '#38bdf8',
   'Fidelity':             '#34d399',
-  'Diversity':            '#a78bfa',
+  'Diversity':            '#9961FF',
   'Manifold Quality':     '#14b8a6',
   'Absolute Error':       '#f87171',
   'Relative Error':       '#fb923c',
@@ -701,8 +701,8 @@ function shortMetricLabel(name) {
     .replace(' (%)','(%)')
     .replace(' ↑','')
     .replace(' ↓','')
-    .replace('Training Time', 'Train T.')
-    .replace('Inference Time', 'Inf. T.')
+    .replace('Training Time', 'Train Time')
+    .replace('Inference Time', 'Infer Time')
     .replace('Parameters', 'Params');
 }
 

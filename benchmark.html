@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Benchmark — Narnia Labs</title>
+<title>Narnia Labs - Benchmark</title>
 <link rel="icon" type="image/png" href="favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Joungkyun/font-d2coding@1.3.2/d2coding.css">
 <link rel="stylesheet" href="shared/style.css">
 <link rel="stylesheet" href="shared/mobile.css">
 <script src="shared/lib/papaparse.min.js"></script>
@@ -27,7 +27,7 @@
     position: absolute;
     bottom: 0; left: 0; right: 0;
     height: 48px;
-    background: linear-gradient(to bottom, transparent, rgba(10,5,32,0.95));
+    background: linear-gradient(to bottom, transparent, rgba(12,12,12,0.95));
     pointer-events: none;
     z-index: 2;
   }
@@ -41,7 +41,7 @@
     margin-top: 4px;
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 8px;
+    border-radius: 0;
     color: rgba(255,255,255,0.5);
     font-size: 11px;
     font-weight: 600;
@@ -50,16 +50,18 @@
     letter-spacing: 0.3px;
   }
   .metrics-expand-btn:hover {
-    background: rgba(124,58,237,0.1);
-    border-color: rgba(124,58,237,0.3);
-    color: #a78bfa;
+    background: rgba(101,34,225,0.1);
+    border-color: rgba(101,34,225,0.3);
+    color: #9961FF;
   }
 
-  /* Efficiency toggle switch */
+  /* Efficiency toggle switch — pill track matches the circular knob.
+     Pill is the one case where DESIGN.md's "small badges only" rule
+     applies (the toggle is a 32px functional micro-element). */
   .toggle-switch {
     width: 32px; height: 16px;
     background: var(--glass-border, rgba(255,255,255,0.1));
-    border-radius: 8px;
+    border-radius: 9999px;
     position: relative;
     transition: background 0.2s;
     cursor: pointer;
@@ -73,16 +75,17 @@
     position: absolute;
     top: 2px; left: 2px;
     transition: left 0.2s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.35);
   }
   .toggle-switch.active .toggle-knob { left: 18px; }
 
   /* 3D Point Cloud Viewer (leaderboard) */
-  .lb-pc-wrap { position:relative; width:100%; height:360px; border-radius:10px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
+  .lb-pc-wrap { position:relative; width:100%; height:360px; border-radius:0; overflow:hidden; background:var(--bg-deep); border:1px solid rgba(255,255,255,0.08); }
   .lb-pc-wrap canvas { display:block; width:100%!important; height:100%!important; }
   .lb-pc-bar { display:flex; gap:4px; align-items:center; padding:8px 12px; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); flex-wrap:wrap; }
   .lb-pc-bar label { font-size:9px; color:rgba(255,255,255,0.35); text-transform:uppercase; letter-spacing:0.5px; }
-  .lb-pc-sbtn { width:24px; height:24px; border-radius:5px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:10px; font-weight:700; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; }
-  .lb-pc-sbtn.active { background:rgba(167,139,250,0.25); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
+  .lb-pc-sbtn { width:24px; height:24px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:10px; font-weight:700; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; }
+  .lb-pc-sbtn.active { background:rgba(153,97,255,0.25); border-color:rgba(153,97,255,0.5); color:#9961FF; }
   .lb-pc-sbtn:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
   .lb-pc-cbtn { padding:2px 7px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:9px; cursor:pointer; transition:all 0.15s; }
   .lb-pc-cbtn.active { background:rgba(56,189,248,0.2); border-color:rgba(56,189,248,0.4); color:#38bdf8; }
@@ -92,16 +95,16 @@
 
   /* 3D Pred Viewer (leaderboard) */
   .lb-pred3d-row { display:flex; gap:6px; width:100%; }
-  .lb-pred3d-panel { position:relative; flex:1; min-width:0; border-radius:10px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
+  .lb-pred3d-panel { position:relative; flex:1; min-width:0; border-radius:0; overflow:hidden; background:var(--bg-deep); border:1px solid rgba(255,255,255,0.08); }
   .lb-pred3d-panel-label { position:absolute; top:6px; left:8px; z-index:10; font-size:10px; font-weight:700; letter-spacing:0.5px; padding:2px 6px; border-radius:4px; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); }
   .lb-pred3d-panel-label.gt { color:#34d399; }
-  .lb-pred3d-panel-label.pred { color:#a78bfa; }
+  .lb-pred3d-panel-label.pred { color:#9961FF; }
   .lb-pred3d-panel-label.error { color:#f59e0b; }
   .lb-pred3d-stats { position:absolute; bottom:6px; right:8px; z-index:10; font-size:9px; color:rgba(255,255,255,0.5); background:rgba(0,0,0,0.5); padding:2px 6px; border-radius:4px; backdrop-filter:blur(4px); }
-  .lb-pred3d-bar { display:flex; gap:4px; align-items:center; padding:8px 12px; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); border-radius:0 0 10px 10px; flex-wrap:wrap; }
+  .lb-pred3d-bar { display:flex; gap:4px; align-items:center; padding:8px 12px; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); border-radius:0; flex-wrap:wrap; }
   .lb-pred3d-bar label { font-size:9px; color:rgba(255,255,255,0.35); text-transform:uppercase; letter-spacing:0.5px; }
   .lb-pred3d-chbtn { padding:2px 7px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:9px; cursor:pointer; transition:all 0.15s; }
-  .lb-pred3d-chbtn.active { background:rgba(167,139,250,0.25); border-color:rgba(167,139,250,0.5); color:#a78bfa; }
+  .lb-pred3d-chbtn.active { background:rgba(153,97,255,0.25); border-color:rgba(153,97,255,0.5); color:#9961FF; }
   .lb-pred3d-chbtn:hover:not(.active) { background:rgba(255,255,255,0.08); color:#fff; }
   @media (max-width: 768px) { .lb-pred3d-row { flex-direction:column; } }
 
@@ -300,7 +303,10 @@ window.addEventListener('unhandledrejection', function(e) {
 <div class="glass" style="margin-bottom:16px; display:none;" id="details-section">
   <div class="collapsible-header" onclick="toggleDetails()">
     <div class="section-label section-label-purple">BenchRank Details — Full Breakdown</div>
-    <span class="collapsible-toggle" id="details-toggle">&#9660; Show</span>
+    <span class="collapsible-toggle" id="details-toggle">
+      <span class="collapsible-toggle-label">Show</span>
+      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg>
+    </span>
   </div>
   <div class="collapsible-body" id="details-body">
     <div class="data-table-wrapper">
@@ -834,8 +840,15 @@ function renderWeightsChart(data) {
       datasets: [{
         data: weights,
         backgroundColor: weights.map((w,i) => {
-          const alpha = 0.35 + (1 - i/metrics.length)*0.5;
-          return `rgba(167,139,250,${alpha})`;
+          // Linear interpolation along the purple ramp: rank-1 reaches the
+          // brightest accent (#9961FF / 153,97,255), the lowest rank lands on
+          // the primary (#6522E1 / 101,34,225).  This produces a smooth ramp
+          // rather than a single bright bar above an otherwise flat block.
+          const t = metrics.length <= 1 ? 1 : 1 - i / (metrics.length - 1);
+          const r = Math.round(101 + (153 - 101) * t);
+          const g = Math.round(34  + (97  - 34)  * t);
+          const b = Math.round(225 + (255 - 225) * t);
+          return `rgba(${r},${g},${b},0.85)`;
         }),
         borderRadius: 4, borderSkipped: false,
       }],
@@ -875,7 +888,7 @@ function renderRadarChart(data) {
   const colors = [
     { bg:'rgba(250,204,21,0.15)', border:'rgba(250,204,21,0.85)' },
     { bg:'rgba(56,189,248,0.12)', border:'rgba(56,189,248,0.75)' },
-    { bg:'rgba(167,139,250,0.12)', border:'rgba(167,139,250,0.75)' },
+    { bg:'rgba(153,97,255,0.12)', border:'rgba(153,97,255,0.75)' },
     { bg:'rgba(52,211,153,0.12)', border:'rgba(52,211,153,0.75)' },
     { bg:'rgba(244,114,182,0.12)', border:'rgba(244,114,182,0.75)' },
   ];
@@ -1210,8 +1223,8 @@ function explorerDetailURL(model, ds, dataSize) {
 }
 
 /**
- * Build an analysis.html URL with this model preselected as Series A.
- * The user picks Series B once they land on Analysis.  Filters (dim/task/
+ * Build an analysis.html URL with this model preselected as Model A.
+ * The user picks Model B once they land on Analysis.  Filters (dim/task/
  * output/dataset/size/target) are forwarded as query params so the global
  * filter panel snaps to the same selection the leaderboard had.
  */
@@ -1298,10 +1311,10 @@ function render2DAllModels(container, data, rankOrder) {
   });
 
   html += `<div style="margin-top:10px; padding:10px 14px; background:rgba(255,255,255,0.025);
-    border:1px solid rgba(255,255,255,0.08); border-radius:8px; font-size:11px; color:var(--text-muted);">
+    border:1px solid rgba(255,255,255,0.08); border-radius:0; font-size:11px; color:var(--text-muted);">
     <strong style="color:var(--text-tertiary);">GT (Ground Truth)</strong> —
     To enable GT comparison, symlink test images to
-    <code style="background:rgba(255,255,255,0.05); padding:1px 4px; border-radius:3px;">
+    <code style="background:rgba(255,255,255,0.05); padding:1px 4px; border-radius:1px;">
     inference/dimension_2d/generation/gt/${state.dataset || ''}/</code>
   </div>`;
 
@@ -1663,8 +1676,8 @@ function renderScalarPredictionAllModels(container, data, rankOrder) {
       : `Use the <strong style="color:rgba(255,255,255,0.55);">Samples</strong> filter above to change how many samples each row shows.`;
     html += `
       <div id="sp-gallery-section" style="margin-bottom:18px;">
-        <div class="sp-gallery-header" style="display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:10px 14px; background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:10px; margin-bottom:10px;">
-          <div style="font-size:11px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#a78bfa;">Per-Sample Comparison</div>
+        <div class="sp-gallery-header" style="display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:10px 14px; background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:0; margin-bottom:10px;">
+          <div style="font-size:11px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#9961FF;">Per-Sample Comparison</div>
           <span style="font-size:10px; color:rgba(255,255,255,0.4); letter-spacing:0.5px; text-transform:uppercase;">Target</span>
           <div style="display:flex; gap:5px; flex-wrap:wrap;">${tkPills}</div>
           <div style="margin-left:auto; font-size:10px; color:rgba(255,255,255,0.35);">${headerNote}</div>
@@ -1804,7 +1817,7 @@ async function lbInitScalarGallery() {
   const manifest = await lbScalarLoadShapeManifest(ctx.dataset);
   if (!manifest) {
     const body = document.getElementById('sp-gallery-body');
-    if (body) body.innerHTML = `<div style="padding:14px;color:rgba(255,255,255,0.4);font-size:12px;background:rgba(255,255,255,0.025);border:1px dashed rgba(255,255,255,0.12);border-radius:8px;text-align:center;">
+    if (body) body.innerHTML = `<div style="padding:14px;color:rgba(255,255,255,0.4);font-size:12px;background:rgba(255,255,255,0.025);border:1px dashed rgba(255,255,255,0.12);border-radius:0;text-align:center;">
       Per-sample shapes not exported yet — run <code>python tools/websites/scripts/convert_pred_scalar_shapes.py</code>
     </div>`;
     return;
@@ -1868,7 +1881,7 @@ function lbDrawScalarGalleryRow(row) {
     if (!sample) continue;
     const gtVal = sample.gt[tk];
     const predVal = (payload && payload.targets && payload.targets[tk]) ? payload.targets[tk].pred[slot] : NaN;
-    cards.push(lbScalarBuildCard(slot, ctx.dataset, gtVal, predVal, range, '#a78bfa', force2D, mini));
+    cards.push(lbScalarBuildCard(slot, ctx.dataset, gtVal, predVal, range, '#9961FF', force2D, mini));
   }
   cardsEl.innerHTML = cards.join('');
 
@@ -1991,7 +2004,7 @@ function drawScalarTargetChart(chartEl, payload, tk, rowKey) {
     data: {
       datasets: [
         { label: 'pred vs gt', data: points,
-          backgroundColor: 'rgba(167,139,250,0.55)', borderColor: 'rgba(167,139,250,0.9)',
+          backgroundColor: 'rgba(153,97,255,0.55)', borderColor: 'rgba(153,97,255,0.9)',
           pointRadius: 2, pointHoverRadius: 4 },
         { label: 'y = x', type: 'line',
           data: [{ x: lineMin, y: lineMin }, { x: lineMax, y: lineMax }],
@@ -2283,7 +2296,7 @@ function render3DEvalAllModels(container, data, rankOrder) {
       const el = entry.target;
       if (entry.isIntersecting && !el._evalInitialized) {
         el._evalInitialized = true;
-        el.innerHTML = `<div style="height:${el.dataset.viewerHeight||320}px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">Loading...</div>`;
+        el.innerHTML = `<div style="height:${el.dataset.viewerHeight||320}px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:12px; border-radius:0; border:1px solid rgba(255,255,255,0.06);">Loading...</div>`;
         window.initLeaderboardPredViewer(el).catch(e => console.warn('Pred viewer init failed:', e));
       }
       // Pause/resume pred viewer animation
@@ -2304,7 +2317,7 @@ function render3DEvalAllModels(container, data, rankOrder) {
               if (p.points) { p.points.geometry.dispose(); p.points.material.dispose(); }
               if (p.carMesh) { p.carMesh.geometry.dispose(); p.carMesh.material.dispose(); }
             });
-            el.innerHTML = `<div style="height:${el.dataset.viewerHeight||320}px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">Loading...</div>`;
+            el.innerHTML = `<div style="height:${el.dataset.viewerHeight||320}px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:12px; border-radius:0; border:1px solid rgba(255,255,255,0.06);">Loading...</div>`;
             el._evalViewer = null;
             el._evalInitialized = true;
             window.initLeaderboardPredViewer(el).catch(e => console.warn('Pred viewer re-init failed:', e));
@@ -2332,8 +2345,9 @@ function toggleDetails() {
   detailsExpanded = !detailsExpanded;
   const body = document.querySelector('#details-section .collapsible-body');
   body.classList.toggle('expanded', detailsExpanded);
-  document.getElementById('details-toggle').innerHTML =
-    detailsExpanded ? '&#9650; Hide' : '&#9660; Show';
+  const t = document.getElementById('details-toggle');
+  t.classList.toggle('is-open', detailsExpanded);
+  t.querySelector('.collapsible-toggle-label').textContent = detailsExpanded ? 'Hide' : 'Show';
 }
 
 function renderBenchRankDetails() {
@@ -2633,10 +2647,10 @@ function createMiniViewer(canvasContainer, id, syncGroup) {
   const w = canvasContainer.clientWidth, h = canvasContainer.clientHeight;
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x08051a);
+  scene.background = new THREE.Color(0x0C0C0C);
 
   const camera = new THREE.PerspectiveCamera(45, w / h, 0.01, 100);
-  camera.position.set(2.1, 1.4, 2.1);
+  camera.position.set(2.4, 0.4, 1.6);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(w, h);
@@ -2793,15 +2807,20 @@ function loadIntoViewer(vState, positions, dataset) {
   //     around world-Y) sweeps the camera around the wheel and reveals
   //     spokes / rim / hub from every angle without spinning the cloud
   //     itself — better for quality inspection than the prior axle-spin.
-  const baseLen = 3.29;  // = Math.sqrt(2.1*2.1 + 1.4*1.4 + 2.1*2.1)
+  // Front-quarter camera (engineering elevation drawing feel):
+  // small Y (≈10° above horizon) + asymmetric X/Z so the model reads as
+  // "viewed from in front of the bench" rather than "looked down upon from
+  // above".  baseLen still reflects the diagonal so isDeepWheel scaling
+  // keeps its proportions.
+  const baseLen = Math.sqrt(2.4*2.4 + 0.4*0.4 + 1.6*1.6); // ≈ 2.92
   const radius = (geometry.boundingSphere && geometry.boundingSphere.radius) || 1;
   const k = isDeepWheel
     ? (5.0 * radius / baseLen)
     : (isDriv ? (1.0 / 1.1) : 1.0);
   vState.camera.position.set(
-    c.x + 2.1 * k,
-    c.y + 1.4 * k,
-    c.z + 2.1 * k,
+    c.x + 2.4 * k,
+    c.y + 0.4 * k,
+    c.z + 1.6 * k,
   );
   vState.controls.update();
 }
@@ -2838,7 +2857,7 @@ window.initLeaderboardPCViewer = function(el, model, size, dataset, sampleIdx, v
       </div>
     </div>
     <div class="lb-pc-bar" style="padding:4px 8px;">
-      <span style="font-size:10px; color:rgba(167,139,250,0.7); font-weight:700;">Sample ${sampleIdx}</span>
+      <span style="font-size:10px; color:rgba(255,255,255,0.45); font-weight:700;">Sample ${sampleIdx}</span>
     </div>
     ${isCompact ? '' : `<div style="font-size:9px; color:rgba(255,255,255,0.2); text-align:center; padding:4px 0;">
       Drag to rotate · Scroll to zoom · Right-drag to pan
@@ -2875,7 +2894,7 @@ window.initLeaderboardPCViewer = function(el, model, size, dataset, sampleIdx, v
         loadingEl.style.display = 'flex';
         loadingEl.innerHTML = `<div style="text-align:center;">
           <div style="color:rgba(255,255,255,0.4); margin-bottom:6px; font-size:11px;">Sample ${idx} N/A</div>
-          ${isCompact ? '' : `<div style="font-size:10px; color:rgba(255,255,255,0.2);">Run <code style="background:rgba(255,255,255,0.05); padding:1px 4px; border-radius:3px;">python scripts/convert_gen_pointcloud.py</code></div>`}
+          ${isCompact ? '' : `<div style="font-size:10px; color:rgba(255,255,255,0.2);">Run <code style="background:rgba(255,255,255,0.05); padding:1px 4px; border-radius:1px;">python scripts/convert_gen_pointcloud.py</code></div>`}
         </div>`;
       }
     }
@@ -2948,9 +2967,9 @@ function formatSci(v) { return v === 0 ? '0' : v.toExponential(3); }
 
 function createEvalPanel(container, w, h) {
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x08051a);
+  scene.background = new THREE.Color(0x0C0C0C);
   const camera = new THREE.PerspectiveCamera(45, w/h, 0.01, 100);
-  camera.position.set(2.1, 1.4, 2.1);
+  camera.position.set(2.4, 0.4, 1.6);
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(w, h);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -3066,7 +3085,7 @@ window.initLeaderboardPredViewer = async function(el) {
   let evalAnimId = null;
 
   el.innerHTML = `
-    <div style="border-radius:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.06);">
+    <div style="border-radius:0; overflow:hidden; border:1px solid rgba(255,255,255,0.06);">
       <div class="lb-pred3d-row" style="height:${viewerHeight}px;">
         <div class="lb-pred3d-panel">
           <div class="lb-pred3d-panel-label gt">GT</div>
@@ -3083,7 +3102,7 @@ window.initLeaderboardPredViewer = async function(el) {
         </div>
       </div>
       <div class="lb-pred3d-bar">
-        <span style="font-size:10px; color:rgba(167,139,250,0.7); font-weight:700;">${currentTK} · ${currentChs[currentChIdx]} · Sample ${currentSample}</span>
+        <span style="font-size:10px; color:rgba(255,255,255,0.45); font-weight:700;">${currentTK} · ${currentChs[currentChIdx]} · Sample ${currentSample}</span>
       </div>
     </div>
     <div style="font-size:9px; color:rgba(255,255,255,0.2); text-align:center; padding:3px 0;">
@@ -3278,7 +3297,7 @@ window.initLeaderboardPredViewer = async function(el) {
           ld.innerHTML = `<div style="text-align:center;">
             <div style="color:rgba(255,255,255,0.4); font-size:10px;">Data N/A</div>
             <div style="font-size:9px; color:rgba(255,255,255,0.2); margin-top:4px;">
-              Run <code style="background:rgba(255,255,255,0.05); padding:1px 4px; border-radius:3px;">convert_pred_pointcloud.py</code>
+              Run <code style="background:rgba(255,255,255,0.05); padding:1px 4px; border-radius:1px;">convert_pred_pointcloud.py</code>
             </div>
           </div>`;
         }
@@ -3319,7 +3338,7 @@ window.initLeaderboardScalarShapeViewer = function(el) {
 
   el.innerHTML = '';
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x08051a);
+  scene.background = new THREE.Color(0x0C0C0C);
   const camera = new THREE.PerspectiveCamera(45, w / h, 0.01, 100);
   camera.position.set(0, 0, 2.6);
 

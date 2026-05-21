@@ -34,7 +34,7 @@ This benchmark is intended solely for academic and research evaluation purposes.
 | **2D Scalar Prediction** | SimpleCNN, ResNet-18, ResNet-34, EfficientNet-B0, ConvNeXt-Tiny, DenseNet-121, ViT-Tiny |
 | **3D Generation** | 3D-GAN, DeepSDF, PointFlow, ShapeGF, AtlasNet, Diffusion3D |
 | **3D Field Prediction** | Transolver++, AB-UPT, Transolver, PointNet, RegDGCNN, GeoFNO |
-| **3D Scalar Prediction** | PointNet, PointNet++, PointNet++-Lite, DGCNN, PCT, PCT-Small, Point Transformer, Point Transformer-Small, PointMLP, PointMLP-Elite |
+| **3D Scalar Prediction** | PointNet, PointNet++, PointNet++ Lite, DGCNN, PCT, PCT-Small, Point Transformer, Point Transformer-Small, PointMLP, PointMLP-Elite |
 
 All models are benchmarked across four dataset sizes to assess data efficiency and scalability:
 - **2D Generation, 2D Field Prediction:** S (50), M (100), L (200), XL (500)
@@ -48,7 +48,7 @@ All models are benchmarked across four dataset sizes to assess data efficiency a
 | **2D Field Prediction** | MAE, RMSE, MaxAE, MAPE, R², Rel-L2, PSNR, SSIM, AbsRel, sqRel, δ<1.25, Train Time, Infer Time |
 | **2D / 3D Scalar Prediction** | MAE, RMSE, MAPE, R², Rel-L2, MaxAE, Pearson, Spearman, Train Time, Infer Time |
 | **3D Generation** | MV-FID, FPD, CD, EMD, F-Score, MS-SSIM, Precision, Recall, Density, Coverage, Manifold-Δ, Uniformity-Δ, Train Time, Infer Time |
-| **3D Field Prediction** | MAE, RMSE, MAPE, R², Rel-L2, MaxAE, MAC, Smoothness-Δ, Sign Agree, Extremal Agree, Train Time, Infer Time |
+| **3D Field Prediction** | MAE, RMSE, MAPE, R², Rel-L2, MaxAE, MAC, Sign Agree, Extremal Agree, Train Time, Infer Time |
 
 Models are ranked using **BenchRank**, a graph-based ranking system combining Spearman correlation with debiased PageRank scoring for robust multi-metric evaluation.
 
@@ -69,7 +69,7 @@ Rankings are generated per dataset size (S/M/L/XL), with a switchable quality-on
 - **Leaderboard Rankings** — Ranked model tables with multi-metric evaluation and visual heatmaps across dataset sizes (S/M/L/XL)
 - **Interactive 3D Viewer** — Explore generated and predicted 3D point cloud geometries directly in the browser
 - **Synchronized Dual 3D Viewer** — Side-by-side 3D comparison with camera-synced rotation and navigation
-- **Explorer** — Compare model outputs side-by-side with detailed per-model analysis
+- **Explorer** — Browse the full model inventory and drill into any model's detail view (performance metrics + interactive 3D viewer + per-sample gallery, with a switcher for model · size · dataset · target)
 - **Scalability Analysis** — Benchmarks across multiple training-set sizes to assess data efficiency
 - **Cross-Page Navigation** — Benchmark model labels link directly to corresponding Explorer detail views
 - **URL State Persistence** — Filter selections preserved across page refresh and shareable via URL
@@ -81,8 +81,8 @@ Rankings are generated per dataset size (S/M/L/XL), with a switchable quality-on
 |------|-------------|
 | **Overview** | Statement, purpose, mission & KPI, benchmark pipeline, domain status, roadmap, and ultimate goal |
 | **Benchmark** | Interactive model rankings with filtering by dimension, task, and dataset size |
-| **Analysis** | A/B comparison across Model · Dataset · Data Size · Target axes — Mathematical, Qualitative, Trajectory, Distribution, Disagreement, and Frontier views |
-| **Explorer** | Side-by-side model comparison with synchronized 3D viewers and generated image galleries |
+| **Analysis** | Head-to-head Model A vs Model B comparison across Dataset · Data Size · Target axes — Trajectory, Qualitative, Mathematical, Frontier, Progression, Disagreement, and Distribution views |
+| **Explorer** | Per-model browse — inventory strip, model card grid, and a detail view with performance metrics, interactive 3D viewer, and per-sample gallery (switcher for model · size · dataset · target) |
 
 ## Datasets & Attribution
 

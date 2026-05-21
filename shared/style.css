@@ -1,14 +1,16 @@
 /* ── CSS Custom Properties ── */
 :root {
-  --bg-primary: #0a0520;
-  --bg-secondary: #140e30;
-  --bg-tertiary: #1a1045;
-  --bg-deep: #0d0825;
-  --purple-500: #7c3aed;
-  --purple-400: #a78bfa;
-  --purple-300: #c4b5fd;
-  --indigo-400: #818cf8;
-  --indigo-300: #a5b4fc;
+  /* DESIGN.md (Narnia Labs) alpha — values aligned. Variable names kept stable
+     so downstream selectors don't churn; only token values swap. */
+  --bg-primary: #0C0C0C;     /* background */
+  --bg-secondary: #181818;   /* surface */
+  --bg-tertiary: #292929;    /* surface-muted */
+  --bg-deep: #030303;        /* background-deep */
+  --purple-500: #6522E1;     /* primary */
+  --purple-400: #9961FF;     /* primary-bright */
+  --purple-300: #9961FF;     /* hue alias — collapsed to single bright violet */
+  --indigo-400: #9961FF;     /* hue unified into the single purple ramp */
+  --indigo-300: #9961FF;
   --green-500: #22c55e;
   --green-400: #4ade80;
   --green-300: #34d399;
@@ -17,17 +19,20 @@
   --sky-400: #38bdf8;
   --pink-400: #f472b6;
   --red-400: #f87171;
-  --text-primary: #f1f5f9;
+  --text-primary: #FFFFFF;
   --text-secondary: rgba(255,255,255,0.82);
-  --text-tertiary: rgba(255,255,255,0.55);
-  --text-muted: rgba(255,255,255,0.38);
+  --text-tertiary: #999999;
+  --text-muted: #666666;
   --text-faint: rgba(255,255,255,0.22);
+  /* DESIGN.md industrial accents — thin grid dividers + CAD corner markers. */
+  --grid-line: #2B2B2B;
+  --marker: #D9D9D9;
   --border-subtle: rgba(255,255,255,0.09);
   --border-light: rgba(255,255,255,0.07);
-  --glass-bg: rgba(255,255,255,0.035);
-  --glass-border: rgba(255,255,255,0.09);
-  --glass-hover-border: rgba(129,140,248,0.45);
-  --glass-hover-shadow: rgba(129,140,248,0.12);
+  --glass-bg: rgba(255,255,255,0.05);
+  --glass-border: rgba(255,255,255,0.14);
+  --glass-hover-border: rgba(153,97,255,0.45);
+  --glass-hover-shadow: rgba(153,97,255,0.12);
 
   /* "쫀득한" easing — narnia.ai 시그니처. easeOutExpo 계열, 빠르게 시작했다가
      끝부분에서 길게 감속해 관성·탄성감을 준다. transform/scale/translate/width에
@@ -50,8 +55,8 @@
      this single token so their occlusion strength is identical.
      0.72 + blur is enough to hide bright captions / chart whites that
      scroll underneath without losing the glassy material feel. */
-  --sticky-glass-bg: rgba(20, 14, 48, 0.72);
-  --sticky-glass-bg-opaque: rgba(20, 14, 48, 0.96); /* backdrop-filter fallback */
+  --sticky-glass-bg: rgba(24, 24, 24, 0.72);
+  --sticky-glass-bg-opaque: rgba(24, 24, 24, 0.96); /* backdrop-filter fallback */
 }
 
 /* ── Reset & Base ── */
@@ -69,11 +74,10 @@ html {
 }
 
 body {
-  background: linear-gradient(160deg, var(--bg-primary) 0%, var(--bg-secondary) 30%, var(--bg-tertiary) 60%, var(--bg-deep) 100%);
-  background-attachment: fixed;
+  background: var(--bg-primary);  /* DESIGN.md — solid #0C0C0C, engineered industrial flat */
   min-height: 100vh;
   padding: 0;
-  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', Arial, sans-serif;
   color: var(--text-primary);
   position: relative;
   /* `clip` (not `hidden`) so descendant `position: sticky` keeps tracking the
@@ -83,28 +87,23 @@ body {
 
 .page-content {
   padding: 24px 28px 36px;
-  max-width: 1580px;
+  max-width: 1520px;  /* DESIGN.md spacing.container-max */
   margin: 0 auto;
   overflow-x: clip;
 }
 
-/* ── Glow Effects ── */
-.glow1 {
-  position: fixed; top: -120px; right: -120px; width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 70%);
-  pointer-events: none; z-index: 0;
-}
-.glow2 {
-  position: fixed; bottom: -100px; left: -100px; width: 350px; height: 350px;
-  background: radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 70%);
-  pointer-events: none; z-index: 0;
-}
+/* ── Glow Effects (removed for DESIGN.md "engineered rather than decorative")
+   .glow1 / .glow2 kept as empty hooks so existing <div class="glow1"></div>
+   markup doesn't need to be stripped from every page — they just render
+   nothing. The corner-marker dots on .glass-section now carry the CAD
+   precision accent on their own. */
+.glow1, .glow2 { display: none; }
 
 /* ── Glass Card ── */
 .glass {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
-  border-radius: 16px;
+  border-radius: 0;
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   transition: transform 0.5s var(--ease-snappy),
@@ -190,7 +189,7 @@ body {
      in the nav-bar — `normal` re-centres it vertically. */
   font-size: 18px;
   font-weight: 900;
-  color: var(--purple-400);
+  color: var(--text-primary);
   letter-spacing: 1px;
   text-transform: uppercase;
 }
@@ -206,7 +205,7 @@ body {
 }
 .nav-link {
   padding: 6px 16px;
-  border-radius: 8px;
+  border-radius: 0;
   font-size: 14px;
   font-weight: 600;
   color: var(--text-tertiary);
@@ -220,8 +219,8 @@ body {
 }
 .nav-link.active {
   color: var(--purple-300);
-  background: rgba(124,58,237,0.1);
-  border-color: rgba(124,58,237,0.2);
+  background: rgba(101,34,225,0.1);
+  border-color: rgba(101,34,225,0.2);
 }
 
 /* ── Layout Utilities ── */
@@ -253,6 +252,8 @@ body {
   font-weight: 800;
   letter-spacing: 1px;
   text-transform: uppercase;
+  /* DESIGN.md typography.label = Arial for compact English technical labels. */
+  font-family: Arial, 'Helvetica Neue', system-ui, sans-serif;
 }
 .section-label-purple { color: var(--indigo-300); }
 .section-label-green { color: var(--green-400); }
@@ -261,13 +262,14 @@ body {
 .pill {
   display: inline-block;
   padding: 2px 10px;
-  border-radius: 10px;
+  border-radius: 0;
   font-size: 11px;
   font-weight: 700;
   color: #fff;
   margin-left: 8px;
   vertical-align: middle;
   letter-spacing: 0.5px;
+  font-family: Arial, 'Helvetica Neue', system-ui, sans-serif;
 }
 
 /* ── Progress Ring ── */
@@ -281,10 +283,10 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 
 /* ── Model Bar ── */
 .model-bar-track {
-  display: flex; height: 5px; border-radius: 3px;
+  display: flex; height: 5px; border-radius: 1px;
   overflow: hidden; background: var(--border-subtle); width: 120px;
 }
-.model-bar-done { border-radius: 3px; transition: width 1s var(--ease-snappy); }
+.model-bar-done { border-radius: 1px; transition: width 1s var(--ease-snappy); }
 .model-bar-wip { transition: width 1s var(--ease-snappy) 0.2s; }
 .model-bar-info {
   display: flex; gap: 6px; margin-top: 3px;
@@ -303,10 +305,11 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   color: var(--text-secondary);
   letter-spacing: 0.5px;
   text-transform: uppercase;
+  font-family: Arial, 'Helvetica Neue', system-ui, sans-serif;
 }
 .filter-pill {
   padding: 6px 16px;
-  border-radius: 8px;
+  border-radius: 0;
   font-size: 14px;
   font-weight: 600;
   color: var(--text-secondary);
@@ -318,13 +321,13 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 .filter-pill:hover {
   color: #fff;
   background: rgba(255,255,255,0.07);
-  border-color: rgba(129,140,248,0.35);
+  border-color: rgba(153,97,255,0.35);
 }
 .filter-pill.active {
   color: #fff;
-  background: rgba(124,58,237,0.2);
-  border-color: rgba(124,58,237,0.5);
-  box-shadow: 0 0 8px rgba(124,58,237,0.15);
+  background: rgba(101,34,225,0.2);
+  border-color: rgba(101,34,225,0.5);
+  box-shadow: 0 0 8px rgba(101,34,225,0.15);
 }
 /* Disabled pill — used when an option is incompatible with the current
    selection (e.g. DrivAerNet under Task=Scalar in explorer, or prev/next
@@ -340,7 +343,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 /* ── Data Table ── */
 .data-table-wrapper {
   overflow-x: auto;
-  border-radius: 12px;
+  border-radius: 0;
   /* Hide scrollbar visually — keeps scroll behaviour for trackpad/touch.
      Matches the mobile feel the rest of the dashboard uses. */
   scrollbar-width: none;
@@ -417,7 +420,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   transition: background 0.15s ease;
 }
 .data-table tbody tr:hover {
-  background: rgba(129,140,248,0.08);
+  background: rgba(153,97,255,0.08);
 }
 .data-table tbody td {
   padding: 9px 14px;
@@ -453,7 +456,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 .score-bar {
   display: inline-block;
   height: 4px;
-  border-radius: 2px;
+  border-radius: 1px;
   margin-left: 6px;
   vertical-align: middle;
   transition: width 1s var(--ease-snappy);
@@ -486,7 +489,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   margin-top: 8px;
   background: rgba(239,68,68,0.06);
   border: 1px solid rgba(239,68,68,0.12);
-  border-radius: 8px;
+  border-radius: 0;
   padding: 5px 10px;
   font-size: 11px;
   color: var(--red-400);
@@ -495,7 +498,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   margin-top: 8px;
   background: rgba(250,204,21,0.06);
   border: 1px solid rgba(250,204,21,0.12);
-  border-radius: 8px;
+  border-radius: 0;
   padding: 5px 10px;
   font-size: 11px;
   color: var(--amber-400);
@@ -526,7 +529,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   box-shadow: 0 6px 20px rgba(0,0,0,0.25);
 }
 .domain-card:focus-visible {
-  outline: 2px solid rgba(167,139,250,0.7);
+  outline: 2px solid rgba(153,97,255,0.7);
   outline-offset: 2px;
 }
 
@@ -552,7 +555,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 .step-box {
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--border-subtle);
-  border-radius: 12px;
+  border-radius: 0;
   padding: 10px 14px;
   text-align: center;
   flex: 1;
@@ -562,13 +565,13 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
               border-color 0.25s ease;
 }
 .step-box:hover, .step-box.active {
-  background: rgba(129,140,248,0.12);
-  border-color: rgba(129,140,248,0.4);
+  background: rgba(153,97,255,0.12);
+  border-color: rgba(153,97,255,0.4);
   transform: scale(1.035);
 }
 .step-box.accent {
-  background: rgba(129,140,248,0.1);
-  border-color: rgba(129,140,248,0.25);
+  background: rgba(153,97,255,0.1);
+  border-color: rgba(153,97,255,0.25);
 }
 
 /* ── Step Detail ──
@@ -576,32 +579,35 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
    이라 layout 점유가 거의 0 (border 1px). visible 시 시그니처 곡선으로 펼침. */
 .step-detail {
   margin-top: 0; padding: 0 14px;
-  background: rgba(129,140,248,0);
+  background: rgba(153,97,255,0);
   border: 1px solid transparent;
-  border-radius: 10px;
+  border-radius: 0;
   font-size: 11px; color: rgba(255,255,255,0.55);
   line-height: 1.6;
   max-height: 0;
   opacity: 0;
   overflow: hidden;
+  transform: translateY(-6px);
   transition: max-height 0.55s var(--ease-snappy),
               opacity 0.35s ease,
               margin 0.55s var(--ease-snappy),
               padding 0.55s var(--ease-snappy),
               background 0.35s ease,
-              border-color 0.35s ease;
+              border-color 0.35s ease,
+              transform 0.5s var(--ease-snappy);
 }
 .step-detail.visible {
   margin-top: 10px; padding: 10px 14px;
-  background: rgba(129,140,248,0.06);
-  border-color: rgba(129,140,248,0.15);
+  background: rgba(153,97,255,0.06);
+  border-color: rgba(153,97,255,0.15);
   max-height: 400px;
   opacity: 1;
+  transform: translateY(0);
 }
 
 /* ── Roadmap ── */
 .roadmap-item {
-  flex: 1; border-radius: 12px; padding: 12px 10px;
+  flex: 1; border-radius: 0; padding: 12px 10px;
   text-align: center; position: relative; cursor: pointer;
   transition: transform 0.4s var(--ease-snappy),
               background 0.25s ease,
@@ -612,20 +618,20 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 .roadmap-item:hover, .roadmap-item.active { transform: scale(1.035); }
 .roadmap-detail {
   margin-top: 10px; padding: 10px 14px;
-  border-radius: 10px; transition: all 0.3s ease;
+  border-radius: 0; transition: all 0.3s ease;
 }
 .now-badge {
   position: absolute; top: -7px; left: 50%; transform: translateX(-50%);
   background: linear-gradient(135deg, var(--purple-500), var(--purple-400));
   color: #fff; font-size: 11px; font-weight: 800;
-  padding: 2px 10px; border-radius: 6px; letter-spacing: 0.5px;
+  padding: 2px 10px; border-radius: 0; letter-spacing: 0.5px;
 }
 
 /* ── Issue Card ── */
 .issue-card {
   flex: 1; background: rgba(255,255,255,0.02);
   border: 1px solid var(--border-light);
-  border-radius: 12px; padding: 12px 16px;
+  border-radius: 0; padding: 12px 16px;
 }
 
 /* ── Inference Explorer ── */
@@ -636,7 +642,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 .action-bar {
   margin-bottom: 12px;
   padding: 8px 14px;
-  border-radius: 10px;
+  border-radius: 0;
   background: var(--glass-bg);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
@@ -685,7 +691,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 }
 .explorer-sidebar::-webkit-scrollbar-thumb {
   background: rgba(255,255,255,0.12);
-  border-radius: 3px;
+  border-radius: 1px;
 }
 .explorer-sidebar::-webkit-scrollbar-thumb:hover {
   background: rgba(255,255,255,0.25);
@@ -699,7 +705,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   font-size: 13px;
   color: var(--text-secondary);
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 0;
   transition: all 0.15s ease;
   display: flex;
   align-items: center;
@@ -710,7 +716,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   color: #fff;
 }
 .tree-item.active {
-  background: rgba(124,58,237,0.12);
+  background: rgba(101,34,225,0.12);
   color: var(--purple-300);
 }
 .tree-item .icon {
@@ -769,7 +775,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   gap: 12px;
 }
 .image-card {
-  border-radius: 10px;
+  border-radius: 0;
   overflow: hidden;
   background: rgba(255,255,255,0.02);
   border: 1px solid var(--border-subtle);
@@ -827,11 +833,18 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 .page-footer {
   text-align: center;
   margin-top: 20px;
-  padding: 16px 0;
+  padding: 32px 0 28px;
+  background: var(--bg-deep);  /* DESIGN.md footer.backgroundColor = background-deep */
+  border-top: 1px solid var(--grid-line);  /* thin CAD divider */
+  /* Bleed footer full viewport width even when .page-content has max-width: */
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-left: 28px;
+  padding-right: 28px;
 }
 .page-footer .divider {
   width: 30px; height: 1px;
-  background: rgba(124,58,237,0.3);
+  background: rgba(101,34,225,0.3);
   margin: 0 auto 10px;
 }
 .page-footer .text {
@@ -863,7 +876,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
 }
 .visual-card {
-  border-radius: 10px;
+  border-radius: 0;
   overflow: hidden;
   background: rgba(255,255,255,0.025);
   border: 1px solid var(--border-subtle);
@@ -901,7 +914,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   padding: 12px 14px;
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 10px;
+  border-radius: 0;
   margin-bottom: 10px;
   transition: background 0.2s ease;
 }
@@ -932,7 +945,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   width: 128px;
   height: 128px;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 0;
   border: 1px solid rgba(255,255,255,0.1);
   background: rgba(0,0,0,0.3);
 }
@@ -954,24 +967,47 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 }
 .collapsible-header:hover {
   background: rgba(255,255,255,0.02);
-  border-radius: 16px;
+  border-radius: 0;
 }
 .collapsible-toggle {
   font-size: 11px;
   color: var(--text-muted);
-  transition: transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+.collapsible-toggle svg {
+  width: 11px;
+  height: 11px;
+  transform: rotate(0deg);
+  transition: transform 0.45s var(--ease-snappy);
+}
+.collapsible-toggle.is-open svg {
+  transform: rotate(180deg);
+}
+.collapsible-header:hover .collapsible-toggle {
+  color: var(--purple-400);
 }
 /* max-height 천장은 가장 긴 collapsible 콘텐츠(roadmap details, leaderboard sections)를
    넉넉히 덮을 만큼 크게. cubic-bezier(0.16, 1, 0.3, 1) 곡선이 끝부분에서 길게 감속하므로
-   콘텐츠 크기보다 천장이 커도 실제 펼치는 시간은 비슷하게 느껴진다. */
+   콘텐츠 크기보다 천장이 커도 실제 펼치는 시간은 비슷하게 느껴진다.
+   Adds a subtle translateY so the body slides down as it expands, layered on
+   top of the max-height + opacity ease — gives the panel a "drop-in" feel
+   rather than a flat curtain wipe. */
 .collapsible-body {
   padding: 0 20px;
   max-height: 0;
   opacity: 0;
   overflow: hidden;
+  transform: translateY(-6px);
   transition: max-height 0.6s var(--ease-snappy),
               opacity 0.4s ease,
-              padding 0.6s var(--ease-snappy);
+              padding 0.6s var(--ease-snappy),
+              transform 0.5s var(--ease-snappy);
 }
 .collapsible-body.expanded {
   /* Top padding leaves room for badges that sit above their container (e.g.
@@ -980,6 +1016,50 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   padding: 10px 20px 16px;
   max-height: 2000px;
   opacity: 1;
+  transform: translateY(0);
+}
+
+/* One-time affordance hint for the Ultimate Goal panel.
+   The previous body-peek revealed a clipped sliver of "Agentic Leaderboard"
+   that read as a glitch.  Replaced with a non-content hint that runs only
+   3 times after first load and then stops permanently:
+
+   1. The top-line accent brightens and sweeps through 3 cycles
+   2. The chevron does a matching gentle bob 3 times
+
+   Once the user clicks (or after the 3 cycles complete), `.is-hinting` is
+   removed and the panel sits perfectly still — no infinite motion. */
+.goal-card.is-hinting .top-line {
+  animation: goal-topline-pulse 1.6s var(--ease-snappy) 0.8s 3;
+}
+.goal-card.is-hinting .collapsible-toggle:not(.is-open) svg {
+  animation: goal-chevron-bob 1.6s var(--ease-snappy) 0.8s 3;
+}
+.goal-card.is-hinting:hover .top-line,
+.goal-card.is-hinting:hover .collapsible-toggle:not(.is-open) svg {
+  animation-play-state: paused;
+}
+@keyframes goal-topline-pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: none;
+    background: linear-gradient(90deg, transparent, rgba(153,97,255,0.4), rgba(56,189,248,0.3), transparent);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 14px rgba(153,97,255,0.6);
+    background: linear-gradient(90deg, transparent, rgba(153,97,255,0.95), rgba(56,189,248,0.7), transparent);
+  }
+}
+@keyframes goal-chevron-bob {
+  0%, 100% { transform: rotate(0deg)   translateY(0); }
+  50%      { transform: rotate(-12deg) translateY(1px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .goal-card.is-hinting .top-line,
+  .goal-card.is-hinting .collapsible-toggle:not(.is-open) svg {
+    animation: none;
+  }
 }
 
 /* index.html Statement 패널 — togglePurpose() 가 .expanded 클래스 토글.
@@ -992,18 +1072,21 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   max-height: 0;
   opacity: 0;
   overflow: hidden;
+  transform: translateY(-6px);
   transition: max-height 0.55s var(--ease-snappy),
               opacity 0.35s ease,
               margin 0.55s var(--ease-snappy),
               padding 0.55s var(--ease-snappy),
-              border-color 0.35s ease;
+              border-color 0.35s ease,
+              transform 0.5s var(--ease-snappy);
 }
 .purpose-body.expanded {
-  border-top-color: rgba(167,139,250,0.12);
+  border-top-color: rgba(153,97,255,0.12);
   margin-top: 10px;
   padding-top: 10px;
   max-height: 500px;
   opacity: 1;
+  transform: translateY(0);
 }
 
 /* ── Score highlight ── */
@@ -1021,8 +1104,8 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 
 /* ── 3D Viewer Zoom Active State ── */
 .zoom-active {
-  border-color: rgba(167,139,250,0.35) !important;
-  box-shadow: 0 0 12px rgba(167,139,250,0.15);
+  border-color: rgba(153,97,255,0.35) !important;
+  box-shadow: 0 0 12px rgba(153,97,255,0.15);
 }
 
 @keyframes fadeIn {
@@ -1104,13 +1187,37 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 
 /* ── Purple keyword badge ── */
 .purple-badge {
-  font-size: 11px; color: #c4b5fd;
-  background: rgba(124,58,237,0.1); padding: 4px 14px;
-  border-radius: 20px; border: 1px solid rgba(167,139,250,0.15);
+  font-size: 11px; color: #9961FF;
+  background: rgba(101,34,225,0.1); padding: 4px 14px;
+  border-radius: 9999px; border: 1px solid rgba(153,97,255,0.15);
 }
 
 /* ── Glass card standard padding ── */
-.glass-section { padding: 16px 20px; margin-bottom: 16px; }
+.glass-section {
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  /* DESIGN.md "Place small square markers at panel corners to reinforce precision."
+     Uses --marker (#D9D9D9) — same CAD/measurement look as narnia.ai. */
+  position: relative;
+}
+.glass-section::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: -1px;
+  width: 3px; height: 3px;
+  background: var(--marker);
+  pointer-events: none;
+  z-index: 1;
+}
+.glass-section::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; right: -1px;
+  width: 3px; height: 3px;
+  background: var(--marker);
+  pointer-events: none;
+  z-index: 1;
+}
 
 /* ── Section label spacing ── */
 .section-header    { margin-bottom: 12px; }
@@ -1124,26 +1231,26 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 
 
 /* ── Pipeline step box children ── */
-.step-label { font-size: 10px; color: var(--indigo-400); font-weight: 700; letter-spacing: 1px; }
+.step-label { font-size: 10px; color: var(--indigo-400); font-weight: 700; letter-spacing: 1px; font-family: Arial, 'Helvetica Neue', system-ui, sans-serif; }
 .step-title { font-size: 13px; color: #fff; margin-top: 3px; font-weight: 500; }
 .step-desc  { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 2px; }
 
 /* ── Statement / Goal uppercase label ── */
 .statement-label {
-  font-size: 10px; font-weight: 700; color: #a78bfa;
+  font-size: 10px; font-weight: 700; color: #9961FF;
   letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;
 }
 
 /* ── Footer links ── */
 .footer-links { margin-top: 8px; font-size: 11px; display: inline-flex; gap: 12px; }
-.footer-link  { color: #a78bfa; text-decoration: none; opacity: 0.6; transition: opacity 0.2s; }
+.footer-link  { color: #9961FF; text-decoration: none; opacity: 0.6; transition: opacity 0.2s; }
 .footer-link:hover { opacity: 1; }
 .footer-contacts { margin-top: 0; font-size: 11px; display: inline-flex; gap: 12px; }
 .footer-sep { color: rgba(255,255,255,0.15); }
 .footer-sep-mid { margin: 0 12px; font-size: 11px; vertical-align: middle; }
 .contact-copy {
   cursor: pointer;
-  color: #a78bfa;
+  color: #9961FF;
   opacity: 0.6;
   transition: color 0.2s, opacity 0.2s;
 }
@@ -1191,16 +1298,16 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 }
 .sp-rank {
   align-self: flex-start;
-  font-size: 11px; font-weight: 800; color: #a78bfa;
-  background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.25);
-  padding: 2px 10px; border-radius: 999px;
+  font-size: 11px; font-weight: 800; color: #9961FF;
+  background: rgba(153,97,255,0.12); border: 1px solid rgba(153,97,255,0.25);
+  padding: 2px 10px; border-radius: 9999px;
 }
 .sp-name {
   font-size: 14px; font-weight: 800; color: #fff;
   text-decoration: none; display: inline-block;
   line-height: 1.2;
 }
-.sp-name:hover { color: #c4b5fd; }
+.sp-name:hover { color: #9961FF; }
 .sp-sub {
   font-size: 10px; color: var(--text-muted);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -1209,7 +1316,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   position: relative;
   aspect-ratio: 1 / 1;
   background: rgba(0,0,0,0.25);
-  border-radius: 6px;
+  border-radius: 0;
   padding: 6px;
   width: 100%;
   max-width: 200px;
@@ -1237,7 +1344,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   display: inline-flex; align-items: center; gap: 4px;
   font-size: 10px; padding: 2px 7px;
   background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 999px;
+  border-radius: 9999px;
 }
 .sp-chip-name { color: var(--text-muted); }
 .sp-chip-val  { color: #e5e7eb; font-weight: 600; }
@@ -1267,12 +1374,12 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   padding: 10px 12px;
   background: rgba(255,255,255,0.025);
   border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 10px;
+  border-radius: 0;
   align-items: stretch;
 }
 .scalar-card-shape {
   width: 110px; aspect-ratio: 1;
-  background: #08051a; border-radius: 8px;
+  background: var(--bg-deep); border-radius: 0;
   border: 1px solid rgba(255,255,255,0.06);
   overflow: hidden; position: relative;
 }
@@ -1290,7 +1397,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   letter-spacing: 0.5px;
 }
 .scalar-card-delta {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'D2 coding', D2Coding, 'JetBrains Mono', Menlo, Consolas, monospace;
   font-weight: 700; font-size: 11px;
   font-variant-numeric: tabular-nums;
 }
@@ -1301,7 +1408,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   padding: 6px 9px;
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.05);
-  border-radius: 6px;
+  border-radius: 0;
   line-height: 1.15;
 }
 .scalar-tile .scalar-tile-label {
@@ -1310,7 +1417,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 }
 .scalar-tile .scalar-tile-num {
   font-size: 18px; font-weight: 700;
-  font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums;
+  font-family: 'D2 coding', D2Coding, 'JetBrains Mono', Menlo, Consolas, monospace; font-variant-numeric: tabular-nums;
 }
 .scalar-tile-gt { border-color: rgba(255,255,255,0.14); }
 .scalar-tile-gt .scalar-tile-num { color: rgba(255,255,255,0.92); }
@@ -1431,7 +1538,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 .f2d-panel {
   position: relative;
   width: 128px; height: 128px;
-  background: rgba(0,0,0,0.4); border-radius: 6px;
+  background: rgba(0,0,0,0.4); border-radius: 0;
   overflow: hidden; border: 1px solid rgba(255,255,255,0.1);
 }
 .f2d-panel canvas {
@@ -1443,7 +1550,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   font-size: 9px; font-weight: 700;
   color: #fff;
   background: rgba(0,0,0,0.6);
-  padding: 1px 5px; border-radius: 3px;
+  padding: 1px 5px; border-radius: 1px;
   letter-spacing: 0.3px;
 }
 /* Caption pairs sample index + MAE on the left so they read as one unit
@@ -1462,7 +1569,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   margin-top: 12px; padding: 10px 14px;
   background: rgba(255,255,255,0.025);
   border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 8px;
+  border-radius: 0;
   font-size: 10px; color: var(--text-muted);
   display: flex; flex-direction: column; gap: 8px;
 }
@@ -1505,7 +1612,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
    common skeleton patterns, scoped to our colour tokens. */
 .skel-bar {
   height: 12px;
-  border-radius: 6px;
+  border-radius: 0;
   background: linear-gradient(90deg,
     rgba(255,255,255,0.04) 0%,
     rgba(255,255,255,0.10) 50%,
@@ -1527,4 +1634,24 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ── 3D viewer canvas pre-fill ──
+   WebGL canvases default to transparent — when the context hasn't drawn yet
+   (or fails to init / gets lost) the user briefly sees the browser's default
+   canvas backing (often white on some platforms) bleeding through above any
+   ancestor dark surface.  Force a dark backing on every canvas inside a
+   viewer container so the flicker reads as a calm dark frame instead of a
+   white flash.  Matches Three.js `scene.background = 0x0C0C0C`. */
+.lb-pc-wrap,
+.lb-pred3d-panel,
+.pc-viewer-container,
+.cmp-pc-viewer {
+  background: var(--bg-primary) !important;
+}
+.lb-pc-wrap canvas,
+.lb-pred3d-panel canvas,
+.pc-viewer-container canvas,
+.cmp-pc-viewer canvas {
+  background: var(--bg-primary);
 }

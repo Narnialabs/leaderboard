@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Analysis — Narnia Labs</title>
+<title>Narnia Labs - Analysis</title>
 <link rel="icon" type="image/png" href="favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Joungkyun/font-d2coding@1.3.2/d2coding.css">
 <link rel="stylesheet" href="shared/style.css">
 <link rel="stylesheet" href="shared/mobile.css">
 <script src="shared/lib/papaparse.min.js"></script>
@@ -19,11 +19,11 @@
      the pill to the 13px-font / 3px-13px-padding leaderboard variant. */
 
   /* ── Comparison surface (lifted from explorer.html so analysis.html owns the
-        A/B visual language: cyan = Series A, pink = Series B). Mobile overrides
+        A/B visual language: cyan = Model A, pink = Model B). Mobile overrides
         on `#cmp-*` IDs in shared/mobile.css continue to apply because the IDs
         are kept stable across the lift-and-shift. ── */
   .cmp-model-pill {
-    padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 600;
+    padding: 5px 12px; border-radius: 0; font-size: 13px; font-weight: 600;
     border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04);
     color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.15s;
   }
@@ -31,7 +31,7 @@
   .cmp-model-pill.active-a { background: rgba(56,189,248,0.2); border-color: rgba(56,189,248,0.5); color: #38bdf8; }
   .cmp-model-pill.active-b { background: rgba(244,114,182,0.2); border-color: rgba(244,114,182,0.5); color: #f472b6; }
   .cmp-card {
-    flex: 1; min-width: 100px; padding: 14px 16px; border-radius: 10px;
+    flex: 1; min-width: 100px; padding: 14px 16px; border-radius: 0;
     background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: center;
   }
   .cmp-card-value { font-size: 27px; font-weight: 900; letter-spacing: -0.5px; }
@@ -40,17 +40,17 @@
   .cmp-metric-table th { padding: 6px 8px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.4); border-bottom: 1px solid rgba(255,255,255,0.08); text-align: left; }
   .cmp-metric-table td { padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); }
   .cmp-metric-table .metric-name { color: rgba(255,255,255,0.6); font-weight: 600; font-size: 11px; }
-  .cmp-metric-table .val-a { color: #38bdf8; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-variant-numeric: tabular-nums; }
-  .cmp-metric-table .val-b { color: #f472b6; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-variant-numeric: tabular-nums; }
-  .cmp-metric-table .val-diff { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .cmp-metric-table .val-a { color: #38bdf8; text-align: right; font-family: 'D2 coding', D2Coding, 'JetBrains Mono', Menlo, Consolas, monospace; font-size: 13px; font-variant-numeric: tabular-nums; }
+  .cmp-metric-table .val-b { color: #f472b6; text-align: right; font-family: 'D2 coding', D2Coding, 'JetBrains Mono', Menlo, Consolas, monospace; font-size: 13px; font-variant-numeric: tabular-nums; }
+  .cmp-metric-table .val-diff { text-align: right; font-family: 'D2 coding', D2Coding, 'JetBrains Mono', Menlo, Consolas, monospace; font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; }
   .cmp-metric-table .cat-row td { padding: 6px 8px 3px; font-size: 9px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; border-bottom: none; }
   /* Tap/hover affordance for Disagreement rows that deep-link to Qualitative.
      Hover stays subtle on desktop; -webkit-tap-highlight-color tints touch
      taps in the same purple hue mobile.css uses for other interactive
      elements (filter-pill, cmp-model-pill, nav-link). */
-  .cmp-metric-table tbody tr[onclick] { transition: background 0.12s ease; -webkit-tap-highlight-color: rgba(129,140,248,0.18); }
-  .cmp-metric-table tbody tr[onclick]:hover { background: rgba(124,58,237,0.08); }
-  .cmp-metric-table tbody tr[onclick]:active { background: rgba(124,58,237,0.16); }
+  .cmp-metric-table tbody tr[onclick] { transition: background 0.12s ease; -webkit-tap-highlight-color: rgba(153,97,255,0.18); }
+  .cmp-metric-table tbody tr[onclick]:hover { background: rgba(101,34,225,0.08); }
+  .cmp-metric-table tbody tr[onclick]:active { background: rgba(101,34,225,0.16); }
   .diff-better { color: #34d399; }
   .diff-worse  { color: #f87171; }
   .diff-tie    { color: rgba(255,255,255,0.3); }
@@ -60,7 +60,7 @@
   .cmp-grid { display: flex; gap: 16px; }
   .cmp-half { flex: 1; min-width: 0; }
   .cmp-img-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-  .cmp-img-row img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); background: #08051a; }
+  .cmp-img-row img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 0; border: 1px solid rgba(255,255,255,0.06); background: var(--bg-deep); }
   /* 2D field pred comparison: triptych panels expand to fill the half-column,
      matching the 2D-gen comparison thumbnail size. The default .f2d-panel rule
      pins 128×128 (used by single-model detail view), and the mobile.css rule
@@ -75,9 +75,9 @@
     .cmp-grid { flex-direction: column; }
   }
 
-  /* ── Series A/B picker (cmp-model-selector) collapsing transition ──
+  /* ── Model A/B picker (cmp-model-selector) collapsing transition ──
         Progression and Frontier are field-wide views (every model in the task
-        family on a single chart) — Series A/B is only used as an optional
+        family on a single chart) — Model A/B is only used as an optional
         highlight, not as a filter.  When the user is on those tabs we hide the
         picker entirely so the controls never feel demanded.  Switching back
         to a head-to-head tab (Trajectory / Qualitative / Disagreement /
@@ -87,7 +87,7 @@
        deterministic. Without it the rule was max-height:0 → max-height:none,
        which CSS cannot interpolate — producing the "sometimes doesn't open
        all the way" glitch on fast tab switches. 480px covers the picker
-       at its tallest (mobile stack: two Series boxes + wrapped pill rows). */
+       at its tallest (mobile stack: two models boxes + wrapped pill rows). */
     max-height: 480px;
     transition: max-height 0.45s var(--ease-snappy),
                 opacity 0.3s ease,
@@ -131,7 +131,7 @@
        panel (see style.css :root). One source of truth, no drift. */
     background: var(--sticky-glass-bg);
     border: 1px solid var(--glass-border);
-    border-radius: 16px;
+    border-radius: 0;
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
   }
@@ -153,7 +153,7 @@
     flex: 1 1 0;
     min-width: 0;
     padding: 9px 12px;
-    border-radius: 9px;
+    border-radius: 4px;
     background: transparent;
     border: 1px solid transparent;
     color: rgba(255,255,255,0.65);
@@ -172,12 +172,12 @@
   .analysis-tab.active {
     /* Match the site's pill-active palette (purple) instead of cyan so the
        active tab reads in the same visual family as every other selected
-       .filter-pill on the page. Cyan was reserved for Series A and made
+       .filter-pill on the page. Cyan was reserved for Model A and made
        the tab strip look like a separate widget. */
-    background: rgba(124,58,237,0.20);
-    border-color: rgba(124,58,237,0.5);
+    background: rgba(101,34,225,0.20);
+    border-color: rgba(101,34,225,0.5);
     color: #fff;
-    box-shadow: 0 0 8px rgba(124,58,237,0.15);
+    box-shadow: 0 0 8px rgba(101,34,225,0.15);
   }
   .analysis-tab-label {
     font-size: 13px;
@@ -228,16 +228,38 @@
     /* (Mobile sticky offset comes from --nav-bar-height in mobile.css.) */
   }
 
+  /* Tab content panel — reserves a stable height so the page doesn't reflow
+     while charts are torn down + rebuilt during tab switches.  Without this,
+     a tall Disagreement panel collapsing to an empty Trajectory makes the
+     entire footer/page-content slide upward and back during the swap, which
+     reads as "every tab is a different page". */
+  .analysis-tab-panel { min-height: 520px; }
+  .analysis-tab-panel:empty::before {
+    content: '';
+    display: block;
+    height: 200px;
+    margin: 80px auto;
+    width: 70%;
+    background: linear-gradient(90deg, rgba(255,255,255,0.025) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.025) 100%);
+    background-size: 200% 100%;
+    animation: analysis-skel 1.4s ease-in-out infinite;
+    border-radius: 0;
+  }
+  @keyframes analysis-skel {
+    0%   { background-position: 0%   0; }
+    100% { background-position: 200% 0; }
+  }
+
   /* Three.js point-cloud comparison viewer (lifted from explorer.html) */
-  .pc-viewer-container { position:relative; width:100%; border-radius:12px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
+  .pc-viewer-container { position:relative; width:100%; border-radius:0; overflow:hidden; background:var(--bg-deep); border:1px solid rgba(255,255,255,0.08); }
   .pc-viewer-container canvas { display:block; width:100% !important; height:100% !important; }
   .pc-controls { display:flex; gap:6px; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.03); border-top:1px solid rgba(255,255,255,0.06); flex-wrap:wrap; }
   .pc-controls label { font-size:10px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.5px; }
   .pc-color-btn { padding:2px 8px; border-radius:4px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); font-size:10px; cursor:pointer; transition:all 0.15s; }
   .pc-color-btn.active { background:rgba(56,189,248,0.2); border-color:rgba(56,189,248,0.4); color:#38bdf8; }
-  .pred3d-panel { position:relative; border-radius:12px; overflow:hidden; background:#08051a; border:1px solid rgba(255,255,255,0.08); }
+  .pred3d-panel { position:relative; border-radius:0; overflow:hidden; background:var(--bg-deep); border:1px solid rgba(255,255,255,0.08); }
   .pred3d-panel-label { position:absolute; top:8px; left:10px; z-index:10; font-size:11px; font-weight:700; letter-spacing:0.5px; padding:2px 8px; border-radius:4px; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); }
-  .pred3d-panel-label.pred { color:#a78bfa; }
+  .pred3d-panel-label.pred { color:#9961FF; }
   .pred3d-panel-label.gt { color:#34d399; }
   .pred3d-panel-label.error { color:#f59e0b; }
   .pred3d-canvas-wrap { width:100%; height:500px; position:relative; }
@@ -350,7 +372,7 @@
     </button>
     <button class="analysis-tab" role="tab" id="cat-tab-disagreement"
             onclick="analysisShowCategory('disagreement')"
-            title="Top samples where the two Series disagree most">
+            title="Top samples where the two models disagree most">
       <div class="analysis-tab-label">Disagreement</div>
       <div class="analysis-tab-sub">Sample-level diff</div>
     </button>
@@ -363,7 +385,7 @@
   </div>
 </div>
 
-<!-- Series A / B picker — its own .glass card so its conditional visibility
+<!-- Model A / B picker — its own .glass card so its conditional visibility
      reads as "input for the selected analysis tab". Progression / Frontier
      are field-wide views that don't need an A/B selection, so the card
      collapses entirely (max-height + margin + padding → 0) via .cmp-hidden.
@@ -377,13 +399,13 @@
        .cmp-hidden, so the user never sees an "optional" prompt either way.
        The card's visibility carries that signal — verbal redundancy removed. -->
   <div style="display:flex; gap:14px; align-items:stretch;">
-    <div style="flex:1; min-width:0; border-radius:10px; padding:11px 14px; border:1px solid rgba(56,189,248,0.25); background:rgba(56,189,248,0.03);">
-      <div style="font-size:11px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#38bdf8; margin-bottom:7px;">Series A</div>
+    <div style="flex:1; min-width:0; border-radius:0; padding:11px 14px; border:1px solid rgba(56,189,248,0.25); background:rgba(56,189,248,0.03);">
+      <div style="font-size:11px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#38bdf8; margin-bottom:7px;">Model A</div>
       <div id="cmp-model-a-pills" style="display:flex; flex-wrap:wrap; gap:5px;"></div>
     </div>
     <div style="display:flex; align-items:center; font-size:18px; font-weight:900; color:rgba(255,255,255,0.18); min-width:34px; justify-content:center; letter-spacing:2px;">VS</div>
-    <div style="flex:1; min-width:0; border-radius:10px; padding:11px 14px; border:1px solid rgba(244,114,182,0.25); background:rgba(244,114,182,0.03);">
-      <div style="font-size:11px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#f472b6; margin-bottom:7px;">Series B</div>
+    <div style="flex:1; min-width:0; border-radius:0; padding:11px 14px; border:1px solid rgba(244,114,182,0.25); background:rgba(244,114,182,0.03);">
+      <div style="font-size:11px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#f472b6; margin-bottom:7px;">Model B</div>
       <div id="cmp-model-b-pills" style="display:flex; flex-wrap:wrap; gap:5px;"></div>
     </div>
   </div>
@@ -400,7 +422,7 @@
            page now, and the breadcrumb is mirrored from #cmp-breadcrumb (used by
            lifted cmp* code) into the page-level #analysis-breadcrumb above.
            Filters are lifted to #analysis-filters-panel (above the tab strip);
-           Series A/B picker sits in its own #cmp-model-selector card (below
+           Model A/B picker sits in its own #cmp-model-selector card (below
            the tab strip) so all category tabs share the selection. -->
       <div style="display:none;" id="cmp-breadcrumb"></div>
 
@@ -465,12 +487,14 @@
       </div>
     </div>
 
-    <!-- New category containers (Phase D-H) -->
-    <div id="analysis-trajectory-content"   style="display:none;"></div>
-    <div id="analysis-distribution-content" style="display:none;"></div>
-    <div id="analysis-disagreement-content" style="display:none;"></div>
-    <div id="analysis-frontier-content"     style="display:none;"></div>
-    <div id="analysis-progression-content"  style="display:none;"></div>
+    <!-- New category containers (Phase D-H)
+         All tab content panels share a min-height so the page doesn't jump
+         vertically while charts are being torn down + rebuilt. -->
+    <div id="analysis-trajectory-content"   class="analysis-tab-panel" style="display:none;"></div>
+    <div id="analysis-distribution-content" class="analysis-tab-panel" style="display:none;"></div>
+    <div id="analysis-disagreement-content" class="analysis-tab-panel" style="display:none;"></div>
+    <div id="analysis-frontier-content"     class="analysis-tab-panel" style="display:none;"></div>
+    <div id="analysis-progression-content"  class="analysis-tab-panel" style="display:none;"></div>
 </div>
 
 <!-- Footer — same markup as the other 3 pages so the brand strip stays consistent. -->
@@ -554,10 +578,10 @@ function createViewer(container, width, height) {
   cleanupViewer();
 
   pcScene = new THREE.Scene();
-  pcScene.background = new THREE.Color(0x08051a);
+  pcScene.background = new THREE.Color(0x0C0C0C);
 
   pcCamera = new THREE.PerspectiveCamera(45, width / height, 0.01, 100);
-  pcCamera.position.set(2.1, 1.4, 2.1);
+  pcCamera.position.set(2.4, 0.4, 1.6);
 
   pcRenderer = new THREE.WebGLRenderer({ antialias: true });
   pcRenderer.setSize(width, height);
@@ -744,10 +768,10 @@ function loadPointCloud(positions, dataset) {
   // at the same on-screen size (different generators output wheels at
   // wildly different scales).  DeepJEB / DrivAerNet keep their fixed
   // world-unit offset because samples are already consistently normalised.
-  const baseLen = 3.29;  // = |(2.1, 1.4, 2.1)|
+  const baseLen = Math.sqrt(2.4*2.4 + 0.4*0.4 + 1.6*1.6);  // = |(2.4, 0.4, 1.6)| ≈ 2.92
   const radius = (geometry.boundingSphere && geometry.boundingSphere.radius) || 1;
   const k = isDeepWheel ? (5.0 * radius / baseLen) : 1.0;
-  pcCamera.position.set(center.x + 2.1 * k, center.y + 1.4 * k, center.z + 2.1 * k);
+  pcCamera.position.set(center.x + 2.4 * k, center.y + 0.4 * k, center.z + 1.6 * k);
   pcControls.update();
 }
 
@@ -854,7 +878,7 @@ window.initPointCloudViewer = async function(model, size, dataset) {
           <div style="text-align:center;">
             <div style="color:rgba(255,255,255,0.4); margin-bottom:8px;">Point cloud not available</div>
             <div style="font-size:11px; color:rgba(255,255,255,0.25);">
-              Run <code style="background:rgba(255,255,255,0.05); padding:1px 6px; border-radius:3px;">python scripts/convert_gen_pointcloud.py</code> to generate .bin files
+              Run <code style="background:rgba(255,255,255,0.05); padding:1px 6px; border-radius:1px;">python scripts/convert_gen_pointcloud.py</code> to generate .bin files
             </div>
           </div>`;
       }
@@ -958,10 +982,10 @@ function colorByField(values, vmin, vmax, cmap) {
 
 function createEvalPanel(container, width, height, labelClass, labelText) {
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x08051a);
+  scene.background = new THREE.Color(0x0C0C0C);
 
   const camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 100);
-  camera.position.set(2.1, 1.4, 2.1);
+  camera.position.set(2.4, 0.4, 1.6);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(width, height);
@@ -1299,8 +1323,8 @@ window.renderDetailScalarGallery = async function(targetKey) {
     loadScalarPredJson(ctx.model, ctx.size, ctx.dataset),
   ]);
   if (!manifest) {
-    root.innerHTML = `<div style="padding:14px;color:rgba(255,255,255,0.4);font-size:12px;background:rgba(255,255,255,0.025);border:1px dashed rgba(255,255,255,0.12);border-radius:8px;text-align:center;">
-      Per-sample shapes not exported yet — run <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:3px;">python tools/websites/scripts/convert_pred_scalar_shapes.py</code>
+    root.innerHTML = `<div style="padding:14px;color:rgba(255,255,255,0.4);font-size:12px;background:rgba(255,255,255,0.025);border:1px dashed rgba(255,255,255,0.12);border-radius:0;text-align:center;">
+      Per-sample shapes not exported yet — run <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:1px;">python tools/websites/scripts/convert_pred_scalar_shapes.py</code>
     </div>`;
     return;
   }
@@ -1311,7 +1335,7 @@ window.renderDetailScalarGallery = async function(targetKey) {
     const slot = sample.slot;
     const gtVal = sample.gt[targetKey];
     const predVal = target ? target.pred[slot] : NaN;
-    return scalarBuildCard(slot, scalarBuildShapeHTML(ctx.dataset, slot), gtVal, predVal, range, '#a78bfa');
+    return scalarBuildCard(slot, scalarBuildShapeHTML(ctx.dataset, slot), gtVal, predVal, range, '#9961FF');
   }).join('');
   root.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));gap:10px;">${cards}</div>
     <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.3);text-align:center;">
@@ -1360,8 +1384,8 @@ function drawScalarScatter(targetKey) {
         {
           label: 'pred vs gt',
           data: points,
-          backgroundColor: 'rgba(167,139,250,0.55)',
-          borderColor: 'rgba(167,139,250,0.9)',
+          backgroundColor: 'rgba(153,97,255,0.55)',
+          borderColor: 'rgba(153,97,255,0.9)',
           pointRadius: 3,
           pointHoverRadius: 5,
         },
@@ -1664,7 +1688,7 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
             <div style="text-align:center;">
               <div style="color:rgba(255,255,255,0.4); margin-bottom:6px;">Data not available</div>
               <div style="font-size:10px; color:rgba(255,255,255,0.25);">
-                Run <code style="background:rgba(255,255,255,0.05); padding:1px 6px; border-radius:3px;">python scripts/convert_pred_pointcloud.py</code>
+                Run <code style="background:rgba(255,255,255,0.05); padding:1px 6px; border-radius:1px;">python scripts/convert_pred_pointcloud.py</code>
               </div>
             </div>`;
         }
@@ -1714,10 +1738,10 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   const w = wrap.clientWidth, h = wrap.clientHeight;
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x08051a);
+  scene.background = new THREE.Color(0x0C0C0C);
   const camera = new THREE.PerspectiveCamera(45, w/h, 0.01, 100);
   const camDist = isMobileCmp ? 1.35 : 1.0;
-  camera.position.set(2.1 * camDist, 1.4 * camDist, 2.1 * camDist);
+  camera.position.set(2.4 * camDist, 0.4 * camDist, 1.6 * camDist);
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(w, h);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -1781,7 +1805,7 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
       if (cmpPcAnimId) cancelAnimationFrame(cmpPcAnimId);
       // forceContextLoss + canvas removal — same pattern as benchmark.html.
       // Without this the GL context survives until <canvas> GC, and rapidly
-      // cycling Series A/B (which calls cmpRender3DGen, which makes new viewers)
+      // cycling Model A/B (which calls cmpRender3DGen, which makes new viewers)
       // exhausts the browser's ~16-context cap and leaves blank panels.
       if (renderer) {
         try { renderer.forceContextLoss(); } catch(e) {}
@@ -1835,7 +1859,7 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
       const k = isDeepWheel
         ? (5.0 * radius / baseLen)
         : (isDriv ? (1.0 / 1.1) : 1.0);
-      camera.position.set(c.x + 1.5*k*mz, c.y + 1.0*k*mz, c.z + 1.5*k*mz);
+      camera.position.set(c.x + 1.7*k*mz, c.y + 0.3*k*mz, c.z + 1.1*k*mz);
       controls.update();
     } catch {
       if (ld) ld.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,0.4);font-size:11px;">Sample ${idx} N/A</div>`;
@@ -1869,7 +1893,7 @@ window.initCmpEvalViewer = async function(el) {
     : `flex:1;min-width:0;position:relative;`;
 
   el.innerHTML = `
-    <div style="border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);">
+    <div style="border-radius:0;overflow:hidden;border:1px solid rgba(255,255,255,0.06);">
       <div class="lb-pred3d-row" style="${rowStyle}">
         <div class="pred3d-panel" style="${panelStyle}">
           <div class="pred3d-panel-label gt">GT</div>
@@ -1885,7 +1909,7 @@ window.initCmpEvalViewer = async function(el) {
           <div class="pred3d-stats" id="${id}-stats">—</div>
         </div>
       </div>
-      <div style="display:flex;gap:8px;padding:6px 12px;background:rgba(255,255,255,0.03);border-top:1px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(167,139,250,0.7);font-weight:700;">
+      <div style="display:flex;gap:8px;padding:6px 12px;background:rgba(255,255,255,0.03);border-top:1px solid rgba(255,255,255,0.06);font-size:10px;color:rgba(153,97,255,0.7);font-weight:700;">
         ${tk} · ${channels[chIdx]} · #${sampleIdx}
       </div>
     </div>`;
@@ -1897,9 +1921,9 @@ window.initCmpEvalViewer = async function(el) {
 
   const isMobileCmpPred = window.matchMedia('(max-width: 768px)').matches;
   function mkPanel(cont) {
-    const s = new THREE.Scene(); s.background = new THREE.Color(0x08051a);
+    const s = new THREE.Scene(); s.background = new THREE.Color(0x0C0C0C);
     const camDist = isMobileCmpPred ? 1.35 : 1.0;
-    const cam = new THREE.PerspectiveCamera(45,w/h,0.01,100); cam.position.set(2.1*camDist,1.4*camDist,2.1*camDist);
+    const cam = new THREE.PerspectiveCamera(45,w/h,0.01,100); cam.position.set(2.4*camDist,0.4*camDist,1.6*camDist);
     const ren = new THREE.WebGLRenderer({antialias:true}); ren.setSize(w,h); ren.setPixelRatio(Math.min(window.devicePixelRatio,2)); cont.appendChild(ren.domElement);
     const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.enableZoom=false; ctrl.autoRotate=true; ctrl.autoRotateSpeed=0.25; ctrl.minDistance=0.5; ctrl.maxDistance=20;
     s.add(new THREE.GridHelper(2,10,0x1a1045,0x140e30)); s.add(new THREE.AmbientLight(0xffffff,0.5));
@@ -2031,7 +2055,7 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
 
   el.innerHTML = '';
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x08051a);
+  scene.background = new THREE.Color(0x0C0C0C);
   const camera = new THREE.PerspectiveCamera(45, w / h, 0.01, 100);
   // DeepWheel point clouds have their rotation axis along Z (verified: Z range
   // ~[-0.46, 0.33], std 0.25 vs X/Y std ~0.52). Camera placed on +Z and looking
@@ -2441,7 +2465,10 @@ function initScalarShape3DCells(root) {
 // COMPARISONS
 // ══════════════════════════════════════════
 const cmpState = {
-  dim: '3d', task: 'generation', outputType: 'field',
+  // Default landing: 3D Prediction · Field — the most information-dense
+  // category, with field-prediction models producing per-point outputs that
+  // showcase the head-to-head comparison story most clearly.
+  dim: '3d', task: 'prediction', outputType: 'field',
   dataScale: null, dataset: null,
   targetKey: null, dimension: null, modelA: null, modelB: null, sortedModels: [], sampleIndex: 0,
   mode: 'qualitative',
@@ -2724,8 +2751,11 @@ async function cmpApplyFilters() {
     models.sort();
   }
 
+  // Default Model A / B picks: first vs last in the sorted list so the
+  // cold-load comparison spans the widest gap (top-ranked vs bottom-ranked
+  // by Total Score) — gives the head-to-head view its most striking framing.
   if (!cmpState.modelA || !models.includes(cmpState.modelA)) cmpState.modelA = models[0] || null;
-  if (!cmpState.modelB || !models.includes(cmpState.modelB)) cmpState.modelB = models[1] || models[0] || null;
+  if (!cmpState.modelB || !models.includes(cmpState.modelB)) cmpState.modelB = models[models.length - 1] || models[0] || null;
   if (cmpState.modelA === cmpState.modelB && models.length > 1) {
     cmpState.modelB = models.find(m => m !== cmpState.modelA) || models[0];
   }
@@ -2736,7 +2766,7 @@ async function cmpApplyFilters() {
   ieSync();
   // analysis.html hook: when the user is on a non-cmp category (Trajectory /
   // Distribution / Disagreement / Frontier), re-render that category too so
-  // changing Series A/B or filters from the global panel updates the chart.
+  // changing Model A/B or filters from the global panel updates the chart.
   if (typeof analysisUpdateTabAvailability === 'function') analysisUpdateTabAvailability();
   if (typeof analysisRefreshActiveCategory === 'function') analysisRefreshActiveCategory();
 }
@@ -2765,7 +2795,7 @@ window.cmpSelectModel = function(side, model) {
   // cmpRenderAll only updates Mathematical / Qualitative. The non-cmp tabs
   // (Trajectory / Disagreement / Distribution / Frontier / Progression) read
   // cmpState.modelA/B too — refresh whichever is currently visible so the
-  // chart's Series A/B lines actually track the picker.
+  // chart's Model A/B lines actually track the picker.
   if (typeof analysisRefreshActiveCategory === 'function') analysisRefreshActiveCategory();
   if (typeof ieSync === 'function') ieSync();
 };
@@ -2986,7 +3016,7 @@ function cmpRenderBarChart(rowA, rowB, metrics, ranges) {
 // ── Visual Inference Comparison ──
 function cmpRenderVisual() {
   const section = document.getElementById('cmp-visual-section');
-  // No silent return when Series A/B haven't been picked — show a clear
+  // No silent return when Model A/B haven't been picked — show a clear
   // empty-state with sketch so users on the Qualitative tab understand the
   // requirement (matches Trajectory/Disagreement/Distribution conventions).
   if (!cmpState.modelA || !cmpState.modelB) {
@@ -3023,7 +3053,7 @@ function cmpRenderVisual() {
   const labelEl = document.getElementById('cmp-visual-label');
   labelEl.textContent = `${label} — ${displayModelName(cmpState.modelA)} vs ${displayModelName(cmpState.modelB)}`;
   // Domain-aware label color
-  const domainColor = cmpState.dim === '2d' ? '#22c55e' : cmpState.task === 'prediction' ? '#38bdf8' : '#a78bfa';
+  const domainColor = cmpState.dim === '2d' ? '#22c55e' : cmpState.task === 'prediction' ? '#38bdf8' : '#9961FF';
   labelEl.style.color = domainColor;
 
   cmpUpdateSampleBtnStates();
@@ -3049,7 +3079,7 @@ function cmpRenderVisual() {
     }
   } catch(e) {
     console.error('cmpRenderVisual error:', e);
-    container.innerHTML = `<div style="padding:20px;color:#f87171;background:rgba(248,113,113,0.1);border-radius:8px;font-size:14px;">Render error: ${e.message}</div>`;
+    container.innerHTML = `<div style="padding:20px;color:#f87171;background:rgba(248,113,113,0.1);border-radius:0;font-size:14px;">Render error: ${e.message}</div>`;
   }
 }
 
@@ -3129,8 +3159,8 @@ async function cmpRenderScalar(container) {
     loadScalarPredJson(cmpState.modelB, sB, ds),
   ]);
   if (!manifest) {
-    container.innerHTML = `<div style="padding:20px;color:rgba(255,255,255,0.4);font-size:13px;background:rgba(255,255,255,0.025);border:1px dashed rgba(255,255,255,0.12);border-radius:8px;text-align:center;">
-      Per-sample shapes not exported yet — run <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:3px;">python tools/websites/scripts/convert_pred_scalar_shapes.py</code>
+    container.innerHTML = `<div style="padding:20px;color:rgba(255,255,255,0.4);font-size:13px;background:rgba(255,255,255,0.025);border:1px dashed rgba(255,255,255,0.12);border-radius:0;text-align:center;">
+      Per-sample shapes not exported yet — run <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:1px;">python tools/websites/scripts/convert_pred_scalar_shapes.py</code>
     </div>`;
     return;
   }
@@ -3209,7 +3239,7 @@ function cmpRender3DGen(container) {
   html += `<div class="cmp-half"><div style="font-size:11px;font-weight:700;color:#38bdf8;margin-bottom:6px;">${nA}</div><div style="display:flex;flex-direction:column;gap:8px;">`;
   for (let i=0;i<count;i++) {
     const s = cmpState.sampleIndex + i;
-    html += `<div id="cmp-pc-a-s${s}" class="cmp-pc-viewer" data-model="${cmpState.modelA}" data-size="${sA}" data-dataset="${ds}" data-sample="${s}" data-side="a" style="width:100%;min-height:200px;background:#08051a;border-radius:10px;display:flex;align-items:center;justify-content:center;">
+    html += `<div id="cmp-pc-a-s${s}" class="cmp-pc-viewer" data-model="${cmpState.modelA}" data-size="${sA}" data-dataset="${ds}" data-sample="${s}" data-side="a" style="width:100%;min-height:200px;background:var(--bg-deep);border-radius:0;display:flex;align-items:center;justify-content:center;">
       <div style="text-align:center;color:rgba(255,255,255,0.3);font-size:13px;">Loading...</div></div>`;
   }
   html += '</div></div>';
@@ -3217,7 +3247,7 @@ function cmpRender3DGen(container) {
   html += `<div class="cmp-half"><div style="font-size:11px;font-weight:700;color:#f472b6;margin-bottom:6px;">${nB}</div><div style="display:flex;flex-direction:column;gap:8px;">`;
   for (let i=0;i<count;i++) {
     const s = cmpState.sampleIndex + i;
-    html += `<div id="cmp-pc-b-s${s}" class="cmp-pc-viewer" data-model="${cmpState.modelB}" data-size="${sB}" data-dataset="${ds}" data-sample="${s}" data-side="b" style="width:100%;min-height:200px;background:#08051a;border-radius:10px;display:flex;align-items:center;justify-content:center;">
+    html += `<div id="cmp-pc-b-s${s}" class="cmp-pc-viewer" data-model="${cmpState.modelB}" data-size="${sB}" data-dataset="${ds}" data-sample="${s}" data-side="b" style="width:100%;min-height:200px;background:var(--bg-deep);border-radius:0;display:flex;align-items:center;justify-content:center;">
       <div style="text-align:center;color:rgba(255,255,255,0.3);font-size:13px;">Loading...</div></div>`;
   }
   html += '</div></div></div>';
@@ -3553,9 +3583,9 @@ function analysisShowCategory(cat) {
   // analysisRefreshActiveCategory at its tail).
   if (analysisApplyScopeConstraints(cat)) return;
 
-  // Series A/B picker stays visible on every tab. Progression and Frontier
+  // Model A/B picker stays visible on every tab. Progression and Frontier
   // are field-wide views (every model on a single chart), but they still
-  // highlight Series A/B in cyan/pink — Frontier sorts A/B to the top of
+  // highlight Model A/B in cyan/pink — Frontier sorts A/B to the top of
   // its all-metrics table and Progression draws ▲ markers — so the picker
   // is the only way to change those highlights. Hiding it left users with
   // no control surface for visible UI elements, which read as a bug.
@@ -3615,8 +3645,8 @@ window.analysisSetAxis = analysisSetAxis;
 // each tab's primary card so first-time visitors don't have to guess.
 const _METHODOLOGY_COPY = {
   progression:  "Each dot is a model's score; the dashed line is the per-year median. Look for points sitting clearly above the trend — those are punching above the field.",
-  frontier:     "Bottom-left wins on parameters, top wins on quality. Models on the dashed Pareto curve are not strictly dominated by any other point.",
-  trajectory:   "Each line shows how one Series' metric scales with training-set size. Slope is data efficiency; the gap between cyan and pink shows which Series benefits more from more data.",
+  frontier:     "Top-left is the sweet spot: small parameters with strong metrics. Models on the amber Pareto curve are non-dominated; the amber tint below the curve marks the dominated region (you could do better with the same parameter budget).",
+  trajectory:   "Each line shows how one model's metric scales with training-set size. Slope is data efficiency; the gap between cyan and pink shows which model benefits more from more data.",
   qualitative:  "Side-by-side renders of the same sample. Use the arrows to step through samples and spot consistent failure modes.",
   disagreement: "Top samples ranked by |err A − err B|. The 'Both wrong' cluster reveals genuinely hard inputs; 'Both right' reveals overlapping competence.",
   distribution: "Histogram shows residual spread; Bland-Altman flags scale-dependent bias; Quartile MAE shows whether errors concentrate on small or large GT values.",
@@ -3738,7 +3768,7 @@ const _FRONTIER_ESCAPE_ACTIONS = [
   { label: 'View on Frontier instead', onclick: "analysisShowCategory('frontier')", primary: true },
 ];
 function _pickSeriesPrompt() {
-  return `Pick <strong style="color:#38bdf8;">Series A</strong> and <strong style="color:#f472b6;">Series B</strong> above to start.`;
+  return `Pick <strong style="color:#38bdf8;">Model A</strong> and <strong style="color:#f472b6;">Model B</strong> above to start.`;
 }
 
 // Inline action buttons for empty states — clicking does the fix in one
@@ -3758,7 +3788,7 @@ function _analysisEmptyActions(actions) {
 
 // Tiny inline-SVG sketches — give each empty state a visual hint of what
 // the chart will look like once data populates.  Stroke colours match the
-// site's cyan (Series A) / pink (Series B) / purple (overlay) tokens.
+// site's cyan (Model A) / pink (Model B) / purple (overlay) tokens.
 const _SKETCH_TRAJECTORY = `<svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
   <line x1="20" y1="100" x2="190" y2="100" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
   <line x1="20" y1="20"  x2="20"  y2="100" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
@@ -3780,13 +3810,13 @@ const _SKETCH_DISAGREEMENT = `<svg viewBox="0 0 200 120" xmlns="http://www.w3.or
     const y = 18 + i*16;
     const d = [85, 70, 55, 40, 28, 18][i];
     return `<rect x="20" y="${y-5}" width="${d}" height="10" fill="rgba(251,191,36,0.55)" rx="2"/>
-            <text x="${28+d}" y="${y+3}" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.4)">#${i}</text>`;
+            <text x="${28+d}" y="${y+3}" font-family="Arial" font-size="9" fill="rgba(255,255,255,0.4)">#${i}</text>`;
   }).join('')}
 </svg>`;
 const _SKETCH_FRONTIER = `<svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
   <line x1="20" y1="100" x2="190" y2="100" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
   <line x1="20" y1="20" x2="20" y2="100" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-  <path d="M 28,90 Q 70,55 120,40 T 180,30" fill="none" stroke="rgba(167,139,250,0.55)" stroke-width="2" stroke-dasharray="3,3"/>
+  <path d="M 28,90 Q 70,55 120,40 T 180,30" fill="none" stroke="rgba(153,97,255,0.55)" stroke-width="2" stroke-dasharray="3,3"/>
   ${[[40,75],[55,68],[80,52],[105,46],[130,42],[160,38],[180,32],[140,55],[100,60],[70,72]].map(([x,y]) =>
     `<circle cx="${x}" cy="${y}" r="3" fill="rgba(255,255,255,0.35)"/>`
   ).join('')}
@@ -3796,17 +3826,17 @@ const _SKETCH_FRONTIER = `<svg viewBox="0 0 200 120" xmlns="http://www.w3.org/20
 const _SKETCH_PROGRESSION = `<svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
   <line x1="20" y1="100" x2="190" y2="100" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
   <line x1="20" y1="20" x2="20" y2="100" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-  <polyline points="30,85 60,75 90,62 120,50 150,42 180,32" fill="none" stroke="rgba(167,139,250,0.5)" stroke-width="2" stroke-dasharray="3,3"/>
-  ${[[35,82,'#22c55e'],[55,72,'#22c55e'],[75,68,'#a78bfa'],[95,55,'#38bdf8'],[115,48,'#fbbf24'],[140,38,'#38bdf8'],[160,42,'#f472b6'],[178,30,'#38bdf8']].map(([x,y,c]) =>
+  <polyline points="30,85 60,75 90,62 120,50 150,42 180,32" fill="none" stroke="rgba(153,97,255,0.5)" stroke-width="2" stroke-dasharray="3,3"/>
+  ${[[35,82,'#22c55e'],[55,72,'#22c55e'],[75,68,'#9961FF'],[95,55,'#38bdf8'],[115,48,'#fbbf24'],[140,38,'#38bdf8'],[160,42,'#f472b6'],[178,30,'#38bdf8']].map(([x,y,c]) =>
     `<circle cx="${x}" cy="${y}" r="3.5" fill="${c}"/>`
   ).join('')}
 </svg>`;
 const _SKETCH_QUALITATIVE = `<svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
   <rect x="20" y="20" width="55" height="55" fill="rgba(56,189,248,0.18)" stroke="rgba(56,189,248,0.5)" stroke-width="1.5" rx="4"/>
   <rect x="80" y="20" width="55" height="55" fill="rgba(244,114,182,0.18)" stroke="rgba(244,114,182,0.5)" stroke-width="1.5" rx="4"/>
-  <text x="47" y="52" text-anchor="middle" font-family="Inter" font-size="11" font-weight="700" fill="#38bdf8">A</text>
-  <text x="107" y="52" text-anchor="middle" font-family="Inter" font-size="11" font-weight="700" fill="#f472b6">B</text>
-  <text x="155" y="52" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.4)">sample 0</text>
+  <text x="47" y="52" text-anchor="middle" font-family="Arial" font-size="11" font-weight="700" fill="#38bdf8">A</text>
+  <text x="107" y="52" text-anchor="middle" font-family="Arial" font-size="11" font-weight="700" fill="#f472b6">B</text>
+  <text x="155" y="52" font-family="Arial" font-size="9" fill="rgba(255,255,255,0.4)">sample 0</text>
   <rect x="20" y="85" width="55" height="20" fill="rgba(56,189,248,0.1)" stroke="rgba(56,189,248,0.3)" stroke-width="1" rx="3"/>
   <rect x="80" y="85" width="55" height="20" fill="rgba(244,114,182,0.1)" stroke="rgba(244,114,182,0.3)" stroke-width="1" rx="3"/>
 </svg>`;
@@ -3815,7 +3845,7 @@ const _SKETCH_MATHEMATICAL = `<svg viewBox="0 0 200 120" xmlns="http://www.w3.or
     const y = 24 + i*22;
     const wA = [70, 50, 85, 35][i];
     const wB = [55, 75, 40, 60][i];
-    return `<text x="20" y="${y+4}" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.5)">m${i+1}</text>
+    return `<text x="20" y="${y+4}" font-family="Arial" font-size="9" fill="rgba(255,255,255,0.5)">m${i+1}</text>
             <rect x="50" y="${y-4}" width="${wA}" height="6" fill="rgba(56,189,248,0.55)" rx="1"/>
             <rect x="50" y="${y+3}" width="${wB}" height="6" fill="rgba(244,114,182,0.55)" rx="1"/>`;
   }).join('')}
@@ -3863,7 +3893,7 @@ function analysisUpdateTabAvailability() { /* no-op kept for callsites */ }
 
 // ════════════════════════════════════════════════════════════════════
 // Phase D — Trajectory
-// Small-multiple line charts: Data Size (N) on X, metric on Y, Series A/B
+// Small-multiple line charts: Data Size (N) on X, metric on Y, Model A/B
 // overlaid in cyan/pink.  Reads cmpAllSummary directly (not cmpFiltered)
 // because a trajectory needs every N row, not just the row at the current
 // Size filter.
@@ -3914,7 +3944,7 @@ function analysisRenderTrajectory() {
 
   // Per-metric first→last delta table — replaces the prior single-metric
   // callout that only summarised metricCols[0]. Each row reports both
-  // Series' starting value, ending value, and % change so the user gets a
+  // Model's starting value, ending value, and % change so the user gets a
   // one-glance scaling-story summary before reading the chart grid below.
   // % is signed by direction-aware Δ: down-arrow metrics (lower=better)
   // show positive % when the value drops, so green/red can read uniformly.
@@ -3933,6 +3963,17 @@ function analysisRenderTrajectory() {
     const sign = rawPct >= 0 ? '+' : '';
     return `<td style="text-align:right; color:${color}; font-variant-numeric: tabular-nums;">${sign}${rawPct.toFixed(1)}%</td>`;
   }
+  // Append Training Time to the small-multiples grid so the user can see
+  // compute-cost scaling against data size alongside the quality metrics.
+  // It's a cost column (not a BenchRank quality metric), so we tack it on
+  // *after* metricCols rather than mixing it into the array — keeps the
+  // metric-direction logic (↑/↓) untouched.  Label uses shortMetricLabel
+  // for parity with every other panel ("Train Time" per data-loader.js).
+  const TRAIN_TIME_COL = 'Training Time (s) ↓';   // arrow only here for isHigherBetter()
+  const TRAIN_TIME_RAW = 'Training Time (s)';     // CSV column name
+  const hasTrainTime = rowsA.some(r => r[TRAIN_TIME_RAW] != null && !isNaN(+r[TRAIN_TIME_RAW]))
+                    && rowsB.some(r => r[TRAIN_TIME_RAW] != null && !isNaN(+r[TRAIN_TIME_RAW]));
+
   let calloutHTML = '';
   if (metricCols.length) {
     const rows = metricCols.map(col => {
@@ -3946,12 +3987,24 @@ function analysisRenderTrajectory() {
         ${_improvementCell(fB, lB, col)}
       </tr>`;
     }).join('');
+    let trainRow = '';
+    if (hasTrainTime) {
+      const fA = _getAt(rowsA, firstSize, TRAIN_TIME_RAW), lA = _getAt(rowsA, lastSize, TRAIN_TIME_RAW);
+      const fB = _getAt(rowsB, firstSize, TRAIN_TIME_RAW), lB = _getAt(rowsB, lastSize, TRAIN_TIME_RAW);
+      trainRow = `<tr>
+        <td class="metric-name">${shortMetricLabel(TRAIN_TIME_COL)}</td>
+        <td class="val-a">${_fmt(fA)} → ${_fmt(lA)}</td>
+        ${_improvementCell(fA, lA, TRAIN_TIME_COL)}
+        <td class="val-b">${_fmt(fB)} → ${_fmt(lB)}</td>
+        ${_improvementCell(fB, lB, TRAIN_TIME_COL)}
+      </tr>`;
+    }
     calloutHTML = `<div style="margin:0 0 12px;">
       <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.6px; font-weight:700; margin-bottom:6px;">N=${firstSize} → N=${lastSize} · per-metric change · green = improved</div>
       <div class="data-table-wrapper">
         <table class="cmp-metric-table">
           <thead><tr><th>Metric</th><th class="val-a">${displayModelName(ma)}</th><th style="text-align:right;">Δ%</th><th class="val-b">${displayModelName(mb)}</th><th style="text-align:right;">Δ%</th></tr></thead>
-          <tbody>${rows}</tbody>
+          <tbody>${rows}${trainRow}</tbody>
         </table>
       </div>
     </div>`;
@@ -3966,11 +4019,20 @@ function analysisRenderTrajectory() {
       ${_methodologyHTML('trajectory')}
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:14px;">`;
   metricCols.forEach((col, idx) => {
-    html += `<div style="background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle); border-radius:10px; padding:10px;">
+    html += `<div style="background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle); border-radius:0; padding:10px;">
       <div style="font-size:11px; font-weight:700; color:var(--text-secondary); margin-bottom:6px;">${shortMetricLabel(col)}</div>
       <div style="height:180px;"><canvas id="traj-chart-${idx}"></canvas></div>
     </div>`;
   });
+  if (hasTrainTime) {
+    // Same panel structure as quality metrics — identical bg/border/header
+    // colour, identical label form via shortMetricLabel.  Sits last because
+    // we render it after the loop, not because it's visually distinguished.
+    html += `<div style="background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle); border-radius:0; padding:10px;">
+      <div style="font-size:11px; font-weight:700; color:var(--text-secondary); margin-bottom:6px;">${shortMetricLabel(TRAIN_TIME_COL)}</div>
+      <div style="height:180px;"><canvas id="traj-chart-train"></canvas></div>
+    </div>`;
+  }
   // Delta table sits *below* the chart grid — the small-multiples carry the
   // headline visual impact (shape of every curve at a glance); the numeric
   // delta table is the drill-down for exact first→last values per metric.
@@ -4005,6 +4067,31 @@ function analysisRenderTrajectory() {
       },
     }));
   });
+
+  // Training Time scaling chart — same chart config as the metric panels
+  // (legend off since metricCols[0]'s legend already labels A/B for the row).
+  if (hasTrainTime) {
+    const ctx = document.getElementById('traj-chart-train');
+    if (ctx) {
+      const dataA = sizeOrder.map(sz => { const r = rowsA.find(r => +r['Data Size'] === sz); return r && !isNaN(+r[TRAIN_TIME_RAW]) ? +r[TRAIN_TIME_RAW] : null; });
+      const dataB = sizeOrder.map(sz => { const r = rowsB.find(r => +r['Data Size'] === sz); return r && !isNaN(+r[TRAIN_TIME_RAW]) ? +r[TRAIN_TIME_RAW] : null; });
+      window._trajCharts.push(new Chart(ctx, {
+        type: 'line',
+        data: { labels: sizeOrder, datasets: [
+          { label: displayModelName(ma), data: dataA, borderColor: '#38bdf8', backgroundColor: 'rgba(56,189,248,0.18)', tension: 0.2, pointRadius: 4, spanGaps: false },
+          { label: displayModelName(mb), data: dataB, borderColor: '#f472b6', backgroundColor: 'rgba(244,114,182,0.18)', tension: 0.2, pointRadius: 4, spanGaps: false },
+        ]},
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { title: { display: true, text: 'Data Size (N)', font: {size:9} }, ticks: { font: {size:9} } },
+            y: { ticks: { font: {size:9} } },
+          },
+        },
+      }));
+    }
+  }
 }
 
 // ════════════════════════════════════════════════════════════════════
@@ -4040,7 +4127,7 @@ async function analysisRenderDistribution() {
   }
   const rowA = (cmpFiltered || []).find(r => r['Model Name'] === ma);
   const rowB = (cmpFiltered || []).find(r => r['Model Name'] === mb);
-  if (!rowA || !rowB) { c.innerHTML = _analysisEmptyState('Distribution', 'Both Series need a row at the current Data Size and Target Key. Adjust the filters above so a complete pair exists, then this view will populate.', undefined, _FRONTIER_ESCAPE_ACTIONS); return; }
+  if (!rowA || !rowB) { c.innerHTML = _analysisEmptyState('Distribution', 'Both Model A and B need a row at the current Data Size and Target Key. Adjust the filters above so a complete pair exists, then this view will populate.', undefined, _FRONTIER_ESCAPE_ACTIONS); return; }
 
   c.innerHTML = `<div class="glass" style="padding:18px 20px; margin-top:14px;"><div class="skel-bar"></div><div class="skel-bar" style="width:80%;"></div><div class="skel-bar" style="width:65%;"></div></div>`;
   const signal = _analysisFetchAbort && _analysisFetchAbort.signal;
@@ -4128,9 +4215,9 @@ async function analysisRenderDistribution() {
            in tabular columns so the diagnostics are readable without
            hovering anything. -->
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px; margin-bottom:20px;">
-        <div style="padding:16px 18px; background:linear-gradient(135deg, rgba(56,189,248,0.12), rgba(56,189,248,0.03)); border:1px solid rgba(56,189,248,0.32); border-radius:14px;">
+        <div style="padding:16px 18px; background:linear-gradient(135deg, rgba(56,189,248,0.12), rgba(56,189,248,0.03)); border:1px solid rgba(56,189,248,0.32); border-radius:0;">
           <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
-            <div style="font-size:10px; color:#38bdf8; text-transform:uppercase; letter-spacing:1px; font-weight:800;">Series A · ${displayModelName(ma)}</div>
+            <div style="font-size:10px; color:#38bdf8; text-transform:uppercase; letter-spacing:1px; font-weight:800;">Model A · ${displayModelName(ma)}</div>
             <div style="font-size:10px; color:rgba(255,255,255,0.35);">n = ${sA.N}</div>
           </div>
           <div style="font-size:26px; font-weight:900; font-variant-numeric:tabular-nums; color:#fff; letter-spacing:-0.4px;">bias ${sA.mean.toFixed(3)}</div>
@@ -4141,9 +4228,9 @@ async function analysisRenderDistribution() {
           </div>
           <div style="font-size:11px; color:rgba(255,255,255,0.5); margin-top:8px; font-variant-numeric:tabular-nums;">LoA [${sA.lo.toFixed(3)}, ${sA.hi.toFixed(3)}] · σ ${sA.sd.toFixed(3)} · ${sA.outliers} out of LoA (${sA.outlierPct.toFixed(1)}%)</div>
         </div>
-        <div style="padding:16px 18px; background:linear-gradient(135deg, rgba(244,114,182,0.12), rgba(244,114,182,0.03)); border:1px solid rgba(244,114,182,0.32); border-radius:14px;">
+        <div style="padding:16px 18px; background:linear-gradient(135deg, rgba(244,114,182,0.12), rgba(244,114,182,0.03)); border:1px solid rgba(244,114,182,0.32); border-radius:0;">
           <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
-            <div style="font-size:10px; color:#f472b6; text-transform:uppercase; letter-spacing:1px; font-weight:800;">Series B · ${displayModelName(mb)}</div>
+            <div style="font-size:10px; color:#f472b6; text-transform:uppercase; letter-spacing:1px; font-weight:800;">Model B · ${displayModelName(mb)}</div>
             <div style="font-size:10px; color:rgba(255,255,255,0.35);">n = ${sB.N}</div>
           </div>
           <div style="font-size:26px; font-weight:900; font-variant-numeric:tabular-nums; color:#fff; letter-spacing:-0.4px;">bias ${sB.mean.toFixed(3)}</div>
@@ -4157,15 +4244,15 @@ async function analysisRenderDistribution() {
       </div>
 
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(480px, 1fr)); gap:18px;">
-        <div style="background:rgba(255,255,255,0.025); border:1px solid var(--border-subtle); border-radius:12px; padding:18px;">
+        <div style="background:rgba(255,255,255,0.025); border:1px solid var(--border-subtle); border-radius:0; padding:18px;">
           <div style="font-size:14px; font-weight:700; color:#fff; margin-bottom:12px;">Residual Histogram <span style="font-weight:500; color:var(--text-muted); font-size:11px;">— gt − pred · ${nBins} bins</span></div>
           <div style="height:380px;"><canvas id="dist-hist"></canvas></div>
         </div>
-        <div style="background:rgba(255,255,255,0.025); border:1px solid var(--border-subtle); border-radius:12px; padding:18px;">
+        <div style="background:rgba(255,255,255,0.025); border:1px solid var(--border-subtle); border-radius:0; padding:18px;">
           <div style="font-size:14px; font-weight:700; color:#fff; margin-bottom:12px;">Bland-Altman <span style="font-weight:500; color:var(--text-muted); font-size:11px;">— bias ± 1.96σ LoA</span></div>
           <div style="height:380px;"><canvas id="dist-ba"></canvas></div>
         </div>
-        <div style="background:rgba(255,255,255,0.025); border:1px solid var(--border-subtle); border-radius:12px; padding:18px; grid-column: 1 / -1;">
+        <div style="background:rgba(255,255,255,0.025); border:1px solid var(--border-subtle); border-radius:0; padding:18px; grid-column: 1 / -1;">
           <div style="font-size:14px; font-weight:700; color:#fff; margin-bottom:12px;">MAE by GT Quartile <span style="font-weight:500; color:var(--text-muted); font-size:11px;">— does error concentrate on small or large GT?</span></div>
           <div style="height:340px;"><canvas id="dist-quartile"></canvas></div>
         </div>
@@ -4210,7 +4297,7 @@ async function analysisRenderDistribution() {
         plugins: {
           legend: { position: 'bottom', labels: { boxWidth: 14, font: { size: 12 },
             // Hide the bias / LoA helper-line entries so the legend keeps just
-            // the two Series scatters — the stats card already labels the lines.
+            // the two models scatters — the stats card already labels the lines.
             filter: (item) => !/bias|LoA/.test(item.text) } },
         },
         scales: {
@@ -4265,7 +4352,7 @@ async function analysisRenderDisagreement() {
   }
   const rowA = (cmpFiltered || []).find(r => r['Model Name'] === ma);
   const rowB = (cmpFiltered || []).find(r => r['Model Name'] === mb);
-  if (!rowA || !rowB) { c.innerHTML = _analysisEmptyState('Disagreement', 'Both Series need a row at the current Data Size and Target Key. Adjust the filters above so a complete pair exists, then this view will populate.', undefined, _FRONTIER_ESCAPE_ACTIONS); return; }
+  if (!rowA || !rowB) { c.innerHTML = _analysisEmptyState('Disagreement', 'Both Model A and B need a row at the current Data Size and Target Key. Adjust the filters above so a complete pair exists, then this view will populate.', undefined, _FRONTIER_ESCAPE_ACTIONS); return; }
 
   c.innerHTML = `<div class="glass" style="padding:18px 20px; margin-top:14px;"><div class="skel-bar"></div><div class="skel-bar" style="width:80%;"></div><div class="skel-bar" style="width:65%;"></div></div>`;
   const signal = _analysisFetchAbort && _analysisFetchAbort.signal;
@@ -4298,12 +4385,12 @@ async function analysisRenderDisagreement() {
     // Absolute |Δ err| (current sort key) tells you how much they disagreed
     // but not which side was right; this column closes that gap.
     function _winnerCell(s) {
-      if (s.errA < s.errB) return `<td style="color:#38bdf8; font-weight:700; text-align:center;" title="Series A closer to GT by ${(s.errB-s.errA).toFixed(3)}">A</td>`;
-      if (s.errB < s.errA) return `<td style="color:#f472b6; font-weight:700; text-align:center;" title="Series B closer to GT by ${(s.errA-s.errB).toFixed(3)}">B</td>`;
+      if (s.errA < s.errB) return `<td style="color:#38bdf8; font-weight:700; text-align:center;" title="Model A closer to GT by ${(s.errB-s.errA).toFixed(3)}">A</td>`;
+      if (s.errB < s.errA) return `<td style="color:#f472b6; font-weight:700; text-align:center;" title="Model B closer to GT by ${(s.errA-s.errB).toFixed(3)}">B</td>`;
       return `<td style="color:rgba(255,255,255,0.3); text-align:center;" title="tie">=</td>`;
     }
     function table(title, list, color) {
-      if (!list.length) return `<div style="margin-top:14px; padding:10px 14px; color:var(--text-muted); font-size:12px; background:rgba(255,255,255,0.02); border-radius:8px;">No samples match <strong>${title}</strong> (with the median ± MAD threshold).</div>`;
+      if (!list.length) return `<div style="margin-top:14px; padding:10px 14px; color:var(--text-muted); font-size:12px; background:rgba(255,255,255,0.02); border-radius:0;">No samples match <strong>${title}</strong> (with the median ± MAD threshold).</div>`;
       return `<div style="margin-top:18px;">
         <div class="section-label" style="color:${color}; margin-bottom:8px;">${title} — ${list.length} sample${list.length>1?'s':''}</div>
         <div class="data-table-wrapper">
@@ -4350,7 +4437,7 @@ async function _analysisRenderDistributionField(c) {
   }
   const rowA = (cmpFiltered || []).find(r => r['Model Name'] === ma);
   const rowB = (cmpFiltered || []).find(r => r['Model Name'] === mb);
-  if (!rowA || !rowB) { c.innerHTML = _analysisEmptyState('Distribution', 'Both Series need a row at the current Data Size. Adjust the filters above so a complete pair exists.', undefined, _FRONTIER_ESCAPE_ACTIONS); return; }
+  if (!rowA || !rowB) { c.innerHTML = _analysisEmptyState('Distribution', 'Both Model A and B need a row at the current Data Size. Adjust the filters above so a complete pair exists.', undefined, _FRONTIER_ESCAPE_ACTIONS); return; }
 
   const SAMPLE_LIMIT = 12;
   c.innerHTML = `<div class="glass" style="padding:18px 20px; margin-top:14px;"><div class="skel-bar"></div><div class="skel-bar" style="width:80%;"></div><div class="skel-bar" style="width:65%;"></div></div>`;
@@ -4409,12 +4496,12 @@ async function _analysisRenderDisagreementField(c) {
   const ds = cmpState.dataset, tk = cmpState.targetKey || 'depth';
   if (!ma || !mb) {
     c.innerHTML = _analysisEmptyState('Disagreement', _pickSeriesPrompt() +
-      ' Decodes the same sample from both Series and ranks by |MAE_A − MAE_B|.');
+      ' Decodes the same sample from both models and ranks by |MAE_A − MAE_B|.');
     return;
   }
   const rowA = (cmpFiltered || []).find(r => r['Model Name'] === ma);
   const rowB = (cmpFiltered || []).find(r => r['Model Name'] === mb);
-  if (!rowA || !rowB) { c.innerHTML = _analysisEmptyState('Disagreement', 'Both Series need a row at the current Data Size. Adjust the filters above so a complete pair exists.', undefined, _FRONTIER_ESCAPE_ACTIONS); return; }
+  if (!rowA || !rowB) { c.innerHTML = _analysisEmptyState('Disagreement', 'Both Model A and B need a row at the current Data Size. Adjust the filters above so a complete pair exists.', undefined, _FRONTIER_ESCAPE_ACTIONS); return; }
 
   const SAMPLE_LIMIT = 12;
   c.innerHTML = `<div class="glass" style="padding:18px 20px; margin-top:14px;"><div class="skel-bar"></div><div class="skel-bar" style="width:80%;"></div><div class="skel-bar" style="width:65%;"></div></div>`;
@@ -4437,12 +4524,12 @@ async function _analysisRenderDisagreementField(c) {
     const bothRight = samples.filter(s => s.errA < medA - madA && s.errB < medB - madB).slice(0, 10);
 
     function _winnerCell(s) {
-      if (s.errA < s.errB) return `<td style="color:#38bdf8; font-weight:700; text-align:center;" title="Series A closer to GT by ${(s.errB-s.errA).toFixed(4)}">A</td>`;
-      if (s.errB < s.errA) return `<td style="color:#f472b6; font-weight:700; text-align:center;" title="Series B closer to GT by ${(s.errA-s.errB).toFixed(4)}">B</td>`;
+      if (s.errA < s.errB) return `<td style="color:#38bdf8; font-weight:700; text-align:center;" title="Model A closer to GT by ${(s.errB-s.errA).toFixed(4)}">A</td>`;
+      if (s.errB < s.errA) return `<td style="color:#f472b6; font-weight:700; text-align:center;" title="Model B closer to GT by ${(s.errA-s.errB).toFixed(4)}">B</td>`;
       return `<td style="color:rgba(255,255,255,0.3); text-align:center;" title="tie">=</td>`;
     }
     function table(title, list, color) {
-      if (!list.length) return `<div style="margin-top:14px; padding:10px 14px; color:var(--text-muted); font-size:12px; background:rgba(255,255,255,0.02); border-radius:8px;">No samples match <strong>${title}</strong>.</div>`;
+      if (!list.length) return `<div style="margin-top:14px; padding:10px 14px; color:var(--text-muted); font-size:12px; background:rgba(255,255,255,0.02); border-radius:0;">No samples match <strong>${title}</strong>.</div>`;
       return `<div style="margin-top:18px;">
         <div class="section-label" style="color:${color}; margin-bottom:8px;">${title} — ${list.length} sample${list.length>1?'s':''} <span style="font-weight:500; color:var(--text-muted); font-size:10px; letter-spacing:0.3px; text-transform:none;">— click a row to open in Qualitative</span></div>
         <div class="data-table-wrapper">
@@ -4490,7 +4577,7 @@ async function _analysisRenderDistributionField3D(c) {
   }
   const rowA = (cmpFiltered || []).find(r => r['Model Name'] === ma);
   const rowB = (cmpFiltered || []).find(r => r['Model Name'] === mb);
-  if (!rowA || !rowB) { c.innerHTML = _analysisEmptyState('Distribution', 'Both Series need a row at the current Data Size and Target Key. Adjust the filters above so a complete pair exists.'); return; }
+  if (!rowA || !rowB) { c.innerHTML = _analysisEmptyState('Distribution', 'Both Model A and B need a row at the current Data Size and Target Key. Adjust the filters above so a complete pair exists.'); return; }
   if (!tk) { c.innerHTML = _analysisEmptyState('Distribution', 'Pick a Target Key above so the per-sample residual file can be located.'); return; }
 
   c.innerHTML = `<div class="glass" style="padding:18px 20px; margin-top:14px;"><div class="skel-bar"></div><div class="skel-bar" style="width:80%;"></div><div class="skel-bar" style="width:65%;"></div></div>`;
@@ -4602,7 +4689,7 @@ async function _analysisRenderDistributionField3D(c) {
       ${_methodologyHTML('distribution')}
       <div style="font-size:11px; color:var(--text-muted); margin-bottom:14px;">${displayModelName(ma)} vs ${displayModelName(mb)} on <strong>${tk}</strong> (${ds}, ${jsonA.n_samples}/${jsonB.n_samples} samples)</div>
       <div style="display:flex; flex-direction:column; gap:16px;">
-        <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle); border-radius:10px; padding:14px 16px;">
+        <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle); border-radius:0; padding:14px 16px;">
           <div style="display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px; margin-bottom:4px;">
             <div style="font-size:14px; font-weight:700; color:#fff;">Per-sample MAE histogram <span style="font-weight:500; color:var(--text-muted); font-size:11px;">— residual spread across ${sA.n + sB.n} inference samples (${nBins} bins · dashed = median, dotted = p95)</span></div>
           </div>
@@ -4610,7 +4697,7 @@ async function _analysisRenderDistributionField3D(c) {
           ${_statChips(displayModelName(mb), sB, '#f472b6')}
           <div style="height:380px; margin-top:6px;"><canvas id="dist3df-hist"></canvas></div>
         </div>
-        <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle); border-radius:10px; padding:14px 16px;">
+        <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle); border-radius:0; padding:14px 16px;">
           <div style="display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px; margin-bottom:4px;">
             <div style="font-size:14px; font-weight:700; color:#fff;">MAE vs RMSE per sample <span style="font-weight:500; color:var(--text-muted); font-size:11px;">— RMSE ≥ MAE; gap above y=x grows with heavy-tailed residuals</span></div>
           </div>
@@ -4618,7 +4705,7 @@ async function _analysisRenderDistributionField3D(c) {
           ${_statChips(displayModelName(mb), sB, '#f472b6', rB)}
           <div style="height:420px; margin-top:6px;"><canvas id="dist3df-mr"></canvas></div>
         </div>
-        <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle); border-radius:10px; padding:14px 16px;">
+        <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle); border-radius:0; padding:14px 16px;">
           <div style="font-size:13px; font-weight:700; color:#fff; margin-bottom:6px;">Mean MAE by sample-MAE Quartile <span style="font-weight:500; color:var(--text-muted); font-size:11px;">— each model's own samples bucketed by their MAE rank</span></div>
           <div style="height:220px;"><canvas id="dist3df-q"></canvas></div>
         </div>
@@ -4704,7 +4791,7 @@ async function _analysisRenderDistributionField3D(c) {
   } catch (e) {
     if (/404/.test(String(e.message || e))) {
       c.innerHTML = _analysisEmptyState('Distribution',
-        `3D Field per-sample residuals haven't been generated yet for this <strong>${ds} · ${tk}</strong>. The viewer is wired up — Step B needs to be re-run for the 3D field models so the <code style="background:rgba(255,255,255,0.05); padding:1px 5px; border-radius:3px;">per_sample_residuals.json</code> files are exported. Once that lands and <code style="background:rgba(255,255,255,0.05); padding:1px 5px; border-radius:3px;">copy_csv_data.py</code> publishes them, this view will populate automatically.`);
+        `3D Field per-sample residuals haven't been generated yet for this <strong>${ds} · ${tk}</strong>. The viewer is wired up — Step B needs to be re-run for the 3D field models so the <code style="background:rgba(255,255,255,0.05); padding:1px 5px; border-radius:1px;">per_sample_residuals.json</code> files are exported. Once that lands and <code style="background:rgba(255,255,255,0.05); padding:1px 5px; border-radius:1px;">copy_csv_data.py</code> publishes them, this view will populate automatically.`);
       return;
     }
     renderError(c, e.message || String(e), () => _analysisRenderDistributionField3D(c));
@@ -4724,7 +4811,7 @@ async function _analysisRenderDisagreementField3D(c) {
   }
   const rowA = (cmpFiltered || []).find(r => r['Model Name'] === ma);
   const rowB = (cmpFiltered || []).find(r => r['Model Name'] === mb);
-  if (!rowA || !rowB) { c.innerHTML = _analysisEmptyState('Disagreement', 'Both Series need a row at the current Data Size and Target Key. Adjust the filters above so a complete pair exists.'); return; }
+  if (!rowA || !rowB) { c.innerHTML = _analysisEmptyState('Disagreement', 'Both Model A and B need a row at the current Data Size and Target Key. Adjust the filters above so a complete pair exists.'); return; }
   if (!tk) { c.innerHTML = _analysisEmptyState('Disagreement', 'Pick a Target Key above so the per-sample residual file can be located.'); return; }
 
   c.innerHTML = `<div class="glass" style="padding:18px 20px; margin-top:14px;"><div class="skel-bar"></div><div class="skel-bar" style="width:80%;"></div><div class="skel-bar" style="width:65%;"></div></div>`;
@@ -4752,12 +4839,12 @@ async function _analysisRenderDisagreementField3D(c) {
     const bothRight = samples.filter(s => s.errA < medA - madA && s.errB < medB - madB).slice(0, 10);
 
     function _winnerCell(s) {
-      if (s.errA < s.errB) return `<td style="color:#38bdf8; font-weight:700; text-align:center;" title="Series A closer to GT by ${(s.errB-s.errA).toFixed(4)}">A</td>`;
-      if (s.errB < s.errA) return `<td style="color:#f472b6; font-weight:700; text-align:center;" title="Series B closer to GT by ${(s.errA-s.errB).toFixed(4)}">B</td>`;
+      if (s.errA < s.errB) return `<td style="color:#38bdf8; font-weight:700; text-align:center;" title="Model A closer to GT by ${(s.errB-s.errA).toFixed(4)}">A</td>`;
+      if (s.errB < s.errA) return `<td style="color:#f472b6; font-weight:700; text-align:center;" title="Model B closer to GT by ${(s.errA-s.errB).toFixed(4)}">B</td>`;
       return `<td style="color:rgba(255,255,255,0.3); text-align:center;" title="tie">=</td>`;
     }
     function table(title, list, color) {
-      if (!list.length) return `<div style="margin-top:14px; padding:10px 14px; color:var(--text-muted); font-size:12px; background:rgba(255,255,255,0.02); border-radius:8px;">No samples match <strong>${title}</strong> (with the median ± MAD threshold).</div>`;
+      if (!list.length) return `<div style="margin-top:14px; padding:10px 14px; color:var(--text-muted); font-size:12px; background:rgba(255,255,255,0.02); border-radius:0;">No samples match <strong>${title}</strong> (with the median ± MAD threshold).</div>`;
       return `<div style="margin-top:18px;">
         <div class="section-label" style="color:${color}; margin-bottom:8px;">${title} — ${list.length} sample${list.length>1?'s':''} <span style="font-weight:500; color:var(--text-muted); font-size:10px; letter-spacing:0.3px; text-transform:none;">— click a row to open in Qualitative</span></div>
         <div class="data-table-wrapper">
@@ -4788,7 +4875,7 @@ async function _analysisRenderDisagreementField3D(c) {
   } catch (e) {
     if (/404/.test(String(e.message || e))) {
       c.innerHTML = _analysisEmptyState('Disagreement',
-        `3D Field per-sample residuals haven't been generated yet for this <strong>${ds} · ${tk}</strong>. The viewer is wired up — Step B needs to be re-run for the 3D field models so the <code style="background:rgba(255,255,255,0.05); padding:1px 5px; border-radius:3px;">per_sample_residuals.json</code> files are exported. Once that lands and <code style="background:rgba(255,255,255,0.05); padding:1px 5px; border-radius:3px;">copy_csv_data.py</code> publishes them, this view will populate automatically.`);
+        `3D Field per-sample residuals haven't been generated yet for this <strong>${ds} · ${tk}</strong>. The viewer is wired up — Step B needs to be re-run for the 3D field models so the <code style="background:rgba(255,255,255,0.05); padding:1px 5px; border-radius:1px;">per_sample_residuals.json</code> files are exported. Once that lands and <code style="background:rgba(255,255,255,0.05); padding:1px 5px; border-radius:1px;">copy_csv_data.py</code> publishes them, this view will populate automatically.`);
       return;
     }
     renderError(c, e.message || String(e), () => _analysisRenderDisagreementField3D(c));
@@ -4798,7 +4885,7 @@ async function _analysisRenderDisagreementField3D(c) {
 // ════════════════════════════════════════════════════════════════════
 // Phase G — Frontier
 // Scatter of Parameters (M) vs primary metric across all models in the
-// current task / dataset / size selection.  Series A and B highlighted in
+// current task / dataset / size selection.  Model A and B highlighted in
 // cyan / pink; remaining models grey.  Pareto frontier traced.
 // ════════════════════════════════════════════════════════════════════
 async function analysisRenderFrontier() {
@@ -4985,7 +5072,7 @@ async function analysisRenderFrontier() {
   let binStripHTML = '';
   if (_binStats.length >= 2) {
     binStripHTML = `<div style="display:flex; gap:8px; overflow-x:auto; padding:6px 2px 10px; margin:8px 0 6px; scrollbar-width:none;">${
-      _binStats.map(s => `<div style="flex-shrink:0; min-width:118px; padding:8px 12px; background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:8px; font-variant-numeric:tabular-nums;" title="Best on ${shortMetricLabel(chosen)}: ${s.bestModel ? displayModelName(s.bestModel) : '—'}">
+      _binStats.map(s => `<div style="flex-shrink:0; min-width:118px; padding:8px 12px; background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:0; font-variant-numeric:tabular-nums;" title="Best on ${shortMetricLabel(chosen)}: ${s.bestModel ? displayModelName(s.bestModel) : '—'}">
         <div style="font-size:10px; color:rgba(255,255,255,0.45); font-weight:700;">${s.label} · n=${s.n}</div>
         <div style="font-size:13px; color:#fff; font-weight:700; margin-top:2px;">${s.best.toFixed(3)}${s.improved ? '<span style="color:#f59e0b; font-weight:800; margin-left:4px;" title="new best vs all smaller bins">↑</span>' : ''}</div>
         <div style="font-size:10px; color:rgba(255,255,255,0.5);">med ${s.median.toFixed(3)}</div>
@@ -4993,7 +5080,7 @@ async function analysisRenderFrontier() {
     }</div>`;
   }
 
-  // Summary callout: when both Series are picked, place each on the frontier
+  // Summary callout: when both models are picked, place each on the frontier
   // (or name a dominator) so the user sees the headline before reading the
   // scatter. Pareto membership = appears in `pareto` array exactly.
   const paretoSet = new Set(pareto.map(p => p.x + '|' + p.y));
@@ -5047,7 +5134,7 @@ async function analysisRenderFrontier() {
     const label = shortMetricLabel(col);
     const baseStyle = 'cursor:pointer; padding:6px 8px; text-align:right; white-space:nowrap; user-select:none;';
     const activeStyle = isActive
-      ? 'background:rgba(124,58,237,0.18); color:#fff; border-radius:4px;'
+      ? 'background:rgba(101,34,225,0.18); color:#fff; border-radius:4px;'
       : 'color:rgba(255,255,255,0.55);';
     const direction = _isHigher(col) ? '↑' : '↓';
     // Surface category composition in the header tooltip so users can
@@ -5063,9 +5150,9 @@ async function analysisRenderFrontier() {
     const v = _yFor(r, col);
     const onPareto = paretoByMetric[col].has(m);
     const isActive = col === chosen;
-    const cellBg = isActive ? 'background:rgba(124,58,237,0.10);' : '';
+    const cellBg = isActive ? 'background:rgba(101,34,225,0.10);' : '';
     const paretoBadge = onPareto
-      ? `<span style="display:inline-block; margin-left:4px; padding:1px 4px; font-size:9px; font-weight:800; background:rgba(167,139,250,0.18); color:#c4b5fd; border-radius:3px;" title="On Pareto frontier for this metric">P</span>`
+      ? `<span style="display:inline-block; margin-left:4px; padding:1px 4px; font-size:9px; font-weight:800; background:rgba(153,97,255,0.18); color:#9961FF; border-radius:1px;" title="On Pareto frontier for this metric">P</span>`
       : '';
     const valTxt = (v == null || isNaN(v)) ? '—' : (+v).toFixed(3);
     return `<td style="text-align:right; font-variant-numeric:tabular-nums; ${cellBg} padding:5px 8px;">${valTxt}${paretoBadge}</td>`;
@@ -5075,14 +5162,14 @@ async function analysisRenderFrontier() {
     const c = _paretoCount[m] || 0;
     const intensity = _maxParetoCount > 0 ? c / _maxParetoCount : 0;
     const color = c === 0 ? 'rgba(255,255,255,0.3)' :
-      `rgba(167,139,250,${0.45 + intensity*0.45})`;
+      `rgba(153,97,255,${0.45 + intensity*0.45})`;
     return `<td style="text-align:center; font-weight:800; color:${color}; font-variant-numeric:tabular-nums; padding:5px 8px;">${c}/${metricCols.length}</td>`;
   }
   const tableHTML = `
     <div style="margin-top:18px;">
       <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; flex-wrap:wrap; gap:8px;">
         <div class="section-label" style="color:var(--amber-400);">All Metrics — click any column header to promote</div>
-        <div style="font-size:10px; color:var(--text-muted); letter-spacing:0.3px;"><span style="color:#c4b5fd;">P</span> = on Pareto for that metric · last column = Pareto count across ${metricCols.length} metrics</div>
+        <div style="font-size:10px; color:var(--text-muted); letter-spacing:0.3px;"><span style="color:#9961FF;">P</span> = on Pareto for that metric · last column = Pareto count across ${metricCols.length} metrics</div>
       </div>
       <div class="data-table-wrapper">
         <table class="cmp-metric-table" style="font-size:12px;">
@@ -5121,8 +5208,8 @@ async function analysisRenderFrontier() {
     <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:14px; font-size:11px; color:var(--text-muted); align-items:center;">
       <span style="display:inline-flex; align-items:center; gap:5px;"><span style="display:inline-block; width:20px; height:2px; background:#f59e0b;"></span>Pareto frontier <span style="color:rgba(255,255,255,0.4);">(cumulative best as params grow)</span></span>
       <span style="opacity:0.5;">·</span>
-      <span style="display:inline-flex; align-items:center; gap:5px;"><span style="width:9px; height:9px; border-radius:50%; background:#38bdf8; display:inline-block;"></span>Series A</span>
-      <span style="display:inline-flex; align-items:center; gap:5px;"><span style="width:9px; height:9px; border-radius:50%; background:#f472b6; display:inline-block;"></span>Series B</span>
+      <span style="display:inline-flex; align-items:center; gap:5px;"><span style="width:9px; height:9px; border-radius:50%; background:#38bdf8; display:inline-block;"></span>Model A</span>
+      <span style="display:inline-flex; align-items:center; gap:5px;"><span style="width:9px; height:9px; border-radius:50%; background:#f472b6; display:inline-block;"></span>Model B</span>
       <span style="display:inline-flex; align-items:center; gap:5px;"><span style="width:9px; height:9px; border-radius:50%; background:#fbbf24; border:1.5px solid rgba(245,158,11,0.95); display:inline-block;"></span>Pareto member</span>
       <span style="display:inline-flex; align-items:center; gap:5px;"><span style="width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,0.55); display:inline-block;"></span>Other models</span>
       <span style="color:rgba(255,255,255,0.4);">· X log-scale · Y up = better</span>
@@ -5215,8 +5302,8 @@ async function analysisRenderFrontier() {
       // sharp line "pops" against dense backgrounds. Sits between A/B and
       // greyOn so A/B's cyan/pink isn't tinted.
       { label: '_paretoGlow', data: pareto, type: 'line', borderColor: 'rgba(245,158,11,0.28)', backgroundColor: 'transparent', borderWidth: 10, pointRadius: 0, fill: false, showLine: true, cubicInterpolationMode: 'monotone', tension: 0.4, order: 1.5 },
-      { label: ma ? displayModelName(ma) : 'Series A', data: aP, backgroundColor: '#38bdf8', pointRadius: 8.5, pointHoverRadius: 11, borderColor: '#fff', borderWidth: 1.8, order: 1 },
-      { label: mb ? displayModelName(mb) : 'Series B', data: bP, backgroundColor: '#f472b6', pointRadius: 8.5, pointHoverRadius: 11, borderColor: '#fff', borderWidth: 1.8, order: 1 },
+      { label: ma ? displayModelName(ma) : 'Model A', data: aP, backgroundColor: '#38bdf8', pointRadius: 8.5, pointHoverRadius: 11, borderColor: '#fff', borderWidth: 1.8, order: 1 },
+      { label: mb ? displayModelName(mb) : 'Model B', data: bP, backgroundColor: '#f472b6', pointRadius: 8.5, pointHoverRadius: 11, borderColor: '#fff', borderWidth: 1.8, order: 1 },
       // Sharp frontier line — drawn LAST (lowest order) so it sits above
       // every dot. The line passes visibly through Pareto-member A/Bs,
       // making frontier membership unambiguous.
@@ -5242,10 +5329,13 @@ async function analysisRenderFrontier() {
       },
       scales: {
         x: { type: 'logarithmic', title: { display: true, text: 'Parameters (M) →', font: {size:10} }, ticks: { font: {size:9} } },
-        // Reverse Y when the metric is "lower-is-better" so up = better
-        // regardless of which metric the user picked. Raw values stay
-        // unchanged in tooltips — only the visual orientation flips.
-        y: { reverse: !higher, title: { display: true, text: shortMetricLabel(chosen) + ' (up = better)', font: {size:10} }, ticks: { font: {size:9} } },
+        // Up-is-better convention.  Reverse the axis only when the chosen
+        // metric is "lower-is-better" (e.g. FID, MAE) so that the achievable
+        // top-right corner and the amber fill (which marks the dominated
+        // region BELOW the curve) keep consistent semantics regardless of
+        // which metric the user has selected.  Tooltips still show raw
+        // values — only the visual orientation flips.
+        y: { reverse: !higher, title: { display: true, text: shortMetricLabel(chosen) + ' (↑ better)', font: {size:10} }, ticks: { font: {size:9} } },
       },
     },
     plugins: [paretoOverlayPlugin],
@@ -5258,18 +5348,21 @@ async function analysisRenderFrontier() {
 // ════════════════════════════════════════════════════════════════════
 const _FAMILY_COLOR = {
   // Visual palette — distinct hues across the architectural lineages we list.
-  // Falls back to grey for unknown families.
+  // Falls back to grey for unknown families. Chart-only semantic colors; UI
+  // tokens (DESIGN.md narrow palette) collapsed multiple families to a single
+  // purple, but charts need each family to remain visually distinguishable, so
+  // we restore the prior per-family hues here.
   'PointNet':     '#22c55e',
-  'GNN':          '#a78bfa',
+  'GNN':          '#a78bfa',  /* lighter violet */
   'Transformer':  '#38bdf8',
   'MLP':          '#fbbf24',
   'CNN':          '#f472b6',
   'U-Net':        '#34d399',
-  'FPN':          '#818cf8',
-  'DPT':          '#c4b5fd',
+  'FPN':          '#818cf8',  /* indigo-leaning */
+  'DPT':          '#c4b5fd',  /* pastel violet */
   'GAN':          '#f87171',
   'VAE':          '#fb923c',
-  'Diffusion':    '#a78bfa',
+  'Diffusion':    '#9961FF',  /* DESIGN.md primary-bright (brand violet) */
   'Score-based':  '#06b6d4',
   'Flow':         '#10b981',
   'AtlasNet':     '#84cc16',
@@ -5394,7 +5487,7 @@ async function analysisRenderProgression() {
       return `<span style="color:#f59e0b; font-weight:800; margin-left:4px;" title="new best vs prior year">↑${pct.toFixed(1)}%</span>`;
     };
     yearStripHTML = `<div style="display:flex; gap:8px; overflow-x:auto; padding:6px 2px 10px; margin-bottom:6px; scrollbar-width:none;">${
-      yearStats.map((s, i) => `<div style="flex-shrink:0; min-width:96px; padding:8px 12px; background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:8px; font-variant-numeric:tabular-nums;">
+      yearStats.map((s, i) => `<div style="flex-shrink:0; min-width:96px; padding:8px 12px; background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:0; font-variant-numeric:tabular-nums;">
         <div style="font-size:10px; color:rgba(255,255,255,0.45); font-weight:700;">${s.year} · n=${s.n}</div>
         <div style="font-size:13px; color:#fff; font-weight:700; margin-top:2px;">${s.best.toFixed(3)}${_delta(i)}</div>
         <div style="font-size:10px; color:rgba(255,255,255,0.5);">med ${s.median.toFixed(3)}</div>
@@ -5442,7 +5535,7 @@ async function analysisRenderProgression() {
     const label = shortMetricLabel(col);
     const baseStyle = 'cursor:pointer; padding:6px 8px; text-align:right; white-space:nowrap; user-select:none;';
     const activeStyle = isActive
-      ? 'background:rgba(124,58,237,0.18); color:#fff; border-radius:4px;'
+      ? 'background:rgba(101,34,225,0.18); color:#fff; border-radius:4px;'
       : 'color:rgba(255,255,255,0.55);';
     const direction = ((col === TOTAL_SCORE) ? true : isHigherBetter(col)) ? '↑' : '↓';
     return `<th style="${baseStyle}${activeStyle}" onclick="cmpProgressionPick('${col.replace(/'/g, "\\'")}')" title="Promote ${label} to main chart">${label} ${direction}</th>`;
@@ -5450,11 +5543,11 @@ async function analysisRenderProgression() {
   function _metricValueCellProg(m, col) {
     const v = _yForCol(_byModelProg[m], col);
     const isActive = col === chosen;
-    const cellBg = isActive ? 'background:rgba(124,58,237,0.10);' : '';
+    const cellBg = isActive ? 'background:rgba(101,34,225,0.10);' : '';
     const isBest = (v != null && !isNaN(v) && v === _bestByCol[col].best);
     const valTxt = (v == null || isNaN(v)) ? '—' : (+v).toFixed(3);
     const badge = isBest
-      ? `<span style="display:inline-block; margin-left:4px; padding:1px 4px; font-size:9px; font-weight:800; background:rgba(245,158,11,0.20); color:#fbbf24; border-radius:3px;" title="best on this metric">★</span>`
+      ? `<span style="display:inline-block; margin-left:4px; padding:1px 4px; font-size:9px; font-weight:800; background:rgba(245,158,11,0.20); color:#fbbf24; border-radius:1px;" title="best on this metric">★</span>`
       : '';
     return `<td style="text-align:right; font-variant-numeric:tabular-nums; ${cellBg} padding:5px 8px;">${valTxt}${badge}</td>`;
   }
@@ -5462,7 +5555,7 @@ async function analysisRenderProgression() {
     <div style="margin-top:18px;">
       <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; flex-wrap:wrap; gap:8px;">
         <div class="section-label" style="color:var(--amber-400);">All Metrics × Year — click a column header to promote</div>
-        <div style="font-size:10px; color:var(--text-muted); letter-spacing:0.3px;"><span style="color:#fbbf24;">★</span> = best on that metric · rows sorted by Series → Year (newest first)</div>
+        <div style="font-size:10px; color:var(--text-muted); letter-spacing:0.3px;"><span style="color:#fbbf24;">★</span> = best on that metric · rows sorted by Model → Year (newest first)</div>
       </div>
       <div class="data-table-wrapper">
         <table class="cmp-metric-table" style="font-size:12px;">
@@ -5494,8 +5587,8 @@ async function analysisRenderProgression() {
     ${yearStripHTML}
     <div style="height:380px;"><canvas id="progression-chart"></canvas></div>
     <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:14px; font-size:11px; color:var(--text-muted); align-items:center;">
-      <span style="display:inline-flex; align-items:center; gap:5px;"><span style="display:inline-block; width:20px; height:2px; background:repeating-linear-gradient(90deg, rgba(167,139,250,0.7) 0 4px, transparent 4px 7px);"></span>Median</span>
-      <span style="display:inline-flex; align-items:center; gap:5px;"><span style="display:inline-block; width:20px; height:8px; background:rgba(167,139,250,0.18); border:1px solid rgba(167,139,250,0.3);"></span>IQR p25–p75</span>
+      <span style="display:inline-flex; align-items:center; gap:5px;"><span style="display:inline-block; width:20px; height:2px; background:repeating-linear-gradient(90deg, rgba(153,97,255,0.7) 0 4px, transparent 4px 7px);"></span>Median</span>
+      <span style="display:inline-flex; align-items:center; gap:5px;"><span style="display:inline-block; width:20px; height:8px; background:rgba(153,97,255,0.18); border:1px solid rgba(153,97,255,0.3);"></span>IQR p25–p75</span>
       <span style="display:inline-flex; align-items:center; gap:5px;"><span style="display:inline-block; width:20px; height:2px; background:#f59e0b;"></span>Best-so-far</span>
       <span style="opacity:0.5;">·</span>
       ${families.map(f => `<span style="display:inline-flex; align-items:center; gap:4px;"><span style="width:8px; height:8px; border-radius:50%; background:${_familyColor(f)}; display:inline-block;"></span>${f}</span>`).join('')}
@@ -5504,8 +5597,8 @@ async function analysisRenderProgression() {
       ${mb ? `<span style="color:#f472b6;">▲ ${displayModelName(mb)}</span>` : ''}
     </div>
     ${tableHTML}
-    ${missing.length ? `<div style="margin-top:14px; font-size:11px; color:var(--text-muted); padding:8px 12px; background:rgba(255,255,255,0.02); border-radius:8px;">
-      <strong>Missing metadata:</strong> ${missing.join(', ')} — add them to <code style="background:rgba(255,255,255,0.05); padding:1px 4px; border-radius:3px;">tools/websites/output/data/models_meta.json</code> to include in this plot.
+    ${missing.length ? `<div style="margin-top:14px; font-size:11px; color:var(--text-muted); padding:8px 12px; background:rgba(255,255,255,0.02); border-radius:0;">
+      <strong>Missing metadata:</strong> ${missing.join(', ')} — add them to <code style="background:rgba(255,255,255,0.05); padding:1px 4px; border-radius:1px;">tools/websites/output/data/models_meta.json</code> to include in this plot.
     </div>` : ''}
   </div>`;
 
@@ -5541,13 +5634,13 @@ async function analysisRenderProgression() {
   const _bandLower = higherBetter ? p25Line : p75Line;
   const datasets = [
     ...(p75Line.length > 1 ? [
-      { label: 'IQR upper', data: _bandUpper, type: 'line', borderColor: 'rgba(167,139,250,0.18)', backgroundColor: 'rgba(167,139,250,0.10)', fill: '+1', pointRadius: 0, borderWidth: 0, order: 10 },
-      { label: 'IQR lower', data: _bandLower, type: 'line', borderColor: 'rgba(167,139,250,0.18)', backgroundColor: 'transparent', fill: false, pointRadius: 0, borderWidth: 0, order: 10 },
+      { label: 'IQR upper', data: _bandUpper, type: 'line', borderColor: 'rgba(153,97,255,0.18)', backgroundColor: 'rgba(153,97,255,0.10)', fill: '+1', pointRadius: 0, borderWidth: 0, order: 10 },
+      { label: 'IQR lower', data: _bandLower, type: 'line', borderColor: 'rgba(153,97,255,0.18)', backgroundColor: 'transparent', fill: false, pointRadius: 0, borderWidth: 0, order: 10 },
     ] : []),
     ...familyDatasets.map(d => ({ ...d, order: 5 })),
-    ...(aPts.length ? [{ label: ma ? displayModelName(ma) : 'Series A', data: aPts, backgroundColor: '#38bdf8', pointRadius: 9, borderColor: '#fff', borderWidth: 2, pointStyle: 'triangle', order: 1 }] : []),
-    ...(bPts.length ? [{ label: mb ? displayModelName(mb) : 'Series B', data: bPts, backgroundColor: '#f472b6', pointRadius: 9, borderColor: '#fff', borderWidth: 2, pointStyle: 'triangle', order: 1 }] : []),
-    ...(trend.length > 1 ? [{ label: 'Median per year', type: 'line', data: trend, borderColor: 'rgba(167,139,250,0.7)', borderWidth: 2, pointRadius: 0, fill: false, showLine: true, borderDash: [6,4], order: 2 }] : []),
+    ...(aPts.length ? [{ label: ma ? displayModelName(ma) : 'Model A', data: aPts, backgroundColor: '#38bdf8', pointRadius: 9, borderColor: '#fff', borderWidth: 2, pointStyle: 'triangle', order: 1 }] : []),
+    ...(bPts.length ? [{ label: mb ? displayModelName(mb) : 'Model B', data: bPts, backgroundColor: '#f472b6', pointRadius: 9, borderColor: '#fff', borderWidth: 2, pointStyle: 'triangle', order: 1 }] : []),
+    ...(trend.length > 1 ? [{ label: 'Median per year', type: 'line', data: trend, borderColor: 'rgba(153,97,255,0.7)', borderWidth: 2, pointRadius: 0, fill: false, showLine: true, borderDash: [6,4], order: 2 }] : []),
     ...(bestLine.length > 1 ? [{ label: 'Best-so-far', type: 'line', data: bestLine, borderColor: 'rgba(245,158,11,0.95)', borderWidth: 2.5, pointRadius: 0, fill: false, showLine: true, stepped: 'before', order: 2 }] : []),
   ];
 
@@ -5606,7 +5699,7 @@ function ieSync() {
 function analysisInitFromURL() {
   const h = readHashState();
   // Also accept query-string params so external entry points (Leaderboard's
-  // "Analyze" links, deep-linked emails) can preselect Series A and filters
+  // "Analyze" links, deep-linked emails) can preselect Model A and filters
   // without crafting a hash:
   //   analysis.html?dim=3d&task=prediction&output=field&ds=deepjeb_3d_2d&size=200&tk=mass&a=transolver_pp
   const qs = new URLSearchParams(window.location.search);
