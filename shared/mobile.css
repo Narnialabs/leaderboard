@@ -438,6 +438,22 @@
     min-width: calc(50% - 6px) !important;
   }
 
+  /* ── Analysis global filter panel: force inline-flex pill containers
+        to wrap. The Target Key / Component / Size / Dataset pill rows are
+        emitted as `<div id="cmp-…" style="display:inline-flex">` by
+        cmpMakePills(); the `.lb-filter-row` / `.filter-group` wrapping rules
+        above stop one level short, so on prediction tasks with several
+        target keys the pills overflow the .lb-filters card in one straight
+        line.  Mirrors the existing `#comparisons-view …` rule below — that
+        one targets the legacy in-tab filter card which no longer carries
+        the global filters since they were lifted up to this panel. */
+  #analysis-filters-panel .filter-group > div[id^="cmp-"] {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+    margin-left: 0 !important;
+  }
+
   /* ── Comparison filter groups: match leaderboard unified style ── */
   #comparisons-view .flex.gap-16 {
     flex-direction: column !important;
@@ -497,6 +513,22 @@
   /* ── Inference Explorer: 3D point cloud viewer height ── */
   #pc-canvas-wrap {
     height: 280px !important;
+  }
+
+  /* ── Explorer Browse Inventory: drop sticky on mobile ──
+        With two filter rows + the Browse Inventory header strip the panel
+        runs ~4/7 of phone viewport tall, so when it's pinned the gallery
+        only ever has ~3/7 of the screen to scroll cards into — users have
+        to peer through a slot to pick a model.  Mirrors the same trade-off
+        already applied to #detail-switcher (explorer.html:152): cards win
+        the viewport; users scroll back up to re-filter.  Cards fill the
+        screen quickly enough that the scroll-back is light, and Explorer's
+        flow is "filter once → browse" rather than the constant tab-switching
+        Analysis has — so the sticky-anchor value is much lower here. */
+  #explorer-filters {
+    position: static !important;
+    top: auto !important;
+    z-index: auto !important;
   }
 
   /* ── 3D viewer touch ── */

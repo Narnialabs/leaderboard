@@ -1196,11 +1196,31 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 .glass-section {
   padding: 16px 20px;
   margin-bottom: 16px;
-  /* DESIGN.md "Place small square markers at panel corners to reinforce precision."
-     Uses --marker (#D9D9D9) — same CAD/measurement look as narnia.ai. */
+}
+/* ── Corner Markers ──
+   DESIGN.md L195 "Place small square markers at panel corners to reinforce
+   precision." Uses --marker (#D9D9D9) — same CAD/measurement look as narnia.ai.
+   Two selectors share the same rule:
+     .glass-section          — full section preset (padding + margin + markers).
+                               Use for panels that need the default padding too
+                               (e.g. index.html's Benchmark Pipeline panel).
+     .glass.has-corner-markers — marker-only modifier. Use when a panel already
+                               manages its own padding (via inline style or a
+                               nested .collapsible-header) and would
+                               double-pad if it inherited .glass-section's
+                               16px 20px. Applied to index.html's Statement,
+                               Roadmap, and Ultimate Goal panels so the CAD
+                               accent frames the page's major narrative
+                               sections — Statement at the top, Pipeline +
+                               Roadmap + Goal anchoring the lower stack —
+                               leaving the Domain matrix and Mission/KPI row
+                               unmarked as the informational midsection. */
+.glass-section,
+.glass.has-corner-markers {
   position: relative;
 }
-.glass-section::before {
+.glass-section::before,
+.glass.has-corner-markers::before {
   content: '';
   position: absolute;
   top: -1px; left: -1px;
@@ -1209,7 +1229,8 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   pointer-events: none;
   z-index: 1;
 }
-.glass-section::after {
+.glass-section::after,
+.glass.has-corner-markers::after {
   content: '';
   position: absolute;
   bottom: -1px; right: -1px;

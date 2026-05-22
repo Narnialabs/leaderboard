@@ -206,7 +206,12 @@
   @media (max-width: 768px) {
     /* Tabs become horizontal-scroll chips on phone; bump min-height to the
        44px Apple HIG touch target (the sub label is hidden so we'd otherwise
-       land at ~31px tall, which fingers regularly miss). */
+       land at ~31px tall, which fingers regularly miss).
+       A 2-row wrap (4+3) was tried briefly and reverted — at 370px viewport
+       the longer labels ("Mathematical", "Distribution") ellipsised into
+       "Mathemat..." inside their 25%-width cells, which costs more
+       recognition than the scroll-to-find affordance saves.  With scroll,
+       every visible tab carries a full readable label. */
     .analysis-tab {
       flex: 0 0 auto;
       padding: 11px 14px;
@@ -279,7 +284,11 @@
 <div class="page-content">
 
 <!-- Page Header -->
-<div style="padding-top:6px; margin-bottom:18px;">
+<!-- margin-bottom matches explorer.html / benchmark.html (24px) so the gap
+     between the page title and the first panel below it is uniform across
+     every dashboard page — same vertical rhythm regardless of which page
+     the user is on. -->
+<div style="padding-top:6px; margin-bottom:24px;">
   <div style="font-size:25px; font-weight:900; color:#fff; letter-spacing:-0.3px;">Analysis</div>
   <div style="font-size:14px; color:rgba(255,255,255,0.4); margin-top:4px;">Cross-model analysis — from field-wide trends down to head-to-head comparison</div>
 </div>
@@ -5675,7 +5684,29 @@ async function analysisRenderProgression() {
 // ── Compatibility shim: ieSync was the explorer-side URL hash sync.
 // In analysis.html the hash carries axis/Series/category, not view=detail.
 // Redirect ieSync to a local sync that pushes cmpState + active category. ──
+//
+// First-load URL cleanliness: page init triggers a chain
+//   analysisInit → analysisShowCategory('trajectory') → cmpApplyFilters → ieSync
+// which would otherwise dirty a clean entry URL like "/analysis.html" into
+// "/analysis.html#cat=trajectory&dim=3d&task=prediction&ma=…&mb=…" before the
+// user has done anything.  explorer.html / benchmark.html stay clean because
+// they only invoke pushHashState from user-action paths; analysis.html calls
+// ieSync from its auto-filter / auto-pick init pipeline too, which is why
+// it needs an explicit gate.
+//
+// Gate: pushHashState is suppressed until the first real user interaction
+// (pointerdown / keydown — captured once at the document level).  Any
+// landing-with-hash flow still works because analysisInitFromURL runs
+// before ieSync ever fires, so state is already restored from the hash;
+// suppressing the *outbound* push during init just prevents the hash from
+// being rewritten with auto-filled Model A/B before the user touches
+// anything.  Once the gate flips, every subsequent ieSync() syncs normally.
+let _hashSyncReady = false;
+['pointerdown', 'keydown'].forEach(ev => {
+  document.addEventListener(ev, () => { _hashSyncReady = true; }, { once: true, capture: true });
+});
 function ieSync() {
+  if (!_hashSyncReady) return;
   // Determine active category from the top tab strip
   const activeTab = document.querySelector('.analysis-tab.active');
   const cat = activeTab ? activeTab.id.replace('cat-tab-', '') : 'mathematical';
