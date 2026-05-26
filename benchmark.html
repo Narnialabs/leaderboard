@@ -1149,23 +1149,30 @@ function isField2DContext() {
 
 // Sample-count pill options.
 //   2D field:  [3, 6, 9] aligns with the 3-panel-per-sample triptych.
-//   3D scalar: [2, 4, 8] — each card normally has its own Three.js viewer; once
-//              we exceed the LB_3D_VIEWER_THRESHOLD per-row count, the gallery
-//              transparently falls back to the 2D RGB render (same wheel) so
-//              we don't blow past the browser's ~16 WebGL context cap.
+//              On mobile the triptych is stacked one-per-row (mobile.css),
+//              so the row count drives screen real-estate — drop the floor
+//              to 1 and cap at 6 so the gallery doesn't become a 9-row
+//              wall on a phone.
+//   3D scalar: [2, 4, 8] — each card has its own Three.js viewer. The
+//              gallery caps cards-per-row at 2 on desktop (see Option C in
+//              lbDrawScalarGalleryRow) so simultaneous WebGL contexts stay
+//              under the browser's ~16 cap regardless of how high n goes.
 //   2D scalar: [2, 4, 8] — pure <img>, no WebGL pressure.
 //   Other:     [2, 4, 8] power-of-two.
 function getSampleCountOptions() {
-  if (isField2DContext()) return [3, 6, 9];
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (isField2DContext()) return isMobile ? [1, 3, 6] : [3, 6, 9];
   if (state.task === 'prediction' && state.outputType === 'scalar') return [2, 4, 8];
   return [2, 4, 8];
 }
 
-// Above this per-row count on 3D scalar, switch from Three.js viewers to 2D
-// RGB renders. With ~6 models * N samples, anything beyond 2 risks the browser
-// context cap (older rows evict to white). The wheels are identical between
-// the 2D and 3D scalar datasets so the 2D image is a faithful preview.
-const LB_3D_VIEWER_THRESHOLD = 2;
+// Desktop 3D scalar gallery caps cards-per-row at this value (see Option C
+// in lbDrawScalarGalleryRow). With 10 models × multiple visible rows on a
+// typical desktop viewport, cap=2 keeps live WebGL contexts at ~14–16
+// (right at the browser's ~16 cap but not over). cap=4 was trialed and
+// caused visible white-box flicker as the browser evicted older viewers
+// past the cap — reverted on 2026-05-26.
+const LB_3D_VIEWER_PC_ROW_CAP = 2;
 
 // Defaults — dim-major dispatch (matches the leaderboard filter order: dim first → task).
 //   2D Generation:        8  (lightweight images, fits many per row)
@@ -1182,13 +1189,20 @@ function getDefaultSampleCount() {
   if (state.dim === '2d') {
     if (state.task === 'prediction') {
       if (state.outputType === 'scalar') return isMobile ? 2 : 4;
-      return 3; // 2D field — same on mobile (triptych dominates the width)
+      // 2D field — desktop fits a 3-sample row; on mobile triptychs are
+      // stacked one-per-row (mobile.css), so start at 1 to keep the
+      // initial gallery short.
+      return isMobile ? 1 : 3;
     }
     return isMobile ? 2 : 8; // 2D generation
   }
   // 3D
   if (state.task === 'prediction') {
-    if (state.outputType === 'scalar') return 2; // each card has its own Three.js viewer
+    // 3D scalar: each card has its own Three.js viewer on both desktop
+    // and mobile (Option C). Desktop caps cards/row at 2 via
+    // LB_3D_VIEWER_PC_ROW_CAP; mobile is 1/row via mobile.css. Default 2
+    // keeps the initial gallery short on a phone.
+    if (state.outputType === 'scalar') return 2;
     return 2; // 3D field
   }
   return isMobile ? 2 : 4; // 3D generation
@@ -1670,10 +1684,10 @@ function renderScalarPredictionAllModels(container, data, rankOrder) {
         </div>
       </div>`;
     }).join('');
-    const fallbackActive = state.dim === '3d' && (state.sampleCount || 0) > LB_3D_VIEWER_THRESHOLD;
-    const headerNote = fallbackActive
-      ? `<span style="color:#fbbf24;">2D preview</span> at ${state.sampleCount} samples · drop to ${LB_3D_VIEWER_THRESHOLD} for the rolling 3D viewer.`
-      : `Use the <strong style="color:rgba(255,255,255,0.55);">Samples</strong> filter above to change how many samples each row shows.`;
+    // The 3D scalar gallery now always renders a live 3D viewer (force2D=false
+    // in lbDrawScalarGalleryRow), so the old "2D preview … drop to 2 for the
+    // rolling 3D viewer" banner has no truth left to convey. Default note only.
+    const headerNote = `Use the <strong style="color:rgba(255,255,255,0.55);">Samples</strong> filter above to change how many samples each row shows.`;
     html += `
       <div id="sp-gallery-section" style="margin-bottom:18px;">
         <div class="sp-gallery-header" style="display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:10px 14px; background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:0; margin-bottom:10px;">
@@ -1746,12 +1760,11 @@ function _lbScalarFmt(v) {
 
 // Build the shape thumbnail markup for a slot.
 //   2D scalar: RGB wheel render (`<img>`).
-//   3D scalar at low sample counts: Three.js mini-viewer placeholder
-//     (lazy-init'd by an IntersectionObserver in lbDrawScalarGalleryRow).
-//   3D scalar at sample count > LB_3D_VIEWER_THRESHOLD: fall back to the same
-//     2D RGB render — the wheels are identical between deepwheel_2d_1d and
-//     deepwheel_3d_1d (same sorted-glob order on Test_500), so this is just
-//     "preview in 2D when there are too many cards for stable WebGL".
+//   3D scalar: Three.js mini-viewer placeholder, lazy-init'd by an
+//     IntersectionObserver in lbDrawScalarGalleryRow. force2D is currently
+//     always false for 3D scalar (Option C); kept as a parameter so a
+//     future caller could request the 2D fallback (e.g. for printable
+//     reports) without changing the call sites.
 function lbScalarBuildShapeHTML(dataset, slot, force2D) {
   const is3D = dataset.includes('_3d_');
   if (is3D && !force2D) {
@@ -1868,13 +1881,34 @@ function lbDrawScalarGalleryRow(row) {
     }
   });
 
-  cardsEl.style.gridTemplateColumns = `repeat(${n}, minmax(0, 1fr))`;
-  // 3D scalar: switch to 2D image fallback when sample count exceeds the safe
-  // simultaneous-WebGL threshold; ~6 models * (>2 cards) blows past the cap.
-  const force2D = ctx.dataset.includes('_3d_') && n > LB_3D_VIEWER_THRESHOLD;
-  // ≥6 cards/row crushes the horizontal shape+info layout; mini variant stacks
-  // the thumbnail on top so each card stays readable in a narrow column.
-  const mini = n >= 6;
+  // ── 3D scalar gallery layout (Option C) ──
+  // Always render the 3D point cloud viewer — never substitute the 2D RGB
+  // fallback image. The fallback would borrow 2D-scalar-dataset inputs
+  // (deepwheel_2d_1d/img_NN.png) and show them in the 3D-scalar gallery,
+  // which is semantically "2D images as the model input" for what is
+  // actually a 3D-input prediction task.
+  //
+  // The historical reason for the fallback was the browser's ~16
+  // simultaneous WebGL context cap — ~6 models × n cards per row blew past
+  // it at n=4/8. We solve that by *capping cards per row* instead:
+  //   Mobile (mobile.css forces 1fr): 1 card/row, viewport visibility caps
+  //     live viewers at ~3–5 → safe.
+  //   Desktop 3D scalar: cap at 2 cards/row regardless of n. n=8 then
+  //     becomes 4 rows of 2 cards instead of 1 row of 8; the user still
+  //     sees every sample, just stacked. With ~2 visible model rows at
+  //     a time × 2 cards/row = ~4 live contexts → safely under the cap.
+  //   Desktop 2D scalar: no cap (pure <img>, no WebGL pressure), keeps
+  //     n cards/row so wide-sample comparison stays compact.
+  const isMobileScalar = window.matchMedia('(max-width: 768px)').matches;
+  const is3D = ctx.dataset.includes('_3d_');
+  const force2D = false; // never — see comment above
+  const cardsPerRow = (is3D && !isMobileScalar) ? Math.min(n, LB_3D_VIEWER_PC_ROW_CAP) : n;
+  cardsEl.style.gridTemplateColumns = `repeat(${cardsPerRow}, minmax(0, 1fr))`;
+  // Mini variant kicks in at ≥6 cards/row, where the horizontal shape+info
+  // layout gets too cramped. With cardsPerRow capped at 2 for 3D scalar on
+  // desktop, mini never fires there. Mobile is already forced to 1
+  // card/row, so mini is suppressed there too.
+  const mini = !isMobileScalar && cardsPerRow >= 6;
   const cards = [];
   for (let slot = 0; slot < n; slot++) {
     const sample = ctx.manifest.samples[slot];
@@ -2239,7 +2273,14 @@ function render3DEvalAllModels(container, data, rankOrder) {
   }
 
   const isMobilePred = window.matchMedia('(max-width: 768px)').matches;
-  const viewerHeight = isMobilePred ? 400 : 320;
+  // viewerHeight is the TOTAL `.lb-pred3d-row` height. On desktop the row is
+  // flex-direction:row and the three GT/PRED/|ERROR| panels split the width,
+  // each getting the full 320 px of row height. On mobile the row flips to
+  // column (inline @media in <style>), so the same row height has to be
+  // *divided* by three panels — at 400 px each panel was ~129 px tall, which
+  // is too cramped to see point cloud detail. 720 px gives ~240 px per panel
+  // after gaps, close to the per-panel area users get on desktop.
+  const viewerHeight = isMobilePred ? 720 : 320;
   const sampleCount = state.sampleCount;
   const viewerSlots = buildViewerSlots(availableGroups, sampleCount, targetKey, dimension);
   let html = '';

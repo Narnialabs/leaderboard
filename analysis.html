@@ -267,9 +267,9 @@
   .pred3d-panel-label.pred { color:#9961FF; }
   .pred3d-panel-label.gt { color:#34d399; }
   .pred3d-panel-label.error { color:#f59e0b; }
-  .pred3d-canvas-wrap { width:100%; height:500px; position:relative; }
+  /* .pred3d-canvas-wrap sizing lives in shared/style.css now (single source
+     of truth for both explorer.html and analysis.html). */
   .pred3d-stats { position:absolute; bottom:8px; right:10px; z-index:10; font-size:10px; color:rgba(255,255,255,0.5); background:rgba(0,0,0,0.5); padding:2px 8px; border-radius:4px; backdrop-filter:blur(4px); }
-  @media (max-width: 900px) { .pred3d-canvas-wrap { height:300px; } }
 </style>
 </head>
 <body>
@@ -802,7 +802,7 @@ window.initPointCloudViewer = async function(model, size, dataset) {
   // Build viewer HTML
   root.innerHTML = `
     <div class="pc-viewer-container">
-      <div id="pc-canvas-wrap" style="width:100%; height:500px; position:relative;">
+      <div id="pc-canvas-wrap">
         <div id="pc-loading" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:14px;">
           Loading point cloud...
         </div>

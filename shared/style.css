@@ -42,10 +42,10 @@
 
   /* Single source of truth for the .nav-bar's actual height. Every
      secondary sticky panel (Explorer filter strip, Explorer detail
-     switcher, Analysis tabs strip, legacy explorer-sidebar) pins to this
-     value so they sit flush against the nav with no gap for the page
-     gradient to leak through.  Override in mobile.css for the slightly
-     taller hamburger nav + notch safe-area on phones. */
+     switcher, Analysis tabs strip) pins to this value so they sit flush
+     against the nav with no gap for the page gradient to leak through.
+     Override in mobile.css for the slightly taller hamburger nav + notch
+     safe-area on phones. */
   --nav-bar-height: 56px;
 
   /* Shared sticky-glass fill — keyed to the page gradient's mid-tone so
@@ -649,57 +649,11 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   border: 1px solid var(--glass-border);
 }
 
-.explorer-sidebar {
-  width: 310px;
-  flex-shrink: 0;
-  /* Sticky so the navigation tree stays in view when scrolling deep into
-     the main content.  Uses the shared --nav-bar-height variable so this
-     legacy sidebar tracks the same offset as every other sticky panel
-     even when the nav-bar grows or shrinks. */
-  position: sticky;
-  top: var(--nav-bar-height);
-  align-self: flex-start;
-  overflow-y: auto;
-  max-height: calc(100vh - var(--nav-bar-height) - 32px);
-  padding-right: 12px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.1) transparent;
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0px,
-    rgba(0,0,0,0.75) 6px,
-    black 14px,
-    black calc(100% - 16px),
-    rgba(0,0,0,0.5) calc(100% - 6px),
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0px,
-    rgba(0,0,0,0.75) 6px,
-    black 14px,
-    black calc(100% - 16px),
-    rgba(0,0,0,0.5) calc(100% - 6px),
-    transparent 100%
-  );
-}
-.explorer-sidebar::-webkit-scrollbar {
-  width: 3px;
-}
-.explorer-sidebar::-webkit-scrollbar-track {
-  background: transparent;
-}
-.explorer-sidebar::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.12);
-  border-radius: 1px;
-}
-.explorer-sidebar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255,255,255,0.25);
-}
-.explorer-main {
-  flex: 1;
-  min-width: 0;
-}
+/* (Removed `.explorer-sidebar` / `.explorer-main` rules and the four
+   `::-webkit-scrollbar-*` pseudo-element declarations that went with them.
+   Explorer's sidebar was replaced by gallery-card navigation; the matching
+   classes are no longer emitted by any HTML page. Mobile.css already
+   documents the removal in its dead-sidebar comment block.) */
 .tree-item {
   padding: 6px 12px;
   font-size: 13px;
@@ -1540,11 +1494,9 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   padding: 10px 14px;
 }
 .sp-gallery-row .sp-rank { align-self: center; }
-.sp-gallery-row .sp-gallery-card { flex: 1; min-width: 0; }
-@media (max-width: 768px) {
-  .sp-gallery-row { flex-wrap: wrap; }
-  .sp-gallery-row .sp-gallery-card { flex-basis: 100%; }
-}
+/* (Removed dead `.sp-gallery-card` (singular) rules — JS emits the plural
+   `.sp-gallery-cards` and that element carries its flex sizing via inline
+   style. Mobile layout is owned by mobile.css's `.sp-gallery-cards` block.) */
 
 /* ── 2D field prediction triptychs (leaderboard visual section) ── */
 .f2d-samples {
@@ -1675,4 +1627,26 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 .pc-viewer-container canvas,
 .cmp-pc-viewer canvas {
   background: var(--bg-primary);
+}
+
+/* Explorer & Analysis 3D point-cloud / field viewer wrappers.
+   Used to be set inline (style="width:100%; height:500px") at every render
+   site, which conflicted with mobile.css's `!important` 280px override —
+   inline lost the cascade, but Three.js init still saw the 500-px wrap as
+   the "true" size and rendered at the wrong resolution. CSS owns the size
+   now; JS reads `wrap.clientHeight` so render resolution matches the
+   visible box on both desktop and mobile. */
+#pc-canvas-wrap,
+.pred3d-canvas-wrap {
+  width: 100%;
+  position: relative;
+}
+#pc-canvas-wrap { height: 500px; }
+.pred3d-canvas-wrap { height: 500px; }
+@media (max-width: 768px) {
+  /* Site-wide mobile break (matches mobile.css). Previously the inline
+     `<style>` blocks in explorer.html / analysis.html stepped these down at
+     900 px which left the 768–900 tablet band without a sensible height
+     and still gave phones a 300-px viewer (too tall for a 375-px screen). */
+  .pred3d-canvas-wrap { height: 280px; }
 }

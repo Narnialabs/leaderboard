@@ -316,12 +316,76 @@
     aspect-ratio: 1;
   }
 
-  /* 2D field triptychs: shrink panels and scroll horizontally */
-  .f2d-samples { flex-wrap: nowrap !important; overflow-x: auto !important; padding-bottom: 4px; }
-  .f2d-panel { width: 72px !important; height: 72px !important; }
+  /* 2D field triptychs: one sample per row, triptych stretches full width
+     so each GT/pred/|err| panel reads at ~⅓ of the card instead of needing
+     a horizontal scroll users tend not to discover.
+     `grid-template-columns: 1fr !important` is for explorer.html's variant
+     (renders `.f2d-samples` with `display:grid` and an inline
+     `minmax(420px,1fr)` that overflows a 375-px phone); harmless on
+     benchmark.html's flex variant because grid props are ignored when
+     display:flex is active. */
+  .f2d-samples {
+    flex-wrap: wrap !important;
+    overflow-x: visible !important;
+    gap: 8px !important;
+    grid-template-columns: 1fr !important;
+  }
+  .f2d-cell {
+    flex: 1 1 100% !important;
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+  .f2d-triptych {
+    width: 100%;
+  }
+  .f2d-panel {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1;
+  }
 
-  /* Scalar prediction cards: fill width on narrow screens */
-  .scalar-pred-grid { grid-template-columns: 1fr !important; }
+  /* ── Scalar prediction per-sample gallery ──
+     Two bugs on phones:
+       (a) `.sp-gallery-row` stays horizontal (info 170px + cards), so the
+           cards column shrinks to ~170px and JS's inline
+           `grid-template-columns: repeat(n, minmax(0, 1fr))` packs n
+           scalar-cards into that strip, crushing each card to ~80px.
+       (b) `.scalar-card-compact .scalar-card-shape` is pinned to 130px
+           (line 1509 style.css) which then overflows the crushed cell —
+           that's the "shape thumbnails bleed past the card border"
+           seen on DenseNet-121 / PCT-Small.
+     Fix: stack info above the cards grid, collapse the grid to one card
+     per row, and let the compact shape shrink to fit. */
+  .sp-gallery-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    flex-wrap: nowrap !important;
+  }
+  .sp-gallery-row .sp-row-info {
+    width: 100% !important;
+  }
+  /* The purple `#1/#2` rank chip clashes with the `#0/#1` per-sample slot
+     numbers shown inside each scalar card — readers on a phone parse them
+     as a single counter and the rank gets misread as "sample 1". The other
+     visual galleries (2D Gen, 2D/3D Field) don't render a rank chip in
+     their compare-rows either; hiding it here brings scalar prediction
+     into line. Models stay sorted by rank, so order alone communicates it. */
+  .sp-gallery-row .sp-rank {
+    display: none !important;
+  }
+  .sp-gallery-cards {
+    grid-template-columns: 1fr !important;
+  }
+  /* `.scalar-card-compact` keeps its horizontal shape+info layout but now
+     in a full-row-width card, so the 130px shape no longer overflows. */
+  .scalar-card-compact .scalar-card-shape {
+    width: 110px !important;
+  }
+  .scalar-card-compact {
+    grid-template-columns: 110px minmax(0, 1fr) !important;
+  }
 
   /* Metrics table: force horizontal scroll instead of compact truncation */
   .data-table-wrapper:has(.compact-metrics) {
@@ -347,10 +411,10 @@
     text-overflow: unset !important;
   }
 
-  /* 3D viewer height reduction */
-  .lb-pc-wrap {
-    height: 240px !important;
-  }
+  /* 3D viewer height is JS-driven (see render3DGenAllModels → viewerHeight,
+     written inline into .lb-pc-wrap). Don't add an !important override here —
+     it used to set 240 px and silently won over the JS-set 200 px, leaving
+     Three.js rendering at 200 px resolution stretched to 240 px on screen. */
 
   /* ══════════════════════════════════════════════════════════
      EXPLORER.HTML + ANALYSIS.HTML (renamed from inference-explorer)
@@ -505,10 +569,9 @@
     grid-template-columns: 1fr !important;
   }
 
-  /* ── 3D pred viewer height ── */
-  .pred3d-canvas-wrap {
-    height: 220px !important;
-  }
+  /* (Removed dead .pred3d-canvas-wrap height rule — no element ever carried
+     that class. The benchmark page's 3D pred viewer is `.lb-pred3d-row` /
+     `.lb-pred3d-panel` and is sized via JS in render3DEvalAllModels.) */
 
   /* ── Inference Explorer: 3D point cloud viewer height ── */
   #pc-canvas-wrap {
@@ -531,10 +594,18 @@
     z-index: auto !important;
   }
 
-  /* ── 3D viewer touch ── */
+  /* ── 3D viewer touch ──
+     The third selector was `.pred3d-panel canvas` for years, but the actual
+     class is `.lb-pred3d-panel` (3D field prediction viewer in benchmark.html).
+     That meant rotating the GT/PRED/|ERROR| panels on mobile would scroll the
+     page instead — fixed by adding the `lb-` prefix.
+     `.cmp-pc-viewer` / `.cmp-pred-viewer` (analysis.html comparison mode)
+     had the same gap until added here. */
   .lb-pc-wrap canvas,
   .pc-viewer-container canvas,
-  .pred3d-panel canvas {
+  .lb-pred3d-panel canvas,
+  .cmp-pc-viewer canvas,
+  .cmp-pred-viewer canvas {
     touch-action: none;
   }
 
@@ -748,9 +819,8 @@
    LANDSCAPE — mobile + landscape orientation
    ═══════════════════════════════════════════════════════════ */
 @media (max-width: 768px) and (orientation: landscape) {
-  .pred3d-canvas-wrap {
-    height: 180px !important;
-  }
+  /* (Removed dead .pred3d-canvas-wrap rule — see comment in the portrait
+     block above.) */
   .lb-pc-wrap {
     height: 200px !important;
   }
