@@ -2,7 +2,7 @@
 
 **A non-commercial research benchmark for evaluating and ranking AI models in manufacturing and engineering domains.**
 
-Developed by [Narnia Labs](https://www.narnia.ai/), this leaderboard provides transparent, standardized performance benchmarks to objectively assess AI models across seven engineering tasks: 1D scalar prediction, 2D image generation, 2D field prediction, 2D scalar prediction, 3D geometry generation, 3D field prediction, and 3D scalar prediction.
+Developed by [Narnia Labs](https://www.narnia.ai/), this leaderboard provides transparent, standardized performance benchmarks to objectively assess AI models across seven engineering tasks: 3D geometry generation, 3D field prediction, 3D scalar prediction, 2D image generation, 2D field prediction, 2D scalar prediction, and 1D scalar prediction.
 
 > **Live Dashboard:** [http://leaderboard.narnia.ai/](http://leaderboard.narnia.ai/)
 
@@ -18,39 +18,41 @@ This benchmark is intended solely for academic and research evaluation purposes.
 
 | Domain | Task | Description |
 |--------|------|-------------|
-| **2D Image Generation** | Generation | Evaluates generative models on engineering image synthesis tasks |
-| **2D Field Prediction** | Prediction (image → image) | Per-pixel engineering fields from images — z-buffer depth (DeepWheel), FEA von Mises stress (DeepJEB), steady Darcy pressure (PDEBench), and RANS flow (AirfRANS) |
-| **2D Scalar Prediction** | Prediction (image → scalar) | Evaluates models that estimate global engineering scalars (mass, modal frequencies) from RGB renders |
 | **3D Geometry Generation** | Generation | Evaluates generative models that produce 3D point cloud geometries for engineering components |
 | **3D Field Prediction** | Prediction (point cloud → field) | Per-point engineering fields — displacement, von Mises stress & mode shapes (DeepJEB), automotive aero surface/center-plane fields (DrivAerNet), and surface + volume CFD fields (DrivAerML) |
 | **3D Scalar Prediction** | Prediction (point cloud → scalar) | Evaluates models that estimate global engineering scalars from 3D geometries |
+| **2D Image Generation** | Generation | Evaluates generative models on engineering image synthesis tasks |
+| **2D Field Prediction** | Prediction (image → image) | Per-pixel engineering fields from images — z-buffer depth (DeepWheel), FEA von Mises stress (DeepJEB), steady Darcy pressure (PDEBench), and RANS flow (AirfRANS) |
+| **2D Scalar Prediction** | Prediction (image → scalar) | Evaluates models that estimate global engineering scalars (mass, modal frequencies) from RGB renders |
 | **1D Scalar Prediction** | Prediction (tabular / timeseries → scalar) | Tabular regression (UCI Concrete, Airfoil Self-Noise) and turbofan remaining-useful-life from timeseries (NASA C-MAPSS) |
 
 ## Evaluated Models
 
 | Domain | Models |
 |--------|--------|
-| **2D Generation** | GAN, VAE, DCGAN, LSGAN, WGAN-CP, WGAN-GP, R1GAN, DDPM, VQVAE |
-| **2D Field Prediction** | U-Net, ResNet-U-Net, Attention U-Net, U-Net++, SegFormer-B0, FPN-ResNet18, GLPN, DPT-Hybrid |
-| **2D Scalar Prediction** | SimpleCNN, ResNet-18, ResNet-34, EfficientNet-B0, ConvNeXt-Tiny, DenseNet-121, ViT-Tiny |
-| **3D Generation** | 3D-GAN, DeepSDF, PointFlow, ShapeGF, AtlasNet, Diffusion3D |
+| **3D Geometry Generation** | 3D-GAN, DeepSDF, PointFlow, ShapeGF, AtlasNet, Diffusion3D |
 | **3D Field Prediction** | Transolver++, Transolver, LinearNO, LinearNO-Big, GeoFNO, GeoTransolver, DoMINO, PointNet, RegDGCNN |
 | **3D Scalar Prediction** | PointNet, PointNet++, PointNet++ Lite, DGCNN, PCT, PCT-Small, Point Transformer, Point Transformer-Small, PointMLP, PointMLP-Elite |
+| **2D Image Generation** | GAN, VAE, DCGAN, LSGAN, WGAN-CP, WGAN-GP, R1GAN, DDPM, VQVAE |
+| **2D Field Prediction** | U-Net, ResNet-U-Net, Attention U-Net, U-Net++, SegFormer-B0, FPN-ResNet18, GLPN, DPT-Hybrid |
+| **2D Scalar Prediction** | SimpleCNN, ResNet-18, ResNet-34, EfficientNet-B0, ConvNeXt-Tiny, DenseNet-121, ViT-Tiny |
 | **1D Scalar Prediction** | MLP, FT-Transformer, NODE, TabNet, TabPFN, XGBoost, LightGBM, Random Forest, Gaussian Process, Ridge · *(timeseries)* LSTM, BiLSTM, DCNN, TCN, CNN-LSTM, DAST |
 
 All models are benchmarked across four dataset sizes to assess data efficiency and scalability:
-- **2D Generation:** S (50), M (100), L (200), XL (500)
-- **All Prediction tasks (1D / 2D / 3D, field & scalar) and 3D Generation:** S (20), M (50), L (100), XL (200)
+- **3D Geometry Generation:** S (20), M (50), L (100), XL (200)
+- **2D Image Generation:** S (50), M (100), L (200), XL (500)
+- **All Prediction tasks (1D / 2D / 3D, field & scalar):** S (20), M (50), L (100), XL (200)
 
 ## Evaluation Metrics
 
 | Domain | Metrics |
 |--------|---------|
-| **2D Generation** | IS, FID, LPIPS, PSNR, MS-SSIM, Precision, Density, Recall, Coverage, Train Time, Infer Time |
-| **2D Field Prediction** | MAE, RMSE, MAPE, R², Rel-L2, PSNR, SSIM (+ AbsRel, sqRel, δ<1.25 on the depth dataset only), Train Time, Infer Time |
-| **2D / 3D Scalar Prediction** | MAE, RMSE, MAPE, R², Rel-L2, MaxAE, Pearson, Spearman, Train Time, Infer Time |
-| **3D Generation** | MV-FID, FPD, CD, EMD, F-Score, MS-SSIM, Precision, Recall, Density, Coverage, Manifold-Δ, Uniformity-Δ, Train Time, Infer Time |
+| **3D Geometry Generation** | MV-FID, FPD, CD, EMD, F-Score, MS-SSIM, Precision, Recall, Density, Coverage, Manifold-Δ, Uniformity-Δ, Train Time, Infer Time |
 | **3D Field Prediction** | MAE, RMSE, MAPE, R², Rel-L2, MAC, Sign Agree, Extremal Agree, Train Time, Infer Time |
+| **3D Scalar Prediction** | MAE, RMSE, MAPE, R², Rel-L2, MaxAE, Pearson, Spearman, Train Time, Infer Time |
+| **2D Image Generation** | IS, FID, LPIPS, PSNR, MS-SSIM, Precision, Density, Recall, Coverage, Train Time, Infer Time |
+| **2D Field Prediction** | MAE, RMSE, MAPE, R², Rel-L2, PSNR, SSIM (+ AbsRel, sqRel, δ<1.25 on the depth dataset only), Train Time, Infer Time |
+| **2D Scalar Prediction** | MAE, RMSE, MAPE, R², Rel-L2, MaxAE, Pearson, Spearman, Train Time, Infer Time |
 | **1D Scalar Prediction** | MAE, RMSE, MAPE, R², Rel-L2, MaxAE, Pearson, Spearman, Train Time, Infer Time |
 
 Every metric a task lists is both **computed and ranked** — what the leaderboard shows is exactly what BenchRank ranks on, with no display-only "reference" columns. Two field-specific choices keep the ranking faithful to quality: **MaxAE is not computed for field tasks** (the single worst-pixel error rewards blurry, under-confident "mean" predictions, so it is anti-correlated with field quality — it stays a ranked metric for **scalar** tasks, where one error per sample makes it well-behaved), and the monocular-depth metrics (**AbsRel / sqRel / δ<1.25**) are computed only for the depth dataset, where they are meaningful. Everything else — MAPE included — is ranked wherever it is computed.

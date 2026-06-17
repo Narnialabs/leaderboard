@@ -1748,8 +1748,13 @@ function _cmpPcSync(side, fromSampleIdx) {
 
 window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   const id = el.id;
-  const isMobileCmp = window.matchMedia('(max-width: 768px)').matches;
-  const viewerHeight = isMobileCmp ? 200 : 240;
+  // Panel height 240 on mobile too (was 200) — uniform with the field-pred
+  // comparison viewer and with desktop. gen keeps its benchmark framing with NO
+  // mobile pull-back: the distances (DeepJEB 2.91 / DrivAerNet 2.65 / DeepWheel
+  // 4.167r) leave ample horizontal margin even at this taller, less-landscape
+  // (~1.42:1) panel — benchmark.html runs gen at an even lower mobile aspect
+  // (~1.1:1 at 300px) with the same distances, so 1.42 is comfortably in bounds.
+  const viewerHeight = 240;
   el.innerHTML = `
     <div class="pc-viewer-container" style="height:${viewerHeight}px;">
       <div id="${id}-canvas" style="width:100%; height:100%; position:relative;">
@@ -1763,8 +1768,11 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0C0C0C);
   const camera = new THREE.PerspectiveCamera(45, w/h, 0.01, 100);
-  const camDist = isMobileCmp ? 1.35 : 1.0;
-  camera.position.set(2.4 * camDist, 0.4 * camDist, 1.6 * camDist);
+  // Placeholder pose before data loads — same heading as benchmark.html's
+  // generation viewer; loadSample() re-frames it to the VIEW_ELEV_DEG elevation.
+  // Mobile uses the same distance as desktop (A/B halves stack full-width on
+  // phones, so no pull-back is needed — see the .cmp-grid column media query).
+  camera.position.set(2.4, 0.4, 1.6);
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(w, h);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -1871,18 +1879,22 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
       geom.boundingBox.getCenter(c);
       controls.target.copy(c);
       const isDriv = dataset.toLowerCase().includes('drivaernet');
-      const mz = isMobileCmp ? 1.35 : 1.0;
       // DeepWheel: distance = 5 × bounding radius for consistent on-screen
       // size across generators that output at different scales.
       // DrivAerNet: fixed 110% bigger.  DeepJEB: fixed unit.
-      const baseLen = 2.345;  // = |(1.5, 1.0, 1.5)|
+      // Heading + baseLen mirror benchmark.html's generation viewer EXACTLY so
+      // the same model/dataset frames identically across both pages. baseLen MUST
+      // equal |heading| so DeepWheel's "5R" distance = |heading|·(5/1.2·r/baseLen)
+      // reduces to 5/1.2·r. (No mobile pull-back: the A/B halves stack full-width
+      // on phones, so the same distance as desktop frames correctly.)
+      const baseLen = Math.hypot(2.4, 0.4, 1.6);  // ≈ 2.92 — matches the heading below
       const radius = (geom.boundingSphere && geom.boundingSphere.radius) || 1;
       const k = isDeepWheel
         ? (5.0 / 1.2 * radius / baseLen)
         : (isDriv ? (1.0 / 1.1) : 1.0);
-      // VIEW_ELEV_DEG three-quarter elevation: the (1.7,0.3,1.1) heading re-aimed
+      // VIEW_ELEV_DEG three-quarter elevation: the (2.4,0.4,1.6) heading re-aimed
       // to look slightly down (viz-common.js).
-      const _o = viewCamVec(1.7, 0.3, 1.1, k*mz);
+      const _o = viewCamVec(2.4, 0.4, 1.6, k);
       camera.position.set(c.x + _o.x, c.y + _o.y, c.z + _o.z);
       controls.update();
     } catch {
@@ -1946,7 +1958,13 @@ window.initCmpEvalViewer = async function(el) {
   const isMobileCmpPred = window.matchMedia('(max-width: 768px)').matches;
   function mkPanel(cont) {
     const s = new THREE.Scene(); s.background = new THREE.Color(0x0C0C0C);
-    const camDist = isMobileCmpPred ? 1.35 : 1.0;
+    // Mobile pull-back eased 1.35→1.15 (over-shrink relief, option B). The A/B
+    // halves stack full-width on phones (triptych is always vertical), so the
+    // pull-back isn't for narrow panels — it's because this panel keeps 240px
+    // height (gen drops to 200), a less-landscape ~1.4:1 aspect that can clip
+    // wide cars/brackets mid-rotation. 1.15 keeps anti-clip margin without
+    // over-shrinking. (The reframe distances below ease by the same ~1.15×.)
+    const camDist = isMobileCmpPred ? 1.15 : 1.0;
     const cam = new THREE.PerspectiveCamera(45,w/h,0.01,100); cam.position.set(2.4*camDist,0.4*camDist,1.6*camDist);
     const ren = new THREE.WebGLRenderer({antialias:true}); ren.setSize(w,h); ren.setPixelRatio(Math.min(window.devicePixelRatio,2)); cont.appendChild(ren.domElement);
     const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.enableZoom=false; ctrl.autoRotate=true; ctrl.autoRotateSpeed=0.1875; ctrl.minDistance=0.5; ctrl.maxDistance=20;
@@ -2046,7 +2064,7 @@ window.initCmpEvalViewer = async function(el) {
         const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('color',new THREE.Float32BufferAttribute(colorByField(vals,mn,mx,cmap),3));
         panel.points=new THREE.Points(g,new THREE.PointsMaterial({size:profile.pointSize,vertexColors:true,sizeAttenuation:true,transparent:true,opacity:0.85}));
         panel.scene.add(panel.points);g.computeBoundingBox();const c=new THREE.Vector3();g.boundingBox.getCenter(c);panel.controls.target.copy(c);
-        if(profile.cameraMode==='wake'){const ty=c.y*0.55,tx=c.x*1.5,wd=isMobileCmpPred?7.5:5.8;panel.controls.target.set(tx,ty,c.z);panel.camera.position.set(tx+0.8,ty+wd*VIEW_ELEV_SIN,c.z+wd*VIEW_ELEV_COS);}else if(profile.cameraMode==='body'){panel.controls.target.set(c.x,c.y,c.z);panel.camera.position.set(c.x,c.y+2.5*VIEW_ELEV_SIN,c.z+2.5*VIEW_ELEV_COS);}else{const mz=isMobileCmpPred?3.1:2.3;panel.camera.position.set(c.x,c.y+mz*VIEW_ELEV_SIN,c.z+mz*VIEW_ELEV_COS);const vw=panel.renderer.domElement.width,vh=panel.renderer.domElement.height;panel.camera.setViewOffset(vw,vh,vw*0.02,0,vw,vh);}
+        if(profile.cameraMode==='wake'){const ty=c.y*0.55,tx=c.x*1.5,wd=isMobileCmpPred?6.7:5.8;panel.controls.target.set(tx,ty,c.z);panel.camera.position.set(tx+0.8,ty+wd*VIEW_ELEV_SIN,c.z+wd*VIEW_ELEV_COS);}else if(profile.cameraMode==='body'){panel.controls.target.set(c.x,c.y,c.z);panel.camera.position.set(c.x,c.y+2.5*VIEW_ELEV_SIN,c.z+2.5*VIEW_ELEV_COS);}else{const mz=isMobileCmpPred?2.65:2.3;panel.camera.position.set(c.x,c.y+mz*VIEW_ELEV_SIN,c.z+mz*VIEW_ELEV_COS);const vw=panel.renderer.domElement.width,vh=panel.renderer.domElement.height;panel.camera.setViewOffset(vw,vh,vw*0.02,0,vw,vh);}
         panel.controls.update();
       }
       // All three panels share turbo (default cmap) for direct cross-panel
@@ -2082,9 +2100,10 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
   scene.background = new THREE.Color(0x0C0C0C);
   const camera = new THREE.PerspectiveCamera(45, w / h, 0.01, 100);
   // DeepWheel point clouds have their rotation axis along Z (verified: Z range
-  // ~[-0.46, 0.33], std 0.25 vs X/Y std ~0.52). Camera placed on +Z and looking
-  // toward origin → wheel face visible (the side you see on a parked car).
-  camera.position.set(0, 0, 2.6);
+  // ~[-0.46, 0.33], std 0.25 vs X/Y std ~0.52). Camera placed on -Z (back view)
+  // looking toward origin → wheel's inner face visible head-on. Matches the
+  // benchmark & explorer scalar viewers' shared face-on convention.
+  camera.position.set(0, 0, -2.6);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(w, h);
@@ -2167,7 +2186,7 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
     .then(buf => {
       const positions = new Float32Array(buf);
       // No Y/Z swap for DeepWheel: original Z is already the wheel's rotation axis,
-      // so we keep it as-is and place the camera on +Z (see camera.position above).
+      // so we keep it as-is and place the camera on -Z (see camera.position above).
       const geom = new THREE.BufferGeometry();
       geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
       // Soft monochrome shading uses radial distance from the wheel axis (XY plane
@@ -2935,7 +2954,10 @@ function cmpSamplesPerPage() {
     return 1;
   }
   if (isMobile) {
-    return cmpState.dim === '2d' ? 6 : 3;
+    // 3D gen: 2 viewers per model on a phone (was 3) so the paired A/B panels
+    // stay legible; paging then steps 0-1, 2-3, 4-5 … . 2D gen stays at 6
+    // (lightweight <img> tiles, no WebGL pressure).
+    return cmpState.dim === '2d' ? 6 : 2;
   }
   if (cmpState.dim === '2d') return 12;
   return 3;

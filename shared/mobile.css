@@ -402,6 +402,21 @@
     grid-template-columns: 110px minmax(0, 1fr) !important;
   }
 
+  /* 1D scalar prediction row (`.sp-1d-card`): the predicted-vs-actual square
+     scatter sits beside a wide residual plot on desktop. The row already stacks
+     on a phone, but the square keeps its inline 240px width — let it span the
+     FULL row width as a square (aspect-ratio 1/1), residual plot full-width
+     below. (Other `.sp-gallery-row` scalar galleries are unaffected.) */
+  .sp-1d-card .sp-row-charts {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .sp-1d-card .sp-chartwrap {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1;
+  }
+
   /* Metrics table: horizontal scroll instead of compact truncation. Applied to
      every .data-table-wrapper (they all carry the ←scroll→ hint via ::after
      above), so it needs no :has() — which is unsupported on Safari <15.4 /

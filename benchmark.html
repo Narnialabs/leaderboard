@@ -1353,6 +1353,9 @@ function isField3DContext() {
 //              into a ~720px-tall column per sample (three live WebGL viewers),
 //              so offer a 1-sample floor — [1, 2, 4] — mirroring the 2D-field
 //              treatment so a phone isn't a wall of stacked viewers.
+//   3D gen:    [2, 4, 8] on desktop; on mobile each sample is ONE full-width
+//              point-cloud viewer (see render3DGenAllModels), so offer a
+//              1-sample floor — [1, 2, 4] — mirroring the 3D-field treatment.
 //   3D scalar: [2, 4, 8] — each card has its own Three.js viewer. The
 //              gallery caps cards-per-row at 2 on desktop (see Option C in
 //              lbDrawScalarGalleryRow) so simultaneous WebGL contexts stay
@@ -1363,6 +1366,7 @@ function getSampleCountOptions() {
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
   if (isField2DContext()) return isMobile ? [1, 3, 6] : [3, 6, 9];
   if (isField3DContext()) return isMobile ? [1, 2, 4] : [2, 4, 8];
+  if (state.dim === '3d' && state.task === 'generation') return isMobile ? [1, 2, 4] : [2, 4, 8];
   if (state.task === 'prediction' && state.outputType === 'scalar') return [2, 4, 8];
   return [2, 4, 8];
 }
@@ -1383,7 +1387,9 @@ const LB_3D_VIEWER_PC_ROW_CAP = 2;
 //   3D Field Prediction:  2 desktop / 1 mobile  (heavy Three.js viewer; mobile
 //                            stacks the triptych ~720px tall, so floor at 1)
 //   3D Scalar:            2  (Three.js viewer per sample × N models — keep low)
-//   3D Generation:        4  (Three.js viewer, but lighter than per-sample pred)
+//   3D Generation:        4 desktop / 1 mobile  (Three.js viewer; on mobile each
+//                            sample is one full-width viewer, so floor at 1 —
+//                            mirroring 3D field prediction)
 //   Mobile:               clamp to the smallest sane option per branch
 function getDefaultSampleCount() {
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
@@ -1407,7 +1413,7 @@ function getDefaultSampleCount() {
     if (state.outputType === 'scalar') return 2;
     return isMobile ? 1 : 2; // 3D field — floor at 1 on mobile (720px stacked triptych/sample)
   }
-  return isMobile ? 2 : 4; // 3D generation
+  return isMobile ? 1 : 4; // 3D generation — mobile floors at 1 (full-width viewer/sample)
 }
 
 function updateSampleCountVisibility() {
@@ -1626,9 +1632,11 @@ function render3DGenAllModels(container, data, rankOrder) {
 
   let html = '';
 
-  // All viewers use the same height regardless of sample count
+  // All viewers use the same height regardless of sample count. On mobile each
+  // sample is one full-width viewer (see widthPct below), so it gets a taller
+  // box (300 vs the old side-by-side 200) to avoid a wide, letterboxed canvas.
   const isMobileGen = window.matchMedia('(max-width: 768px)').matches;
-  const viewerHeight = isMobileGen ? 200 : 360;
+  const viewerHeight = isMobileGen ? 300 : 360;
 
   // Per-model: list of viewers (1, 4, or 8 samples) — same size, stacked vertically
   models.forEach(model => {
@@ -1649,7 +1657,9 @@ function render3DGenAllModels(container, data, rankOrder) {
 
       for (let s = 0; s < sampleCount; s++) {
         const viewerId = `lb-pc-${model}-${ds}-s${s}`.replace(/[^a-zA-Z0-9-]/g, '_');
-        const widthPct = (isMobileGen || sampleCount <= 2) ? `calc(50% - 6px)` : 'calc(25% - 6px)';
+        // Mobile: one full-width viewer per sample (like 3D field prediction).
+        // Desktop: 2-up when sampleCount ≤ 2, else 4-up.
+        const widthPct = isMobileGen ? '100%' : (sampleCount <= 2 ? `calc(50% - 6px)` : 'calc(25% - 6px)');
         const widthStyle = `width:${widthPct}; min-width:${widthPct};`;
         html += `<div id="${viewerId}" class="lb-pc-viewer" data-model="${model}" data-size="${dataSize}" data-dataset="${ds}" data-sample="${s}" data-viewer-height="${viewerHeight}" data-sync-group="${syncGroup}" style="${widthStyle}">
           <div style="text-align:center; padding:20px; color:rgba(255,255,255,0.3); font-size:13px;">Sample ${s}</div>
@@ -3087,17 +3097,22 @@ function syncCameraFromSource(sourceId) {
   const group = syncGroups.get(src.syncGroup);
   if (!group) return;
   _syncLock = true;
-  group.forEach(peerId => {
-    if (peerId === sourceId) return;
-    const peer = viewers.get(peerId);
-    if (!peer) return;
-    peer.camera.position.copy(src.camera.position);
-    peer.camera.quaternion.copy(src.camera.quaternion);
-    peer.controls.target.copy(src.controls.target);
-    peer.controls.autoRotate = src.controls.autoRotate;
-    peer.controls.update();
-  });
-  _syncLock = false;
+  try {
+    group.forEach(peerId => {
+      if (peerId === sourceId) return;
+      const peer = viewers.get(peerId);
+      if (!peer) return;
+      peer.camera.position.copy(src.camera.position);
+      peer.camera.quaternion.copy(src.camera.quaternion);
+      peer.controls.target.copy(src.controls.target);
+      peer.controls.autoRotate = src.controls.autoRotate;
+      peer.controls.update();
+    });
+  } finally {
+    // Always release — a throw mid-propagation must not wedge the lock `true`,
+    // which would silently kill ALL future camera sync until a page reload.
+    _syncLock = false;
+  }
 }
 
 // ── Global auto-rotation phase ───────────────────────────────────────────
@@ -3210,6 +3225,9 @@ function createMiniViewer(canvasContainer, id, syncGroup) {
   // to mimic a rolling tire, but the constant spin made spoke/rim quality
   // inspection hard, so it was reverted to plain camera-orbit auto-rotation.
   controls.addEventListener('start', () => {
+    // Mark THIS viewer as the active drag source — only the source propagates
+    // its camera to peers (see the 'change' listener). Peers merely freeze.
+    vState._isDragSource = true;
     vState._dragging = true;
     if (syncGroup && syncGroups.has(syncGroup)) {
       syncGroups.get(syncGroup).forEach(pid => {
@@ -3219,6 +3237,7 @@ function createMiniViewer(canvasContainer, id, syncGroup) {
     }
   });
   controls.addEventListener('end', () => {
+    vState._isDragSource = false;
     const reanchor = (p) => {
       if (!p) return;
       p.spinOffset = azimuthOf(p.camera, p.controls.target) - p.spinBase - globalSpinAzimuth(_AUTOROT_SPEED);
@@ -3231,7 +3250,7 @@ function createMiniViewer(canvasContainer, id, syncGroup) {
   });
 
   const vState = { scene, camera, renderer, controls, points: null, data: null, colorMode: 'height', animId: null, syncGroup: syncGroup || null,
-    spinning: true, spinBase: 0, spinOffset: 0, _dragging: false };
+    spinning: true, spinBase: 0, spinOffset: 0, _dragging: false, _isDragSource: false };
   viewers.set(id, vState);
 
   // Zoom activation: enable zoom only after user clicks on canvas
@@ -3258,7 +3277,12 @@ function createMiniViewer(canvasContainer, id, syncGroup) {
   if (syncGroup) {
     if (!syncGroups.has(syncGroup)) syncGroups.set(syncGroup, new Set());
     syncGroups.get(syncGroup).add(id);
-    controls.addEventListener('change', () => syncCameraFromSource(id));
+    // Only propagate when THIS viewer is the one the user is actively dragging.
+    // Otherwise every peer's per-frame controls.update() (damping is on) fires
+    // its own 'change' and copies its pose back over the source — the viewers
+    // fight frame-to-frame and the group desyncs to "only one responds". The
+    // shared global spin phase keeps auto-rotation in sync without this path.
+    controls.addEventListener('change', () => { if (vState._isDragSource) syncCameraFromSource(id); });
   }
 
   // Handle WebGL context loss gracefully
@@ -3767,23 +3791,32 @@ window.initLeaderboardPredViewer = async function(el) {
 
   // Sync: manual interaction on any panel syncs to others
   let _syncLk = false;
+  let _dragSrcIdx = -1;   // panel the user is actively manipulating (-1 = none)
   function syncFrom(srcIdx) {
     if (_syncLk) return;
     _syncLk = true;
-    const src = panels[srcIdx];
-    panels.forEach((dst, i) => {
-      if (i === srcIdx) return;
-      dst.camera.position.copy(src.camera.position);
-      dst.camera.quaternion.copy(src.camera.quaternion);
-      dst.controls.target.copy(src.controls.target);
-      dst.controls.update();
-    });
-    _syncLk = false;
+    try {
+      const src = panels[srcIdx];
+      panels.forEach((dst, i) => {
+        if (i === srcIdx) return;
+        dst.camera.position.copy(src.camera.position);
+        dst.camera.quaternion.copy(src.camera.quaternion);
+        dst.controls.target.copy(src.controls.target);
+        dst.controls.update();
+      });
+    } finally {
+      _syncLk = false;  // never wedge the lock on a throw (see gen-viewer note)
+    }
   }
   panels.forEach((panel, idx) => {
-    panel.controls.addEventListener('change', () => syncFrom(idx));
-    panel.controls.addEventListener('start', () => { evalSpinning = false; });
+    // Only the actively-dragged panel propagates. While spinning, the animate
+    // loop mirrors panel 0 → siblings (authoritative); during a drag that mirror
+    // is paused (evalSpinning=false), so without this guard each panel's damping
+    // 'change' would copy its pose over the drag source and the triptych desyncs.
+    panel.controls.addEventListener('change', () => { if (idx === _dragSrcIdx) syncFrom(idx); });
+    panel.controls.addEventListener('start', () => { _dragSrcIdx = idx; evalSpinning = false; });
     panel.controls.addEventListener('end', () => {
+      _dragSrcIdx = -1;
       // Re-anchor panel 0's phase to wherever the user left the (synced) camera,
       // then resume the global-phase spin smoothly from there.
       const src = panels[0];

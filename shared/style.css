@@ -558,6 +558,19 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   }
   /* single-column stack on mobile — clear the desktop full-width placement */
   .domain-matrix > .domain-card:last-child { grid-column: auto; grid-row: auto; }
+  /* Re-order the single-column mobile stack by DIMENSION, not by task pair.
+     HTML is column-major (1)3D-Gen (2)2D-Gen (3)3D-Field (4)2D-Field
+     (5)3D-Scalar (6)2D-Scalar (7)1D-Scalar — which on a phone would read
+     Gen→Field→Scalar pairs. Engineers scan by dimension, so group all 3D
+     first, then all 2D, then 1D:
+       3D Gen → 3D Field → 3D Scalar → 2D Gen → 2D Field → 2D Scalar → 1D. */
+  .domain-matrix > .domain-card:nth-child(1) { order: 1; } /* 3D Gen */
+  .domain-matrix > .domain-card:nth-child(3) { order: 2; } /* 3D Field */
+  .domain-matrix > .domain-card:nth-child(5) { order: 3; } /* 3D Scalar */
+  .domain-matrix > .domain-card:nth-child(2) { order: 4; } /* 2D Gen */
+  .domain-matrix > .domain-card:nth-child(4) { order: 5; } /* 2D Field */
+  .domain-matrix > .domain-card:nth-child(6) { order: 6; } /* 2D Scalar */
+  .domain-matrix > .domain-card:nth-child(7) { order: 7; } /* 1D Scalar */
 }
 
 /* ── Step Box (Pipeline) ── */
