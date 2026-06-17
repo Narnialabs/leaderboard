@@ -5,7 +5,14 @@
  */
 
 // ── Content Protection ──
+// Active on the DEPLOYED (public) site only. Skipped on localhost / 127.0.0.1 so
+// DevTools stays usable while developing — a fully-blocked F12 previously made a UI
+// bug (drag-scroll swallowing header clicks) very hard to diagnose. NB: these are a
+// casual deterrent, trivially bypassed; real internal data must not rely on them.
 (function() {
+  const host = location.hostname;
+  if (host === 'localhost' || host === '127.0.0.1' || host === '0.0.0.0' || host === '') return;
+
   // Right-click prevention
   document.addEventListener('contextmenu', e => e.preventDefault());
 
@@ -28,6 +35,40 @@
     if (e.metaKey && e.altKey && ['I','J','C'].includes(e.key.toUpperCase())) { e.preventDefault(); return; }
     if (e.metaKey && e.key.toUpperCase() === 'U') { e.preventDefault(); return; }
   });
+})();
+
+// ── Web Analytics (Google Analytics 4 — gtag.js) ──
+// Loads once per page (nav.js is included on every page). Create a GA4 property
+// at analytics.google.com → Admin → Data streams → add a Web stream for
+// `leaderboard.narnia.ai`, then paste its Measurement ID (G-XXXXXXXXXX) below.
+// Until a real ID is set, GA is skipped so local/dev pages stay clean.
+(function() {
+  const GA_MEASUREMENT_ID = 'G-ET90S4PYJX';  // GA4 Measurement ID for leaderboard.narnia.ai
+  if (!GA_MEASUREMENT_ID) return;
+  // Defer GA until after `load`. gtag.js + the /collect beacon were the single
+  // heaviest network requests during initial load on a throttled connection, and
+  // since GA is referenced only here (no other gtag() callers), deferring the whole
+  // block keeps that traffic off the critical first-paint path entirely — the
+  // pageview just records a moment later. No render/behaviour change otherwise.
+  function loadGA() {
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
+    (document.head || document.documentElement).appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { window.dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    // Cookieless mode: no client_id cookie is written, so no consent banner is
+    // required. Trade-off: returning-visitor / unique-user counts are approximate
+    // (GA4 falls back to short-lived signals instead of the _ga cookie).
+    gtag('config', GA_MEASUREMENT_ID, {
+      client_storage: 'none',
+      ads_data_redaction: true,
+    });
+  }
+  if (document.readyState === 'complete') loadGA();
+  else window.addEventListener('load', loadGA, { once: true });
 })();
 
 const NAV_PAGES = [
@@ -110,36 +151,58 @@ function initNav(activePageId) {
   function bindDrag(el) {
     if (el.__dragBound) return;
     el.__dragBound = true;
-    let isDown = false, startX = 0, startScroll = 0, moved = 0;
+    // Movement past this many px counts as a real drag — used both to lazily
+    // engage pointer capture and to suppress the synthetic click afterwards.
+    // The two checks MUST stay in lockstep, so share the one constant.
+    const DRAG_THRESHOLD = 4;
+    let isDown = false, captured = false, startX = 0, startScroll = 0, moved = 0, pid = null;
     el.addEventListener('pointerdown', (e) => {
       if (e.pointerType !== 'mouse' || e.button !== 0) return;
       if (el.scrollWidth - el.clientWidth <= 1) return;
       if (e.altKey) return; // hold Alt to text-select instead of drag
       isDown = true;
+      captured = false;
       moved = 0;
+      pid = e.pointerId;
       startX = e.clientX;
       startScroll = el.scrollLeft;
-      try { el.setPointerCapture(e.pointerId); } catch {}
-      el.style.cursor = 'grabbing';
-      el.style.userSelect = 'none';
+      // NOTE: do NOT setPointerCapture here. Capturing on pointerdown retargets the
+      // following pointerup/click to THIS wrapper, so a plain click on a child <th>
+      // never reaches that <th>'s sort handler — it silently dies on the wrapper.
+      // (Symptom: header sort worked only on tables narrow enough NOT to be
+      // [data-scrollable]; wide ones like 3D-generation never sorted.) Capture
+      // lazily below, only once a real drag actually begins.
     });
     el.addEventListener('pointermove', (e) => {
       if (!isDown) return;
       const dx = e.clientX - startX;
       if (Math.abs(dx) > moved) moved = Math.abs(dx);
+      if (!captured && Math.abs(dx) > DRAG_THRESHOLD) {
+        // Real drag now — capture so panning continues even if the pointer leaves
+        // the element, and switch to the grabbing affordance.
+        captured = true;
+        try { el.setPointerCapture(pid); } catch {}
+        el.style.cursor = 'grabbing';
+        el.style.userSelect = 'none';
+      }
       el.scrollLeft = startScroll - dx;
     });
     const end = (e) => {
       if (!isDown) return;
       isDown = false;
-      el.style.cursor = '';
-      el.style.userSelect = '';
-      try { el.releasePointerCapture(e.pointerId); } catch {}
+      // cursor/userSelect are only set once a drag actually engages (captured),
+      // so only reset them then — a plain click never touched them.
+      if (captured) {
+        el.style.cursor = '';
+        el.style.userSelect = '';
+        try { el.releasePointerCapture(e.pointerId); } catch {}
+        captured = false;
+      }
     };
     el.addEventListener('pointerup', end);
     el.addEventListener('pointercancel', end);
     el.addEventListener('click', (e) => {
-      if (moved > 4) { e.preventDefault(); e.stopPropagation(); moved = 0; }
+      if (moved > DRAG_THRESHOLD) { e.preventDefault(); e.stopPropagation(); moved = 0; }
     }, true);
   }
   // Coalesce bursty mutations (table renders insert many rows at once) into

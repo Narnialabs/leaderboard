@@ -1,13 +1,12 @@
-﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6
-1,Parameters (M),0.1628,regdgcnn,geofno,transolver_pp,pointnet,transolver,abupt
-2,Inference Time (s),0.1303,geofno,transolver,pointnet,abupt,transolver_pp,regdgcnn
-3,Training Time (s),0.1284,geofno,transolver_pp,pointnet,transolver,regdgcnn,abupt
-4,MaxAE,0.0847,regdgcnn,transolver,transolver_pp,abupt,geofno,pointnet
-5,Sign Agree,0.0727,regdgcnn,transolver_pp,abupt,transolver,geofno,pointnet
-6,MAPE (%),0.0679,regdgcnn,transolver_pp,transolver,abupt,geofno,pointnet
-7,Extremal Agree,0.0659,transolver,regdgcnn,transolver_pp,abupt,geofno,pointnet
-8,MAE,0.0618,transolver,regdgcnn,transolver_pp,abupt,geofno,pointnet
-9,Rel-L2,0.0613,transolver,regdgcnn,transolver_pp,abupt,geofno,pointnet
-10,R²,0.0613,transolver,regdgcnn,transolver_pp,abupt,geofno,pointnet
-11,RMSE,0.0613,transolver,regdgcnn,transolver_pp,abupt,geofno,pointnet
-12,MAC,0.0416,regdgcnn,transolver,abupt,transolver_pp,geofno,pointnet
+﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7
+1,Inference Time (s),0.1596,transolver,geofno,pointnet,transolver_pp,linearno_big,linearno,regdgcnn
+2,Parameters (M),0.1419,regdgcnn,geofno,transolver_pp,linearno,pointnet,transolver,linearno_big
+3,Training Time (s),0.1061,geofno,transolver_pp,pointnet,transolver,linearno,linearno_big,regdgcnn
+4,Sign Agree,0.0852,linearno,transolver_pp,regdgcnn,linearno_big,transolver,geofno,pointnet
+5,MAPE (%),0.0805,linearno,transolver_pp,regdgcnn,linearno_big,transolver,geofno,pointnet
+6,Extremal Agree,0.0805,transolver,linearno_big,transolver_pp,linearno,regdgcnn,geofno,pointnet
+7,MAE,0.0754,linearno_big,transolver,linearno,transolver_pp,regdgcnn,geofno,pointnet
+8,Rel-L2,0.0746,transolver,linearno_big,linearno,transolver_pp,regdgcnn,geofno,pointnet
+9,RMSE,0.0746,transolver,linearno_big,linearno,transolver_pp,regdgcnn,geofno,pointnet
+10,R²,0.0745,transolver,linearno_big,linearno,transolver_pp,regdgcnn,geofno,pointnet
+11,MAC,0.0588,transolver,regdgcnn,linearno_big,linearno,transolver_pp,geofno,pointnet

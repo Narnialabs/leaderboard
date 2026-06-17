@@ -1,85 +1,85 @@
-﻿Model Name,Domain,Task,Parameters (M),Resolution,Dataset,Data Scale,Data Size,Target Key,Training Time (s),Inference Time (s),MAE ↓,RMSE ↓,MAPE (%) ↓,R² ↑,Rel-L2 ↓,MaxAE ↓,Pearson ↑,Spearman ↑
-convnext_tiny,dimension_2d,prediction,28.0172,128x128,deepwheel_2d_1d,Small,20.0,mass,243.1563,0.0041,0.6208,0.7918,3.0137,0.5321,0.0386,2.889,0.8097,0.8142
-convnext_tiny,dimension_2d,prediction,28.0172,128x128,deepwheel_2d_1d,Small,20.0,mode7,331.7082,0.0016,11.3185,14.847,2.7055,0.5431,0.0356,49.2127,0.7921,0.8061
-convnext_tiny,dimension_2d,prediction,28.0172,128x128,deepwheel_2d_1d,Small,20.0,mode11,26.2663,0.004,54.5232,69.2986,4.8214,0.6349,0.061,257.0317,0.8317,0.8362
-convnext_tiny,dimension_2d,prediction,28.0172,128x128,deepwheel_2d_1d,Medium,50.0,mass,28.1512,0.0016,0.5181,0.6729,2.5346,0.6622,0.0328,2.4622,0.8205,0.8248
-convnext_tiny,dimension_2d,prediction,28.0172,128x128,deepwheel_2d_1d,Medium,50.0,mode7,40.4976,0.0016,9.3148,12.4176,2.2373,0.6804,0.0298,51.8169,0.8311,0.8333
-convnext_tiny,dimension_2d,prediction,28.0172,128x128,deepwheel_2d_1d,Medium,50.0,mode11,27.0112,0.0016,47.5476,60.9893,4.2565,0.7172,0.0537,308.3195,0.8513,0.8559
-convnext_tiny,dimension_2d,prediction,28.0172,128x128,deepwheel_2d_1d,Large,100.0,mass,384.5389,0.0042,0.421,0.5494,2.0594,0.7748,0.0268,2.1384,0.8816,0.8734
-convnext_tiny,dimension_2d,prediction,28.0172,128x128,deepwheel_2d_1d,Large,100.0,mode7,201.4554,0.0042,8.8703,11.5303,2.1308,0.7244,0.0276,50.2334,0.8555,0.854
-convnext_tiny,dimension_2d,prediction,28.0172,128x128,deepwheel_2d_1d,Large,100.0,mode11,92.8201,0.0041,40.8272,54.2594,3.6462,0.7762,0.0477,315.3602,0.8835,0.8862
-convnext_tiny,dimension_2d,prediction,28.0172,128x128,deepwheel_2d_1d,Extra Large,200.0,mass,101.5464,0.004,0.3738,0.4997,1.8297,0.8137,0.0243,2.1999,0.9025,0.8996
-convnext_tiny,dimension_2d,prediction,28.0172,128x128,deepwheel_2d_1d,Extra Large,200.0,mode7,41.3891,0.0041,7.7828,10.3096,1.8701,0.7797,0.0247,64.6107,0.8955,0.8997
-convnext_tiny,dimension_2d,prediction,28.0172,128x128,deepwheel_2d_1d,Extra Large,200.0,mode11,41.705,0.0041,39.8628,55.052,3.5489,0.7696,0.0484,427.644,0.8996,0.9014
-densenet121,dimension_2d,prediction,7.2165,128x128,deepwheel_2d_1d,Small,20.0,mass,316.7948,0.0023,0.7706,0.963,3.748,0.308,0.0469,3.3701,0.7273,0.7258
-densenet121,dimension_2d,prediction,7.2165,128x128,deepwheel_2d_1d,Small,20.0,mode7,84.3801,0.0023,13.7914,17.7386,3.2935,0.3478,0.0425,57.1609,0.7625,0.7743
-densenet121,dimension_2d,prediction,7.2165,128x128,deepwheel_2d_1d,Small,20.0,mode11,53.2346,0.0024,62.8021,78.3163,5.5755,0.5337,0.0689,234.7407,0.7936,0.7841
-densenet121,dimension_2d,prediction,7.2165,128x128,deepwheel_2d_1d,Medium,50.0,mass,38.7156,0.0022,0.493,0.6332,2.415,0.7008,0.0308,2.5427,0.8492,0.8483
-densenet121,dimension_2d,prediction,7.2165,128x128,deepwheel_2d_1d,Medium,50.0,mode7,23.7372,0.0023,9.7511,12.4312,2.3403,0.6797,0.0298,46.7294,0.8404,0.842
-densenet121,dimension_2d,prediction,7.2165,128x128,deepwheel_2d_1d,Medium,50.0,mode11,120.7844,0.0023,49.148,61.9598,4.3759,0.7082,0.0545,249.6279,0.8546,0.8494
-densenet121,dimension_2d,prediction,7.2165,128x128,deepwheel_2d_1d,Large,100.0,mass,42.9339,0.0024,0.4523,0.5821,2.211,0.7472,0.0283,2.0734,0.875,0.8719
-densenet121,dimension_2d,prediction,7.2165,128x128,deepwheel_2d_1d,Large,100.0,mode7,34.5673,0.0024,7.4838,9.8811,1.8012,0.7976,0.0237,46.1073,0.9017,0.9018
-densenet121,dimension_2d,prediction,7.2165,128x128,deepwheel_2d_1d,Large,100.0,mode11,80.993,0.0023,40.0105,54.9307,3.5759,0.7706,0.0483,263.1902,0.8798,0.8825
-densenet121,dimension_2d,prediction,7.2165,128x128,deepwheel_2d_1d,Extra Large,200.0,mass,113.2649,0.0024,0.3791,0.5027,1.8534,0.8114,0.0245,1.9269,0.9046,0.9032
-densenet121,dimension_2d,prediction,7.2165,128x128,deepwheel_2d_1d,Extra Large,200.0,mode7,161.907,0.0023,6.9113,9.3329,1.661,0.8194,0.0224,50.7382,0.9099,0.9132
-densenet121,dimension_2d,prediction,7.2165,128x128,deepwheel_2d_1d,Extra Large,200.0,mode11,130.7638,0.0023,34.5526,47.3911,3.0993,0.8293,0.0417,229.2227,0.9115,0.9122
-efficientnet_b0,dimension_2d,prediction,4.3357,128x128,deepwheel_2d_1d,Small,20.0,mass,46.944,0.0019,0.7855,0.9855,3.8234,0.2753,0.048,3.3388,0.6898,0.6814
-efficientnet_b0,dimension_2d,prediction,4.3357,128x128,deepwheel_2d_1d,Small,20.0,mode7,9.9394,0.0018,15.153,19.297,3.6296,0.2281,0.0462,63.5143,0.6416,0.6688
-efficientnet_b0,dimension_2d,prediction,4.3357,128x128,deepwheel_2d_1d,Small,20.0,mode11,21.0016,0.0019,69.8301,87.9313,6.2112,0.4122,0.0774,235.9534,0.7201,0.7245
-efficientnet_b0,dimension_2d,prediction,4.3357,128x128,deepwheel_2d_1d,Medium,50.0,mass,19.9912,0.0017,0.6182,0.7858,3.0251,0.5392,0.0383,2.528,0.7525,0.7734
-efficientnet_b0,dimension_2d,prediction,4.3357,128x128,deepwheel_2d_1d,Medium,50.0,mode7,57.8186,0.0018,11.6596,14.8544,2.7976,0.5426,0.0356,50.2959,0.7745,0.7872
-efficientnet_b0,dimension_2d,prediction,4.3357,128x128,deepwheel_2d_1d,Medium,50.0,mode11,49.3703,0.0018,63.6884,80.2888,5.6899,0.5099,0.0706,238.8046,0.7444,0.7544
-efficientnet_b0,dimension_2d,prediction,4.3357,128x128,deepwheel_2d_1d,Large,100.0,mass,50.7513,0.0019,0.477,0.6117,2.3248,0.7208,0.0298,2.2704,0.8606,0.8674
-efficientnet_b0,dimension_2d,prediction,4.3357,128x128,deepwheel_2d_1d,Large,100.0,mode7,44.5809,0.0018,9.8377,12.6616,2.3634,0.6677,0.0303,52.3036,0.8437,0.8502
-efficientnet_b0,dimension_2d,prediction,4.3357,128x128,deepwheel_2d_1d,Large,100.0,mode11,26.1818,0.0018,48.0592,62.3916,4.297,0.7041,0.0549,266.5997,0.8534,0.86
-efficientnet_b0,dimension_2d,prediction,4.3357,128x128,deepwheel_2d_1d,Extra Large,200.0,mass,194.457,0.0018,0.4199,0.5398,2.0512,0.7826,0.0263,1.792,0.8954,0.8953
-efficientnet_b0,dimension_2d,prediction,4.3357,128x128,deepwheel_2d_1d,Extra Large,200.0,mode7,33.9428,0.0019,8.0634,10.9102,1.9386,0.7533,0.0261,61.4163,0.8728,0.8816
-efficientnet_b0,dimension_2d,prediction,4.3357,128x128,deepwheel_2d_1d,Extra Large,200.0,mode11,342.9085,0.0019,39.0478,52.582,3.4977,0.7898,0.0463,329.3908,0.8928,0.8941
-resnet18,dimension_2d,prediction,11.3081,128x128,deepwheel_2d_1d,Small,20.0,mass,71.6711,0.0014,0.7655,0.9715,3.7246,0.2957,0.0473,3.2827,0.6886,0.688
-resnet18,dimension_2d,prediction,11.3081,128x128,deepwheel_2d_1d,Small,20.0,mode7,59.2303,0.0014,14.4894,18.8124,3.4656,0.2664,0.0451,65.4763,0.6733,0.695
-resnet18,dimension_2d,prediction,11.3081,128x128,deepwheel_2d_1d,Small,20.0,mode11,70.246,0.0014,69.4044,86.8172,6.1541,0.427,0.0764,257.2161,0.7236,0.7336
-resnet18,dimension_2d,prediction,11.3081,128x128,deepwheel_2d_1d,Medium,50.0,mass,65.9514,0.0014,0.6085,0.7686,2.9664,0.5592,0.0374,2.1249,0.7701,0.7704
-resnet18,dimension_2d,prediction,11.3081,128x128,deepwheel_2d_1d,Medium,50.0,mode7,78.7121,0.0015,10.7487,13.7177,2.5728,0.6099,0.0329,42.1167,0.8025,0.8072
-resnet18,dimension_2d,prediction,11.3081,128x128,deepwheel_2d_1d,Medium,50.0,mode11,58.7975,0.0015,52.3107,67.0284,4.6423,0.6585,0.059,249.0624,0.8192,0.8173
-resnet18,dimension_2d,prediction,11.3081,128x128,deepwheel_2d_1d,Large,100.0,mass,182.8394,0.0014,0.4632,0.5975,2.2606,0.7336,0.0291,1.8366,0.8692,0.8729
-resnet18,dimension_2d,prediction,11.3081,128x128,deepwheel_2d_1d,Large,100.0,mode7,205.9616,0.0015,8.6479,11.3177,2.0809,0.7345,0.0271,51.0448,0.8693,0.8701
-resnet18,dimension_2d,prediction,11.3081,128x128,deepwheel_2d_1d,Large,100.0,mode11,49.3115,0.0014,43.7607,57.432,3.9022,0.7493,0.0505,287.9416,0.8682,0.8748
-resnet18,dimension_2d,prediction,11.3081,128x128,deepwheel_2d_1d,Extra Large,200.0,mass,283.2151,0.0014,0.388,0.5113,1.8952,0.805,0.0249,2.1594,0.9031,0.9061
-resnet18,dimension_2d,prediction,11.3081,128x128,deepwheel_2d_1d,Extra Large,200.0,mode7,159.0634,0.0015,7.8731,10.499,1.8911,0.7715,0.0252,50.2804,0.8847,0.8933
-resnet18,dimension_2d,prediction,11.3081,128x128,deepwheel_2d_1d,Extra Large,200.0,mode11,287.3213,0.0014,37.6437,52.6543,3.3898,0.7892,0.0463,373.2841,0.8908,0.899
-resnet34,dimension_2d,prediction,21.4163,128x128,deepwheel_2d_1d,Small,20.0,mass,225.9477,0.0016,0.7678,0.975,3.7374,0.2906,0.0475,3.491,0.677,0.6653
-resnet34,dimension_2d,prediction,21.4163,128x128,deepwheel_2d_1d,Small,20.0,mode7,66.6407,0.0015,13.4672,17.501,3.2158,0.3651,0.0419,61.5619,0.7201,0.7313
-resnet34,dimension_2d,prediction,21.4163,128x128,deepwheel_2d_1d,Small,20.0,mode11,82.7187,0.0016,67.3417,84.3618,5.9688,0.459,0.0742,259.9678,0.7346,0.7419
-resnet34,dimension_2d,prediction,21.4163,128x128,deepwheel_2d_1d,Medium,50.0,mass,160.6069,0.0015,0.5543,0.6968,2.699,0.6377,0.0339,2.3046,0.816,0.821
-resnet34,dimension_2d,prediction,21.4163,128x128,deepwheel_2d_1d,Medium,50.0,mode7,139.721,0.0016,10.3272,12.9938,2.4776,0.65,0.0311,43.2723,0.8252,0.8253
-resnet34,dimension_2d,prediction,21.4163,128x128,deepwheel_2d_1d,Medium,50.0,mode11,87.2258,0.0016,54.8194,69.806,4.8698,0.6296,0.0614,254.9307,0.8019,0.7959
-resnet34,dimension_2d,prediction,21.4163,128x128,deepwheel_2d_1d,Large,100.0,mass,277.0212,0.0015,0.4401,0.5757,2.1492,0.7527,0.028,2.1695,0.8789,0.8777
-resnet34,dimension_2d,prediction,21.4163,128x128,deepwheel_2d_1d,Large,100.0,mode7,68.0704,0.0015,8.1604,10.6722,1.9667,0.7639,0.0256,40.8527,0.8807,0.8786
-resnet34,dimension_2d,prediction,21.4163,128x128,deepwheel_2d_1d,Large,100.0,mode11,53.1314,0.0015,43.7603,57.1461,3.9126,0.7517,0.0503,242.476,0.8734,0.8795
-resnet34,dimension_2d,prediction,21.4163,128x128,deepwheel_2d_1d,Extra Large,200.0,mass,513.6081,0.0015,0.3994,0.5229,1.9479,0.796,0.0255,1.9671,0.8978,0.8976
-resnet34,dimension_2d,prediction,21.4163,128x128,deepwheel_2d_1d,Extra Large,200.0,mode7,175.284,0.0015,7.5037,10.0863,1.8069,0.7891,0.0242,58.7625,0.894,0.8983
-resnet34,dimension_2d,prediction,21.4163,128x128,deepwheel_2d_1d,Extra Large,200.0,mode11,163.0322,0.0015,36.2044,50.2836,3.2482,0.8078,0.0442,335.5809,0.8992,0.899
-simplecnn,dimension_2d,prediction,0.4224,128x128,deepwheel_2d_1d,Small,20.0,mass,23.2946,0.0012,0.5957,0.7266,2.9029,0.6061,0.0354,2.1366,0.8403,0.8371
-simplecnn,dimension_2d,prediction,0.4224,128x128,deepwheel_2d_1d,Small,20.0,mode7,16.1959,0.0013,13.4565,16.3839,3.2208,0.4436,0.0393,47.5052,0.8171,0.819
-simplecnn,dimension_2d,prediction,0.4224,128x128,deepwheel_2d_1d,Small,20.0,mode11,30.7967,0.0012,62.5393,76.9485,5.6016,0.5499,0.0677,286.2673,0.7689,0.7723
-simplecnn,dimension_2d,prediction,0.4224,128x128,deepwheel_2d_1d,Medium,50.0,mass,1.9578,0.0013,0.5332,0.6945,2.6133,0.6401,0.0338,2.5764,0.8202,0.8243
-simplecnn,dimension_2d,prediction,0.4224,128x128,deepwheel_2d_1d,Medium,50.0,mode7,73.1975,0.0013,9.8634,12.9091,2.3736,0.6546,0.0309,55.7629,0.8149,0.8116
-simplecnn,dimension_2d,prediction,0.4224,128x128,deepwheel_2d_1d,Medium,50.0,mode11,44.509,0.0013,49.7728,66.4804,4.4474,0.664,0.0585,377.0043,0.8214,0.8145
-simplecnn,dimension_2d,prediction,0.4224,128x128,deepwheel_2d_1d,Large,100.0,mass,114.0577,0.0013,0.4404,0.5781,2.1454,0.7506,0.0282,2.5815,0.8666,0.8613
-simplecnn,dimension_2d,prediction,0.4224,128x128,deepwheel_2d_1d,Large,100.0,mode7,126.5898,0.0013,9.2661,12.1181,2.2325,0.6956,0.029,47.7933,0.8357,0.843
-simplecnn,dimension_2d,prediction,0.4224,128x128,deepwheel_2d_1d,Large,100.0,mode11,108.7051,0.0013,52.1198,69.6912,4.6425,0.6308,0.0613,357.9542,0.8009,0.7936
-simplecnn,dimension_2d,prediction,0.4224,128x128,deepwheel_2d_1d,Extra Large,200.0,mass,104.2219,0.0013,0.4345,0.5731,2.1188,0.7549,0.0279,2.6799,0.8724,0.8681
-simplecnn,dimension_2d,prediction,0.4224,128x128,deepwheel_2d_1d,Extra Large,200.0,mode7,172.123,0.0013,8.7416,11.7711,2.0983,0.7128,0.0282,54.7589,0.8564,0.8666
-simplecnn,dimension_2d,prediction,0.4224,128x128,deepwheel_2d_1d,Extra Large,200.0,mode11,210.5465,0.0013,44.2353,59.9566,3.9321,0.7267,0.0527,313.7549,0.8594,0.8544
-vit_tiny,dimension_2d,prediction,5.5487,128x128,deepwheel_2d_1d,Small,20.0,mass,37.7204,0.0018,0.7723,0.9761,3.7748,0.289,0.0475,3.3972,0.624,0.6097
-vit_tiny,dimension_2d,prediction,5.5487,128x128,deepwheel_2d_1d,Small,20.0,mode7,32.8078,0.0017,15.2848,18.8909,3.6703,0.2603,0.0453,54.1219,0.6047,0.593
-vit_tiny,dimension_2d,prediction,5.5487,128x128,deepwheel_2d_1d,Small,20.0,mode11,108.0438,0.0018,74.1258,94.1474,6.6371,0.3262,0.0828,352.1123,0.5862,0.5915
-vit_tiny,dimension_2d,prediction,5.5487,128x128,deepwheel_2d_1d,Medium,50.0,mass,60.5931,0.0017,0.6712,0.853,3.2748,0.4571,0.0415,2.9591,0.6778,0.6764
-vit_tiny,dimension_2d,prediction,5.5487,128x128,deepwheel_2d_1d,Medium,50.0,mode7,129.6634,0.0017,13.6854,17.2852,3.2915,0.3807,0.0414,50.347,0.6311,0.6294
-vit_tiny,dimension_2d,prediction,5.5487,128x128,deepwheel_2d_1d,Medium,50.0,mode11,37.1257,0.0018,72.5568,93.4882,6.4954,0.3356,0.0822,337.8914,0.5836,0.5844
-vit_tiny,dimension_2d,prediction,5.5487,128x128,deepwheel_2d_1d,Large,100.0,mass,65.5304,0.0018,0.6702,0.8423,3.2716,0.4706,0.041,3.1225,0.6957,0.6998
-vit_tiny,dimension_2d,prediction,5.5487,128x128,deepwheel_2d_1d,Large,100.0,mode7,14.4814,0.0017,14.7277,18.3265,3.5422,0.3038,0.0439,54.5143,0.5517,0.5566
-vit_tiny,dimension_2d,prediction,5.5487,128x128,deepwheel_2d_1d,Large,100.0,mode11,31.355,0.0018,73.4596,92.914,6.5695,0.3437,0.0817,359.2277,0.5953,0.6112
-vit_tiny,dimension_2d,prediction,5.5487,128x128,deepwheel_2d_1d,Extra Large,200.0,mass,98.0688,0.0017,0.5861,0.7556,2.8646,0.574,0.0368,2.9794,0.7592,0.7552
-vit_tiny,dimension_2d,prediction,5.5487,128x128,deepwheel_2d_1d,Extra Large,200.0,mode7,55.0972,0.0017,12.1625,15.1789,2.9274,0.5224,0.0364,47.5876,0.7281,0.7286
-vit_tiny,dimension_2d,prediction,5.5487,128x128,deepwheel_2d_1d,Extra Large,200.0,mode11,82.3861,0.0018,64.2098,81.1504,5.7773,0.4994,0.0714,287.5659,0.7196,0.7219
+﻿Model Name,Domain,Task,Parameters (M),Resolution,Dataset,Data Scale,Data Size,Target Key,Component,Training Time (s),Inference Time (s),MAE ↓,RMSE ↓,MAPE (%) ↓,R² ↑,Rel-L2 ↓,MaxAE ↓,Pearson ↑,Spearman ↑
+convnext_tiny,dimension_2d,prediction,28.0172,128x128,deepwheel_2d_1d_mass,Small,20.0,mass,,243.1563,0.0041,0.6208,0.7918,3.0137,0.5321,0.0386,2.889,0.8097,0.8142
+convnext_tiny,dimension_2d,prediction,28.0172,128x128,deepwheel_2d_1d_mass,Medium,50.0,mass,,28.1512,0.0016,0.5181,0.6729,2.5346,0.6622,0.0328,2.4622,0.8205,0.8248
+convnext_tiny,dimension_2d,prediction,28.0172,128x128,deepwheel_2d_1d_mass,Large,100.0,mass,,384.5389,0.0042,0.421,0.5494,2.0594,0.7748,0.0268,2.1384,0.8816,0.8734
+convnext_tiny,dimension_2d,prediction,28.0172,128x128,deepwheel_2d_1d_mass,Extra Large,200.0,mass,,101.5464,0.004,0.3738,0.4997,1.8297,0.8137,0.0243,2.1999,0.9025,0.8996
+convnext_tiny,dimension_2d,prediction,28.0175,128x128,deepwheel_2d_1d_modal,Small,20.0,natural_frequencies,mode_freq_11,270.2602,0.0018,47.4442,61.3766,4.2075,0.7136,0.054,296.0511,0.8563,0.8544
+convnext_tiny,dimension_2d,prediction,28.0175,128x128,deepwheel_2d_1d_modal,Small,20.0,natural_frequencies,mode_freq_7,270.2602,0.0018,10.885,14.4809,2.5967,0.5653,0.0347,51.412,0.812,0.8233
+convnext_tiny,dimension_2d,prediction,28.0175,128x128,deepwheel_2d_1d_modal,Medium,50.0,natural_frequencies,mode_freq_11,76.7216,0.0016,47.3704,61.1044,4.2428,0.7162,0.0538,315.5392,0.8505,0.8506
+convnext_tiny,dimension_2d,prediction,28.0175,128x128,deepwheel_2d_1d_modal,Medium,50.0,natural_frequencies,mode_freq_7,76.7216,0.0016,10.1097,13.2881,2.4256,0.634,0.0318,53.8236,0.8168,0.8181
+convnext_tiny,dimension_2d,prediction,28.0175,128x128,deepwheel_2d_1d_modal,Large,100.0,natural_frequencies,mode_freq_11,172.8694,0.0018,41.5257,56.1961,3.702,0.7599,0.0494,311.2896,0.8838,0.8822
+convnext_tiny,dimension_2d,prediction,28.0175,128x128,deepwheel_2d_1d_modal,Large,100.0,natural_frequencies,mode_freq_7,172.8694,0.0018,8.6979,11.4621,2.093,0.7277,0.0275,58.0547,0.8548,0.8561
+convnext_tiny,dimension_2d,prediction,28.0175,128x128,deepwheel_2d_1d_modal,Extra Large,200.0,natural_frequencies,mode_freq_11,99.1443,0.0017,34.8915,48.6983,3.1207,0.8197,0.0428,341.8117,0.9057,0.9071
+convnext_tiny,dimension_2d,prediction,28.0175,128x128,deepwheel_2d_1d_modal,Extra Large,200.0,natural_frequencies,mode_freq_7,99.1443,0.0017,7.4779,10.2094,1.797,0.7839,0.0245,66.0963,0.8898,0.8981
+densenet121,dimension_2d,prediction,7.2165,128x128,deepwheel_2d_1d_mass,Small,20.0,mass,,316.7948,0.0023,0.7706,0.963,3.748,0.308,0.0469,3.3701,0.7273,0.7258
+densenet121,dimension_2d,prediction,7.2165,128x128,deepwheel_2d_1d_mass,Medium,50.0,mass,,38.7156,0.0022,0.493,0.6332,2.415,0.7008,0.0308,2.5427,0.8492,0.8483
+densenet121,dimension_2d,prediction,7.2165,128x128,deepwheel_2d_1d_mass,Large,100.0,mass,,42.9339,0.0024,0.4523,0.5821,2.211,0.7472,0.0283,2.0734,0.875,0.8719
+densenet121,dimension_2d,prediction,7.2165,128x128,deepwheel_2d_1d_mass,Extra Large,200.0,mass,,113.2649,0.0024,0.3791,0.5027,1.8534,0.8114,0.0245,1.9269,0.9046,0.9032
+densenet121,dimension_2d,prediction,7.2168,128x128,deepwheel_2d_1d_modal,Small,20.0,natural_frequencies,mode_freq_11,361.4841,0.0021,67.2857,83.6456,5.9823,0.4681,0.0736,239.6422,0.7748,0.7802
+densenet121,dimension_2d,prediction,7.2168,128x128,deepwheel_2d_1d_modal,Small,20.0,natural_frequencies,mode_freq_7,361.4841,0.0021,14.1299,18.1569,3.3783,0.3166,0.0435,66.4167,0.725,0.7344
+densenet121,dimension_2d,prediction,7.2168,128x128,deepwheel_2d_1d_modal,Medium,50.0,natural_frequencies,mode_freq_11,209.4897,0.0024,47.2867,61.5832,4.2244,0.7117,0.0542,237.4277,0.8473,0.8467
+densenet121,dimension_2d,prediction,7.2168,128x128,deepwheel_2d_1d_modal,Medium,50.0,natural_frequencies,mode_freq_7,209.4897,0.0024,9.3012,11.8115,2.2294,0.7108,0.0283,46.1873,0.8523,0.8498
+densenet121,dimension_2d,prediction,7.2168,128x128,deepwheel_2d_1d_modal,Large,100.0,natural_frequencies,mode_freq_11,219.7565,0.002,41.5928,55.0815,3.7407,0.7694,0.0485,260.2883,0.8851,0.8877
+densenet121,dimension_2d,prediction,7.2168,128x128,deepwheel_2d_1d_modal,Large,100.0,natural_frequencies,mode_freq_7,219.7565,0.002,8.1279,10.6516,1.9592,0.7648,0.0255,48.2153,0.8827,0.8848
+densenet121,dimension_2d,prediction,7.2168,128x128,deepwheel_2d_1d_modal,Extra Large,200.0,natural_frequencies,mode_freq_11,742.5141,0.0021,37.6287,52.3226,3.3825,0.7919,0.046,319.8198,0.89,0.897
+densenet121,dimension_2d,prediction,7.2168,128x128,deepwheel_2d_1d_modal,Extra Large,200.0,natural_frequencies,mode_freq_7,742.5141,0.0021,7.6685,10.0878,1.8448,0.7891,0.0242,54.6874,0.8897,0.8987
+efficientnet_b0,dimension_2d,prediction,4.3357,128x128,deepwheel_2d_1d_mass,Small,20.0,mass,,46.944,0.0019,0.7855,0.9855,3.8234,0.2753,0.048,3.3388,0.6898,0.6814
+efficientnet_b0,dimension_2d,prediction,4.3357,128x128,deepwheel_2d_1d_mass,Medium,50.0,mass,,19.9912,0.0017,0.6182,0.7858,3.0251,0.5392,0.0383,2.528,0.7525,0.7734
+efficientnet_b0,dimension_2d,prediction,4.3357,128x128,deepwheel_2d_1d_mass,Large,100.0,mass,,50.7513,0.0019,0.477,0.6117,2.3248,0.7208,0.0298,2.2704,0.8606,0.8674
+efficientnet_b0,dimension_2d,prediction,4.3357,128x128,deepwheel_2d_1d_mass,Extra Large,200.0,mass,,194.457,0.0018,0.4199,0.5398,2.0512,0.7826,0.0263,1.792,0.8954,0.8953
+efficientnet_b0,dimension_2d,prediction,4.336,128x128,deepwheel_2d_1d_modal,Small,20.0,natural_frequencies,mode_freq_11,172.8365,0.002,74.3297,93.3537,6.608,0.3375,0.0821,277.9625,0.6341,0.638
+efficientnet_b0,dimension_2d,prediction,4.336,128x128,deepwheel_2d_1d_modal,Small,20.0,natural_frequencies,mode_freq_7,172.8365,0.002,15.4015,19.7261,3.688,0.1934,0.0473,68.1014,0.592,0.6041
+efficientnet_b0,dimension_2d,prediction,4.336,128x128,deepwheel_2d_1d_modal,Medium,50.0,natural_frequencies,mode_freq_11,62.143,0.0018,60.4081,77.6405,5.4145,0.5417,0.0683,325.6401,0.7539,0.7754
+efficientnet_b0,dimension_2d,prediction,4.336,128x128,deepwheel_2d_1d_modal,Medium,50.0,natural_frequencies,mode_freq_7,62.143,0.0018,11.8455,15.1267,2.8456,0.5257,0.0362,57.5427,0.7449,0.7595
+efficientnet_b0,dimension_2d,prediction,4.336,128x128,deepwheel_2d_1d_modal,Large,100.0,natural_frequencies,mode_freq_11,378.6158,0.002,45.5544,58.5212,4.0838,0.7396,0.0515,290.2914,0.8675,0.8682
+efficientnet_b0,dimension_2d,prediction,4.336,128x128,deepwheel_2d_1d_modal,Large,100.0,natural_frequencies,mode_freq_7,378.6158,0.002,9.2331,11.8506,2.2199,0.7089,0.0284,45.8213,0.8552,0.8599
+efficientnet_b0,dimension_2d,prediction,4.336,128x128,deepwheel_2d_1d_modal,Extra Large,200.0,natural_frequencies,mode_freq_11,482.6037,0.0018,38.4654,51.8332,3.4555,0.7958,0.0456,335.548,0.8961,0.899
+efficientnet_b0,dimension_2d,prediction,4.336,128x128,deepwheel_2d_1d_modal,Extra Large,200.0,natural_frequencies,mode_freq_7,482.6037,0.0018,8.0448,10.5401,1.9348,0.7697,0.0253,57.1548,0.8856,0.892
+resnet18,dimension_2d,prediction,11.3081,128x128,deepwheel_2d_1d_mass,Small,20.0,mass,,71.6711,0.0014,0.7655,0.9715,3.7246,0.2957,0.0473,3.2827,0.6886,0.688
+resnet18,dimension_2d,prediction,11.3081,128x128,deepwheel_2d_1d_mass,Medium,50.0,mass,,65.9514,0.0014,0.6085,0.7686,2.9664,0.5592,0.0374,2.1249,0.7701,0.7704
+resnet18,dimension_2d,prediction,11.3081,128x128,deepwheel_2d_1d_mass,Large,100.0,mass,,182.8394,0.0014,0.4632,0.5975,2.2606,0.7336,0.0291,1.8366,0.8692,0.8729
+resnet18,dimension_2d,prediction,11.3081,128x128,deepwheel_2d_1d_mass,Extra Large,200.0,mass,,283.2151,0.0014,0.388,0.5113,1.8952,0.805,0.0249,2.1594,0.9031,0.9061
+resnet18,dimension_2d,prediction,11.3084,128x128,deepwheel_2d_1d_modal,Small,20.0,natural_frequencies,mode_freq_11,421.2822,0.0017,61.9255,77.7444,5.4842,0.5405,0.0684,229.4526,0.7691,0.7835
+resnet18,dimension_2d,prediction,11.3084,128x128,deepwheel_2d_1d_modal,Small,20.0,natural_frequencies,mode_freq_7,421.2822,0.0017,13.7126,17.6557,3.2756,0.3538,0.0423,58.1955,0.7076,0.7178
+resnet18,dimension_2d,prediction,11.3084,128x128,deepwheel_2d_1d_modal,Medium,50.0,natural_frequencies,mode_freq_11,419.7776,0.0021,45.112,61.0719,4.0364,0.7165,0.0537,373.9138,0.8519,0.8503
+resnet18,dimension_2d,prediction,11.3084,128x128,deepwheel_2d_1d_modal,Medium,50.0,natural_frequencies,mode_freq_7,419.7776,0.0021,9.5891,12.2579,2.2995,0.6885,0.0294,54.0544,0.8307,0.8324
+resnet18,dimension_2d,prediction,11.3084,128x128,deepwheel_2d_1d_modal,Large,100.0,natural_frequencies,mode_freq_11,446.4313,0.0016,41.6965,55.8143,3.7336,0.7632,0.0491,279.4037,0.874,0.8786
+resnet18,dimension_2d,prediction,11.3084,128x128,deepwheel_2d_1d_modal,Large,100.0,natural_frequencies,mode_freq_7,446.4313,0.0016,8.6268,11.3331,2.0721,0.7338,0.0272,48.1872,0.8591,0.8635
+resnet18,dimension_2d,prediction,11.3084,128x128,deepwheel_2d_1d_modal,Extra Large,200.0,natural_frequencies,mode_freq_11,420.2479,0.0016,37.9877,51.5883,3.4063,0.7977,0.0454,343.8765,0.8933,0.9013
+resnet18,dimension_2d,prediction,11.3084,128x128,deepwheel_2d_1d_modal,Extra Large,200.0,natural_frequencies,mode_freq_7,420.2479,0.0016,7.8438,10.3088,1.8854,0.7797,0.0247,58.8112,0.8863,0.8974
+resnet34,dimension_2d,prediction,21.4163,128x128,deepwheel_2d_1d_mass,Small,20.0,mass,,225.9477,0.0016,0.7678,0.975,3.7374,0.2906,0.0475,3.491,0.677,0.6653
+resnet34,dimension_2d,prediction,21.4163,128x128,deepwheel_2d_1d_mass,Medium,50.0,mass,,160.6069,0.0015,0.5543,0.6968,2.699,0.6377,0.0339,2.3046,0.816,0.821
+resnet34,dimension_2d,prediction,21.4163,128x128,deepwheel_2d_1d_mass,Large,100.0,mass,,277.0212,0.0015,0.4401,0.5757,2.1492,0.7527,0.028,2.1695,0.8789,0.8777
+resnet34,dimension_2d,prediction,21.4163,128x128,deepwheel_2d_1d_mass,Extra Large,200.0,mass,,513.6081,0.0015,0.3994,0.5229,1.9479,0.796,0.0255,1.9671,0.8978,0.8976
+resnet34,dimension_2d,prediction,21.4165,128x128,deepwheel_2d_1d_modal,Small,20.0,natural_frequencies,mode_freq_11,385.1467,0.0017,65.8477,83.5986,5.8312,0.4687,0.0735,266.2965,0.7438,0.7485
+resnet34,dimension_2d,prediction,21.4165,128x128,deepwheel_2d_1d_modal,Small,20.0,natural_frequencies,mode_freq_7,385.1467,0.0017,14.1482,18.4866,3.3811,0.2916,0.0443,68.5016,0.6865,0.6941
+resnet34,dimension_2d,prediction,21.4165,128x128,deepwheel_2d_1d_modal,Medium,50.0,natural_frequencies,mode_freq_11,314.9525,0.0017,50.4219,63.8873,4.4917,0.6897,0.0562,345.6594,0.8339,0.833
+resnet34,dimension_2d,prediction,21.4165,128x128,deepwheel_2d_1d_modal,Medium,50.0,natural_frequencies,mode_freq_7,314.9525,0.0017,9.6783,12.372,2.3208,0.6827,0.0296,53.9828,0.8266,0.8339
+resnet34,dimension_2d,prediction,21.4165,128x128,deepwheel_2d_1d_modal,Large,100.0,natural_frequencies,mode_freq_11,270.3448,0.0018,42.6397,57.005,3.8095,0.753,0.0502,292.1561,0.868,0.8742
+resnet34,dimension_2d,prediction,21.4165,128x128,deepwheel_2d_1d_modal,Large,100.0,natural_frequencies,mode_freq_7,270.3448,0.0018,8.7386,11.3344,2.0989,0.7337,0.0272,46.5531,0.858,0.8613
+resnet34,dimension_2d,prediction,21.4165,128x128,deepwheel_2d_1d_modal,Extra Large,200.0,natural_frequencies,mode_freq_11,749.5539,0.0023,38.049,53.4814,3.4087,0.7826,0.0471,413.6454,0.8847,0.8984
+resnet34,dimension_2d,prediction,21.4165,128x128,deepwheel_2d_1d_modal,Extra Large,200.0,natural_frequencies,mode_freq_7,749.5539,0.0023,7.8827,10.3808,1.8938,0.7766,0.0249,64.7037,0.8827,0.9004
+simplecnn,dimension_2d,prediction,0.4224,128x128,deepwheel_2d_1d_mass,Small,20.0,mass,,23.2946,0.0012,0.5957,0.7266,2.9029,0.6061,0.0354,2.1366,0.8403,0.8371
+simplecnn,dimension_2d,prediction,0.4224,128x128,deepwheel_2d_1d_mass,Medium,50.0,mass,,1.9578,0.0013,0.5332,0.6945,2.6133,0.6401,0.0338,2.5764,0.8202,0.8243
+simplecnn,dimension_2d,prediction,0.4224,128x128,deepwheel_2d_1d_mass,Large,100.0,mass,,114.0577,0.0013,0.4404,0.5781,2.1454,0.7506,0.0282,2.5815,0.8666,0.8613
+simplecnn,dimension_2d,prediction,0.4224,128x128,deepwheel_2d_1d_mass,Extra Large,200.0,mass,,104.2219,0.0013,0.4345,0.5731,2.1188,0.7549,0.0279,2.6799,0.8724,0.8681
+simplecnn,dimension_2d,prediction,0.4225,128x128,deepwheel_2d_1d_modal,Small,20.0,natural_frequencies,mode_freq_11,13.2194,0.0035,62.7742,75.5252,5.584,0.5664,0.0664,248.7914,0.8029,0.803
+simplecnn,dimension_2d,prediction,0.4225,128x128,deepwheel_2d_1d_modal,Small,20.0,natural_frequencies,mode_freq_7,13.2194,0.0035,12.4127,15.5856,2.9628,0.4965,0.0373,49.2122,0.8069,0.806
+simplecnn,dimension_2d,prediction,0.4225,128x128,deepwheel_2d_1d_modal,Medium,50.0,natural_frequencies,mode_freq_11,39.9688,0.0018,50.9744,66.8947,4.5673,0.6598,0.0589,291.3793,0.8131,0.8111
+simplecnn,dimension_2d,prediction,0.4225,128x128,deepwheel_2d_1d_modal,Medium,50.0,natural_frequencies,mode_freq_7,39.9688,0.0018,9.4624,12.183,2.2706,0.6923,0.0292,52.1428,0.8337,0.8342
+simplecnn,dimension_2d,prediction,0.4225,128x128,deepwheel_2d_1d_modal,Large,100.0,natural_frequencies,mode_freq_11,62.3951,0.0017,43.7464,59.2446,3.9098,0.7332,0.0521,341.6336,0.8581,0.8553
+simplecnn,dimension_2d,prediction,0.4225,128x128,deepwheel_2d_1d_modal,Large,100.0,natural_frequencies,mode_freq_7,62.3951,0.0017,8.9046,11.5589,2.139,0.7231,0.0277,56.2669,0.8517,0.8548
+simplecnn,dimension_2d,prediction,0.4225,128x128,deepwheel_2d_1d_modal,Extra Large,200.0,natural_frequencies,mode_freq_11,130.654,0.0017,40.8453,56.592,3.6534,0.7565,0.0498,309.7391,0.8703,0.8682
+simplecnn,dimension_2d,prediction,0.4225,128x128,deepwheel_2d_1d_modal,Extra Large,200.0,natural_frequencies,mode_freq_7,130.654,0.0017,8.0677,10.8819,1.9396,0.7545,0.0261,54.9497,0.8711,0.8771
+vit_tiny,dimension_2d,prediction,5.5487,128x128,deepwheel_2d_1d_mass,Small,20.0,mass,,37.7204,0.0018,0.7723,0.9761,3.7748,0.289,0.0475,3.3972,0.624,0.6097
+vit_tiny,dimension_2d,prediction,5.5487,128x128,deepwheel_2d_1d_mass,Medium,50.0,mass,,60.5931,0.0017,0.6712,0.853,3.2748,0.4571,0.0415,2.9591,0.6778,0.6764
+vit_tiny,dimension_2d,prediction,5.5487,128x128,deepwheel_2d_1d_mass,Large,100.0,mass,,65.5304,0.0018,0.6702,0.8423,3.2716,0.4706,0.041,3.1225,0.6957,0.6998
+vit_tiny,dimension_2d,prediction,5.5487,128x128,deepwheel_2d_1d_mass,Extra Large,200.0,mass,,98.0688,0.0017,0.5861,0.7556,2.8646,0.574,0.0368,2.9794,0.7592,0.7552
+vit_tiny,dimension_2d,prediction,5.549,128x128,deepwheel_2d_1d_modal,Small,20.0,natural_frequencies,mode_freq_11,84.5646,0.0018,81.064,98.8885,7.2464,0.2566,0.087,360.7035,0.5688,0.5704
+vit_tiny,dimension_2d,prediction,5.549,128x128,deepwheel_2d_1d_modal,Small,20.0,natural_frequencies,mode_freq_7,84.5646,0.0018,16.2492,19.7569,3.9002,0.1909,0.0473,52.7698,0.6055,0.5958
+vit_tiny,dimension_2d,prediction,5.549,128x128,deepwheel_2d_1d_modal,Medium,50.0,natural_frequencies,mode_freq_11,55.0484,0.0018,72.7488,91.8463,6.5206,0.3587,0.0808,332.4036,0.6064,0.6189
+vit_tiny,dimension_2d,prediction,5.549,128x128,deepwheel_2d_1d_modal,Medium,50.0,natural_frequencies,mode_freq_7,55.0484,0.0018,13.8289,17.315,3.3258,0.3785,0.0415,56.4696,0.6475,0.6568
+vit_tiny,dimension_2d,prediction,5.549,128x128,deepwheel_2d_1d_modal,Large,100.0,natural_frequencies,mode_freq_11,68.5846,0.0018,70.4687,90.0276,6.317,0.3839,0.0792,292.8542,0.6353,0.6364
+vit_tiny,dimension_2d,prediction,5.549,128x128,deepwheel_2d_1d_modal,Large,100.0,natural_frequencies,mode_freq_7,68.5846,0.0018,13.357,16.6374,3.2139,0.4262,0.0399,53.6703,0.6632,0.6601
+vit_tiny,dimension_2d,prediction,5.549,128x128,deepwheel_2d_1d_modal,Extra Large,200.0,natural_frequencies,mode_freq_11,67.9753,0.0018,64.4312,82.4721,5.7737,0.4829,0.0726,319.5412,0.7272,0.7321
+vit_tiny,dimension_2d,prediction,5.549,128x128,deepwheel_2d_1d_modal,Extra Large,200.0,natural_frequencies,mode_freq_7,67.9753,0.0018,11.7527,14.7605,2.8288,0.5484,0.0354,53.4229,0.7643,0.7674

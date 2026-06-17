@@ -543,12 +543,21 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   gap: 12px;
   margin-bottom: 16px;
 }
+/* The 3×2 grid is task (Gen/Field/Scalar) × dimension (3D row / 2D row). 1D has only
+   the Scalar task, so its single card would orphan into a 4th column. Pull it onto its
+   own full-width third row beneath the 2D row — a deliberate "1D tier" banner. */
+.domain-matrix > .domain-card:last-child {
+  grid-column: 1 / -1;
+  grid-row: 3;
+}
 @media (max-width: 768px) {
   .domain-matrix {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
     grid-auto-flow: row;
   }
+  /* single-column stack on mobile — clear the desktop full-width placement */
+  .domain-matrix > .domain-card:last-child { grid-column: auto; grid-row: auto; }
 }
 
 /* ── Step Box (Pipeline) ── */
@@ -878,16 +887,23 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 .compare-row-label {
   width: 110px;
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
   font-size: 14px;
   font-weight: 800;
   color: #fff;
   padding-top: 4px;
 }
+.compare-row-label .cmp-name {
+  font-size: 14px; font-weight: 800; color: #fff; line-height: 1.2;
+}
+.compare-row-label:hover .cmp-name { color: #9961FF; }
 .compare-row-label .sub {
   font-size: 10px;
   font-weight: 500;
   color: var(--text-muted);
-  margin-top: 2px;
 }
 .compare-row-images {
   display: flex;
@@ -1248,10 +1264,10 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   margin-bottom: 12px;
 }
 .sp-row-info {
-  width: 200px;
+  width: 110px;          /* match .compare-row-label (field/gen galleries) */
   flex-shrink: 0;
   display: flex; flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 .sp-row-charts {
   flex: 1;
@@ -1270,12 +1286,6 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   color: var(--text-tertiary);
   text-align: center;
   letter-spacing: 0.5px;
-}
-.sp-rank {
-  align-self: flex-start;
-  font-size: 11px; font-weight: 800; color: #9961FF;
-  background: rgba(153,97,255,0.12); border: 1px solid rgba(153,97,255,0.25);
-  padding: 2px 10px; border-radius: 9999px;
 }
 .sp-name {
   font-size: 14px; font-weight: 800; color: #fff;
@@ -1458,7 +1468,15 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 .scalar-card-compact {
   grid-template-columns: 130px minmax(0, 1fr);
   gap: 11px;
-  padding: 10px 12px;
+  /* Bare wrapper (no light card bg/border/padding) — the leaderboard gallery
+     sample now floats on the row like the 2D/3D Field gallery's `.f2d-cell`:
+     a dark shape tile + subtle value tiles + axis, with no enclosing card chrome.
+     This is the "background" half of keeping scalar prediction visually
+     consistent with the other galleries. (Explorer keeps the framed
+     `.scalar-card` base — only the compact gallery variant goes bare.) */
+  padding: 0;
+  background: transparent;
+  border: none;
 }
 .scalar-card-compact .scalar-card-shape { width: 130px; }
 .scalar-card-compact .scalar-tile-num { font-size: 15px; }
@@ -1488,12 +1506,15 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   .scalar-card-shape { width: 100%; max-width: 220px; margin: 0 auto; }
 }
 
-/* Leaderboard per-sample gallery rows: rank chip · model name · scalar card */
+/* Leaderboard per-sample gallery rows — visually identical to the 2D/3D Gen and
+   Field galleries' `.compare-row`: flat (no glass card bg/border/shadow), neutral
+   hover, same label width. Keeps scalar prediction consistent with every other
+   visual gallery on the page. */
 .sp-gallery-row {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 14px;
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 14px;
 }
-.sp-gallery-row .sp-rank { align-self: center; }
+.sp-gallery-row:hover { background: rgba(255,255,255,0.04); }
 /* (Removed dead `.sp-gallery-card` (singular) rules — JS emits the plural
    `.sp-gallery-cards` and that element carries its flex sizing via inline
    style. Mobile layout is owned by mobile.css's `.sp-gallery-cards` block.) */
@@ -1561,14 +1582,19 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 .f2d-legend-grayscale {
   background: linear-gradient(to right, rgb(0,0,0) 0%, rgb(255,255,255) 100%);
 }
-.f2d-legend-jet {
-  /* matplotlib inferno stops — sequential, perceptually uniform, dark-theme friendly.
-     Class name kept (.f2d-legend-jet) to avoid touching every legend call site;
-     the *colormap* is now inferno, which is the right choice for unsigned |error|. */
+.f2d-legend-turbo {
+  /* Google Turbo (rainbow) stops — matches the JS turboColormap used by every
+     2D-field panel (GT / Pred / |error|), unified with the 3D-field viewer for one
+     consistent engineering colour language across the leaderboard. Turbo replaces
+     jet to drop its harsh cyan/yellow false-contour bands while keeping a legible
+     blue low-end on the dark theme. Stops are pre-blended 12% toward the panel bg
+     (rgb 12,12,12) to match blendToPanelBg() / _f2dBlendToBg() — the painted panels
+     are toned down a touch to match the 3D cloud's perceived intensity on fully-filled
+     2D images, so the legend must follow. */
   background: linear-gradient(to right,
-    rgb(0,0,4) 0%, rgb(40,11,84) 13%, rgb(101,21,110) 25%,
-    rgb(159,42,99) 38%, rgb(212,72,66) 50%, rgb(245,125,21) 63%,
-    rgb(250,193,39) 79%, rgb(252,255,164) 100%);
+    rgb(32,22,25) 0%, rgb(61,95,211) 12.5%, rgb(35,168,199) 25%, rgb(58,215,130) 37.5%,
+    rgb(133,221,72) 50%, rgb(211,184,41) 62.5%, rgb(226,114,27) 75%, rgb(178,41,12) 87.5%,
+    rgb(128,13,1) 100%);
 }
 .f2d-legend-labels {
   display: flex; justify-content: space-between;

@@ -1,0 +1,6 @@
+/* Pretendard Variable — self-hosted (was cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9).
+ * Vendored to remove the external CDN round-trip on every page load: the @font-face CSS
+ * is render-blocking, so its jsdelivr latency gated first paint. Now same-origin
+ * (loopback-instant locally; same-origin + cached on prod). font-display:swap keeps text
+ * painting immediately in the fallback stack, swapping to Pretendard when the woff2 loads. */
+@font-face{font-family:'Pretendard Variable';font-weight:45 920;font-style:normal;font-display:swap;src:url('PretendardVariable.woff2') format('woff2-variations')}

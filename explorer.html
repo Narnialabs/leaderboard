@@ -5,9 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Narnia Labs - Explorer</title>
 <link rel="icon" type="image/png" href="favicon.png">
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Joungkyun/font-d2coding@1.3.2/d2coding.css">
+<!-- three.js is self-hosted in shared/lib/ (same-origin, like papaparse/chart.umd).
+     Page init runs on DOMContentLoaded, which waits for the deferred 3D-viewer module
+     block, and that module imports three.js. The module sits near the bottom of the
+     document and the HTML preload scanner can't see imports inside an inline module,
+     so without this hint the fetch starts only when parsing reaches the module.
+     modulepreload starts the same-origin fetch from parse-start so three.js is ready
+     sooner: module executes, DOMContentLoaded fires, first data paint happens sooner. -->
+<link rel="modulepreload" href="shared/lib/three.module.js">
+<link rel="stylesheet" href="shared/lib/fonts/pretendard.css">
+<link rel="stylesheet" href="shared/lib/fonts/d2coding.css">
 <link rel="stylesheet" href="shared/style.css">
 <link rel="stylesheet" href="shared/mobile.css">
 <script src="shared/lib/papaparse.min.js"></script>
@@ -168,6 +175,7 @@
 <script src="shared/nav.js"></script>
 <script>initNav('explorer');</script>
 <script src="shared/data-loader.js"></script>
+<script src="shared/viz-common.js"></script>
 <script src="shared/url-state.js"></script>
 
 <div class="page-content">
@@ -206,6 +214,7 @@
       <button class="filter-pill active" data-explorer-dim="all" onclick="explorerSetFilter('dim','all',this)">All</button>
       <button class="filter-pill"        data-explorer-dim="3d"  onclick="explorerSetFilter('dim','3d',this)">3D</button>
       <button class="filter-pill"        data-explorer-dim="2d"  onclick="explorerSetFilter('dim','2d',this)">2D</button>
+      <button class="filter-pill"        data-explorer-dim="1d"  onclick="explorerSetFilter('dim','1d',this)">1D</button>
     </div>
     <div class="filter-group">
       <span class="filter-label">Task</span>
@@ -236,6 +245,9 @@
       <button class="filter-pill"        data-explorer-dataset="deepjeb"    onclick="explorerSetFilter('dataset','deepjeb',this)">DeepJEB</button>
       <button class="filter-pill"        data-explorer-dataset="deepwheel"  onclick="explorerSetFilter('dataset','deepwheel',this)">DeepWheel</button>
       <button class="filter-pill"        data-explorer-dataset="drivaernet" onclick="explorerSetFilter('dataset','drivaernet',this)">DrivAerNet</button>
+      <button class="filter-pill"        data-explorer-dataset="concrete"   onclick="explorerSetFilter('dataset','concrete',this)">Concrete</button>
+      <button class="filter-pill"        data-explorer-dataset="airfoil"    onclick="explorerSetFilter('dataset','airfoil',this)">Airfoil</button>
+      <button class="filter-pill"        data-explorer-dataset="cmapss"     onclick="explorerSetFilter('dataset','cmapss',this)">CMAPSS</button>
     </div>
   </div>
 </div>
@@ -252,14 +264,14 @@
         <div class="exp-strip">
           <span class="exp-strip-title">Inventory</span>
           <button class="exp-strip-chip" data-stat="categories" onclick="explorerToggleStat('categories')">
-            <span class="exp-strip-num" style="color:#9961FF;">6</span> Categories
+            <span class="exp-strip-num" style="color:#9961FF;">7</span> Categories
           </button>
           <span class="exp-strip-sep">·</span>
           <button class="exp-strip-chip" data-stat="3d-gen" onclick="explorerToggleStat('3d-gen')">
             <span class="exp-strip-num" style="color:#22c55e;">6</span> 3D Gen
           </button>
           <button class="exp-strip-chip" data-stat="3d-pred" onclick="explorerToggleStat('3d-pred')">
-            <span class="exp-strip-num" style="color:#38bdf8;">16</span> 3D Pred
+            <span class="exp-strip-num" style="color:#38bdf8;">19</span> 3D Pred
           </button>
           <button class="exp-strip-chip" data-stat="2d-gen" onclick="explorerToggleStat('2d-gen')">
             <span class="exp-strip-num" style="color:#22c55e;">9</span> 2D Gen
@@ -267,9 +279,12 @@
           <button class="exp-strip-chip" data-stat="2d-pred" onclick="explorerToggleStat('2d-pred')">
             <span class="exp-strip-num" style="color:#38bdf8;">9</span> 2D Pred
           </button>
+          <button class="exp-strip-chip" data-stat="1d-pred" onclick="explorerToggleStat('1d-pred')">
+            <span class="exp-strip-num" style="color:#38bdf8;">16</span> 1D Pred
+          </button>
           <span class="exp-strip-sep">·</span>
           <button class="exp-strip-chip" data-stat="datasets" onclick="explorerToggleStat('datasets')">
-            <span class="exp-strip-num" style="color:#f472b6;">3</span> Datasets
+            <span class="exp-strip-num" style="color:#f472b6;">6</span> Datasets
           </button>
           <button class="exp-strip-chip" data-stat="sizes" onclick="explorerToggleStat('sizes')">
             <span class="exp-strip-num" style="color:#f59e0b;">4</span> Sizes
@@ -322,6 +337,12 @@
       <div class="glass exp-section" data-task="scalar" data-dim="2d" style="padding:16px 20px; margin-bottom:16px;">
         <div class="section-label" style="color:#38bdf8; margin-bottom:14px;">2D — Scalar</div>
         <div class="flex gap-8 flex-wrap" id="perf-cards-2d-scalar"></div>
+      </div>
+
+      <!-- 1D Scalar Prediction Summary (tabular: concrete/airfoil; timeseries: cmapss RUL) -->
+      <div class="glass exp-section" data-task="scalar" data-dim="1d" style="padding:16px 20px; margin-bottom:16px;">
+        <div class="section-label" style="color:#38bdf8; margin-bottom:14px;">1D — Scalar</div>
+        <div class="flex gap-8 flex-wrap" id="perf-cards-1d-scalar"></div>
       </div>
 
     </div>
@@ -386,7 +407,7 @@ function copyEmail(el) {
 // Stable across page loads so the browser cache is actually used for the
 // hundreds of PNG/bin/JSON assets each session touches. Bump on deploy when
 // the underlying data regenerates (kept in sync across explorer/benchmark/analysis).
-const PAGE_CACHE_BUST = 'v20260512';
+const PAGE_CACHE_BUST = 'v20260617a';
 
 // ── Sticky filter strip — narrows the gallery to a Task / Dim / Dataset
 // subset and sets the default Size used when opening a card.
@@ -555,9 +576,9 @@ window.explorerSetFilter = explorerSetFilter;
 const _STAT_DETAIL = {
   categories: {
     color: '#9961FF',
-    title: '6 model categories',
-    body: 'Two output dimensions × three task families. Each cell holds a full model lineup trained at four data scales.',
-    chips: ['3D Generation', '2D Generation', '3D Field Prediction', '2D Field Prediction', '3D Scalar Prediction', '2D Scalar Prediction'],
+    title: '7 model categories',
+    body: 'Three input modalities (1D tabular/timeseries, 2D image, 3D point cloud) × generation / field / scalar task families. Each cell holds a full model lineup trained at four data scales.',
+    chips: ['3D Generation', '2D Generation', '3D Field Prediction', '2D Field Prediction', '3D Scalar Prediction', '2D Scalar Prediction', '1D Scalar Prediction'],
   },
   '3d-gen': {
     color: '#22c55e',
@@ -567,10 +588,10 @@ const _STAT_DETAIL = {
   },
   '3d-pred': {
     color: '#38bdf8',
-    title: '16 × 3D Prediction models',
-    body: '6 field-prediction networks (point-cloud → per-point displacement / pressure / velocity) + 10 scalar-prediction networks (point-cloud → mass / natural frequency).',
+    title: '19 × 3D Prediction models',
+    body: '9 field-prediction networks (point-cloud → per-point displacement / pressure / velocity; DrivAerML/DrivAerNet-surface entries are metrics-only) + 10 scalar-prediction networks (point-cloud → mass / natural frequency).',
     groups: [
-      { label: 'Field', sub: 'point-cloud → per-point', chips: ['Transolver++', 'Transolver', 'AB-UPT', 'PointNet', 'RegDGCNN', 'GeoFNO'] },
+      { label: 'Field', sub: 'point-cloud → per-point', chips: ['Transolver++', 'Transolver', 'GeoTransolver', 'DoMINO', 'LinearNO', 'LinearNO-Big', 'PointNet', 'RegDGCNN', 'GeoFNO'] },
       { label: 'Scalar', sub: 'point-cloud → 1 value', chips: ['PointNet', 'PointNet++', 'PointNet++ Lite', 'DGCNN', 'PCT', 'PCT-Small', 'Point Transformer', 'PT-Small', 'PointMLP', 'PointMLP-Elite'] },
     ],
   },
@@ -589,6 +610,15 @@ const _STAT_DETAIL = {
       { label: 'Scalar', sub: 'RGB → 1 value', chips: ['SimpleCNN', 'ResNet-18', 'ResNet-34', 'EfficientNet-B0', 'ConvNeXt-Tiny', 'DenseNet-121', 'ViT-Tiny'] },
     ],
   },
+  '1d-pred': {
+    color: '#38bdf8',
+    title: '16 × 1D Prediction models',
+    body: '10 tabular regressors (feature vector → scalar: concrete strength, airfoil self-noise) + 6 timeseries RUL networks (CMAPSS turbofan sensor sequence → remaining useful life).',
+    groups: [
+      { label: 'Tabular', sub: 'features → 1 value', chips: ['TabPFN', 'Gaussian Process', 'Random Forest', 'XGBoost', 'LightGBM', 'Ridge', 'MLP', 'FT-Transformer', 'NODE', 'TabNet'] },
+      { label: 'Timeseries (RUL)', sub: 'sequence → 1 value', chips: ['LSTM', 'BiLSTM', 'DCNN', 'TCN', 'CNN-LSTM', 'DAST'] },
+    ],
+  },
   sizes: {
     color: '#f59e0b',
     title: '4 training-set sizes',
@@ -597,9 +627,9 @@ const _STAT_DETAIL = {
   },
   datasets: {
     color: '#f472b6',
-    title: '3 engineering datasets',
-    body: 'Real-world CAD-derived geometry, not toy shapes. Each dataset emphasises a different physics regime.',
-    chips: ['DeepJEB — engine bracket topology', 'DeepWheel — wheel rim modal analysis', 'DrivAerNet — automotive aerodynamics'],
+    title: '6 dataset families',
+    body: 'Real-world engineering data, not toy shapes — CAD-derived geometry plus tabular/timeseries benchmarks. Each family emphasises a different physics or analysis regime.',
+    chips: ['DeepJEB — engine bracket topology', 'DeepWheel — wheel rim modal analysis', 'DrivAerNet — automotive aerodynamics', 'Concrete — mix-design strength', 'Airfoil — self-noise', 'CMAPSS — turbofan RUL'],
   },
 };
 let _activeStatKey = null;
@@ -675,37 +705,67 @@ const EXPERIMENTS = {
   },
   '3d-pred-field': {
     basePath: 'output/data/inference/dimension_3d/prediction/field',
+    // milestone9.x canonical layout: every dataset is its own split id and the
+    // inference run-name is tokenless ({model}_{size}/{dataset}) — matching Step A/B
+    // and the results/ authority.  The deepjeb load cases (formerly variants of the
+    // umbrella deepjeb_3d_2d) are now individual datasets; modal keeps two channels
+    // (mode_shape_1/2).  drivaerml/drivaernet surface ids were renamed *_3d_3d_surface
+    // → *_3d_2d_surface.  The per-dataset `variant` is now just the bin target_key
+    // (kept verbatim from the bin/manifest tree); all datasets are noRunVariant.
+    // drivaer{ml,net} surface/volume remain metrics-only where bins are absent
+    // (model-aware gate via ensureEval3DManifestData).
     models: [
-      { name: 'transolver_pp', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
-      { name: 'transolver', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
-      { name: 'abupt', sizes: [20, 50, 100, 200], datasets: ['drivaernet_3d_2d'] },
-      { name: 'pointnet', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
-      { name: 'regdgcnn', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
-      { name: 'geofno', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'] },
+      { name: 'transolver_pp', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
+      { name: 'transolver',    sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
+      { name: 'pointnet',      sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
+      { name: 'regdgcnn',      sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
+      { name: 'geofno',        sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
+      { name: 'linearno',      sizes: [20, 50, 100, 200], datasets: ['drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
+      { name: 'linearno_big',  sizes: [20, 50, 100, 200], datasets: ['drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
+      { name: 'geotransolver', sizes: [20, 50, 100, 200], datasets: ['drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume'] },
+      { name: 'domino',        sizes: [20, 50, 100, 200], datasets: ['drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume'] },
     ],
-    datasets: ['deepjeb_3d_2d', 'drivaernet_3d_2d'],
+    datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'],
     type: '3d',
     variantsByDataset: {
-      'deepjeb_3d_2d': ['vertical', 'horizontal', 'torsion', 'diagonal', 'mode_shape_1', 'mode_shape_2'],
-      'drivaernet_3d_2d': ['velocity', 'pressure', 'pv_coupled', 'body_pressure'],
+      'deepjeb_3d_2d_vertical':   ['vertical'],
+      'deepjeb_3d_2d_horizontal': ['horizontal'],
+      'deepjeb_3d_2d_torsion':    ['torsion'],
+      'deepjeb_3d_2d_diagonal':   ['diagonal'],
+      'deepjeb_3d_2d_modal':      ['mode_shape_1', 'mode_shape_2'],
+      'drivaernet_3d_2d_centerplane': ['pv_coupled'],
+      'drivaerml_3d_2d_surface':  ['pwss_coupled'],
+      'drivaerml_3d_3d_volume':   ['volume_coupled'],
+      'drivaernet_3d_2d_surface': ['body_pressure'],
     },
-    variants: ['vertical', 'horizontal', 'torsion', 'diagonal', 'mode_shape_1', 'mode_shape_2', 'velocity', 'pressure', 'pv_coupled', 'body_pressure'],
+    // All 3d-field inference run-names are now tokenless ({model}_{size}/{dataset});
+    // selectExperiment uses this to build the perf.json path with no variant suffix.
+    noRunVariant: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'],
+    variants: ['vertical', 'horizontal', 'torsion', 'diagonal', 'mode_shape_1', 'mode_shape_2', 'pv_coupled', 'pwss_coupled', 'volume_coupled', 'body_pressure'],
   },
   '2d-pred-field': {
     basePath: 'output/data/inference/dimension_2d/prediction/field',
     models: [
-      { name: 'unet_simple',    sizes: [50, 100, 200, 500] },
-      { name: 'resnet_unet',    sizes: [50, 100, 200, 500] },
-      { name: 'attention_unet', sizes: [50, 100, 200, 500] },
-      { name: 'unetpp',         sizes: [50, 100, 200, 500] },
-      { name: 'segformer_b0',   sizes: [50, 100, 200, 500] },
-      { name: 'fpn_resnet18',   sizes: [50, 100, 200, 500] },
-      { name: 'glpn',           sizes: [50, 100, 200, 500] },
-      { name: 'dpt_hybrid',     sizes: [50, 100, 200, 500] },
+      { name: 'unet_simple',    sizes: [20, 50, 100, 200] },
+      { name: 'resnet_unet',    sizes: [20, 50, 100, 200] },
+      { name: 'attention_unet', sizes: [20, 50, 100, 200] },
+      { name: 'unetpp',         sizes: [20, 50, 100, 200] },
+      { name: 'segformer_b0',   sizes: [20, 50, 100, 200] },
+      { name: 'fpn_resnet18',   sizes: [20, 50, 100, 200] },
+      { name: 'glpn',           sizes: [20, 50, 100, 200] },
+      { name: 'dpt_hybrid',     sizes: [20, 50, 100, 200] },
     ],
-    datasets: ['deepwheel_2d_2d'],
+    // milestone9.x: the 2D-field viewer now covers all 4 canonical datasets (was just
+    // the stale `deepwheel_2d_2d` at 50/100/200/500). Each dataset has its own target(s)
+    // → variantsByDataset; the viewer renders the dataset's first variant.
+    datasets: ['deepwheel_2d_2d_depth', 'deepjeb_2d_2d_structural', 'pdebenchdarcy_2d_2d_pressure', 'airfrans_2d_2d_flow'],
     type: '2d-pred',
-    variants: ['depth'],
+    variantsByDataset: {
+      'deepwheel_2d_2d_depth':        ['depth'],
+      'deepjeb_2d_2d_structural':     ['stress'],
+      'pdebenchdarcy_2d_2d_pressure': ['pressure'],
+      'airfrans_2d_2d_flow':          ['u', 'v', 'p_over_rho', 'nu_t'],
+    },
   },
   '2d-pred-scalar': {
     basePath: 'output/data/inference/dimension_2d/prediction/scalar',
@@ -720,7 +780,7 @@ const EXPERIMENTS = {
     ],
     datasets: ['deepwheel_2d_1d'],
     type: 'scalar',
-    variants: ['mass', 'mode7', 'mode11'],
+    variants: ['mass', 'mode_freq_7', 'mode_freq_11'],
     scalarBase: 'output/pred2d_scalar',
   },
   '3d-pred-scalar': {
@@ -739,8 +799,39 @@ const EXPERIMENTS = {
     ],
     datasets: ['deepwheel_3d_1d'],
     type: 'scalar',
-    variants: ['mass', 'mode7', 'mode11'],
+    variants: ['mass', 'mode_freq_7', 'mode_freq_11'],
     scalarBase: 'output/pred3d_scalar',
+  },
+  '1d-pred-scalar': {
+    basePath: 'output/data/inference/dimension_1d/prediction/scalar',
+    // Tabular models run on concrete + airfoil; the RUL (timeseries) models run
+    // on CMAPSS. Each dataset has a single target → variantsByDataset (one each).
+    models: [
+      { name: 'mlp',              sizes: [20, 50, 100, 200], datasets: ['concrete_1d_1d_strength', 'airfoil_1d_1d_noise'] },
+      { name: 'ft_transformer',   sizes: [20, 50, 100, 200], datasets: ['concrete_1d_1d_strength', 'airfoil_1d_1d_noise'] },
+      { name: 'node',             sizes: [20, 50, 100, 200], datasets: ['concrete_1d_1d_strength', 'airfoil_1d_1d_noise'] },
+      { name: 'tabnet',           sizes: [20, 50, 100, 200], datasets: ['concrete_1d_1d_strength', 'airfoil_1d_1d_noise'] },
+      { name: 'tabpfn',           sizes: [20, 50, 100, 200], datasets: ['concrete_1d_1d_strength', 'airfoil_1d_1d_noise'] },
+      { name: 'xgboost',          sizes: [20, 50, 100, 200], datasets: ['concrete_1d_1d_strength', 'airfoil_1d_1d_noise'] },
+      { name: 'lightgbm',         sizes: [20, 50, 100, 200], datasets: ['concrete_1d_1d_strength', 'airfoil_1d_1d_noise'] },
+      { name: 'random_forest',    sizes: [20, 50, 100, 200], datasets: ['concrete_1d_1d_strength', 'airfoil_1d_1d_noise'] },
+      { name: 'gaussian_process', sizes: [20, 50, 100, 200], datasets: ['concrete_1d_1d_strength', 'airfoil_1d_1d_noise'] },
+      { name: 'ridge',            sizes: [20, 50, 100, 200], datasets: ['concrete_1d_1d_strength', 'airfoil_1d_1d_noise'] },
+      { name: 'lstm_rul',         sizes: [20, 50, 100, 200], datasets: ['cmapss_1dt_1d_rul'] },
+      { name: 'bilstm_rul',       sizes: [20, 50, 100, 200], datasets: ['cmapss_1dt_1d_rul'] },
+      { name: 'dcnn_rul',         sizes: [20, 50, 100, 200], datasets: ['cmapss_1dt_1d_rul'] },
+      { name: 'tcn',              sizes: [20, 50, 100, 200], datasets: ['cmapss_1dt_1d_rul'] },
+      { name: 'cnn_lstm',         sizes: [20, 50, 100, 200], datasets: ['cmapss_1dt_1d_rul'] },
+      { name: 'dast',             sizes: [20, 50, 100, 200], datasets: ['cmapss_1dt_1d_rul'] },
+    ],
+    datasets: ['concrete_1d_1d_strength', 'airfoil_1d_1d_noise', 'cmapss_1dt_1d_rul'],
+    type: 'scalar',
+    variantsByDataset: {
+      'concrete_1d_1d_strength': ['strength'],
+      'airfoil_1d_1d_noise':     ['scaled_sound_pressure_db'],
+      'cmapss_1dt_1d_rul':       ['rul'],
+    },
+    scalarBase: 'output/pred1d_scalar',
   },
   '3d-gen': {
     basePath: 'output/data/inference/dimension_3d/generation',
@@ -756,6 +847,13 @@ const EXPERIMENTS = {
     type: '3d-gen',
   },
 };
+
+// Publication-excluded models (license) — defense-in-depth guard so explorer never
+// surfaces them even if an inference artifact slips into the published tree.
+const EXPLORER_EXCLUDE_MODELS = new Set(['narnia_sdf', 'narnia_abupt', 'svmoe_abupt', 'abupt']);
+for (const _exp of Object.values(EXPERIMENTS)) {
+  if (Array.isArray(_exp.models)) _exp.models = _exp.models.filter(m => !EXPLORER_EXCLUDE_MODELS.has(m.name));
+}
 
 
 // ── Build Sidebar Trees ──
@@ -806,7 +904,11 @@ function buildDetailSwitcher(treeId, model, size, dataset) {
   const curModel = exp.models.find(m => m.name === model);
   if (!curModel) { el.style.display = 'none'; return; }
 
-  const sizeMap = (exp.type === '2d' || exp.type === '2d-pred') ? SIZE_CODE_2D : SIZE_CODE_3D;
+  // Only 2D *generation* uses the 50/100/200/500 range; 2d-pred (field) uses the
+  // prediction 20/50/100/200 range like every other prediction tree (matches the
+  // breadcrumb sizeCode below). Routing 2d-pred to SIZE_CODE_2D mislabeled 20 (no key)
+  // and shifted 50/100/200 to S/M/L instead of S/M/L/XL.
+  const sizeMap = (exp.type === '2d') ? SIZE_CODE_2D : SIZE_CODE_3D;
   const sizes = curModel.sizes || [];
   const datasets = curModel.datasets || exp.datasets || [];
 
@@ -864,7 +966,7 @@ function buildDetailSwitcher(treeId, model, size, dataset) {
 
 // Switch handlers — resolve a new (treeId, model, size, dataset) tuple, falling
 // back gracefully when the user's pick doesn't exist for the target model
-// (e.g., abupt only has drivaernet — clicking it from a deepjeb context picks
+// (e.g., a model with only drivaernet — clicking it from a deepjeb context picks
 // drivaernet automatically rather than 404ing).
 window._detailSwitchModel = function(treeId, modelName) {
   const exp = EXPERIMENTS[treeId];
@@ -895,9 +997,12 @@ async function selectExperiment(key) {
   const [treeId, model, size, dataset] = key.split('|');
   const exp = EXPERIMENTS[treeId];
 
-  // Reset auto-rotate to default for new viewers
-  if (typeof pcAutoRotate !== 'undefined') pcAutoRotate = true;
-  if (typeof evalAutoRotate !== 'undefined') evalAutoRotate = true;
+  // (pcAutoRotate / evalAutoRotate are module-scoped state in the <script type="module">
+  // viewers below. The prior `if (typeof … !== 'undefined') … = true` reset here was a
+  // no-op from this classic-script scope — `typeof` is always 'undefined' across the
+  // scope boundary — so it's removed rather than left as misleading dead code. Rotate
+  // state persists across experiments by design; window-export a setter if a per-open
+  // reset is ever wanted.)
 
   // Show detail view + record current key (drives ieSync URL hash since we
   // dropped the .tree-item.active marker the old sidebar relied on).
@@ -938,7 +1043,8 @@ async function selectExperiment(key) {
 
   // Try to load performance.json
   const datasetVariants = exp.variantsByDataset ? exp.variantsByDataset[dataset] : exp.variants;
-  const basePath = datasetVariants
+  const _noRunVar = (exp.noRunVariant || []).includes(dataset);
+  const basePath = (datasetVariants && !_noRunVar)
     ? `${exp.basePath}/${model}_${size}_${datasetVariants[0]}/${dataset}`
     : `${exp.basePath}/${model}_${size}/${dataset}`;
 
@@ -946,7 +1052,7 @@ async function selectExperiment(key) {
   const contentDiv = document.getElementById('detail-content');
 
   try {
-    const resp = await fetch(`${basePath}/performance.json`);
+    const resp = await fetch(`${basePath}/performance.json?t=${PAGE_CACHE_BUST}`);
     if (resp.ok) {
       const perf = await resp.json();
       perfDiv.innerHTML = `
@@ -999,8 +1105,9 @@ async function selectExperiment(key) {
   } else if (exp.type === '2d-pred') {
     // 2D field prediction (depth) — GT / pred / |error| triptych per sample
     const PRED_2D_GRID_COUNT = 12;
-    const tk = (exp.variants && exp.variants[0]) || 'depth';
-    const predPath = `output/pred2d_field/${model}/${dataset}/${size}`;
+    const _v2d = (exp.variantsByDataset ? exp.variantsByDataset[dataset] : exp.variants) || ['depth'];
+    const tk = _v2d[0] || 'depth';
+    const predPath = `output/pred2d_field/${model}/${dataset}/${tk}/${size}`;
     const gtPath = `output/pred2d_field/_gt/${dataset}/${tk}`;
     let html = `<div class="section-label" style="color:#38bdf8; margin-bottom:12px;">2D Field Prediction — ${tk} (GT · Pred · |Error|, first ${PRED_2D_GRID_COUNT})</div>`;
     html += '<div class="f2d-samples" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(420px, 1fr)); gap:12px;">';
@@ -1020,24 +1127,25 @@ async function selectExperiment(key) {
     html += '</div>';
     html += `<div class="f2d-legend" style="margin-top:14px;">
       <div class="f2d-legend-row">
-        <span class="f2d-legend-title">Depth (GT &amp; Pred)</span>
-        <div class="f2d-legend-bar f2d-legend-grayscale"></div>
-        <div class="f2d-legend-labels"><span>near</span><span>far</span></div>
+        <span class="f2d-legend-title">Field (GT &amp; Pred)</span>
+        <div class="f2d-legend-bar f2d-legend-turbo"></div>
+        <div class="f2d-legend-labels"><span>low</span><span>high</span></div>
       </div>
       <div class="f2d-legend-row">
         <span class="f2d-legend-title">|Pred − GT|</span>
-        <div class="f2d-legend-bar f2d-legend-jet"></div>
+        <div class="f2d-legend-bar f2d-legend-turbo"></div>
         <div class="f2d-legend-labels"><span>0</span><span>p95</span></div>
       </div>
-      <div class="f2d-legend-note">Depth rendered as grayscale over the GT/Pred union range; error uses inferno capped at 95th-percentile |Δ|.</div>
+      <div class="f2d-legend-note">Rendered with the turbo colormap over the GT/Pred union range (unified with the 3D-field viewer); error capped at the 95th-percentile |Δ|.</div>
     </div>`;
     contentDiv.innerHTML = html;
     initField2DCells(contentDiv);
   } else if (exp.type === 'scalar') {
-    // 2D / 3D scalar prediction — Chart.js scatter pred vs GT, target switcher,
+    // 2D / 3D / 1D scalar prediction — Chart.js scatter pred vs GT, target switcher,
     // and a per-sample gallery (matches the per-sample convention used by every
-    // other task: gen2d/gen3d/pred2d_field/pred3d_field).
-    const variants = exp.variants || [];
+    // other task: gen2d/gen3d/pred2d_field/pred3d_field).  1D keys its single
+    // target per dataset (variantsByDataset); 2D/3D share a flat variants list.
+    const variants = (exp.variantsByDataset ? exp.variantsByDataset[dataset] : exp.variants) || [];
     const dataUrl = `${exp.scalarBase}/${model}_${size}/${dataset}.json`;
     let html = `<div class="section-label" style="color:#38bdf8; margin-bottom:12px;">Scalar Prediction — Pred vs Ground Truth</div>`;
     html += '<div id="scalar-target-btns" style="margin-bottom:12px; display:flex; gap:6px; flex-wrap:wrap;">';
@@ -1048,8 +1156,9 @@ async function selectExperiment(key) {
     html += '</div>';
     html += '<div style="position:relative; height:380px; background:rgba(0,0,0,0.25); border-radius:0; padding:8px;"><canvas id="scalar-scatter"></canvas></div>';
     html += '<div id="scalar-metrics-row" style="margin-top:10px; font-size:12px; color:rgba(255,255,255,0.7);"></div>';
+    const _is1D = /_1dt?_1d_/.test(dataset);
     html += `<div style="margin-top:18px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.06);">
-      <div class="section-label" style="color:#9961FF; margin-bottom:10px;">Per-Sample Gallery</div>
+      <div class="section-label" style="color:#9961FF; margin-bottom:10px;">${_is1D ? 'Error Diagnostics' : 'Per-Sample Gallery'}</div>
       <div id="scalar-gallery-content"></div>
     </div>`;
     contentDiv.innerHTML = html;
@@ -1068,24 +1177,42 @@ async function selectExperiment(key) {
     contentDiv.innerHTML = viewerHtml;
     initPointCloudViewer(model, parseInt(size), dataset);
   } else {
-    // 3D prediction — interactive 3D viewer with Prediction / GT / Error
-    const EVAL_CHANNELS = {
-      'deepjeb_3d_2d': {
-        'vertical':     ['disp_x', 'disp_y', 'disp_z', 'stress'],
-        'horizontal':   ['disp_x', 'disp_y', 'disp_z', 'stress'],
-        'diagonal':     ['disp_x', 'disp_y', 'disp_z', 'stress'],
-        'torsion':      ['disp_x', 'disp_y', 'disp_z', 'stress'],
-        'mode_shape_1': ['mode_x', 'mode_y', 'mode_z'],
-        'mode_shape_2': ['mode_x', 'mode_y', 'mode_z'],
-      },
-      'drivaernet_3d_2d': {
-        'velocity':      ['velocity_x', 'velocity_y', 'velocity_z'],
-        'pressure':      ['pressure'],
-        'pv_coupled':    ['pressure', 'velocity_x', 'velocity_y', 'velocity_z'],
-        'body_pressure': ['body_pressure'],
-      },
-    };
+    // 3D prediction — interactive 3D viewer with Prediction / GT / Error.
+    // Channel config shared via shared/viz-common.js (loaded above); alias keeps the
+    // local name. DrivAerML coupled surface/volume geometry is published by
+    // scripts/convert_pred_coupled.py (only the models with locally-retained predictions
+    // get bins; the model-aware gate below routes the rest to metrics-only).
+    const EVAL_CHANNELS = EVAL3D_CHANNELS;
 
+    // Graceful degradation: datasets with no published per-sample 3D geometry
+    // (e.g. models scored from reused predictions — performance.json only, no
+    // sample npz) have no EVAL_CHANNELS entry.  Rather than leave the viewer
+    // root blank, show an explicit metrics-only notice; the performance card
+    // (detail-perf, above) still renders.  Auto-upgrades to the full viewer the
+    // moment geometry is published and an EVAL_CHANNELS entry is added.
+    let hasGeometry = !!EVAL_CHANNELS[dataset];
+    if (hasGeometry) {
+      // Model-aware gate: a dataset can be enabled in EVAL_CHANNELS but only have
+      // published per-sample bins for a subset of models (e.g. DrivAerML coupled —
+      // only the models whose predictions were retained locally were converted).
+      // Confirm this (model, dataset) actually has manifest entries before showing
+      // the viewer; otherwise fall through to the metrics-only panel (no 404).
+      // NOTE: ensureEval3DManifestData / pred3dGeomKeys live in the
+      // <script type="module"> block below — module-scoped symbols are NOT global,
+      // so this classic-<script> function reaches them via the window-exported
+      // shims (see the export block near getEval3DRepresentativeSample). Calling the
+      // bare names here throws ReferenceError and blanks the 3D-prediction viewer.
+      await window.ensureEval3DManifestData();
+      hasGeometry = window.pred3dHasGeom(model, dataset);
+    }
+    if (!hasGeometry) {
+      contentDiv.innerHTML = `<div class="section-label" style="color:#38bdf8; margin-bottom:12px;">3D Prediction — Metrics Only</div>
+        <div class="glass" style="padding:18px 20px; border-radius:0; color:rgba(255,255,255,0.6); font-size:13px; line-height:1.6;">
+          <div style="font-weight:700; color:#38bdf8; margin-bottom:6px;">Per-sample 3D fields not published for this dataset</div>
+          <span style="color:rgba(255,255,255,0.5);">${displayDataset(dataset)} was scored from reused predictions, so only metrics (above) are available here — no interactive point-cloud samples. See the ranked comparison on the
+          <a href="benchmark.html?dim=3d&task=prediction&output=field" style="color:#9961FF;">leaderboard</a>.</span>
+        </div>`;
+    } else {
     const variants = datasetVariants || exp.variants || [];
     let infoHtml = `<div class="section-label" style="color:#38bdf8; margin-bottom:12px;">3D Prediction — Interactive Viewer (Prediction / GT / Error)</div>`;
 
@@ -1120,6 +1247,7 @@ async function selectExperiment(key) {
       if (firstChs.length) {
         initEvalViewer(model, parseInt(size), dataset, firstTK, firstChs);
       }
+    }
     }
   }
   ieSync();
@@ -1162,6 +1290,33 @@ function _f2dInfernoColormap(t) {
     Math.round(Math.max(0, Math.min(1, b)) * 255),
   ];
 }
+// Google Turbo (8-bit) — unified colour language across 2D-field (here) +
+// 3D-field viewers. Replaces jet to drop its harsh cyan/yellow false-contour
+// bands; polynomial approximation (Anton Mikhailov's Turbo, quintic fit).
+function _f2dTurboColormap(t) {
+  const x = Math.max(0, Math.min(1, t));
+  const r = 0.13572138 + x*(4.61539260 + x*(-42.66032258 + x*(132.13108234 + x*(-152.94239396 + x*59.28637943))));
+  const g = 0.09140261 + x*(2.19418839 + x*(4.84296658 + x*(-14.18503333 + x*(4.27729857 + x*2.82956604))));
+  const b = 0.10667330 + x*(12.64194608 + x*(-60.58204836 + x*(110.36276771 + x*(-89.90310912 + x*27.34824973))));
+  return [
+    Math.round(Math.max(0, Math.min(1, r)) * 255),
+    Math.round(Math.max(0, Math.min(1, g)) * 255),
+    Math.round(Math.max(0, Math.min(1, b)) * 255),
+  ];
+}
+// 2D-field panels are fully-filled opaque images, so blend each turbo sample
+// lightly (0.12) toward the dark panel bg (rgb 12,12,12) — mirrors the 3D cloud's
+// 0.85 opacity over near-black, matching perceived intensity. Turbo already drops
+// jet's acid bands, so 0.12 suffices (0.20 washes the filled field). Matches benchmark.html.
+const _F2D_BG = [12, 12, 12], _F2D_BG_BLEND = 0.12;
+function _f2dBlendToBg(r, g, b) {
+  const k = _F2D_BG_BLEND;
+  return [
+    Math.round(r * (1 - k) + _F2D_BG[0] * k),
+    Math.round(g * (1 - k) + _F2D_BG[1] * k),
+    Math.round(b * (1 - k) + _F2D_BG[2] * k),
+  ];
+}
 function _f2dLoadImage(url) {
   return new Promise((resolve, reject) => {
     const img = new Image(); img.crossOrigin = 'anonymous';
@@ -1185,8 +1340,9 @@ function _f2dPaintGrayscale(canvas, gray, W, H, vmin, vmax) {
   const out = ctx.createImageData(W, H);
   const range = (vmax - vmin) || 1;
   for (let i = 0; i < gray.length; i++) {
-    const v = Math.round(Math.max(0, Math.min(1, (gray[i] - vmin) / range)) * 255);
-    out.data[i * 4] = v; out.data[i * 4 + 1] = v; out.data[i * 4 + 2] = v; out.data[i * 4 + 3] = 255;
+    const t = Math.max(0, Math.min(1, (gray[i] - vmin) / range));
+    const [r, g, b] = _f2dBlendToBg(..._f2dTurboColormap(t));   // turbo + 20% bg-blend — site-wide field colour language
+    out.data[i * 4] = r; out.data[i * 4 + 1] = g; out.data[i * 4 + 2] = b; out.data[i * 4 + 3] = 255;
   }
   ctx.putImageData(out, 0, 0);
 }
@@ -1197,7 +1353,7 @@ function _f2dPaintError(canvas, predGray, gtGray, W, H, errCap) {
   const cap = errCap || 1e-6;
   for (let i = 0; i < predGray.length; i++) {
     const e = Math.abs(predGray[i] - gtGray[i]);
-    const [r, g, b] = _f2dInfernoColormap(Math.min(1, e / cap));
+    const [r, g, b] = _f2dBlendToBg(..._f2dTurboColormap(Math.min(1, e / cap)));   // turbo + 20% bg-blend (matches GT/Pred panels)
     out.data[i * 4] = r; out.data[i * 4 + 1] = g; out.data[i * 4 + 2] = b; out.data[i * 4 + 3] = 255;
   }
   ctx.putImageData(out, 0, 0);
@@ -1262,10 +1418,22 @@ function initField2DCells(root) {
 // or network failure was cached as `null` (via `.catch(() => null)` saved into
 // the map), permanently locking the gallery onto an empty placeholder until
 // page reload.  Now failures fall through so the next call retries.
+// Route a scalar dataset to its output subdir by INPUT-dim token ({source}_{indim}_…):
+// 1d/1dt → pred1d_scalar, 3d → pred3d_scalar, else pred2d_scalar. The old
+// `includes('_3d_') ? pred3d : pred2d` ternary had no 1D case, so every 1D dataset
+// (concrete/airfoil/cmapss) 404'd against pred2d_scalar. Matching `_1d_` naively is
+// wrong too — deepwheel_{2d,3d}_1d also contain it but are 2D/3D scalar.
+function _scalarSubdir(dataset) {
+  const indim = String(dataset).split('_')[1] || '';
+  if (indim === '1d' || indim === '1dt') return 'pred1d_scalar';
+  if (indim === '3d') return 'pred3d_scalar';
+  return 'pred2d_scalar';
+}
+
 const _scalarManifestCache = {};
 async function loadScalarShapeManifest(dataset) {
   if (_scalarManifestCache[dataset]) return _scalarManifestCache[dataset];
-  const subdir = dataset.includes('_3d_') ? 'pred3d_scalar' : 'pred2d_scalar';
+  const subdir = _scalarSubdir(dataset);
   const url = `output/${subdir}/_shapes/${dataset}/manifest.json?t=${PAGE_CACHE_BUST}`;
   const p = fetch(url).then(r => r.ok ? r.json() : null);
   _scalarManifestCache[dataset] = p;
@@ -1281,7 +1449,7 @@ const _scalarPredCache = {};
 async function loadScalarPredJson(model, size, dataset) {
   const key = `${model}|${size}|${dataset}`;
   if (_scalarPredCache[key]) return _scalarPredCache[key];
-  const subdir = dataset.includes('_3d_') ? 'pred3d_scalar' : 'pred2d_scalar';
+  const subdir = _scalarSubdir(dataset);
   const url = `output/${subdir}/${model}_${size}/${dataset}.json?t=${PAGE_CACHE_BUST}`;
   const p = fetch(url).then(r => r.ok ? r.json() : null);
   _scalarPredCache[key] = p;
@@ -1476,16 +1644,21 @@ function _datasetTokens(treeId, modelName) {
   // Keep deepjeb → deepwheel → drivaernet (matches the canonical sort in
   // shared/data-loader.js#sortDatasets and the dataset filter pill row above).
   datasets.forEach(d => {
-    if (d.toLowerCase().includes('deepjeb')) tokens.add('deepjeb');
-    if (d.toLowerCase().includes('deepwheel')) tokens.add('deepwheel');
-    if (d.toLowerCase().includes('drivaernet')) tokens.add('drivaernet');
+    const l = d.toLowerCase();
+    if (l.includes('deepjeb')) tokens.add('deepjeb');
+    if (l.includes('deepwheel')) tokens.add('deepwheel');
+    if (l.includes('drivaernet')) tokens.add('drivaernet');
+    if (l.includes('concrete')) tokens.add('concrete');
+    if (l.includes('airfoil')) tokens.add('airfoil');
+    if (l.includes('cmapss')) tokens.add('cmapss');
   });
   return [...tokens].join(',');
 }
 function _datasetCaption(treeId, modelName) {
   const t = _datasetTokens(treeId, modelName).split(',').filter(Boolean);
   if (!t.length) return '';
-  const map = { deepjeb: 'DeepJEB', drivaernet: 'DrivAerNet', deepwheel: 'DeepWheel' };
+  const map = { deepjeb: 'DeepJEB', drivaernet: 'DrivAerNet', deepwheel: 'DeepWheel',
+                concrete: 'Concrete', airfoil: 'Airfoil', cmapss: 'CMAPSS' };
   return t.map(x => map[x] || x).join(' + ');
 }
 function _renderCard(treeId, modelName, label, kind, color) {
@@ -1521,7 +1694,6 @@ function buildPerfSummary() {
   const models3dField = [
     { name: 'transolver_pp', label: 'Transolver++' },
     { name: 'transolver', label: 'Transolver' },
-    { name: 'abupt', label: 'AB-UPT' },
     { name: 'pointnet', label: 'PointNet' },
     { name: 'regdgcnn', label: 'RegDGCNN' },
     { name: 'geofno', label: 'GeoFNO' },
@@ -1568,6 +1740,27 @@ function buildPerfSummary() {
   ];
   document.getElementById('perf-cards-2d-scalar').innerHTML =
     models2dScalar.map(m => _renderCard('2d-pred-scalar', m.name, m.label, '2D Pred · Scalar', '#38bdf8')).join('');
+
+  const models1dScalar = [
+    { name: 'tabpfn', label: 'TabPFN' },
+    { name: 'gaussian_process', label: 'Gaussian Process' },
+    { name: 'random_forest', label: 'Random Forest' },
+    { name: 'xgboost', label: 'XGBoost' },
+    { name: 'lightgbm', label: 'LightGBM' },
+    { name: 'ridge', label: 'Ridge' },
+    { name: 'mlp', label: 'MLP' },
+    { name: 'ft_transformer', label: 'FT-Transformer' },
+    { name: 'node', label: 'NODE' },
+    { name: 'tabnet', label: 'TabNet' },
+    { name: 'lstm_rul', label: 'LSTM (RUL)' },
+    { name: 'bilstm_rul', label: 'BiLSTM (RUL)' },
+    { name: 'dcnn_rul', label: 'DCNN (RUL)' },
+    { name: 'tcn', label: 'TCN (RUL)' },
+    { name: 'cnn_lstm', label: 'CNN-LSTM (RUL)' },
+    { name: 'dast', label: 'DAST (RUL)' },
+  ];
+  document.getElementById('perf-cards-1d-scalar').innerHTML =
+    models1dScalar.map(m => _renderCard('1d-pred-scalar', m.name, m.label, '1D Pred · Scalar', '#38bdf8')).join('');
 }
 
 // ══════════════════════════════════════════
@@ -1635,8 +1828,8 @@ window.addEventListener('hashchange', ieInitFromURL);
 <script type="importmap">
 {
   "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+    "three": "./shared/lib/three.module.js",
+    "three/addons/": "./shared/lib/three-addons/"
   }
 }
 </script>
@@ -1709,7 +1902,7 @@ function createViewer(container, width, height) {
   pcControls.dampingFactor = 0.08;
   pcControls.enableZoom = false;
   pcControls.autoRotate = pcAutoRotate;
-  pcControls.autoRotateSpeed = 1.5;
+  pcControls.autoRotateSpeed = 2.25;
   pcControls.minDistance = 0.5;
   pcControls.maxDistance = 8;
 
@@ -1892,8 +2085,11 @@ function loadPointCloud(positions, dataset) {
     pcControls.target.copy(center);
     const baseLen = Math.sqrt(2.4*2.4 + 0.4*0.4 + 1.6*1.6);  // ≈ 2.92
     const radius = (geometry.boundingSphere && geometry.boundingSphere.radius) || 1;
-    const k = isDeepWheel ? (5.0 * radius / baseLen) : 1.0;
-    pcCamera.position.set(center.x + 2.4 * k, center.y + 0.4 * k, center.z + 1.6 * k);
+    const k = isDeepWheel ? (5.0 / 1.2 * radius / baseLen) : 1.0;
+    // VIEW_ELEV_DEG three-quarter elevation: the (2.4,0.4,1.6) heading re-aimed to
+    // look slightly down (viz-common.js). Magnitude/azimuth preserved → scaling holds.
+    const _o = viewCamVec(2.4, 0.4, 1.6, k);
+    pcCamera.position.set(center.x + _o.x, center.y + _o.y, center.z + _o.z);
   }
   pcControls.update();
 }
@@ -1983,7 +2179,7 @@ window.initPointCloudViewer = async function(model, size, dataset) {
     // same angle, multiple bracket samples from a stress-comparison view).
     const myToken = ++_pcSampleToken;
 
-    const binPath = `output/gen3d/${model}/${dataset}/${size}/sample_${String(idx).padStart(5, '0')}.bin`;
+    const binPath = `output/gen3d/${model}/${dataset}/${size}/sample_${String(idx).padStart(5, '0')}.bin?v=${PAGE_CACHE_BUST}`;
     const loadingEl = document.getElementById('pc-loading');
 
     try {
@@ -2062,28 +2258,20 @@ function cleanupEvalViewer() {
   evalData = null;
 }
 
-function jetColormap(t) {
-  // JET colormap: blue → cyan → green → yellow → red (matches matplotlib jet).
-  // Used for SIGNED scalar fields (GT/Pred displacement etc.) where the color
-  // travelling through hue space encodes negative-vs-positive direction.
-  t = Math.max(0, Math.min(1, t));
-  let r, g, b;
-  if (t < 0.125) {
-    r = 0; g = 0; b = 0.5 + t * 4;
-  } else if (t < 0.375) {
-    const s = (t - 0.125) / 0.25;
-    r = 0; g = s; b = 1;
-  } else if (t < 0.625) {
-    const s = (t - 0.375) / 0.25;
-    r = s; g = 1; b = 1 - s;
-  } else if (t < 0.875) {
-    const s = (t - 0.625) / 0.25;
-    r = 1; g = 1 - s; b = 0;
-  } else {
-    const s = (t - 0.875) / 0.125;
-    r = 1 - 0.5 * s; g = 0; b = 0;
-  }
-  return [r, g, b];
+function turboColormap(t) {
+  // Google Turbo (float 0..1 for the Three.js vertex-color path) — the engineering
+  // rainbow for SIGNED fields (GT/Pred displacement etc.), travelling blue→red.
+  // Replaces jet to drop its harsh cyan/yellow false-contour bands; quintic
+  // polynomial approximation (Anton Mikhailov's Turbo).
+  const x = Math.max(0, Math.min(1, t));
+  const r = 0.13572138 + x*(4.61539260 + x*(-42.66032258 + x*(132.13108234 + x*(-152.94239396 + x*59.28637943))));
+  const g = 0.09140261 + x*(2.19418839 + x*(4.84296658 + x*(-14.18503333 + x*(4.27729857 + x*2.82956604))));
+  const b = 0.10667330 + x*(12.64194608 + x*(-60.58204836 + x*(110.36276771 + x*(-89.90310912 + x*27.34824973))));
+  return [
+    Math.max(0, Math.min(1, r)),
+    Math.max(0, Math.min(1, g)),
+    Math.max(0, Math.min(1, b)),
+  ];
 }
 
 // Inferno: matplotlib's perceptually-uniform sequential colormap.
@@ -2102,7 +2290,7 @@ function infernoColormap(t) {
 }
 
 function colorByField(values, vmin, vmax, cmap) {
-  const fn = cmap || jetColormap;
+  const fn = cmap || turboColormap;
   const count = values.length;
   const colors = new Float32Array(count * 3);
   const range = (vmax - vmin) || 1;
@@ -2133,7 +2321,7 @@ function createEvalPanel(container, width, height, labelClass, labelText) {
   controls.dampingFactor = 0.08;
   controls.enableZoom = false;
   controls.autoRotate = evalAutoRotate;
-  controls.autoRotateSpeed = 0.35;
+  controls.autoRotateSpeed = 0.525;
   controls.minDistance = 0.5;
   controls.maxDistance = 20;
 
@@ -2190,10 +2378,10 @@ function syncEvalControls() {
 }
 
 function setEvalPointCloud(panel, positions, fieldValues, vmin, vmax, isDrivAerNet, cmap, dataset, targetKey) {
-  // After milestone7.0 drivaernet merge, body_pressure is a target key under
-  // drivaernet_3d_2d (not its own dataset id). Detect by target_key so the
-  // body-surface camera framing still applies.
-  const isBodyPressure = targetKey === 'body_pressure' || dataset === 'drivaernet_pressure_3d_3d';
+  // body_pressure is the target of drivaernet_3d_2d_surface (re-derived from the
+  // retired drivaernet_pressure_3d_3d). Detect by target_key so the body-surface
+  // camera framing still applies.
+  const isBodyPressure = targetKey === 'body_pressure' || dataset === 'drivaernet_3d_2d_surface';
   // Detect first load: panel.points is null before the first call to this
   // function (initEvalViewer assigns panel.points only after the first
   // setEvalPointCloud).  On subsequent calls (sample switch, component
@@ -2212,11 +2400,16 @@ function setEvalPointCloud(panel, positions, fieldValues, vmin, vmax, isDrivAerN
   const colors = colorByField(fieldValues, vmin, vmax, cmap);
   geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
 
+  geometry.computeBoundingBox();
+  geometry.computeBoundingSphere();
+  // Frame to the cloud's actual radius so every coordinate scale fills the view
+  // (DrivAerML surface lives in a ~0.02-unit box, volume ~0.43, DeepJEB ~1.0).
+  const r = (geometry.boundingSphere && geometry.boundingSphere.radius) || 1;
+
   const material = new THREE.PointsMaterial({
-    // Body-surface pressure shares DeepJEB's tighter point size (0.012) because
-    // its 8192 points are packed into a unit-sphere body, not spread over a
-    // wake plane. The 0.018 size is wake-specific.
-    size: (isDrivAerNet && !isBodyPressure) ? 0.018 : 0.012,
+    // Point size ∝ radius so tiny clouds aren't overlapping blobs (center plane
+    // keeps its hand-tuned 0.018).
+    size: (isDrivAerNet && !isBodyPressure) ? 0.018 : Math.max(r * 0.012, 0.0006),
     vertexColors: true,
     sizeAttenuation: true,
     transparent: true,
@@ -2226,23 +2419,62 @@ function setEvalPointCloud(panel, positions, fieldValues, vmin, vmax, isDrivAerN
   panel.points = new THREE.Points(geometry, material);
   panel.scene.add(panel.points);
 
+  // OrbitControls clamp scales with radius (default [0.5,20] would shove a
+  // 0.02-radius cloud back out to 0.5, re-shrinking it).
+  panel.controls.minDistance = r * 0.3;
+  panel.controls.maxDistance = r * 30;
+  // Uniform ANGULAR velocity (0.25 baseline for this page): DrivAerNet surface vs
+  // centerplane and DrivAerML surface vs volume now orbit at the same rate.
+  // Previously centerplane was slowed (0.0875) to equalise apparent on-screen edge
+  // speed, but that made a dataset's plane spin at a visibly different angular rate
+  // than its surface; equal angular velocity is the requested behaviour.
+  panel.controls.autoRotateSpeed = 0.375;
+
   if (isFirstLoad) {
-    geometry.computeBoundingBox();
     const center = new THREE.Vector3();
     geometry.boundingBox.getCenter(center);
     panel.controls.target.copy(center);
     if (isDrivAerNet && !isBodyPressure) {
+      // Centerplane: fixed-distance framing (≈5.8), now also raised to VIEW_ELEV_DEG
+      // (keeps the +0.8 x nudge; y²+z² stays 5.8² so the distance holds).
       const tgtY = center.y * 0.55;
       const tgtX = center.x * 1.50;
       panel.controls.target.set(tgtX, tgtY, center.z);
-      panel.camera.position.set(tgtX + 0.8, tgtY, center.z + 5.8);
+      panel.camera.position.set(tgtX + 0.8, tgtY + 5.8 * VIEW_ELEV_SIN, center.z + 5.8 * VIEW_ELEV_COS);
     } else if (isBodyPressure) {
-      // Body-surface pressure: full car in unit-sphere space — side view, slightly elevated
+      // Body-surface pressure: side view, slightly elevated. Distance ∝ radius, matched
+      // to the deepjeb / drivaerml-surface scenes (d=2.6R — was 3.0R, which left this car
+      // ~15 % smaller than its siblings) + the same 2 % view offset. The surface is a
+      // clean car shell (no far-field tail), so 2.6R clears a full auto-rotate with margin.
+      const d = r * 2.6;
       panel.controls.target.set(center.x, center.y, center.z);
-      panel.camera.position.set(center.x, center.y + 0.3, center.z + 2.5);
+      panel.camera.position.set(center.x, center.y + d * VIEW_ELEV_SIN, center.z + d * VIEW_ELEV_COS);
+      const vw = panel.renderer.domElement.width, vh = panel.renderer.domElement.height;
+      panel.camera.setViewOffset(vw, vh, vw * 0.02, 0, vw, vh);
+    } else if (dataset === 'drivaerml_3d_3d_volume') {
+      // Volume: thin, wide "pancake" hugging the road — ~99 % of points sit in a
+      // ≈0.27-tall band near the origin (car + near-wake) while the bounding box
+      // stretches up to y≈0.9 on a sparse far-field tail, so the box centre lands
+      // ≈0.4 above the car. Aim at the CENTROID and size from the RMS radius (not the
+      // far-field-inflated bounding sphere) so the car is vertically centred and fills
+      // ~⅓ of the height. Mirrors benchmark.html's volume framing so the two pages
+      // match (this viewer's baseline autoRotateSpeed 0.375 already equals it).
+      let mx=0, my=0, mz=0; const npv = positions.length / 3;
+      for (let i=0;i<npv;i++){ mx+=positions[i*3]; my+=positions[i*3+1]; mz+=positions[i*3+2]; }
+      mx/=npv; my/=npv; mz/=npv;
+      let s2=0;
+      for (let i=0;i<npv;i++){ const ax=positions[i*3]-mx, ay=positions[i*3+1]-my, az=positions[i*3+2]-mz; s2+=ax*ax+ay*ay+az*az; }
+      const d = (Math.sqrt(s2/npv) || r) * 3.5;
+      panel.controls.target.set(mx, my, mz);
+      panel.camera.position.set(mx, my + d * VIEW_ELEV_SIN, mz + d * VIEW_ELEV_COS);
+      const vw = panel.renderer.domElement.width, vh = panel.renderer.domElement.height;
+      panel.camera.setViewOffset(vw, vh, vw * 0.02, 0, vw, vh);
     } else {
-      // DeepJEB: rotation axis at object center, slight offset for colorbar clearance
-      panel.camera.position.set(center.x, center.y + 0.3, center.z + 2.3);
+      // DeepJEB + DrivAerML: distance ∝ radius so the cloud fills the view
+      // regardless of its native coordinate scale. VIEW_ELEV_DEG three-quarter
+      // elevation (d·SIN up, d·COS back → same distance d).
+      const d = r * 2.6;
+      panel.camera.position.set(center.x, center.y + d * VIEW_ELEV_SIN, center.z + d * VIEW_ELEV_COS);
       const vw = panel.renderer.domElement.width, vh = panel.renderer.domElement.height;
       panel.camera.setViewOffset(vw, vh, vw * 0.02, 0, vw, vh);
     }
@@ -2332,11 +2564,9 @@ let pred3dManifestPromise = null;
 let pred3dRepresentativeSamplesByGroup = {};
 let pred3dGlobalErrorRangesByKey = {};
 let pred3dGlobalValueRangesByKey = {};
+let pred3dGeomKeys = new Set();   // `${model}|${dataset}` pairs that have published bins (metrics-only gate)
 
-function getEval3DSizeCode(size) {
-  const sizeMap = { '20': 'S', '50': 'M', '100': 'L', '200': 'XL' };
-  return sizeMap[String(size)] || String(size);
-}
+// getEval3DSizeCode(size) is defined in shared/viz-common.js (loaded above).
 
 function getEval3DGroupKey(dataset, targetKey, sizeCode) {
   return `${dataset}::${targetKey}::${sizeCode}`;
@@ -2364,7 +2594,9 @@ async function ensureEval3DManifestData() {
       pred3dRepresentativeSamplesByGroup = {};
       pred3dGlobalErrorRangesByKey = {};
       pred3dGlobalValueRangesByKey = {};
+      pred3dGeomKeys = new Set();
       if (manifest) {
+        pred3dGeomKeys = new Set((manifest.entries || []).map(e => `${e.model}|${e.dataset}`));
         (manifest.representative_samples || []).forEach(group => {
           pred3dRepresentativeSamplesByGroup[
             getEval3DGroupKey(group.dataset, group.target_key, group.size)
@@ -2415,6 +2647,12 @@ function getEval3DRepresentativeSample(dataset, targetKey, sizeCode, sampleSlot)
 window.getEval3DSizeCode = getEval3DSizeCode;
 window.getEval3DRepresentativeSamples = getEval3DRepresentativeSamples;
 window.getEval3DRepresentativeSample = getEval3DRepresentativeSample;
+// Gate helpers for the classic-<script> selectExperiment() 3D-prediction branch
+// (it can't see these module-scoped symbols directly). pred3dGeomKeys is REASSIGNED
+// inside ensureEval3DManifestData, so wrap the lookup in a closure rather than
+// exporting the Set by reference (which would freeze to the empty initial set).
+window.ensureEval3DManifestData = ensureEval3DManifestData;
+window.pred3dHasGeom = (m, d) => pred3dGeomKeys.has(`${m}|${d}`);
 
 function getEval3DGlobalErrorMax(dataset, targetKey, dimension, sizeCode, sampleSlot) {
   const value = pred3dGlobalErrorRangesByKey[
@@ -2455,6 +2693,14 @@ window.renderDetailScalarGallery = async function(targetKey) {
   const root = document.getElementById('scalar-gallery-content');
   const ctx = window._detailScalarCtx;
   if (!root || !ctx) return;
+  // 1D (tabular concrete/airfoil + timeseries CMAPSS) has no spatial per-sample
+  // shape — render a sorted pred-vs-true curve instead (CMAPSS = the RUL curve).
+  if (/_1dt?_1d_/.test(ctx.dataset)) {
+    root.innerHTML = '<div style="text-align:center;padding:16px;color:rgba(255,255,255,0.4);font-size:12px;">Loading…</div>';
+    const predJson = await loadScalarPredJson(ctx.model, ctx.size, ctx.dataset);
+    renderScalar1DCurve(root, predJson, targetKey, ctx.dataset);
+    return;
+  }
   root.innerHTML = '<div style="text-align:center;padding:16px;color:rgba(255,255,255,0.4);font-size:12px;">Loading shapes…</div>';
   const [manifest, predJson] = await Promise.all([
     loadScalarShapeManifest(ctx.dataset),
@@ -2462,7 +2708,7 @@ window.renderDetailScalarGallery = async function(targetKey) {
   ]);
   if (!manifest) {
     root.innerHTML = `<div style="padding:14px;color:rgba(255,255,255,0.4);font-size:12px;background:rgba(255,255,255,0.025);border:1px dashed rgba(255,255,255,0.12);border-radius:0;text-align:center;">
-      Per-sample shapes not exported yet — run <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:1px;">python tools/websites/scripts/convert_pred_scalar_shapes.py</code>
+      Per-sample shapes not exported yet — run <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:1px;">python websites/scripts/convert_pred_scalar_shapes.py</code>
     </div>`;
     return;
   }
@@ -2481,6 +2727,43 @@ window.renderDetailScalarGallery = async function(targetKey) {
     </div>`;
   initScalarShape3DCells(root);
 }
+
+// 1D scalar error-diagnostics dashboard (deeper than benchmark's 1:1 + residual): three
+// complementary panels from the published pred/gt arrays — (1) residual vs GT (where the
+// model is biased across the range), (2) error distribution (bias = off-centre, variance =
+// spread), (3) MAE by GT band (which part of the range is hardest). The top pred-vs-GT
+// scatter (#scalar-scatter, shared with 2D/3D scalar) already carries the 1:1 calibration.
+let _scalar1dCharts = [];
+window.renderScalar1DCurve = function(root, predJson, targetKey, dataset) {
+  const t = predJson && predJson.targets && predJson.targets[targetKey];
+  if (!t || !Array.isArray(t.pred) || !Array.isArray(t.gt)) {
+    root.innerHTML = '<div style="padding:14px;color:rgba(255,255,255,0.4);font-size:12px;background:rgba(255,255,255,0.025);border:1px dashed rgba(255,255,255,0.12);text-align:center;">Prediction arrays not available for this run.</div>';
+    return;
+  }
+  const PURPLE = 'rgba(153,97,255,0.85)', GRID = 'rgba(255,255,255,0.06)', TICK = 'rgba(255,255,255,0.5)';
+  const xLbl = isRulTarget(dataset, targetKey) ? 'actual RUL' : `actual ${targetKey}`;
+  const T = 'font-size:11px;font-weight:700;color:var(--text-tertiary);margin-bottom:6px;letter-spacing:0.4px;';
+  const W = 'position:relative;height:240px;background:rgba(0,0,0,0.25);padding:6px;';
+  const C = 'font-size:10px;color:rgba(255,255,255,0.3);margin-top:6px;line-height:1.4;';
+  root.innerHTML = `
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:14px;">
+      <div><div style="${T}">Residual vs ground truth</div><div style="${W}"><canvas id="s1d-res"></canvas></div>
+        <div style="${C}">Error (pred − GT) vs actual; the trend drifting off the dashed zero line shows where the model is biased.</div></div>
+      <div><div style="${T}">Error distribution</div><div style="${W}"><canvas id="s1d-hist"></canvas></div>
+        <div style="${C}"><span style="color:#38bdf8;">Blue</span> = under-prediction, <span style="color:#f472b6;">pink</span> = over; a narrow peak centred on 0 is ideal.</div></div>
+      <div><div style="${T}">Error by ground-truth band</div><div style="${W}"><canvas id="s1d-quant"></canvas></div>
+        <div style="${C}">MAE within each equal-count ${xLbl} band — reveals whether error concentrates in the low / mid / high range.</div></div>
+    </div>`;
+  _scalar1dCharts.forEach(c => { try { c.destroy(); } catch (e) {} });
+  _scalar1dCharts = [
+    buildScalar1DResidualScatter(document.getElementById('s1d-res'),
+      { gt: t.gt, pred: t.pred, color: PURPLE, xTitle: xLbl, yTitle: 'error (pred − GT)', yTickColor: TICK, gridColor: GRID }),
+    buildScalar1DResidualHist(document.getElementById('s1d-hist'),
+      { gt: t.gt, pred: t.pred, gridColor: GRID }),
+    buildScalar1DErrorByQuantile(document.getElementById('s1d-quant'),
+      { gt: t.gt, pred: t.pred, q: 5, color: PURPLE, xTitle: `${xLbl} band`, gridColor: GRID }),
+  ];
+};
 
 window.initScalarScatter = async function(dataUrl, defaultTarget) {
   _scalarPayload = null;
@@ -2794,7 +3077,7 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
     const myToken = ++_evalLoadToken;
     const ch = channels[chIdx];
     const sampleMeta = getEval3DRepresentativeSample(dataset, targetKey, sizeCode, sampleIdx);
-    const binPath = `output/pred3d_field/${model}/${dataset}/${targetKey}/${ch}/${sizeCode}_${String(sampleIdx).padStart(2, '0')}.bin`;
+    const binPath = `output/pred3d_field/${model}/${dataset}/${targetKey}/${ch}/${sizeCode}_${String(sampleIdx).padStart(2, '0')}.bin?v=${PAGE_CACHE_BUST}`;
 
     // Show loading
     evalPanels.forEach(p => {
@@ -2830,10 +3113,14 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
         vmin = globalValueRange.vmin;
         vmax = globalValueRange.vmax;
       } else {
+        // GT-only range so the GT panel colours identically across models even
+        // when the cross-model global range is unavailable. A model's pred over/
+        // undershoot must not recolour the shared ground truth (otherwise the same
+        // GT looks different per model — e.g. geotransolver/domino vorticity, whose
+        // pred slightly exceeds the GT range). Pred saturates against this range if
+        // it exceeds GT; the |error| panel captures the overshoot.
         vmin = Infinity; vmax = -Infinity;
         for (let i = 0; i < numPoints; i++) {
-          if (pred[i] < vmin) vmin = pred[i];
-          if (pred[i] > vmax) vmax = pred[i];
           if (gt[i] < vmin) vmin = gt[i];
           if (gt[i] > vmax) vmax = gt[i];
         }
@@ -2846,16 +3133,16 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
 
       setEvalPointCloud(evalPanels[0], pos, gt, vmin, vmax, isDrivAerNet, undefined, dataset, targetKey);
       setEvalPointCloud(evalPanels[1], pos, pred, vmin, vmax, isDrivAerNet, undefined, dataset, targetKey);
-      // All three panels share the jet colormap (default) so the error
+      // All three panels share the turbo colormap (default) so the error
       // panel reads on the same colour axis as GT / Pred — direct visual
-      // comparison across panels.  2D field prediction keeps inferno for
-      // its error heatmap (different rendering path).
+      // comparison across panels.  2D field prediction also uses turbo now
+      // (GT / Pred / error), for site-wide colormap consistency.
       setEvalPointCloud(evalPanels[2], pos, error, 0, errorScaleMax, isDrivAerNet, undefined, dataset, targetKey);
 
-      // Car mesh overlay for DrivAerNet wake-plane (skipped for body-surface
+      // Car mesh overlay for DrivAerNet center-plane (skipped for body-surface
       // pressure since pred points already lie on the car surface).
       if (isDrivAerNet && targetKey !== 'body_pressure') {
-        const carPath = `output/pred3d_field/${model}/${dataset}/${targetKey}/_car/${sizeCode}_${String(sampleIdx).padStart(2, '0')}.bin`;
+        const carPath = `output/pred3d_field/${model}/${dataset}/${targetKey}/_car/${sizeCode}_${String(sampleIdx).padStart(2, '0')}.bin?v=${PAGE_CACHE_BUST}`;
         try {
           const carResp = await fetch(carPath);
           if (myToken !== _evalLoadToken) return;
@@ -2958,13 +3245,13 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true; controls.dampingFactor = 0.08;
   controls.enableZoom = false;
-  controls.autoRotate = true; controls.autoRotateSpeed = 0.25;
+  controls.autoRotate = true; controls.autoRotateSpeed = 0.375;
   controls.minDistance = 0.5; controls.maxDistance = 20;
 
   // Slow down autoRotate to 66% after user interaction
   controls.addEventListener('start', () => {
     const group = window._cmpPcSyncGroups[side] || [];
-    group.forEach(g => { g.controls.autoRotateSpeed = 0.25; });
+    group.forEach(g => { g.controls.autoRotateSpeed = 0.375; });
   });
 
   // Zoom activation on click — enables zoom on all synced viewers in same side
@@ -3032,7 +3319,7 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   ro.observe(wrap);
 
   async function loadSample(idx) {
-    const binPath = `output/gen3d/${model}/${dataset}/${size}/sample_${String(idx).padStart(5,'0')}.bin`;
+    const binPath = `output/gen3d/${model}/${dataset}/${size}/sample_${String(idx).padStart(5,'0')}.bin?v=${PAGE_CACHE_BUST}`;
     const ld = document.getElementById(`${id}-ld`);
     try {
       const resp = await fetch(binPath);
@@ -3062,9 +3349,12 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
       const baseLen = 2.345;  // = |(1.5, 1.0, 1.5)|
       const radius = (geom.boundingSphere && geom.boundingSphere.radius) || 1;
       const k = isDeepWheel
-        ? (5.0 * radius / baseLen)
+        ? (5.0 / 1.2 * radius / baseLen)
         : (isDriv ? (1.0 / 1.1) : 1.0);
-      camera.position.set(c.x + 1.7*k*mz, c.y + 0.3*k*mz, c.z + 1.1*k*mz);
+      // VIEW_ELEV_DEG three-quarter elevation: the (1.7,0.3,1.1) heading re-aimed
+      // to look slightly down (viz-common.js).
+      const _o = viewCamVec(1.7, 0.3, 1.1, k*mz);
+      camera.position.set(c.x + _o.x, c.y + _o.y, c.z + _o.z);
       controls.update();
     } catch {
       if (ld) ld.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,0.4);font-size:11px;">Sample ${idx} N/A</div>`;
@@ -3130,7 +3420,7 @@ window.initCmpEvalViewer = async function(el) {
     const camDist = isMobileCmpPred ? 1.35 : 1.0;
     const cam = new THREE.PerspectiveCamera(45,w/h,0.01,100); cam.position.set(2.4*camDist,0.4*camDist,1.6*camDist);
     const ren = new THREE.WebGLRenderer({antialias:true}); ren.setSize(w,h); ren.setPixelRatio(Math.min(window.devicePixelRatio,2)); cont.appendChild(ren.domElement);
-    const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.enableZoom=false; ctrl.autoRotate=true; ctrl.autoRotateSpeed=0.25; ctrl.minDistance=0.5; ctrl.maxDistance=20;
+    const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.enableZoom=false; ctrl.autoRotate=true; ctrl.autoRotateSpeed=0.375; ctrl.minDistance=0.5; ctrl.maxDistance=20;
     s.add(new THREE.AmbientLight(0xffffff,0.5));
     return {scene:s,camera:cam,renderer:ren,controls:ctrl,points:null,carMesh:null,container:cont};
   }
@@ -3195,7 +3485,7 @@ window.initCmpEvalViewer = async function(el) {
 
   async function load() {
     const ch = channels[chIdx];
-    const binPath = `output/pred3d_field/${model}/${ds}/${tk}/${ch}/${sizeCode}_${String(sampleIdx).padStart(2,'0')}.bin`;
+    const binPath = `output/pred3d_field/${model}/${ds}/${tk}/${ch}/${sizeCode}_${String(sampleIdx).padStart(2,'0')}.bin?v=${PAGE_CACHE_BUST}`;
     try {
       // Race bin fetch against the 5MB pred3d manifest (only used below for
       // colour-range lookups) — same parallelization as initLeaderboardPredViewer.
@@ -3227,15 +3517,15 @@ window.initCmpEvalViewer = async function(el) {
         const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('color',new THREE.Float32BufferAttribute(colorByField(vals,mn,mx,cmap),3));
         panel.points=new THREE.Points(g,new THREE.PointsMaterial({size:(isDriv()&&!isBody)?0.018:0.012,vertexColors:true,sizeAttenuation:true,transparent:true,opacity:0.85}));
         panel.scene.add(panel.points);g.computeBoundingBox();const c=new THREE.Vector3();g.boundingBox.getCenter(c);panel.controls.target.copy(c);
-        if(isDriv()&&!isBody){const ty=c.y*0.55,tx=c.x*1.5;panel.controls.target.set(tx,ty,c.z);panel.camera.position.set(tx+0.8,ty,c.z+(isMobileCmpPred?7.5:5.8));}else if(isBody){panel.controls.target.set(c.x,c.y,c.z);panel.camera.position.set(c.x,c.y+0.3,c.z+(isMobileCmpPred?3.2:2.5));}else{const mz=isMobileCmpPred?3.1:2.3;panel.camera.position.set(c.x,c.y+0.3,c.z+mz);const vw=panel.renderer.domElement.width,vh=panel.renderer.domElement.height;panel.camera.setViewOffset(vw,vh,vw*0.02,0,vw,vh);}
+        if(isDriv()&&!isBody){const ty=c.y*0.55,tx=c.x*1.5,wd=isMobileCmpPred?7.5:5.8;panel.controls.target.set(tx,ty,c.z);panel.camera.position.set(tx+0.8,ty+wd*VIEW_ELEV_SIN,c.z+wd*VIEW_ELEV_COS);}else if(isBody){panel.controls.target.set(c.x,c.y,c.z);const dd=isMobileCmpPred?3.2:2.5;panel.camera.position.set(c.x,c.y+dd*VIEW_ELEV_SIN,c.z+dd*VIEW_ELEV_COS);}else{const mz=isMobileCmpPred?3.1:2.3;panel.camera.position.set(c.x,c.y+mz*VIEW_ELEV_SIN,c.z+mz*VIEW_ELEV_COS);const vw=panel.renderer.domElement.width,vh=panel.renderer.domElement.height;panel.camera.setViewOffset(vw,vh,vw*0.02,0,vw,vh);}
         panel.controls.update();
       }
-      // All three panels share jet (default cmap) so error reads on the
+      // All three panels share turbo (default cmap) so error reads on the
       // same colour axis as GT/Pred for direct cross-panel comparison.
       setPtCloud(panels[0],gt,vmin,vmax);setPtCloud(panels[1],pred,vmin,vmax);setPtCloud(panels[2],error,0,errorScaleMax);
 
       if(isDriv() && tk!=='body_pressure'){
-        const carPath=`output/pred3d_field/${model}/${ds}/${tk}/_car/${sizeCode}_${String(sampleIdx).padStart(2,'0')}.bin`;
+        const carPath=`output/pred3d_field/${model}/${ds}/${tk}/_car/${sizeCode}_${String(sampleIdx).padStart(2,'0')}.bin?v=${PAGE_CACHE_BUST}`;
         try{const cr=await fetch(carPath);if(cr.ok){const cf=new Float32Array(await cr.arrayBuffer());for(let i=0;i<cf.length/3;i++){const t=cf[i*3+1];cf[i*3+1]=cf[i*3+2];cf[i*3+2]=t;}panels.forEach(p=>setCarMesh(p,cf));}}catch(e){}
       }else{panels.forEach(p=>setCarMesh(p,null));}
       syncFrom(0);
@@ -3263,9 +3553,9 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
   scene.background = new THREE.Color(0x0C0C0C);
   const camera = new THREE.PerspectiveCamera(45, w / h, 0.01, 100);
   // DeepWheel point clouds have their rotation axis along Z (verified: Z range
-  // ~[-0.46, 0.33], std 0.25 vs X/Y std ~0.52). Camera placed on +Z and looking
-  // toward origin → wheel face visible (the side you see on a parked car).
-  camera.position.set(0, 0, 2.6);
+  // ~[-0.46, 0.33], std 0.25 vs X/Y std ~0.52). Camera placed on -Z (back view)
+  // looking toward origin → wheel's inner face visible head-on.
+  camera.position.set(0, 0, -2.6);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(w, h);
@@ -3287,8 +3577,10 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
   let pts = null;
   let animId = null;
   let lastT = performance.now();
-  // ~0.6 rad/sec (about 5.5 sec per full revolution) — smooth, not dizzying.
-  const ROLL_SPEED = 0.6;
+  // Smooth, not dizzying. 70% of the prior 0.9 — synced with the benchmark
+  // scalar viewer's slowed roll (kept on explorer's own calmer base, not the
+  // benchmark absolute, per the intentional per-page rotation-speed convention).
+  const ROLL_SPEED = 0.63;
   let rollEnabled = true;
   function animate() {
     animId = requestAnimationFrame(animate);
@@ -3342,7 +3634,7 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
   });
   ro.observe(el);
 
-  const binPath = `output/pred3d_scalar/_shapes/${dataset}/sample_${String(slot).padStart(2, '0')}.bin`;
+  const binPath = `output/pred3d_scalar/_shapes/${dataset}/sample_${String(slot).padStart(2, '0')}.bin?v=${PAGE_CACHE_BUST}`;
   fetch(binPath)
     .then(resp => resp.ok ? resp.arrayBuffer() : Promise.reject(new Error(`HTTP ${resp.status}`)))
     .then(buf => {
@@ -3380,8 +3672,10 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
       const c = new THREE.Vector3();
       geom.boundingBox.getCenter(c);
       controls.target.copy(c);
-      // Side view: camera straight in front of the wheel face, +Z direction.
-      camera.position.set(c.x, c.y, c.z + 2.6);
+      // Dead-on back view: camera on -Z looking head-on at the wheel's INNER face
+      // (no elevation tilt) — synced with the benchmark scalar viewer. VIEW_ELEV_SIN/
+      // COS stay in use by the field/gen viewers; only this scalar wheel is face-on.
+      camera.position.set(c.x, c.y, c.z - 2.6);
       camera.up.set(0, 1, 0);
       controls.update();
     })

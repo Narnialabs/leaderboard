@@ -5,9 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Narnia Labs - Analysis</title>
 <link rel="icon" type="image/png" href="favicon.png">
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Joungkyun/font-d2coding@1.3.2/d2coding.css">
+<!-- three.js is self-hosted in shared/lib/ (same-origin, like papaparse/chart.umd).
+     Page init runs on DOMContentLoaded, which waits for the deferred 3D-viewer module
+     block, and that module imports three.js. The module sits near the bottom of the
+     document and the HTML preload scanner can't see imports inside an inline module,
+     so without this hint the fetch starts only when parsing reaches the module.
+     modulepreload starts the same-origin fetch from parse-start so three.js is ready
+     sooner: module executes, DOMContentLoaded fires, first data paint happens sooner. -->
+<link rel="modulepreload" href="shared/lib/three.module.js">
+<link rel="stylesheet" href="shared/lib/fonts/pretendard.css">
+<link rel="stylesheet" href="shared/lib/fonts/d2coding.css">
 <link rel="stylesheet" href="shared/style.css">
 <link rel="stylesheet" href="shared/mobile.css">
 <script src="shared/lib/papaparse.min.js"></script>
@@ -279,6 +286,7 @@
 <script src="shared/nav.js"></script>
 <script>initNav('analysis');</script>
 <script src="shared/data-loader.js"></script>
+<script src="shared/viz-common.js"></script>
 <script src="shared/url-state.js"></script>
 
 <div class="page-content">
@@ -326,7 +334,7 @@
   </div>
   <div class="lb-filter-row" id="cmp-level3" style="display:none; gap:16px; align-items:center; flex-wrap:wrap; margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.06);">
     <div class="filter-group">
-      <span class="filter-label">Target Key</span>
+      <span class="filter-label">Target</span>
       <div id="cmp-tk-pills" style="display:inline-flex; gap:5px; margin-left:6px;"></div>
     </div>
     <div class="filter-group">
@@ -528,8 +536,8 @@
 <script type="importmap">
 {
   "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+    "three": "./shared/lib/three.module.js",
+    "three/addons/": "./shared/lib/three-addons/"
   }
 }
 </script>
@@ -602,7 +610,7 @@ function createViewer(container, width, height) {
   pcControls.dampingFactor = 0.08;
   pcControls.enableZoom = false;
   pcControls.autoRotate = pcAutoRotate;
-  pcControls.autoRotateSpeed = 1.5;
+  pcControls.autoRotateSpeed = 1.125;
   pcControls.minDistance = 0.5;
   pcControls.maxDistance = 8;
 
@@ -620,10 +628,6 @@ function createViewer(container, width, height) {
     const wrap = pcRenderer.domElement.closest('.pc-viewer-container');
     if (wrap) wrap.classList.add('zoom-active');
   });
-
-  // Subtle grid
-  const gridHelper = new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30);
-  pcScene.add(gridHelper);
 
   // Ambient light for visibility
   pcScene.add(new THREE.AmbientLight(0xffffff, 0.5));
@@ -779,8 +783,11 @@ function loadPointCloud(positions, dataset) {
   // world-unit offset because samples are already consistently normalised.
   const baseLen = Math.sqrt(2.4*2.4 + 0.4*0.4 + 1.6*1.6);  // = |(2.4, 0.4, 1.6)| ≈ 2.92
   const radius = (geometry.boundingSphere && geometry.boundingSphere.radius) || 1;
-  const k = isDeepWheel ? (5.0 * radius / baseLen) : 1.0;
-  pcCamera.position.set(center.x + 2.4 * k, center.y + 0.4 * k, center.z + 1.6 * k);
+  const k = isDeepWheel ? (5.0 / 1.2 * radius / baseLen) : 1.0;
+  // VIEW_ELEV_DEG three-quarter elevation: the (2.4,0.4,1.6) heading re-aimed to
+  // look slightly down (viz-common.js). Magnitude/azimuth preserved → scaling holds.
+  const _o = viewCamVec(2.4, 0.4, 1.6, k);
+  pcCamera.position.set(center.x + _o.x, center.y + _o.y, center.z + _o.z);
   pcControls.update();
 }
 
@@ -859,7 +866,7 @@ window.initPointCloudViewer = async function(model, size, dataset) {
       btn.classList.add('active');
     }
 
-    const binPath = `output/gen3d/${model}/${dataset}/${size}/sample_${String(idx).padStart(5, '0')}.bin`;
+    const binPath = `output/gen3d/${model}/${dataset}/${size}/sample_${String(idx).padStart(5, '0')}.bin?v=${PAGE_CACHE_BUST}`;
     const loadingEl = document.getElementById('pc-loading');
 
     try {
@@ -935,28 +942,20 @@ function cleanupEvalViewer() {
   evalData = null;
 }
 
-function jetColormap(t) {
-  // JET colormap: blue → cyan → green → yellow → red (matches matplotlib jet).
-  // Used for SIGNED scalar fields (GT/Pred displacement etc.) where the color
-  // travelling through hue space encodes negative-vs-positive direction.
-  t = Math.max(0, Math.min(1, t));
-  let r, g, b;
-  if (t < 0.125) {
-    r = 0; g = 0; b = 0.5 + t * 4;
-  } else if (t < 0.375) {
-    const s = (t - 0.125) / 0.25;
-    r = 0; g = s; b = 1;
-  } else if (t < 0.625) {
-    const s = (t - 0.375) / 0.25;
-    r = s; g = 1; b = 1 - s;
-  } else if (t < 0.875) {
-    const s = (t - 0.625) / 0.25;
-    r = 1; g = 1 - s; b = 0;
-  } else {
-    const s = (t - 0.875) / 0.125;
-    r = 1 - 0.5 * s; g = 0; b = 0;
-  }
-  return [r, g, b];
+function turboColormap(t) {
+  // Google Turbo (float 0..1 for the Three.js vertex-color path) — the engineering
+  // rainbow for SIGNED fields (GT/Pred displacement etc.), travelling blue→red.
+  // Replaces jet to drop its harsh cyan/yellow false-contour bands; quintic
+  // polynomial approximation (Anton Mikhailov's Turbo).
+  const x = Math.max(0, Math.min(1, t));
+  const r = 0.13572138 + x*(4.61539260 + x*(-42.66032258 + x*(132.13108234 + x*(-152.94239396 + x*59.28637943))));
+  const g = 0.09140261 + x*(2.19418839 + x*(4.84296658 + x*(-14.18503333 + x*(4.27729857 + x*2.82956604))));
+  const b = 0.10667330 + x*(12.64194608 + x*(-60.58204836 + x*(110.36276771 + x*(-89.90310912 + x*27.34824973))));
+  return [
+    Math.max(0, Math.min(1, r)),
+    Math.max(0, Math.min(1, g)),
+    Math.max(0, Math.min(1, b)),
+  ];
 }
 
 // Inferno: matplotlib's perceptually-uniform sequential colormap.
@@ -975,7 +974,7 @@ function infernoColormap(t) {
 }
 
 function colorByField(values, vmin, vmax, cmap) {
-  const fn = cmap || jetColormap;
+  const fn = cmap || turboColormap;
   const count = values.length;
   const colors = new Float32Array(count * 3);
   const range = (vmax - vmin) || 1;
@@ -1006,12 +1005,10 @@ function createEvalPanel(container, width, height, labelClass, labelText) {
   controls.dampingFactor = 0.08;
   controls.enableZoom = false;
   controls.autoRotate = evalAutoRotate;
-  controls.autoRotateSpeed = 0.35;
+  controls.autoRotateSpeed = 0.2625;
   controls.minDistance = 0.5;
   controls.maxDistance = 20;
 
-  const grid = new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30);
-  scene.add(grid);
   scene.add(new THREE.AmbientLight(0xffffff, 0.5));
 
   // Zoom activation on click — will be wired to sibling panels after creation
@@ -1067,14 +1064,14 @@ function syncEvalControls() {
 // Per-dataset view profile: point size, camera framing, and car-mesh overlay.
 // Centralised here so adding a new car-scale dataset only touches one place.
 // After milestone7.0 drivaernet merge, body_pressure is a target_key under
-// drivaernet_3d_2d (not a distinct dataset), so this function takes target_key
+// drivaernet_3d_2d_centerplane (not a distinct dataset), so this function takes target_key
 // as a secondary axis to pick the body-surface framing.
 function getDatasetViewProfile(dataset, targetKey) {
   const ds = (dataset || '').toLowerCase();
   const tk = (targetKey || '').toLowerCase();
-  if (ds === 'drivaernet_pressure_3d_3d' || tk === 'body_pressure') {
+  if (ds === 'drivaernet_3d_2d_surface' || tk === 'body_pressure') {
     // Body shares DeepJEB's tighter 0.012 — 8192 points pack into a unit-sphere
-    // body, not a wider wake plane (which uses 0.018).
+    // body, not a wider center plane (which uses 0.018).
     return { cameraMode: 'body', pointSize: 0.012, hasCarMesh: false };
   }
   if (ds.includes('drivaernet')) {
@@ -1097,8 +1094,15 @@ function setEvalPointCloud(panel, positions, fieldValues, vmin, vmax, dataset, c
   const colors = colorByField(fieldValues, vmin, vmax, cmap);
   geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
 
+  geometry.computeBoundingBox();
+  geometry.computeBoundingSphere();
+  // Frame to the cloud's actual radius so every coordinate scale fills the view
+  // (DrivAerML surface ~0.02-unit box, volume ~0.43, DeepJEB ~1.0).
+  const r = (geometry.boundingSphere && geometry.boundingSphere.radius) || 1;
+
   const material = new THREE.PointsMaterial({
-    size: profile.pointSize,
+    // Point size ∝ radius (center-plane 'wake' keeps its hand-tuned profile size).
+    size: profile.cameraMode === 'wake' ? profile.pointSize : Math.max(r * 0.012, 0.0006),
     vertexColors: true,
     sizeAttenuation: true,
     transparent: true,
@@ -1108,22 +1112,31 @@ function setEvalPointCloud(panel, positions, fieldValues, vmin, vmax, dataset, c
   panel.points = new THREE.Points(geometry, material);
   panel.scene.add(panel.points);
 
-  geometry.computeBoundingBox();
+  // OrbitControls clamp scales with radius (default [0.5,20] would re-shrink a
+  // 0.02-radius DrivAerML cloud back to a 0.5-unit distance).
+  panel.controls.minDistance = r * 0.3;
+  panel.controls.maxDistance = r * 30;
+
   const center = new THREE.Vector3();
   geometry.boundingBox.getCenter(center);
   panel.controls.target.copy(center);
   if (profile.cameraMode === 'wake') {
+    // Centerplane: fixed-distance framing (≈5.8), now also raised to VIEW_ELEV_DEG
+    // (keeps the +0.8 x nudge; y²+z² stays 5.8² so the distance holds).
     const tgtY = center.y * 0.55;
     const tgtX = center.x * 1.50;
     panel.controls.target.set(tgtX, tgtY, center.z);
-    panel.camera.position.set(tgtX + 0.8, tgtY, center.z + 5.8);
+    panel.camera.position.set(tgtX + 0.8, tgtY + 5.8 * VIEW_ELEV_SIN, center.z + 5.8 * VIEW_ELEV_COS);
   } else if (profile.cameraMode === 'body') {
-    // Body-surface pressure: full car in unit-sphere space — side view, slightly elevated
+    // Body-surface pressure: VIEW_ELEV_DEG three-quarter elevation, distance ∝ radius.
+    const d = r * 3.0;
     panel.controls.target.set(center.x, center.y, center.z);
-    panel.camera.position.set(center.x, center.y + 0.3, center.z + 2.5);
+    panel.camera.position.set(center.x, center.y + d * VIEW_ELEV_SIN, center.z + d * VIEW_ELEV_COS);
   } else {
-    // DeepJEB: rotation axis at object center, slight offset for colorbar clearance
-    panel.camera.position.set(center.x, center.y + 0.3, center.z + 2.3);
+    // DeepJEB + DrivAerML: distance ∝ radius so the cloud fills the view.
+    // VIEW_ELEV_DEG three-quarter elevation (d·SIN up, d·COS back → same distance d).
+    const d = r * 2.6;
+    panel.camera.position.set(center.x, center.y + d * VIEW_ELEV_SIN, center.z + d * VIEW_ELEV_COS);
     const vw = panel.renderer.domElement.width, vh = panel.renderer.domElement.height;
     panel.camera.setViewOffset(vw, vh, vw * 0.02, 0, vw, vh);
   }
@@ -1213,10 +1226,7 @@ let pred3dRepresentativeSamplesByGroup = {};
 let pred3dGlobalErrorRangesByKey = {};
 let pred3dGlobalValueRangesByKey = {};
 
-function getEval3DSizeCode(size) {
-  const sizeMap = { '20': 'S', '50': 'M', '100': 'L', '200': 'XL' };
-  return sizeMap[String(size)] || String(size);
-}
+// getEval3DSizeCode(size) is defined in shared/viz-common.js (loaded above).
 
 function getEval3DGroupKey(dataset, targetKey, sizeCode) {
   return `${dataset}::${targetKey}::${sizeCode}`;
@@ -1259,7 +1269,7 @@ async function ensureEval3DManifestData() {
       }
       return manifest;
     })
-    .catch(() => null);
+    .catch(() => { pred3dManifestPromise = null; return null; });  // clear cache so a transient fetch failure retries next call
   return pred3dManifestPromise;
 }
 
@@ -1333,7 +1343,7 @@ window.renderDetailScalarGallery = async function(targetKey) {
   ]);
   if (!manifest) {
     root.innerHTML = `<div style="padding:14px;color:rgba(255,255,255,0.4);font-size:12px;background:rgba(255,255,255,0.025);border:1px dashed rgba(255,255,255,0.12);border-radius:0;text-align:center;">
-      Per-sample shapes not exported yet — run <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:1px;">python tools/websites/scripts/convert_pred_scalar_shapes.py</code>
+      Per-sample shapes not exported yet — run <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:1px;">python websites/scripts/convert_pred_scalar_shapes.py</code>
     </div>`;
     return;
   }
@@ -1600,7 +1610,7 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
   async function loadEvalData(sampleIdx, chIdx) {
     const ch = channels[chIdx];
     const sampleMeta = getEval3DRepresentativeSample(dataset, targetKey, sizeCode, sampleIdx);
-    const binPath = `output/pred3d_field/${model}/${dataset}/${targetKey}/${ch}/${sizeCode}_${String(sampleIdx).padStart(2, '0')}.bin`;
+    const binPath = `output/pred3d_field/${model}/${dataset}/${targetKey}/${ch}/${sizeCode}_${String(sampleIdx).padStart(2, '0')}.bin?v=${PAGE_CACHE_BUST}`;
 
     // Show loading
     evalPanels.forEach(p => {
@@ -1634,10 +1644,14 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
         vmin = globalValueRange.vmin;
         vmax = globalValueRange.vmax;
       } else {
+        // GT-only range so the GT panel colours identically across models even
+        // when the cross-model global range is unavailable. A model's pred over/
+        // undershoot must not recolour the shared ground truth (otherwise the same
+        // GT looks different per model — e.g. geotransolver/domino vorticity, whose
+        // pred slightly exceeds the GT range). Pred saturates against this range if
+        // it exceeds GT; the |error| panel captures the overshoot.
         vmin = Infinity; vmax = -Infinity;
         for (let i = 0; i < numPoints; i++) {
-          if (pred[i] < vmin) vmin = pred[i];
-          if (pred[i] > vmax) vmax = pred[i];
           if (gt[i] < vmin) vmin = gt[i];
           if (gt[i] > vmax) vmax = gt[i];
         }
@@ -1650,15 +1664,15 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
 
       setEvalPointCloud(evalPanels[0], pos, gt, vmin, vmax, dataset, undefined, targetKey);
       setEvalPointCloud(evalPanels[1], pos, pred, vmin, vmax, dataset, undefined, targetKey);
-      // All three panels share jet (default) so error reads on the same
+      // All three panels share turbo (default) so error reads on the same
       // colour axis as GT/Pred — direct cross-panel comparison.  2D field
-      // prediction keeps inferno (different rendering path, grayscale base).
+      // prediction also uses turbo now (GT/Pred/error), for consistency.
       setEvalPointCloud(evalPanels[2], pos, error, 0, errorScaleMax, dataset, undefined, targetKey);
 
-      // Car mesh overlay for DrivAerNet wake-plane (skipped for body-surface
+      // Car mesh overlay for DrivAerNet center-plane (skipped for body-surface
       // pressure since pred points already lie on the car surface).
       if (profile.hasCarMesh) {
-        const carPath = `output/pred3d_field/${model}/${dataset}/${targetKey}/_car/${sizeCode}_${String(sampleIdx).padStart(2, '0')}.bin`;
+        const carPath = `output/pred3d_field/${model}/${dataset}/${targetKey}/_car/${sizeCode}_${String(sampleIdx).padStart(2, '0')}.bin?v=${PAGE_CACHE_BUST}`;
         try {
           const carResp = await fetch(carPath);
           if (carResp.ok) {
@@ -1758,14 +1772,12 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true; controls.dampingFactor = 0.08;
   controls.enableZoom = false;
-  controls.autoRotate = true; controls.autoRotateSpeed = 0.25;
+  controls.autoRotate = true; controls.autoRotateSpeed = 0.1875;
   controls.minDistance = 0.5; controls.maxDistance = 20;
-  scene.add(new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30));
-
   // Slow down autoRotate to 66% after user interaction
   controls.addEventListener('start', () => {
     const group = window._cmpPcSyncGroups[side] || [];
-    group.forEach(g => { g.controls.autoRotateSpeed = 0.25; });
+    group.forEach(g => { g.controls.autoRotateSpeed = 0.1875; });
   });
 
   // Zoom activation on click — enables zoom on all synced viewers in same side
@@ -1836,7 +1848,7 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   ro.observe(wrap);
 
   async function loadSample(idx) {
-    const binPath = `output/gen3d/${model}/${dataset}/${size}/sample_${String(idx).padStart(5,'0')}.bin`;
+    const binPath = `output/gen3d/${model}/${dataset}/${size}/sample_${String(idx).padStart(5,'0')}.bin?v=${PAGE_CACHE_BUST}`;
     const ld = document.getElementById(`${id}-ld`);
     try {
       const resp = await fetch(binPath);
@@ -1866,9 +1878,12 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
       const baseLen = 2.345;  // = |(1.5, 1.0, 1.5)|
       const radius = (geom.boundingSphere && geom.boundingSphere.radius) || 1;
       const k = isDeepWheel
-        ? (5.0 * radius / baseLen)
+        ? (5.0 / 1.2 * radius / baseLen)
         : (isDriv ? (1.0 / 1.1) : 1.0);
-      camera.position.set(c.x + 1.7*k*mz, c.y + 0.3*k*mz, c.z + 1.1*k*mz);
+      // VIEW_ELEV_DEG three-quarter elevation: the (1.7,0.3,1.1) heading re-aimed
+      // to look slightly down (viz-common.js).
+      const _o = viewCamVec(1.7, 0.3, 1.1, k*mz);
+      camera.position.set(c.x + _o.x, c.y + _o.y, c.z + _o.z);
       controls.update();
     } catch {
       if (ld) ld.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,0.4);font-size:11px;">Sample ${idx} N/A</div>`;
@@ -1934,8 +1949,8 @@ window.initCmpEvalViewer = async function(el) {
     const camDist = isMobileCmpPred ? 1.35 : 1.0;
     const cam = new THREE.PerspectiveCamera(45,w/h,0.01,100); cam.position.set(2.4*camDist,0.4*camDist,1.6*camDist);
     const ren = new THREE.WebGLRenderer({antialias:true}); ren.setSize(w,h); ren.setPixelRatio(Math.min(window.devicePixelRatio,2)); cont.appendChild(ren.domElement);
-    const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.enableZoom=false; ctrl.autoRotate=true; ctrl.autoRotateSpeed=0.25; ctrl.minDistance=0.5; ctrl.maxDistance=20;
-    s.add(new THREE.GridHelper(2,10,0x1a1045,0x140e30)); s.add(new THREE.AmbientLight(0xffffff,0.5));
+    const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.enableZoom=false; ctrl.autoRotate=true; ctrl.autoRotateSpeed=0.1875; ctrl.minDistance=0.5; ctrl.maxDistance=20;
+    s.add(new THREE.AmbientLight(0xffffff,0.5));
     return {scene:s,camera:cam,renderer:ren,controls:ctrl,points:null,carMesh:null,container:cont};
   }
 
@@ -2000,7 +2015,7 @@ window.initCmpEvalViewer = async function(el) {
 
   async function load() {
     const ch = channels[chIdx];
-    const binPath = `output/pred3d_field/${model}/${ds}/${tk}/${ch}/${sizeCode}_${String(sampleIdx).padStart(2,'0')}.bin`;
+    const binPath = `output/pred3d_field/${model}/${ds}/${tk}/${ch}/${sizeCode}_${String(sampleIdx).padStart(2,'0')}.bin?v=${PAGE_CACHE_BUST}`;
     try {
       // Race bin fetch against the 5MB pred3d manifest (only used below for
       // colour-range lookups) — same parallelization as initLeaderboardPredViewer.
@@ -2031,15 +2046,15 @@ window.initCmpEvalViewer = async function(el) {
         const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('color',new THREE.Float32BufferAttribute(colorByField(vals,mn,mx,cmap),3));
         panel.points=new THREE.Points(g,new THREE.PointsMaterial({size:profile.pointSize,vertexColors:true,sizeAttenuation:true,transparent:true,opacity:0.85}));
         panel.scene.add(panel.points);g.computeBoundingBox();const c=new THREE.Vector3();g.boundingBox.getCenter(c);panel.controls.target.copy(c);
-        if(profile.cameraMode==='wake'){const ty=c.y*0.55,tx=c.x*1.5;panel.controls.target.set(tx,ty,c.z);panel.camera.position.set(tx+0.8,ty,c.z+(isMobileCmpPred?7.5:5.8));}else if(profile.cameraMode==='body'){panel.controls.target.set(c.x,c.y,c.z);panel.camera.position.set(c.x,c.y+0.3,c.z+2.5);}else{const mz=isMobileCmpPred?3.1:2.3;panel.camera.position.set(c.x,c.y+0.3,c.z+mz);const vw=panel.renderer.domElement.width,vh=panel.renderer.domElement.height;panel.camera.setViewOffset(vw,vh,vw*0.02,0,vw,vh);}
+        if(profile.cameraMode==='wake'){const ty=c.y*0.55,tx=c.x*1.5,wd=isMobileCmpPred?7.5:5.8;panel.controls.target.set(tx,ty,c.z);panel.camera.position.set(tx+0.8,ty+wd*VIEW_ELEV_SIN,c.z+wd*VIEW_ELEV_COS);}else if(profile.cameraMode==='body'){panel.controls.target.set(c.x,c.y,c.z);panel.camera.position.set(c.x,c.y+2.5*VIEW_ELEV_SIN,c.z+2.5*VIEW_ELEV_COS);}else{const mz=isMobileCmpPred?3.1:2.3;panel.camera.position.set(c.x,c.y+mz*VIEW_ELEV_SIN,c.z+mz*VIEW_ELEV_COS);const vw=panel.renderer.domElement.width,vh=panel.renderer.domElement.height;panel.camera.setViewOffset(vw,vh,vw*0.02,0,vw,vh);}
         panel.controls.update();
       }
-      // All three panels share jet (default cmap) for direct cross-panel
+      // All three panels share turbo (default cmap) for direct cross-panel
       // comparison of error magnitude against GT/Pred values.
       setPtCloud(panels[0],gt,vmin,vmax);setPtCloud(panels[1],pred,vmin,vmax);setPtCloud(panels[2],error,0,errorScaleMax);
 
       if(profile.hasCarMesh){
-        const carPath=`output/pred3d_field/${model}/${ds}/${tk}/_car/${sizeCode}_${String(sampleIdx).padStart(2,'0')}.bin`;
+        const carPath=`output/pred3d_field/${model}/${ds}/${tk}/_car/${sizeCode}_${String(sampleIdx).padStart(2,'0')}.bin?v=${PAGE_CACHE_BUST}`;
         try{const cr=await fetch(carPath);if(cr.ok){const cf=new Float32Array(await cr.arrayBuffer());for(let i=0;i<cf.length/3;i++){const t=cf[i*3+1];cf[i*3+1]=cf[i*3+2];cf[i*3+2]=t;}panels.forEach(p=>setCarMesh(p,cf));}}catch(e){}
       }else{panels.forEach(p=>setCarMesh(p,null));}
       syncFrom(0);
@@ -2092,7 +2107,7 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
   let animId = null;
   let lastT = performance.now();
   // ~0.6 rad/sec (about 5.5 sec per full revolution) — smooth, not dizzying.
-  const ROLL_SPEED = 0.6;
+  const ROLL_SPEED = 0.9;
   let rollEnabled = true;
   function animate() {
     animId = requestAnimationFrame(animate);
@@ -2146,7 +2161,7 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
   });
   ro.observe(el);
 
-  const binPath = `output/pred3d_scalar/_shapes/${dataset}/sample_${String(slot).padStart(2, '0')}.bin`;
+  const binPath = `output/pred3d_scalar/_shapes/${dataset}/sample_${String(slot).padStart(2, '0')}.bin?v=${PAGE_CACHE_BUST}`;
   fetch(binPath)
     .then(resp => resp.ok ? resp.arrayBuffer() : Promise.reject(new Error(`HTTP ${resp.status}`)))
     .then(buf => {
@@ -2184,8 +2199,9 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
       const c = new THREE.Vector3();
       geom.boundingBox.getCenter(c);
       controls.target.copy(c);
-      // Side view: camera straight in front of the wheel face, +Z direction.
-      camera.position.set(c.x, c.y, c.z + 2.6);
+      // VIEW_ELEV_DEG three-quarter elevation looking slightly down at the wheel
+      // face (same 2.6 distance: 2.6·SIN up, 2.6·COS back).
+      camera.position.set(c.x, c.y + 2.6 * VIEW_ELEV_SIN, c.z + 2.6 * VIEW_ELEV_COS);
       camera.up.set(0, 1, 0);
       controls.update();
     })
@@ -2208,7 +2224,7 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
 // was missing it, which made every loadScalarPredJson / loadScalarShapeManifest
 // throw "PAGE_CACHE_BUST is not defined" and break Disagreement / Distribution.
 // Stable per deploy — see explorer.html for rationale.
-const PAGE_CACHE_BUST = 'v20260512';
+const PAGE_CACHE_BUST = 'v20260617a';
 
 // ── 2D field prediction triptych painters (shared by detail + cmp views) ──
 // Error magnitude is unsigned (|pred - gt|, always ≥ 0), so a sequential
@@ -2224,6 +2240,33 @@ function _f2dInfernoColormap(t) {
     Math.round(Math.max(0, Math.min(1, r)) * 255),
     Math.round(Math.max(0, Math.min(1, g)) * 255),
     Math.round(Math.max(0, Math.min(1, b)) * 255),
+  ];
+}
+// Google Turbo (8-bit) — unified colour language across 2D-field (here) +
+// 3D-field viewers. Replaces jet to drop its harsh cyan/yellow false-contour
+// bands; polynomial approximation (Anton Mikhailov's Turbo, quintic fit).
+function _f2dTurboColormap(t) {
+  const x = Math.max(0, Math.min(1, t));
+  const r = 0.13572138 + x*(4.61539260 + x*(-42.66032258 + x*(132.13108234 + x*(-152.94239396 + x*59.28637943))));
+  const g = 0.09140261 + x*(2.19418839 + x*(4.84296658 + x*(-14.18503333 + x*(4.27729857 + x*2.82956604))));
+  const b = 0.10667330 + x*(12.64194608 + x*(-60.58204836 + x*(110.36276771 + x*(-89.90310912 + x*27.34824973))));
+  return [
+    Math.round(Math.max(0, Math.min(1, r)) * 255),
+    Math.round(Math.max(0, Math.min(1, g)) * 255),
+    Math.round(Math.max(0, Math.min(1, b)) * 255),
+  ];
+}
+// 2D-field panels are fully-filled opaque images, so blend each turbo sample
+// lightly (0.12) toward the dark panel bg (rgb 12,12,12) — mirrors the 3D cloud's
+// 0.85 opacity over near-black, matching perceived intensity. Turbo already drops
+// jet's acid bands, so 0.12 suffices (0.20 washes the filled field). Matches benchmark.html.
+const _F2D_BG = [12, 12, 12], _F2D_BG_BLEND = 0.12;
+function _f2dBlendToBg(r, g, b) {
+  const k = _F2D_BG_BLEND;
+  return [
+    Math.round(r * (1 - k) + _F2D_BG[0] * k),
+    Math.round(g * (1 - k) + _F2D_BG[1] * k),
+    Math.round(b * (1 - k) + _F2D_BG[2] * k),
   ];
 }
 function _f2dLoadImage(url) {
@@ -2249,8 +2292,9 @@ function _f2dPaintGrayscale(canvas, gray, W, H, vmin, vmax) {
   const out = ctx.createImageData(W, H);
   const range = (vmax - vmin) || 1;
   for (let i = 0; i < gray.length; i++) {
-    const v = Math.round(Math.max(0, Math.min(1, (gray[i] - vmin) / range)) * 255);
-    out.data[i * 4] = v; out.data[i * 4 + 1] = v; out.data[i * 4 + 2] = v; out.data[i * 4 + 3] = 255;
+    const t = Math.max(0, Math.min(1, (gray[i] - vmin) / range));
+    const [r, g, b] = _f2dBlendToBg(..._f2dTurboColormap(t));   // turbo + 20% bg-blend — site-wide field colour language
+    out.data[i * 4] = r; out.data[i * 4 + 1] = g; out.data[i * 4 + 2] = b; out.data[i * 4 + 3] = 255;
   }
   ctx.putImageData(out, 0, 0);
 }
@@ -2261,7 +2305,7 @@ function _f2dPaintError(canvas, predGray, gtGray, W, H, errCap) {
   const cap = errCap || 1e-6;
   for (let i = 0; i < predGray.length; i++) {
     const e = Math.abs(predGray[i] - gtGray[i]);
-    const [r, g, b] = _f2dInfernoColormap(Math.min(1, e / cap));
+    const [r, g, b] = _f2dBlendToBg(..._f2dTurboColormap(Math.min(1, e / cap)));   // turbo + 20% bg-blend (matches GT/Pred panels)
     out.data[i * 4] = r; out.data[i * 4 + 1] = g; out.data[i * 4 + 2] = b; out.data[i * 4 + 3] = 255;
   }
   ctx.putImageData(out, 0, 0);
@@ -2318,9 +2362,23 @@ function initField2DCells(root) {
 // ── Scalar prediction shape + JSON loaders + axis renderer (shared by detail + cmp views) ──
 const _scalarManifestCache = {};
 
+// Resolve the scalar-prediction export folder from the dataset's INPUT dim (the
+// first `{in}` token of `{source}_{in}_{out}_{scenario}`), NOT a bare `_1d_`
+// substring — scalar-output datasets like deepwheel_3d_1d_mass also contain
+// `_1d_` but live under pred3d_scalar. 1D-input (concrete/airfoil → `_1d_`,
+// cmapss → `_1dt_`) lives under pred1d_scalar.
+function _scalarPredSubdir(dataset) {
+  const m = /^[a-z0-9]+_(1dt|1d|2d|3d)_/.exec(dataset || '');
+  const inDim = m && m[1];
+  if (inDim === '1d' || inDim === '1dt') return 'pred1d_scalar';
+  if (inDim === '3d') return 'pred3d_scalar';
+  if (inDim === '2d') return 'pred2d_scalar';
+  return (dataset || '').includes('_3d_') ? 'pred3d_scalar' : 'pred2d_scalar';  // legacy fallback
+}
+
 async function loadScalarShapeManifest(dataset) {
   if (_scalarManifestCache[dataset]) return _scalarManifestCache[dataset];
-  const subdir = dataset.includes('_3d_') ? 'pred3d_scalar' : 'pred2d_scalar';
+  const subdir = _scalarPredSubdir(dataset);
   const url = `output/${subdir}/_shapes/${dataset}/manifest.json?t=${PAGE_CACHE_BUST}`;
   const p = fetch(url).then(r => r.ok ? r.json() : null).catch(() => null);
   _scalarManifestCache[dataset] = p;
@@ -2331,7 +2389,7 @@ const _scalarPredCache = {};
 async function loadScalarPredJson(model, size, dataset) {
   const key = `${model}|${size}|${dataset}`;
   if (_scalarPredCache[key]) return _scalarPredCache[key];
-  const subdir = dataset.includes('_3d_') ? 'pred3d_scalar' : 'pred2d_scalar';
+  const subdir = _scalarPredSubdir(dataset);
   const url = `output/${subdir}/${model}_${size}/${dataset}.json?t=${PAGE_CACHE_BUST}`;
   const p = fetch(url).then(r => r.ok ? r.json() : null).catch(() => null);
   _scalarPredCache[key] = p;
@@ -2478,11 +2536,23 @@ const cmpState = {
   // category, with field-prediction models producing per-point outputs that
   // showcase the head-to-head comparison story most clearly.
   dim: '3d', task: 'prediction', outputType: 'field',
-  dataScale: null, dataset: null,
+  dataScale: null,
+  // Filter taxonomy (redesign 2026-06-15): UI selects umbrella + target, which
+  // resolve to the canonical dataset + targetKey the A/B renderers read. A/B is a
+  // concrete head-to-head, so there is no "All" target (always a specific problem).
+  umbrella: null, target: null,
+  dataset: null,
   targetKey: null, dimension: null, modelA: null, modelB: null, sortedModels: [], sampleIndex: 0,
   mode: 'qualitative',
 };
 let cmpAllSummary = [];
+// In-flight token: cmpSetDim/Task/Output each call cmpLoadData() directly, and
+// cmpCategory() is derived from the just-mutated cmpState. Rapid dim/task/output
+// clicks fire concurrent loadSummaryMetrics() fetches of DIFFERENT CSVs with no
+// ordering guarantee — without this guard a stale (earlier) response can resolve
+// last and overwrite cmpAllSummary with the wrong dimension's data. Bump on entry,
+// verify after the await. Mirrors applyFilters()'s _applyFiltersToken on benchmark.html.
+let _cmpLoadToken = 0;
 let cmpFiltered = [];
 let cmpRadarChart = null;
 let cmpBarChart = null;
@@ -2504,9 +2574,11 @@ function cmpCategory() {
 }
 
 function cmpHasLevel3Filter() {
-  if (cmpState.task !== 'prediction') return false;
-  if (cmpState.dim === '2d' && cmpState.outputType === 'field') return false;
-  return true;
+  // Target row shows for every prediction task (mirrors benchmark.html): the
+  // umbrella's discriminator is scenario (3D field/scalar) or channel (airfrans
+  // u/v/p/nu_t, 2D structural stress/disp). 1-channel 2D-field (depth, darcy)
+  // simply renders a single pill.
+  return cmpState.task === 'prediction';
 }
 
 function cmpHasComponentFilter() {
@@ -2557,15 +2629,19 @@ async function cmpLoadData() {
   loadingEl.innerHTML = 'Loading data...';
   loadingEl.style.display = 'block';
   cmpHideSections();
+  const myToken = ++_cmpLoadToken;
   let data;
   try {
     data = await loadSummaryMetrics(cmpCategory());
   } catch (err) {
+    if (myToken !== _cmpLoadToken) return;   // a newer load supersedes this one
     console.error('CMP load failed:', err);
     document.getElementById('cmp-loading').innerHTML =
       '<div style="color:var(--red-400);">Failed to load data.</div>';
     return;
   }
+  // Stale-response bail-out: a newer cmpLoadData() started while we awaited; let it win.
+  if (myToken !== _cmpLoadToken) return;
   cmpAllSummary = data;
   const opts = extractFilterOptions(cmpAllSummary);
   cmpRenderFilters(opts);
@@ -2589,24 +2665,31 @@ function cmpMakePills(containerId, items, activeVal, onClick) {
 }
 
 function cmpRenderFilters(opts) {
+  const is1D = cmpState.dim === '1d';
+
   // Dimension
   cmpMakePills('cmp-dim-pills', [
-    { value:'3d', label:'3D' }, { value:'2d', label:'2D' }
+    { value:'3d', label:'3D' }, { value:'2d', label:'2D' }, { value:'1d', label:'1D' }
   ], cmpState.dim, 'cmpSetDim');
 
-  // Task — both 2D and 3D support generation and prediction
-  cmpMakePills('cmp-task-pills', [
-    { value:'generation', label:'Generation' }, { value:'prediction', label:'Prediction' }
-  ], cmpState.task, 'cmpSetTask');
+  // Task — 2D/3D support generation + prediction; 1D is scalar-prediction-only
+  // (tabular / timeseries regression — no generation or field task exists), so
+  // only the Prediction pill renders for 1D to keep the category path valid.
+  cmpMakePills('cmp-task-pills', is1D
+    ? [{ value:'prediction', label:'Prediction' }]
+    : [{ value:'generation', label:'Generation' }, { value:'prediction', label:'Prediction' }],
+    cmpState.task, 'cmpSetTask');
 
-  // Output type sub-filter — only for Prediction
+  // Output type sub-filter — only for Prediction. 1D has no field output, so it
+  // shows the single Scalar pill (kept visible so the funnel reads consistently).
   const otGroup = document.getElementById('cmp-output-group');
   if (otGroup) {
     if (cmpState.task === 'prediction') {
       otGroup.style.display = '';
-      cmpMakePills('cmp-output-pills', [
-        { value:'field', label:'Field' }, { value:'scalar', label:'Scalar' }
-      ], cmpState.outputType, 'cmpSetOutput');
+      cmpMakePills('cmp-output-pills', is1D
+        ? [{ value:'scalar', label:'Scalar' }]
+        : [{ value:'field', label:'Field' }, { value:'scalar', label:'Scalar' }],
+        cmpState.outputType, 'cmpSetOutput');
     } else {
       otGroup.style.display = 'none';
     }
@@ -2622,11 +2705,21 @@ function cmpRenderFilters(opts) {
     value: s, label: `${SCALE_MAP[s]} (${scaleToSize[s]||''})`
   })), cmpState.dataScale, 'cmpSetSize');
 
-  // Dataset — must pick one (no "All")
-  if (!cmpState.dataset && opts.datasets.length) cmpState.dataset = opts.datasets[0];
-  cmpMakePills('cmp-dataset-pills', opts.datasets.map(ds => ({
-    value: ds, label: displayDataset(ds)
-  })), cmpState.dataset, 'cmpSetDataset');
+  // Dataset = umbrella (friendly source family) — the split datasets collapse to
+  // one pill; the per-problem discriminator moves to the Target row. (Fixes the
+  // 5 identical "DeepJEB" buttons.) A/B picks a concrete problem, so no "All".
+  const { order: cmpUmbrellas } = umbrellasInData(cmpAllSummary);
+  // Revalidate a persisted umbrella against the current data (mirrors the
+  // Target/Component guards below) — a stale umbrella from a URL restore or a
+  // task auto-switch would otherwise leave no pill active and an empty Target row.
+  if (!cmpState.umbrella || !cmpUmbrellas.includes(cmpState.umbrella)) {
+    // Derive umbrella/target from a resolved dataset (URL restore / seed) so the
+    // pills reflect it; else default to the first umbrella.
+    if (cmpState.dataset) cmpSyncUmbrellaFromDataset();
+    else if (cmpUmbrellas.length) cmpSelectUmbrella(cmpUmbrellas[0]);
+  }
+  cmpMakePills('cmp-dataset-pills', cmpUmbrellas.map(u => ({ value: u, label: u })),
+               cmpState.umbrella, 'cmpSetUmbrella');
 
   // Level3 (3D pred)
   cmpRenderLevel3();
@@ -2646,33 +2739,27 @@ function cmpRenderLevel3() {
   if (!cmpHasLevel3Filter()) { el.style.display = 'none'; return; }
   // Row layout uses flex (matches Level 1/2 rows above), not block.
   el.style.display = 'flex';
-  const tks = cmpState.dataset
-    ? getTargetKeysForDataset(cmpAllSummary, cmpState.dataset)
-    : getAllTargetKeysOrdered(cmpAllSummary);
-  if (!cmpState.targetKey || !tks.includes(cmpState.targetKey)) cmpState.targetKey = tks[0] || null;
-  cmpMakePills('cmp-tk-pills', tks.map(tk => ({ value: tk, label: tk })), cmpState.targetKey, 'cmpSetTK');
+  // Target = the umbrella's per-problem discriminator (scenario or channel),
+  // friendly-labeled — no glued tokens. A/B compares a concrete problem, so no
+  // "All". Order follows SCENARIO_ORDER (via getTargetsForUmbrella).
+  const tgts = cmpState.umbrella ? getTargetsForUmbrella(cmpAllSummary, cmpState.umbrella) : [];
+  if (!cmpState.target || !tgts.some(o => o.key === cmpState.target)) {
+    if (tgts.length) cmpSelectTarget(tgts[0].key, tgts);
+  }
+  cmpMakePills('cmp-tk-pills', tgts.map(o => ({ value: o.key, label: o.label })), cmpState.target, 'cmpSetTarget');
 
-  // Component filter group — only for 3D field prediction. In the current
-  // 3D field datasets each Target Key happens to expose a single canonical
-  // Component (diagonal→disp_x, mode_shape_1→mode_x, pressure→pressure),
-  // so the pill row would render as a lone button with no real choice.
-  // To stop users mistaking that for a bug ("why are the other axes
-  // missing here when other pages seem to show more?"), we dim the pill
-  // and append a one-line caption when only one option is available.
+  // Component filter — friendly labels (von_mises/stress → "Stress", mode_shape_1
+  // → "Mode Shape 1"). No "only component" caption (caption chips were rejected —
+  // a single auto-selected pill speaks for itself).
   const dimGroup = document.getElementById('cmp-dimfilter-pills').parentElement;
-  if (cmpHasComponentFilter() && cmpState.targetKey) {
+  if (cmpHasComponentFilter() && cmpState.dataset && cmpState.targetKey) {
     dimGroup.style.display = '';
     const dims = getDimensionsForTargetKey(cmpAllSummary, cmpState.dataset, cmpState.targetKey);
     if (!cmpState.dimension || !dims.includes(cmpState.dimension)) cmpState.dimension = dims[0] || null;
-    const pillsEl = document.getElementById('cmp-dimfilter-pills');
-    cmpMakePills('cmp-dimfilter-pills', dims.map(d => ({ value: d, label: d })), cmpState.dimension, 'cmpSetDimFilter');
-    if (dims.length <= 1) {
-      pillsEl.querySelectorAll('.filter-pill').forEach(p => p.classList.add('pill-disabled'));
-      const note = document.createElement('span');
-      note.style.cssText = 'font-size:10px; color:rgba(255,255,255,0.4); margin-left:6px; letter-spacing:0.2px; font-style:italic;';
-      note.textContent = '— only component for this target';
-      pillsEl.appendChild(note);
-    }
+    // Friendly component labels (von_mises/stress → "Stress", mode_shape_1 →
+    // "Mode Shape 1", …). No "only component" caption — caption chips were
+    // rejected; a single auto-selected pill speaks for itself.
+    cmpMakePills('cmp-dimfilter-pills', dims.map(d => ({ value: d, label: componentLabel(d) })), cmpState.dimension, 'cmpSetDimFilter');
   } else {
     cmpState.dimension = null;
     dimGroup.style.display = 'none';
@@ -2682,23 +2769,28 @@ function cmpRenderLevel3() {
 
 // Filter setters
 window.cmpSetDim = function(v, btn) {
-  cmpState.dim = v; cmpState.task = 'generation'; cmpState.outputType = 'field';
-  cmpState.dataScale = null; cmpState.dataset = null;
-  cmpState.targetKey = null; cmpState.dimension = null;
+  cmpState.dim = v;
+  // 1D is scalar-prediction-only — jump straight to prediction/scalar (mirrors
+  // benchmark.html setDimension), else a generation/field default would build a
+  // nonexistent dimension_1d/generation category and fail the summary fetch.
+  if (v === '1d') { cmpState.task = 'prediction'; cmpState.outputType = 'scalar'; }
+  else { cmpState.task = 'generation'; cmpState.outputType = 'field'; }
+  cmpState.dataScale = null; cmpState.umbrella = null; cmpState.target = null;
+  cmpState.dataset = null; cmpState.targetKey = null; cmpState.dimension = null;
   cmpState.modelA = null; cmpState.modelB = null;
   cmpLoadData();
 };
 window.cmpSetTask = function(v, btn) {
   cmpState.task = v; cmpState.outputType = 'field';
-  cmpState.dataScale = null; cmpState.dataset = null;
-  cmpState.targetKey = null; cmpState.dimension = null;
+  cmpState.dataScale = null; cmpState.umbrella = null; cmpState.target = null;
+  cmpState.dataset = null; cmpState.targetKey = null; cmpState.dimension = null;
   cmpState.modelA = null; cmpState.modelB = null;
   cmpLoadData();
 };
 window.cmpSetOutput = function(v, btn) {
   cmpState.outputType = v;
-  cmpState.dataScale = null; cmpState.dataset = null;
-  cmpState.targetKey = null; cmpState.dimension = null;
+  cmpState.dataScale = null; cmpState.umbrella = null; cmpState.target = null;
+  cmpState.dataset = null; cmpState.targetKey = null; cmpState.dimension = null;
   cmpState.modelA = null; cmpState.modelB = null;
   cmpLoadData();
 };
@@ -2708,20 +2800,44 @@ window.cmpSetSize = function(v, btn) {
   btn.classList.add('active');
   cmpApplyFilters();
 };
-window.cmpSetDataset = function(v, btn) {
-  cmpState.dataset = v; cmpState.targetKey = null; cmpState.dimension = null;
+// (umbrella, target) → resolved (dataset, targetKey). A/B is a concrete
+// head-to-head, so target defaults to the first option (no "All").
+function cmpSelectUmbrella(u) {
+  cmpState.umbrella = u; cmpState.target = null;
+  cmpState.dataset = null; cmpState.targetKey = null; cmpState.dimension = null;
+  if (cmpState.task !== 'prediction') {
+    cmpState.dataset = (umbrellasInData(cmpAllSummary).byUmbrella[u] || [])[0] || null;
+    return;
+  }
+  const tgts = getTargetsForUmbrella(cmpAllSummary, u);
+  if (tgts.length) cmpSelectTarget(tgts[0].key, tgts);
+}
+function cmpSelectTarget(key, tgts) {
+  tgts = tgts || (cmpState.umbrella ? getTargetsForUmbrella(cmpAllSummary, cmpState.umbrella) : []);
+  cmpState.dimension = null;
+  const opt = tgts.find(o => o.key === key) || tgts[0];
+  if (!opt) return;
+  cmpState.target = opt.key; cmpState.dataset = opt.datasetId; cmpState.targetKey = opt.targetKey;
+}
+// Back-fill umbrella/target from an already-resolved dataset/targetKey (URL
+// restore, or the disagreement/distribution seed) so the filter pills match.
+function cmpSyncUmbrellaFromDataset() {
+  if (!cmpState.dataset) return;
+  cmpState.umbrella = datasetUmbrella(cmpState.dataset);
+  const tg = getTargetsForUmbrella(cmpAllSummary, cmpState.umbrella)
+    .find(o => o.datasetId === cmpState.dataset && (o.targetKey === cmpState.targetKey || !cmpState.targetKey));
+  if (tg) { cmpState.target = tg.key; if (!cmpState.targetKey) cmpState.targetKey = tg.targetKey; }
+}
+window.cmpSetUmbrella = function(v, btn) {
+  cmpSelectUmbrella(v);
   btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   cmpRenderLevel3();
   cmpApplyFilters();
 };
-window.cmpSetTK = function(v, btn) {
-  cmpState.targetKey = v; cmpState.dimension = null;
-  btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  const dims = getDimensionsForTargetKey(cmpAllSummary, cmpState.dataset, cmpState.targetKey);
-  cmpState.dimension = dims[0] || null;
-  cmpMakePills('cmp-dimfilter-pills', dims.map(d => ({ value: d, label: d })), cmpState.dimension, 'cmpSetDimFilter');
+window.cmpSetTarget = function(v, btn) {
+  cmpSelectTarget(v);
+  cmpRenderLevel3();   // re-renders Target (active) + Component for the new target
   cmpApplyFilters();
 };
 window.cmpSetDimFilter = function(v, btn) {
@@ -2856,6 +2972,26 @@ function cmpUpdateSampleBtnStates() {
 }
 
 // ── Render all comparison sections ──
+// Collapse a model's per-axis vector rows (x/y/z) into one component-level row
+// by averaging the metric columns (those carrying a ↑/↓ direction marker). With
+// dataset / size / target / component all pinned by the active filters, the only
+// remaining multiplicity in cmpFiltered is Axis, so this fuses exactly the x/y/z
+// fan-out — making a vector Component (Displacement, Velocity, …) read the SAME
+// across Mathematical and Frontier instead of silently showing whichever Axis
+// sorted first. Scalar components (single row) pass through untouched.
+function cmpModelRow(model, rows) {
+  const src = (rows || cmpFiltered).filter(r => r['Model Name'] === model);
+  if (src.length <= 1) return src[0];
+  const out = { ...src[0] };
+  Object.keys(out).forEach(col => {
+    if (!/[↑↓]/.test(col)) return;                       // metric columns only
+    const nums = src.map(r => parseFloat(r[col])).filter(v => !isNaN(v));
+    if (nums.length) out[col] = nums.reduce((a, b) => a + b, 0) / nums.length;
+  });
+  if ('Axis' in out) out['Axis'] = '';                   // component-level, not one axis
+  return out;
+}
+
 function cmpRenderAll() {
   // Qualitative renders its own empty-state card (cmpRenderVisual handles
   // the no-A/B and no-row cases internally), so route to it before the A/B
@@ -2866,15 +3002,18 @@ function cmpRenderAll() {
     return;
   }
   if (!cmpState.modelA || !cmpState.modelB) { cmpHideSections(); return; }
-  const rowA = cmpFiltered.find(r => r['Model Name'] === cmpState.modelA);
-  const rowB = cmpFiltered.find(r => r['Model Name'] === cmpState.modelB);
+  const rowA = cmpModelRow(cmpState.modelA);
+  const rowB = cmpModelRow(cmpState.modelB);
   if (!rowA || !rowB) { cmpHideSections(); return; }
 
   // Mathematical branch — qualitative was routed earlier.
   const headers = Object.keys(rowA);
   const { allMetrics, qualityMetrics } = getSummaryMetricColumns(headers);
   const groups = groupMetricsByCategory(allMetrics, cmpState.dim, cmpState.task);
-  const ranges = getMetricRanges(cmpFiltered, allMetrics);
+  // Normalize radar/bar against component-level rows (axis-aggregated) so the
+  // 0–1 scaling matches the values actually shown, not the wider per-axis spread.
+  const aggRows = [...new Set(cmpFiltered.map(r => r['Model Name']))].map(m => cmpModelRow(m)).filter(Boolean);
+  const ranges = getMetricRanges(aggRows, allMetrics);
   cmpRenderSummary(rowA, rowB, allMetrics);
   cmpRenderRadar(rowA, rowB, qualityMetrics, ranges);
   cmpRenderMetricTable(rowA, rowB, allMetrics, groups, ranges);
@@ -2990,7 +3129,7 @@ function cmpRenderMetricTable(rowA, rowB, metrics, groups, ranges) {
   if (cmpState.dataset) parts.push(displayDataset(cmpState.dataset));
   if (cmpState.dataScale) parts.push('Size ' + SCALE_MAP[cmpState.dataScale]);
   if (cmpState.targetKey) parts.push(cmpState.targetKey);
-  if (cmpState.dimension) parts.push(cmpState.dimension);
+  if (cmpState.dimension) parts.push(componentLabel(cmpState.dimension));
   document.getElementById('cmp-metrics-info').textContent = parts.join(' / ');
 }
 
@@ -3099,9 +3238,13 @@ function cmpRender2DPred(container) {
   const rowB = cmpFiltered.find(r => r['Model Name']===cmpState.modelB && r['Dataset']===ds);
   if (!rowA || !rowB) { container.innerHTML='<div style="text-align:center;padding:20px;color:var(--text-muted);">No data</div>'; return; }
   const sA = Math.round(rowA['Data Size']), sB = Math.round(rowB['Data Size']);
-  const bA = `output/pred2d_field/${cmpState.modelA}/${ds}/${sA}`;
-  const bB = `output/pred2d_field/${cmpState.modelB}/${ds}/${sB}`;
+  // Canonical on-disk layout is pred2d_field/{model}/{dataset}/{tk}/{size}/ —
+  // the target-key segment is mandatory (defined before the base paths so it
+  // isn't omitted, which 404'd every pred PNG for multi-target datasets like
+  // deepjeb_2d_2d_structural/stress).
   const tk = rowA['Target Key'] || rowB['Target Key'] || 'depth';
+  const bA = `output/pred2d_field/${cmpState.modelA}/${ds}/${tk}/${sA}`;
+  const bB = `output/pred2d_field/${cmpState.modelB}/${ds}/${tk}/${sB}`;
   const gt = `output/pred2d_field/_gt/${ds}/${tk}`;
   const nA = displayModelName(cmpState.modelA), nB = displayModelName(cmpState.modelB);
   const idx = String(cmpState.sampleIndex).padStart(5, '0');
@@ -3128,16 +3271,16 @@ function cmpRender2DPred(container) {
   let html = `<div class="cmp-grid">${buildHalf(nA, '#38bdf8', bA, sA)}${buildHalf(nB, '#f472b6', bB, sB)}</div>`;
   html += `<div class="f2d-legend">
     <div class="f2d-legend-row">
-      <span class="f2d-legend-title">Depth (GT &amp; Pred)</span>
-      <div class="f2d-legend-bar f2d-legend-grayscale"></div>
-      <div class="f2d-legend-labels"><span>near</span><span>far</span></div>
+      <span class="f2d-legend-title">Field (GT &amp; Pred)</span>
+      <div class="f2d-legend-bar f2d-legend-turbo"></div>
+      <div class="f2d-legend-labels"><span>low</span><span>high</span></div>
     </div>
     <div class="f2d-legend-row">
       <span class="f2d-legend-title">|Pred − GT|</span>
-      <div class="f2d-legend-bar f2d-legend-jet"></div>
+      <div class="f2d-legend-bar f2d-legend-turbo"></div>
       <div class="f2d-legend-labels"><span>0</span><span>p95</span></div>
     </div>
-    <div class="f2d-legend-note">Depth rendered as grayscale over the per-cell GT/Pred union range; error uses inferno capped at 95th-percentile |Δ|.</div>
+    <div class="f2d-legend-note">Rendered with the turbo colormap over the per-cell GT/Pred union range (unified with the 3D-field viewer); error capped at the 95th-percentile |Δ|.</div>
   </div>`;
 
   container.innerHTML = html;
@@ -3155,25 +3298,39 @@ async function cmpRenderScalar(container) {
     container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);">Select dataset and target key</div>';
     return;
   }
+  // 1D tabular/timeseries datasets have no spatial input shape (no `_shapes`). Show
+  // the A/B calibration ribbon instead — GT line + both models' predictions overlaid
+  // (cyan A / pink B), the same shared view as the benchmark gallery + explorer.
+  if (cmpState.dim === '1d') { return cmpRender1DRibbon(container, ds, tk); }
   const rowA = cmpFiltered.find(r => r['Model Name'] === cmpState.modelA);
   const rowB = cmpFiltered.find(r => r['Model Name'] === cmpState.modelB);
   if (!rowA || !rowB) { container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);">No data</div>'; return; }
   const sA = Math.round(rowA['Data Size']), sB = Math.round(rowB['Data Size']);
   const nA = displayModelName(cmpState.modelA), nB = displayModelName(cmpState.modelB);
+  // Scalar visual assets (shapes manifest + per-model pred JSON + shape thumbnails)
+  // are published under the UMBRELLA dataset name (deepwheel_{2,3}d_1d); the
+  // summary/filter carries the split analysis name (..._mass / ..._modal). Strip
+  // the suffix so the asset paths resolve (otherwise every fetch 404s → blank view).
+  const assetDs = ds.replace(/_(mass|modal)$/, '');
+  // The manifest/JSON target ranges + sample GT + predictions are keyed by the
+  // per-COMPONENT label (modal → mode_freq_7/11), NOT the coupled summary Target
+  // Key (natural_frequencies). Use the Component (cmpState.dimension) when present,
+  // else the Target Key (mass has no component) — otherwise modal cards go blank.
+  const tkKey = cmpState.dimension || tk;
 
   container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">Loading shapes…</div>';
   const [manifest, predA, predB] = await Promise.all([
-    loadScalarShapeManifest(ds),
-    loadScalarPredJson(cmpState.modelA, sA, ds),
-    loadScalarPredJson(cmpState.modelB, sB, ds),
+    loadScalarShapeManifest(assetDs),
+    loadScalarPredJson(cmpState.modelA, sA, assetDs),
+    loadScalarPredJson(cmpState.modelB, sB, assetDs),
   ]);
   if (!manifest) {
     container.innerHTML = `<div style="padding:20px;color:rgba(255,255,255,0.4);font-size:13px;background:rgba(255,255,255,0.025);border:1px dashed rgba(255,255,255,0.12);border-radius:0;text-align:center;">
-      Per-sample shapes not exported yet — run <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:1px;">python tools/websites/scripts/convert_pred_scalar_shapes.py</code>
+      Per-sample shapes not exported yet — run <code style="background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:1px;">python websites/scripts/convert_pred_scalar_shapes.py</code>
     </div>`;
     return;
   }
-  const range = manifest.target_ranges[tk] || { min: 0, max: 1, p05: 0, p95: 1 };
+  const range = manifest.target_ranges[tkKey] || { min: 0, max: 1, p05: 0, p95: 1 };
 
   // Side-by-side A | B columns (matches 2D/3D Gen + 2D Field Pred convention).
   // Each column stacks `count` sample cards vertically so the user can scan A
@@ -3189,13 +3346,13 @@ async function cmpRenderScalar(container) {
       if (slot >= total) break;
       const sample = manifest.samples[slot];
       if (!sample) continue;
-      const gtVal = sample.gt[tk];
-      const predVal = (predJson && predJson.targets && predJson.targets[tk])
-        ? predJson.targets[tk].pred[slot] : NaN;
-      cards.push(scalarBuildCard(slot, scalarBuildShapeHTML(ds, slot), gtVal, predVal, range, color));
+      const gtVal = sample.gt[tkKey];
+      const predVal = (predJson && predJson.targets && predJson.targets[tkKey])
+        ? predJson.targets[tkKey].pred[slot] : NaN;
+      cards.push(scalarBuildCard(slot, scalarBuildShapeHTML(assetDs, slot), gtVal, predVal, range, color));
     }
     return `<div class="cmp-half">
-      <div style="font-size:11px;font-weight:700;color:${color};margin-bottom:6px;">${modelName} · N=${sizeN} · ${tk}</div>
+      <div style="font-size:11px;font-weight:700;color:${color};margin-bottom:6px;">${modelName} · N=${sizeN} · ${componentLabel(tkKey)}</div>
       <div style="display:flex;flex-direction:column;gap:10px;">${cards.join('')}</div>
     </div>`;
   }
@@ -3206,10 +3363,65 @@ async function cmpRenderScalar(container) {
   const lastSlot = Math.min(startSlot + count - 1, total - 1);
   const slotLabel = lastSlot === startSlot ? `#${startSlot}` : `#${startSlot}–${lastSlot}`;
   html += `<div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.35);text-align:center;">
-    Showing samples ${slotLabel} of ${total}. Axis spans the dataset's 5–95th percentile of ${tk}. Hollow ring = GT, filled dot = prediction.
+    Showing samples ${slotLabel} of ${total}. Axis spans the dataset's 5–95th percentile of ${componentLabel(tkKey)}. Hollow ring = GT, filled dot = prediction.
   </div>`;
   container.innerHTML = html;
   initScalarShape3DCells(container);
+}
+
+// 1D scalar A/B calibration ribbon (Qualitative tab). Test samples sorted by GT
+// (monotone green reference line) with Model A (cyan) + Model B (pink) predictions
+// overlaid on the SAME axis — direct head-to-head of where each model deviates.
+// Uses the shared drawer (viz-common.js) so it matches the benchmark + explorer view.
+async function cmpRender1DRibbon(container, ds, tk) {
+  const ma = cmpState.modelA, mb = cmpState.modelB;
+  const rowA = cmpFiltered.find(r => r['Model Name'] === ma);
+  const rowB = cmpFiltered.find(r => r['Model Name'] === mb);
+  if (!rowA || !rowB) { container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);">No data</div>'; return; }
+  const sA = Math.round(rowA['Data Size']), sB = Math.round(rowB['Data Size']);
+  const nA = displayModelName(ma), nB = displayModelName(mb);
+
+  container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">Loading…</div>';
+  const [predA, predB] = await Promise.all([
+    loadScalarPredJson(ma, sA, ds),
+    loadScalarPredJson(mb, sB, ds),
+  ]);
+  const pick = (p) => p && p.targets && (p.targets[tk] || p.targets[Object.keys(p.targets)[0]]);
+  const tA = pick(predA), tB = pick(predB);
+  if (!tA || !tB || !tA.gt || !tB.pred) {
+    container.innerHTML = _analysisEmptyState('Qualitative',
+      'Prediction arrays not available for one of the selected models at this Data Size.',
+      undefined, _FRONTIER_ESCAPE_ACTIONS);
+    return;
+  }
+
+  const xLbl = isRulTarget(ds, tk) ? 'actual RUL' : `actual (${tk})`;
+  const stA = scalar1DStats(tA.gt, tA.pred), stB = scalar1DStats(tB.gt, tB.pred);
+  const fmt = (v) => isFinite(v) ? (Math.abs(v) < 0.01 && v !== 0 ? v.toExponential(2) : v.toFixed(3)) : '—';
+
+  container.innerHTML = `
+    <div class="glass" style="padding:16px 20px; margin-top:14px;">
+      <div class="section-label section-label-purple" style="margin-bottom:10px;">Predicted vs actual — A/B head-to-head</div>
+      <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:10px; font-size:11px;">
+        <span><span style="color:#38bdf8; font-weight:700;">${nA}</span> <span style="color:var(--text-muted);">R² ${fmt(stA.r2)} · MAE ${fmt(stA.mae)} · N=${sA}</span></span>
+        <span><span style="color:#f472b6; font-weight:700;">${nB}</span> <span style="color:var(--text-muted);">R² ${fmt(stB.r2)} · MAE ${fmt(stB.mae)} · N=${sB}</span></span>
+      </div>
+      <div style="position:relative; height:380px; background:rgba(0,0,0,0.25); padding:8px;"><canvas id="cmp-1d-ribbon"></canvas></div>
+      <div style="margin-top:8px; font-size:10px; color:rgba(255,255,255,0.35); text-align:center;">
+        Predicted vs actual — each model's median prediction + P25–P75 band across ${xLbl} bins, vs the dashed y = x diagonal. The curve riding the diagonal is the better model; bending below it = under-prediction.
+      </div>
+    </div>`;
+
+  if (window._cmp1dRibbon) { try { window._cmp1dRibbon.destroy(); } catch (e) {} }
+  window._cmp1dRibbon = buildScalar1DCalib(document.getElementById('cmp-1d-ribbon'), {
+    gt: tA.gt,
+    series: [
+      { pred: tA.pred, color: 'rgba(56,189,248,0.95)', label: nA },
+      { pred: tB.pred, color: 'rgba(244,114,182,0.95)', label: nB },
+    ],
+    bins: 24, band: true, showLegend: true, legendPosition: 'top',
+    xTitle: xLbl, yTitle: 'predicted',
+  });
 }
 
 function cmpRender2D(container) {
@@ -3315,11 +3527,12 @@ function cmpRender3DGen(container) {
 function cmpRender3DPred(container) {
   const ds = cmpState.dataset, tk = cmpState.targetKey, dim = cmpState.dimension;
   if (!ds||!tk) { container.innerHTML='<div style="text-align:center;padding:20px;color:var(--text-muted);">Select dataset and target key</div>'; return; }
-  const CHS = {
-    'deepjeb_3d_2d':{ 'vertical':['disp_x','disp_y','disp_z','stress'],'horizontal':['disp_x','disp_y','disp_z','stress'],'diagonal':['disp_x','disp_y','disp_z','stress'],'torsion':['disp_x','disp_y','disp_z','stress'],'mode_shape_1':['mode_x','mode_y','mode_z'],'mode_shape_2':['mode_x','mode_y','mode_z'] },
-    'drivaernet_3d_2d':{ 'velocity':['velocity_x','velocity_y','velocity_z'],'pressure':['pressure'],'pv_coupled':['pressure','velocity_x','velocity_y','velocity_z'],'body_pressure':['body_pressure'] },
-  };
-  const channels = (CHS[ds]&&CHS[ds][tk])||[];
+  // milestone9.x canonical: keyed by split dataset id → { bin_target_key → channels }.
+  // The summary Target Key `tk` is the coupled label (e.g. displacement+von_mises) and
+  // does NOT key the bins — derive the bin token from the dataset's channel map instead.
+  const CHS = EVAL3D_CHANNELS;  // shared/viz-common.js (loaded above)
+  const binTk = Object.keys(CHS[ds] || {})[0];   // dataset's primary bin token (modal → mode_shape_1)
+  const channels = (binTk && CHS[ds][binTk]) || [];
   const chIdx = dim ? Math.max(0,channels.indexOf(dim)) : 0;
   const dataSize = Math.round((cmpFiltered[0]||{})['Data Size']||0);
   const sizeCode = getEval3DSizeCode(dataSize);
@@ -3332,13 +3545,13 @@ function cmpRender3DPred(container) {
   // Model A
   const vA = `cmp-pred-a-s${s}`;
   html += `<div class="cmp-half"><div style="font-size:11px;font-weight:700;color:#38bdf8;margin-bottom:8px;">${nA}</div>
-    <div id="${vA}" class="cmp-pred-viewer" data-model="${cmpState.modelA}" data-size="${dataSize}" data-size-code="${sizeCode}" data-dataset="${ds}" data-target-key="${tk}" data-channels='${JSON.stringify(channels)}' data-init-channel="${chIdx}" data-sample="${s}" data-layout="vertical">
+    <div id="${vA}" class="cmp-pred-viewer" data-model="${cmpState.modelA}" data-size="${dataSize}" data-size-code="${sizeCode}" data-dataset="${ds}" data-target-key="${binTk}" data-channels='${JSON.stringify(channels)}' data-init-channel="${chIdx}" data-sample="${s}" data-layout="vertical">
       <div style="text-align:center;padding:30px;color:rgba(255,255,255,0.3);font-size:13px;">Loading...</div></div></div>`;
 
   // Model B
   const vB = `cmp-pred-b-s${s}`;
   html += `<div class="cmp-half"><div style="font-size:11px;font-weight:700;color:#f472b6;margin-bottom:8px;">${nB}</div>
-    <div id="${vB}" class="cmp-pred-viewer" data-model="${cmpState.modelB}" data-size="${dataSize}" data-size-code="${sizeCode}" data-dataset="${ds}" data-target-key="${tk}" data-channels='${JSON.stringify(channels)}' data-init-channel="${chIdx}" data-sample="${s}" data-layout="vertical">
+    <div id="${vB}" class="cmp-pred-viewer" data-model="${cmpState.modelB}" data-size="${dataSize}" data-size-code="${sizeCode}" data-dataset="${ds}" data-target-key="${binTk}" data-channels='${JSON.stringify(channels)}' data-init-channel="${chIdx}" data-sample="${s}" data-layout="vertical">
       <div style="text-align:center;padding:30px;color:rgba(255,255,255,0.3);font-size:13px;">Loading...</div></div></div>`;
 
   html += '</div>';
@@ -3514,6 +3727,8 @@ function _analysisSeedPerSampleFilters(cat) {
   if (!cmpState.dataset)   _set('dataset',   seed['Dataset']);
   if (!cmpState.targetKey) _set('targetKey', seed['Target Key']);
   if (!cmpState.dataScale) _set('dataScale', seed['Data Scale']);
+  // Keep the umbrella/target pills in sync with the seeded dataset/targetKey.
+  if (jumped) cmpSyncUmbrellaFromDataset();
   if (jumped && typeof cmpApplyFilters === 'function') {
     cmpApplyFilters();
     return true;
@@ -3717,7 +3932,7 @@ const _f2dMAECache = {};
 async function _compute2DFieldPerSampleMAE(model, dataset, sizeFolder, targetKey, sampleCount) {
   const cacheKey = `${model}|${dataset}|${sizeFolder}|${targetKey}|${sampleCount}`;
   if (_f2dMAECache[cacheKey]) return _f2dMAECache[cacheKey];
-  const predBase = `output/pred2d_field/${model}/${dataset}/${sizeFolder}`;
+  const predBase = `output/pred2d_field/${model}/${dataset}/${targetKey}/${sizeFolder}`;
   const gtBase   = `output/pred2d_field/_gt/${dataset}/${targetKey}`;
   const tasks = [];
   for (let i = 0; i < sampleCount; i++) {
@@ -3733,13 +3948,21 @@ async function _compute2DFieldPerSampleMAE(model, dataset, sizeFolder, targetKey
       if (!predImg || !gtImg) return null;
       const W = predImg.width, H = predImg.height;
       if (gtImg.width !== W || gtImg.height !== H) return null;
-      const pg = _f2dImageToGray(predImg), gg = _f2dImageToGray(gtImg);
+      // _f2dImageToGray returns { gray, W, H } — destructure the Float32Array.
+      // (A prior refactor changed this helper from a flat array to an object but
+      // left this caller reading `pg.length`/`pg[k]`, so n was undefined and
+      // every per-sample MAE came out 0/undefined = NaN — the Distribution /
+      // Disagreement 2D-field tabs showed "mean MAE NaN".)
+      const { gray: pg } = _f2dImageToGray(predImg);
+      const { gray: gg } = _f2dImageToGray(gtImg);
       let sum = 0, n = pg.length;
       for (let k = 0; k < n; k++) sum += Math.abs(pg[k] - gg[k]);
       return sum / n;
     }));
   }
-  const maes = (await Promise.all(tasks)).filter(v => v != null);
+  // Drop nulls (decode failures) AND NaN (mismatched/empty gray arrays) — a bare
+  // `!= null` keeps NaN, which would poison the downstream mean/histogram.
+  const maes = (await Promise.all(tasks)).filter(v => v != null && !isNaN(v));
   _f2dMAECache[cacheKey] = maes;
   return maes;
 }
@@ -3959,9 +4182,14 @@ function analysisRenderTrajectory() {
   // show positive % when the value drops, so green/red can read uniformly.
   const firstSize = sizeOrder[0], lastSize = sizeOrder[sizeOrder.length - 1];
   const _fmt = (v) => (v == null || isNaN(v)) ? '—' : (+v).toFixed(3);
+  // Average across rows at this size — a vector Component (e.g. displacement)
+  // has one row per Axis (x/y/z), so we plot the component's mean-over-axes
+  // trajectory instead of whichever axis happened to sort first. (Trajectory is
+  // a per-metric data-scale view; a separate Axis selector would be needless
+  // granularity here — the component mean is the right altitude.)
   const _getAt = (rows, size, col) => {
-    const r = rows.find(r => +r['Data Size'] === size);
-    return r && !isNaN(+r[col]) ? +r[col] : null;
+    const vals = rows.filter(r => +r['Data Size'] === size && !isNaN(+r[col])).map(r => +r[col]);
+    return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
   };
   function _improvementCell(start, end, col) {
     if (start == null || end == null || start === 0) return `<td style="text-align:right; color:rgba(255,255,255,0.3);">n/a</td>`;
@@ -4054,8 +4282,8 @@ function analysisRenderTrajectory() {
   metricCols.forEach((col, idx) => {
     const ctx = document.getElementById(`traj-chart-${idx}`);
     if (!ctx) return;
-    const dataA = sizeOrder.map(sz => { const r = rowsA.find(r => +r['Data Size'] === sz); return r && !isNaN(+r[col]) ? +r[col] : null; });
-    const dataB = sizeOrder.map(sz => { const r = rowsB.find(r => +r['Data Size'] === sz); return r && !isNaN(+r[col]) ? +r[col] : null; });
+    const dataA = sizeOrder.map(sz => _getAt(rowsA, sz, col));
+    const dataB = sizeOrder.map(sz => _getAt(rowsB, sz, col));
     window._trajCharts.push(new Chart(ctx, {
       type: 'line',
       // spanGaps:false so a missing N (e.g. model measured only at N=20 and
@@ -4129,6 +4357,12 @@ async function analysisRenderDistribution() {
 
   const ma = cmpState.modelA, mb = cmpState.modelB;
   const ds = cmpState.dataset, tk = cmpState.targetKey;
+  // Scalar pred JSON is published under the UMBRELLA dataset name (deepwheel_{2,3}d_1d);
+  // the filter carries the split analysis name (..._mass / ..._modal). Strip the suffix
+  // so the fetch resolves (otherwise it 404s → "Couldn't load data"). The JSON target key
+  // is the Component (modal → mode_freq_7/11) when present, else the Target Key (mass).
+  const assetDs = ds.replace(/_(mass|modal)$/, '');
+  const tkKey = cmpState.dimension || tk;
   if (!ma || !mb) {
     c.innerHTML = _analysisEmptyState('Distribution', _pickSeriesPrompt() +
       ' Distribution shows residual histograms, Bland-Altman scatter, and MAE by GT quartile.');
@@ -4142,12 +4376,13 @@ async function analysisRenderDistribution() {
   const signal = _analysisFetchAbort && _analysisFetchAbort.signal;
   try {
     const [jsonA, jsonB] = await Promise.all([
-      loadScalarPredJson(ma, +rowA['Data Size'], ds),
-      loadScalarPredJson(mb, +rowB['Data Size'], ds),
+      loadScalarPredJson(ma, +rowA['Data Size'], assetDs),
+      loadScalarPredJson(mb, +rowB['Data Size'], assetDs),
     ]);
     if (signal && signal.aborted) return;
-    const tA = jsonA.targets[tk], tB = jsonB.targets[tk];
-    if (!tA || !tB) { renderError(c, `Target "${tk}" not found in one of the JSONs.`); return; }
+    if (!jsonA || !jsonB) { renderError(c, `Per-sample predictions not found for ${assetDs} (N=${+rowA['Data Size']}/${+rowB['Data Size']}).`, () => analysisRenderDistribution()); return; }
+    const tA = jsonA.targets[tkKey], tB = jsonB.targets[tkKey];
+    if (!tA || !tB) { renderError(c, `Target "${tkKey}" not found in one of the JSONs.`); return; }
 
     const errA = tA.gt.map((g,i) => g - tA.pred[i]);
     const errB = tB.gt.map((g,i) => g - tB.pred[i]);
@@ -4217,7 +4452,7 @@ async function analysisRenderDistribution() {
     c.innerHTML = `<div class="glass" style="padding:18px 22px; margin-top:14px;">
       <div class="section-label section-label-purple" style="margin-bottom:10px; font-size:13px;">Distribution — Residual Analysis</div>
       ${_methodologyHTML('distribution')}
-      <div style="font-size:12px; color:var(--text-muted); margin-bottom:16px;">${displayModelName(ma)} vs ${displayModelName(mb)} on <strong>${tk}</strong> (${ds}, N=${+rowA['Data Size']}/${+rowB['Data Size']})</div>
+      <div style="font-size:12px; color:var(--text-muted); margin-bottom:16px;">${displayModelName(ma)} vs ${displayModelName(mb)} on <strong>${componentLabel(tkKey)}</strong> (${ds}, N=${+rowA['Data Size']}/${+rowB['Data Size']})</div>
 
       <!-- A/B headline cards — Distribution's loudest element. bias is the
            focal number, with MAE/RMSE/R² and outlier share spelled out
@@ -4252,7 +4487,7 @@ async function analysisRenderDistribution() {
         </div>
       </div>
 
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(480px, 1fr)); gap:18px;">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(480px,100%), 1fr)); gap:18px;">
         <div style="background:rgba(255,255,255,0.025); border:1px solid var(--border-subtle); border-radius:0; padding:18px;">
           <div style="font-size:14px; font-weight:700; color:#fff; margin-bottom:12px;">Residual Histogram <span style="font-weight:500; color:var(--text-muted); font-size:11px;">— gt − pred · ${nBins} bins</span></div>
           <div style="height:380px;"><canvas id="dist-hist"></canvas></div>
@@ -4354,6 +4589,11 @@ async function analysisRenderDisagreement() {
   }
   const ma = cmpState.modelA, mb = cmpState.modelB;
   const ds = cmpState.dataset, tk = cmpState.targetKey;
+  // Scalar pred JSON lives under the UMBRELLA dataset name (deepwheel_{2,3}d_1d); strip the
+  // ..._mass / ..._modal split suffix so the fetch resolves, and look the target up by the
+  // Component (modal → mode_freq_7/11) when present, else the Target Key (mass). See Distribution.
+  const assetDs = ds.replace(/_(mass|modal)$/, '');
+  const tkKey = cmpState.dimension || tk;
   if (!ma || !mb) {
     c.innerHTML = _analysisEmptyState('Disagreement', _pickSeriesPrompt() +
       ' Disagreement highlights samples where the two series differ most — useful for finding cases each model uniquely handles.');
@@ -4367,12 +4607,13 @@ async function analysisRenderDisagreement() {
   const signal = _analysisFetchAbort && _analysisFetchAbort.signal;
   try {
     const [jsonA, jsonB] = await Promise.all([
-      loadScalarPredJson(ma, +rowA['Data Size'], ds),
-      loadScalarPredJson(mb, +rowB['Data Size'], ds),
+      loadScalarPredJson(ma, +rowA['Data Size'], assetDs),
+      loadScalarPredJson(mb, +rowB['Data Size'], assetDs),
     ]);
     if (signal && signal.aborted) return;
-    const tA = jsonA.targets[tk], tB = jsonB.targets[tk];
-    if (!tA || !tB) { renderError(c, `Target "${tk}" not found.`); return; }
+    if (!jsonA || !jsonB) { renderError(c, `Per-sample predictions not found for ${assetDs} (N=${+rowA['Data Size']}/${+rowB['Data Size']}).`, () => analysisRenderDisagreement()); return; }
+    const tA = jsonA.targets[tkKey], tB = jsonB.targets[tkKey];
+    if (!tA || !tB) { renderError(c, `Target "${tkKey}" not found.`); return; }
     const N = Math.min(tA.gt.length, tB.gt.length);
     const samples = Array.from({length: N}, (_, i) => {
       const errA = Math.abs(tA.gt[i] - tA.pred[i]);
@@ -4424,7 +4665,7 @@ async function analysisRenderDisagreement() {
       <div class="section-label section-label-purple" style="margin-bottom:8px;">Disagreement — sample-level</div>
       ${_methodologyHTML('disagreement')}
       <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">
-        ${displayModelName(ma)} vs ${displayModelName(mb)} on <strong>${tk}</strong> (${ds}, N=${N} samples)
+        ${displayModelName(ma)} vs ${displayModelName(mb)} on <strong>${componentLabel(tkKey)}</strong> (${ds}, N=${N} samples)
       </div>
       ${table('Top 10 — largest |err A − err B|', topK, '#fbbf24')}
       ${table('Both wrong — both errors above median + MAD', bothWrong, '#f87171')}
@@ -4586,7 +4827,7 @@ async function _analysisRenderDistributionField3D(c) {
   }
   const rowA = (cmpFiltered || []).find(r => r['Model Name'] === ma);
   const rowB = (cmpFiltered || []).find(r => r['Model Name'] === mb);
-  if (!rowA || !rowB) { c.innerHTML = _analysisEmptyState('Distribution', 'Both Model A and B need a row at the current Data Size and Target Key. Adjust the filters above so a complete pair exists.'); return; }
+  if (!rowA || !rowB) { c.innerHTML = _analysisEmptyState('Distribution', 'Both Model A and B need a row at the current Data Size and Target Key. Adjust the filters above so a complete pair exists.', undefined, _FRONTIER_ESCAPE_ACTIONS); return; }
   if (!tk) { c.innerHTML = _analysisEmptyState('Distribution', 'Pick a Target Key above so the per-sample residual file can be located.'); return; }
 
   c.innerHTML = `<div class="glass" style="padding:18px 20px; margin-top:14px;"><div class="skel-bar"></div><div class="skel-bar" style="width:80%;"></div><div class="skel-bar" style="width:65%;"></div></div>`;
@@ -4820,7 +5061,7 @@ async function _analysisRenderDisagreementField3D(c) {
   }
   const rowA = (cmpFiltered || []).find(r => r['Model Name'] === ma);
   const rowB = (cmpFiltered || []).find(r => r['Model Name'] === mb);
-  if (!rowA || !rowB) { c.innerHTML = _analysisEmptyState('Disagreement', 'Both Model A and B need a row at the current Data Size and Target Key. Adjust the filters above so a complete pair exists.'); return; }
+  if (!rowA || !rowB) { c.innerHTML = _analysisEmptyState('Disagreement', 'Both Model A and B need a row at the current Data Size and Target Key. Adjust the filters above so a complete pair exists.', undefined, _FRONTIER_ESCAPE_ACTIONS); return; }
   if (!tk) { c.innerHTML = _analysisEmptyState('Disagreement', 'Pick a Target Key above so the per-sample residual file can be located.'); return; }
 
   c.innerHTML = `<div class="glass" style="padding:18px 20px; margin-top:14px;"><div class="skel-bar"></div><div class="skel-bar" style="width:80%;"></div><div class="skel-bar" style="width:65%;"></div></div>`;
@@ -4905,7 +5146,12 @@ async function analysisRenderFrontier() {
       'Pick a Dimension / Task / Data Size / Dataset above (and a Target if applicable). Frontier shows every model in that selection on a Parameters vs Metric scatter, with the Pareto frontier traced.');
     return;
   }
-  const rows = cmpFiltered.filter(r => r['Parameters (M)'] && !isNaN(+r['Parameters (M)']));
+  // Collapse a vector component's per-axis rows to one component-level row per
+  // model first — otherwise a model appears 3× on the frontier (one point per
+  // x/y/z axis). Matches the Mathematical tab's component-level aggregation.
+  const rows = [...new Set(cmpFiltered.map(r => r['Model Name']))]
+    .map(m => cmpModelRow(m))
+    .filter(r => r && r['Parameters (M)'] && !isNaN(+r['Parameters (M)']));
   if (rows.length < 2) {
     c.innerHTML = _analysisEmptyState('Frontier — degraded mode',
       `Need at least 2 models for a meaningful frontier (currently ${rows.length}). This task family doesn\'t yet have enough rows. The roadmap adds more models over time.`);
@@ -5398,8 +5644,13 @@ async function analysisRenderProgression() {
   catch (e) { renderError(c, 'Failed to load models_meta.json: ' + (e.message || e), () => analysisRenderProgression()); return; }
   if (signal && signal.aborted) return;
 
-  const rows = cmpFiltered.filter(r => meta[r['Model Name']]);
-  const missing = cmpFiltered.filter(r => !meta[r['Model Name']]).map(r => r['Model Name']);
+  // Collapse a vector component's per-axis rows (x/y/z) to one component-level
+  // row per model first — otherwise a model is plotted 3× on the Year/Family
+  // scatter and the per-year median/IQR/best-so-far stats are triple-counted.
+  // Matches Frontier (cmpModelRow) and the Mathematical tab's aggregation.
+  const _progModels = [...new Set(cmpFiltered.map(r => r['Model Name']))];
+  const rows = _progModels.map(m => cmpModelRow(m)).filter(r => r && meta[r['Model Name']]);
+  const missing = _progModels.filter(m => !meta[m]);
 
   if (rows.length < 2) {
     c.innerHTML = _analysisEmptyState('Progression',
@@ -5607,7 +5858,7 @@ async function analysisRenderProgression() {
     </div>
     ${tableHTML}
     ${missing.length ? `<div style="margin-top:14px; font-size:11px; color:var(--text-muted); padding:8px 12px; background:rgba(255,255,255,0.02); border-radius:0;">
-      <strong>Missing metadata:</strong> ${missing.join(', ')} — add them to <code style="background:rgba(255,255,255,0.05); padding:1px 4px; border-radius:1px;">tools/websites/output/data/models_meta.json</code> to include in this plot.
+      <strong>Missing metadata:</strong> ${missing.join(', ')} — add them to <code style="background:rgba(255,255,255,0.05); padding:1px 4px; border-radius:1px;">websites/output/data/models_meta.json</code> to include in this plot.
     </div>` : ''}
   </div>`;
 
@@ -5675,7 +5926,7 @@ async function analysisRenderProgression() {
       },
       scales: {
         x: xConfig,
-        y: { reverse: !higherBetter, title: { display: true, text: shortMetricLabel(chosen) + ' (up = better)', font: {size:10} }, ticks: { font: {size:9} } },
+        y: { reverse: !higherBetter, title: { display: true, text: shortMetricLabel(chosen) + ' (↑ better)', font: {size:10} }, ticks: { font: {size:9} } },
       },
     },
   });
@@ -5714,6 +5965,10 @@ function ieSync() {
     cat: cat,
     mode: (cat === 'mathematical' || cat === 'qualitative') ? cmpState.mode : null,
     dim: cmpState.dim, task: cmpState.task,
+    // outputType is read back on restore (and the leaderboard sends `output`),
+    // so it must round-trip — else a pill click rewrites the hash without it
+    // and a refresh/back silently drops a Scalar selection to the Field default.
+    output: cmpState.outputType,
     scale: cmpState.dataScale, ds: cmpState.dataset,
     tk: cmpState.targetKey, d: cmpState.dimension,
     ma: cmpState.modelA, mb: cmpState.modelB,
@@ -5734,16 +5989,20 @@ function analysisInitFromURL() {
   // without crafting a hash:
   //   analysis.html?dim=3d&task=prediction&output=field&ds=deepjeb_3d_2d&size=200&tk=mass&a=transolver_pp
   const qs = new URLSearchParams(window.location.search);
-  ['dim','task','output','scale','ds','tk','d','ma','mb','a','b','axis','cat','mode','size','model','fm','pxa','pm'].forEach(k => {
+  ['dim','task','output','scale','ds','tk','d','ma','mb','a','b','cat','mode','size','model','fm','pxa','pm'].forEach(k => {
     if (h[k] === undefined && qs.has(k)) h[k] = qs.get(k);
   });
-  // Aliases (leaderboard sends `model` / `size` / `output` / `axis=model`)
+  // Aliases (leaderboard sends `a` for Model A; `model` / `size` kept as legacy)
   if (h.model && !h.ma) h.ma = h.model;
   if (h.size  && !h.scale) h.scale = h.size;
 
   if (h.dim) cmpState.dim = h.dim;
   if (h.task) cmpState.task = h.task;
   if (h.output) cmpState.outputType = h.output;
+  // 1D is scalar-prediction-only — a URL that sets dim=1d without task/output
+  // (or with stale field/generation values) would build a nonexistent
+  // dimension_1d/{generation,prediction/field} category. Normalize like cmpSetDim.
+  if (cmpState.dim === '1d') { cmpState.task = 'prediction'; cmpState.outputType = 'scalar'; }
   if (h.scale) cmpState.dataScale = h.scale;
   if (h.ds) cmpState.dataset = h.ds;
   if (h.tk) cmpState.targetKey = h.tk;

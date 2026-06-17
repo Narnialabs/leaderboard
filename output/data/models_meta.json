@@ -16,8 +16,11 @@
     "pointmlp_elite_scalar":           { "year": 2022, "venue": "ICLR",     "family": "MLP",          "paper_url": "https://arxiv.org/abs/2202.07123" },
     "transolver":                      { "year": 2024, "venue": "ICML",     "family": "Transformer", "paper_url": "https://arxiv.org/abs/2402.02366" },
     "transolver_pp":                   { "year": 2024, "venue": "ICML",     "family": "Transformer", "paper_url": "https://arxiv.org/abs/2402.02366" },
-    "abupt":                           { "year": 2024, "venue": "(custom)", "family": "UPT",          "paper_url": null },
     "geofno":                          { "year": 2022, "venue": "arXiv",    "family": "FNO",          "paper_url": "https://arxiv.org/abs/2207.05209" },
+    "linearno":                        { "year": 2026, "venue": "AAAI",     "family": "Neural Operator", "paper_url": "https://arxiv.org/abs/2511.06294" },
+    "linearno_big":                    { "year": 2026, "venue": "AAAI",     "family": "Neural Operator", "paper_url": "https://arxiv.org/abs/2511.06294" },
+    "geotransolver":                   { "year": 2025, "venue": "arXiv",    "family": "Transformer", "paper_url": "https://arxiv.org/abs/2512.20399" },
+    "domino":                          { "year": 2025, "venue": "arXiv",    "family": "Neural Operator", "paper_url": "https://arxiv.org/abs/2501.13350" },
 
     "unet_simple":                     { "year": 2015, "venue": "MICCAI",   "family": "U-Net",        "paper_url": "https://arxiv.org/abs/1505.04597" },
     "resnet_unet":                     { "year": 2015, "venue": "MICCAI",   "family": "U-Net",        "paper_url": "https://arxiv.org/abs/1505.04597" },
@@ -52,11 +55,22 @@
     "atlasnet":                        { "year": 2018, "venue": "CVPR",     "family": "AtlasNet",    "paper_url": "https://arxiv.org/abs/1802.05384" },
     "diffusionpointcloud":             { "year": 2021, "venue": "CVPR",     "family": "Diffusion",   "paper_url": "https://arxiv.org/abs/2103.01458" },
     "gan3d":                           { "year": 2016, "venue": "NeurIPS",  "family": "GAN",          "paper_url": "https://arxiv.org/abs/1610.07584" },
-    "3D-GAN":                          { "year": 2016, "venue": "NeurIPS",  "family": "GAN",          "paper_url": "https://arxiv.org/abs/1610.07584" },
-    "Diffusion3D":                     { "year": 2021, "venue": "CVPR",     "family": "Diffusion",   "paper_url": "https://arxiv.org/abs/2103.01458" },
-    "ShapeGF":                         { "year": 2020, "venue": "ECCV",     "family": "Score-based", "paper_url": "https://arxiv.org/abs/2008.06520" },
-    "PointFlow":                       { "year": 2019, "venue": "ICCV",     "family": "Flow",         "paper_url": "https://arxiv.org/abs/1906.12320" },
-    "AtlasNet":                        { "year": 2018, "venue": "CVPR",     "family": "AtlasNet",    "paper_url": "https://arxiv.org/abs/1802.05384" },
-    "DeepSDF":                         { "year": 2019, "venue": "CVPR",     "family": "SDF",          "paper_url": "https://arxiv.org/abs/1901.05103" }
+
+    "mlp":                             { "year": 2012, "venue": "(baseline)",  "family": "MLP",        "paper_url": null },
+    "ft_transformer":                  { "year": 2021, "venue": "NeurIPS",     "family": "Tabular-DL", "paper_url": "https://arxiv.org/abs/2106.11959" },
+    "node":                            { "year": 2020, "venue": "ICLR",        "family": "Tabular-DL", "paper_url": "https://arxiv.org/abs/1909.06312" },
+    "tabnet":                          { "year": 2021, "venue": "AAAI",        "family": "Tabular-DL", "paper_url": "https://arxiv.org/abs/1908.07442" },
+    "tabpfn":                          { "year": 2025, "venue": "Nature",      "family": "Foundation", "paper_url": "https://www.nature.com/articles/s41586-024-08328-6" },
+    "xgboost":                         { "year": 2016, "venue": "KDD",         "family": "Tree",       "paper_url": "https://arxiv.org/abs/1603.02754" },
+    "lightgbm":                        { "year": 2017, "venue": "NeurIPS",     "family": "Tree",       "paper_url": "https://papers.nips.cc/paper/2017/hash/6449f44a102fde848669bdd9eb6b76fa-Abstract.html" },
+    "random_forest":                   { "year": 2001, "venue": "ML Journal",  "family": "Classical",  "paper_url": "https://doi.org/10.1023/A:1010933404324" },
+    "gaussian_process":                { "year": 2006, "venue": "(book)",      "family": "Classical",  "paper_url": null },
+    "ridge":                           { "year": 1970, "venue": "Technometrics","family": "Classical", "paper_url": "https://doi.org/10.1080/00401706.1970.10488634" },
+    "lstm_rul":                        { "year": 2017, "venue": "ICPHM",       "family": "RNN",        "paper_url": "https://doi.org/10.1109/ICPHM.2017.7998311" },
+    "bilstm_rul":                      { "year": 2018, "venue": "ICPHM",       "family": "RNN",        "paper_url": "https://doi.org/10.1109/ICPHM.2018.8448561" },
+    "dcnn_rul":                        { "year": 2018, "venue": "RESS",        "family": "CNN",        "paper_url": "https://doi.org/10.1016/j.ress.2017.11.021" },
+    "tcn":                             { "year": 2018, "venue": "arXiv",       "family": "CNN",        "paper_url": "https://arxiv.org/abs/1803.01271" },
+    "cnn_lstm":                        { "year": 2018, "venue": "(hybrid)",    "family": "CNN",        "paper_url": null },
+    "dast":                            { "year": 2022, "venue": "IEEE TIM",    "family": "Transformer","paper_url": "https://arxiv.org/abs/2106.15842" }
   }
 }

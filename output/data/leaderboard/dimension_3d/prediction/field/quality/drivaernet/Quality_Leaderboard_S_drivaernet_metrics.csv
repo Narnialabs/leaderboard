@@ -1,13 +1,12 @@
-﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6
-1,MaxAE,0.1565,regdgcnn,transolver,transolver_pp,abupt,geofno,pointnet
-2,Sign Agree,0.1278,regdgcnn,transolver_pp,abupt,transolver,geofno,pointnet
-3,MAPE (%),0.1166,regdgcnn,transolver_pp,transolver,abupt,geofno,pointnet
-4,Extremal Agree,0.1107,transolver,regdgcnn,transolver_pp,abupt,geofno,pointnet
-5,MAE,0.1047,transolver,regdgcnn,transolver_pp,abupt,geofno,pointnet
-6,Rel-L2,0.1045,transolver,regdgcnn,transolver_pp,abupt,geofno,pointnet
-7,RMSE,0.1045,transolver,regdgcnn,transolver_pp,abupt,geofno,pointnet
-8,R²,0.1045,transolver,regdgcnn,transolver_pp,abupt,geofno,pointnet
-9,MAC,0.0701,regdgcnn,transolver,abupt,transolver_pp,geofno,pointnet
-10,Inference Time (s),0.0,geofno,transolver,pointnet,abupt,transolver_pp,regdgcnn
-11,Parameters (M),0.0,regdgcnn,geofno,transolver_pp,pointnet,transolver,abupt
-12,Training Time (s),0.0,geofno,transolver_pp,pointnet,transolver,regdgcnn,abupt
+﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7
+1,Sign Agree,0.1468,linearno,transolver_pp,regdgcnn,linearno_big,transolver,geofno,pointnet
+2,MAPE (%),0.1417,linearno,transolver_pp,regdgcnn,linearno_big,transolver,geofno,pointnet
+3,Extremal Agree,0.1335,transolver,linearno_big,transolver_pp,linearno,regdgcnn,geofno,pointnet
+4,MAE,0.1267,linearno_big,transolver,linearno,transolver_pp,regdgcnn,geofno,pointnet
+5,R²,0.1256,transolver,linearno_big,linearno,transolver_pp,regdgcnn,geofno,pointnet
+6,Rel-L2,0.1254,transolver,linearno_big,linearno,transolver_pp,regdgcnn,geofno,pointnet
+7,RMSE,0.1254,transolver,linearno_big,linearno,transolver_pp,regdgcnn,geofno,pointnet
+8,MAC,0.0937,transolver,regdgcnn,linearno_big,linearno,transolver_pp,geofno,pointnet
+9,Inference Time (s),0.0,transolver,geofno,pointnet,transolver_pp,linearno_big,linearno,regdgcnn
+10,Parameters (M),0.0,regdgcnn,geofno,transolver_pp,linearno,pointnet,transolver,linearno_big
+11,Training Time (s),0.0,geofno,transolver_pp,pointnet,transolver,linearno,linearno_big,regdgcnn

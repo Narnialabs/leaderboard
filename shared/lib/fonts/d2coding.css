@@ -1,0 +1,7 @@
+/* D2 coding — self-hosted (was cdn.jsdelivr.net/gh/Joungkyun/font-d2coding@1.3.2).
+ * woff2 only (every browser that runs this site's ES-module/WebGL code supports woff2;
+ * the upstream eot/ttf/svg legacy sources are dropped). font-display:swap added (the
+ * upstream face had none) so monospace text never blocks on the font download — it
+ * paints in the JetBrains Mono / Menlo / Consolas fallback and swaps in when ready. */
+@font-face{font-family:'D2 coding';font-style:normal;font-weight:400;font-display:swap;src:url('D2Coding.woff2') format('woff2')}
+@font-face{font-family:'D2 coding';font-style:normal;font-weight:700;font-display:swap;src:url('D2CodingBold.woff2') format('woff2')}

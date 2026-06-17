@@ -1,0 +1,12 @@
+﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7,Rank 8,Rank 9,Rank 10
+1,MaxAE,0.2961,random_forest,node,lightgbm,xgboost,gaussian_process,mlp,tabnet,tabpfn,ft_transformer,ridge
+2,Spearman,0.1056,mlp,node,ft_transformer,tabnet,tabpfn,random_forest,gaussian_process,lightgbm,xgboost,ridge
+3,Pearson,0.1052,mlp,node,ft_transformer,tabnet,tabpfn,gaussian_process,random_forest,lightgbm,xgboost,ridge
+4,MAPE (%),0.1001,mlp,node,ft_transformer,tabpfn,gaussian_process,random_forest,tabnet,xgboost,lightgbm,ridge
+5,MAE,0.1001,mlp,node,ft_transformer,tabpfn,gaussian_process,random_forest,tabnet,xgboost,lightgbm,ridge
+6,R²,0.0976,mlp,node,gaussian_process,random_forest,ft_transformer,tabpfn,tabnet,lightgbm,xgboost,ridge
+7,RMSE,0.0976,mlp,node,gaussian_process,random_forest,ft_transformer,tabpfn,tabnet,lightgbm,xgboost,ridge
+8,Rel-L2,0.0976,mlp,node,gaussian_process,random_forest,ft_transformer,tabpfn,tabnet,lightgbm,xgboost,ridge
+9,Inference Time (s),0.0,gaussian_process,lightgbm,mlp,node,ridge,xgboost,ft_transformer,tabnet,random_forest,tabpfn
+10,Parameters (M),0.0,gaussian_process,lightgbm,random_forest,ridge,tabnet,tabpfn,xgboost,node,mlp,ft_transformer
+11,Training Time (s),0.0,ridge,lightgbm,xgboost,random_forest,gaussian_process,tabpfn,mlp,tabnet,ft_transformer,node

@@ -1,0 +1,761 @@
+{
+  "airfoil_1d_1d_noise": {
+    "components": [
+      {
+        "axis": null,
+        "component": "sound_pressure",
+        "index": 0
+      }
+    ],
+    "coupling": "single",
+    "discipline": "acoustics",
+    "input_dim": "1d",
+    "modality": "tabular",
+    "nas_dir": "Airfoil_1D_1D_Noise",
+    "out_dim": 1,
+    "output_dim": "1d",
+    "output_support": "scalar",
+    "scenario": "noise",
+    "source": "UCI-Airfoil",
+    "target_label": "sound_pressure",
+    "task": "scalar_regression",
+    "vector_groups": []
+  },
+  "airfrans_2d_2d_flow": {
+    "components": [
+      {
+        "axis": null,
+        "component": "u",
+        "index": 0
+      },
+      {
+        "axis": null,
+        "component": "v",
+        "index": 1
+      },
+      {
+        "axis": null,
+        "component": "p_over_rho",
+        "index": 2
+      },
+      {
+        "axis": null,
+        "component": "nu_t",
+        "index": 3
+      }
+    ],
+    "coupling": "coupled",
+    "discipline": "aerodynamics",
+    "input_dim": "2d",
+    "modality": "image",
+    "nas_dir": "AirfRANS_2D_2D_Flow",
+    "out_dim": 4,
+    "output_dim": "2d",
+    "output_support": "image",
+    "scenario": "flow",
+    "source": "AirfRANS",
+    "target_label": "u+v+p_over_rho+nu_t",
+    "task": "field_prediction",
+    "vector_groups": []
+  },
+  "cmapss_1dt_1d_rul": {
+    "components": [
+      {
+        "axis": null,
+        "component": "rul",
+        "index": 0
+      }
+    ],
+    "coupling": "single",
+    "discipline": "prognostics",
+    "input_dim": "1dt",
+    "modality": "timeseries",
+    "nas_dir": "CMAPSS_1DT_1D_RUL",
+    "out_dim": 1,
+    "output_dim": "1d",
+    "output_support": "scalar",
+    "scenario": "rul",
+    "source": "NASA-CMAPSS",
+    "target_label": "remaining_useful_life",
+    "task": "scalar_regression",
+    "vector_groups": []
+  },
+  "concrete_1d_1d_strength": {
+    "components": [
+      {
+        "axis": null,
+        "component": "compressive_strength",
+        "index": 0
+      }
+    ],
+    "coupling": "single",
+    "discipline": "materials",
+    "input_dim": "1d",
+    "modality": "tabular",
+    "nas_dir": "Concrete_1D_1D_Strength",
+    "out_dim": 1,
+    "output_dim": "1d",
+    "output_support": "scalar",
+    "scenario": "strength",
+    "source": "UCI-Concrete",
+    "target_label": "compressive_strength",
+    "task": "scalar_regression",
+    "vector_groups": []
+  },
+  "deepjeb_2d_2d": {
+    "components": [],
+    "coupling": "none",
+    "discipline": "geometry",
+    "input_dim": "2d",
+    "modality": "image",
+    "nas_dir": "DeepJEB_2D_2D",
+    "out_dim": 0,
+    "output_dim": "2d",
+    "output_support": "image",
+    "scenario": "",
+    "source": "DeepJEB",
+    "target_label": "",
+    "task": "generation",
+    "vector_groups": []
+  },
+  "deepjeb_2d_2d_structural": {
+    "components": [
+      {
+        "axis": null,
+        "component": "von_mises",
+        "index": 0
+      }
+    ],
+    "coupling": "single",
+    "discipline": "structural",
+    "input_dim": "2d",
+    "modality": "image",
+    "nas_dir": "DeepJEB_2D_2D_Structural",
+    "out_dim": 1,
+    "output_dim": "2d",
+    "output_support": "image",
+    "scenario": "structural",
+    "source": "DeepJEB",
+    "target_label": "von_mises|displacement",
+    "task": "field_prediction",
+    "vector_groups": []
+  },
+  "deepjeb_3d_2d_diagonal": {
+    "components": [
+      {
+        "axis": "x",
+        "component": "displacement",
+        "index": 0
+      },
+      {
+        "axis": "y",
+        "component": "displacement",
+        "index": 1
+      },
+      {
+        "axis": "z",
+        "component": "displacement",
+        "index": 2
+      },
+      {
+        "axis": null,
+        "component": "von_mises",
+        "index": 3
+      }
+    ],
+    "coupling": "coupled",
+    "discipline": "structural",
+    "input_dim": "3d",
+    "modality": "point_cloud",
+    "nas_dir": "DeepJEB_3D_2D_Diagonal",
+    "out_dim": 4,
+    "output_dim": "2d",
+    "output_support": "surface",
+    "scenario": "diagonal",
+    "source": "DeepJEB",
+    "target_label": "displacement+von_mises",
+    "task": "field_prediction",
+    "vector_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
+  },
+  "deepjeb_3d_2d_horizontal": {
+    "components": [
+      {
+        "axis": "x",
+        "component": "displacement",
+        "index": 0
+      },
+      {
+        "axis": "y",
+        "component": "displacement",
+        "index": 1
+      },
+      {
+        "axis": "z",
+        "component": "displacement",
+        "index": 2
+      },
+      {
+        "axis": null,
+        "component": "von_mises",
+        "index": 3
+      }
+    ],
+    "coupling": "coupled",
+    "discipline": "structural",
+    "input_dim": "3d",
+    "modality": "point_cloud",
+    "nas_dir": "DeepJEB_3D_2D_Horizontal",
+    "out_dim": 4,
+    "output_dim": "2d",
+    "output_support": "surface",
+    "scenario": "horizontal",
+    "source": "DeepJEB",
+    "target_label": "displacement+von_mises",
+    "task": "field_prediction",
+    "vector_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
+  },
+  "deepjeb_3d_2d_modal": {
+    "components": [
+      {
+        "axis": "x",
+        "component": "mode_shape_1",
+        "index": 0
+      },
+      {
+        "axis": "y",
+        "component": "mode_shape_1",
+        "index": 1
+      },
+      {
+        "axis": "z",
+        "component": "mode_shape_1",
+        "index": 2
+      },
+      {
+        "axis": "x",
+        "component": "mode_shape_2",
+        "index": 3
+      },
+      {
+        "axis": "y",
+        "component": "mode_shape_2",
+        "index": 4
+      },
+      {
+        "axis": "z",
+        "component": "mode_shape_2",
+        "index": 5
+      }
+    ],
+    "coupling": "coupled",
+    "discipline": "modal",
+    "input_dim": "3d",
+    "modality": "point_cloud",
+    "nas_dir": "DeepJEB_3D_2D_Modal",
+    "out_dim": 6,
+    "output_dim": "2d",
+    "output_support": "surface",
+    "scenario": "modal",
+    "source": "DeepJEB",
+    "target_label": "mode_shapes",
+    "task": "field_prediction",
+    "vector_groups": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3,
+        4,
+        5
+      ]
+    ]
+  },
+  "deepjeb_3d_2d_torsion": {
+    "components": [
+      {
+        "axis": "x",
+        "component": "displacement",
+        "index": 0
+      },
+      {
+        "axis": "y",
+        "component": "displacement",
+        "index": 1
+      },
+      {
+        "axis": "z",
+        "component": "displacement",
+        "index": 2
+      },
+      {
+        "axis": null,
+        "component": "von_mises",
+        "index": 3
+      }
+    ],
+    "coupling": "coupled",
+    "discipline": "structural",
+    "input_dim": "3d",
+    "modality": "point_cloud",
+    "nas_dir": "DeepJEB_3D_2D_Torsion",
+    "out_dim": 4,
+    "output_dim": "2d",
+    "output_support": "surface",
+    "scenario": "torsion",
+    "source": "DeepJEB",
+    "target_label": "displacement+von_mises",
+    "task": "field_prediction",
+    "vector_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
+  },
+  "deepjeb_3d_2d_vertical": {
+    "components": [
+      {
+        "axis": "x",
+        "component": "displacement",
+        "index": 0
+      },
+      {
+        "axis": "y",
+        "component": "displacement",
+        "index": 1
+      },
+      {
+        "axis": "z",
+        "component": "displacement",
+        "index": 2
+      },
+      {
+        "axis": null,
+        "component": "von_mises",
+        "index": 3
+      }
+    ],
+    "coupling": "coupled",
+    "discipline": "structural",
+    "input_dim": "3d",
+    "modality": "point_cloud",
+    "nas_dir": "DeepJEB_3D_2D_Vertical",
+    "out_dim": 4,
+    "output_dim": "2d",
+    "output_support": "surface",
+    "scenario": "vertical",
+    "source": "DeepJEB",
+    "target_label": "displacement+von_mises",
+    "task": "field_prediction",
+    "vector_groups": [
+      [
+        0,
+        1,
+        2
+      ]
+    ]
+  },
+  "deepjeb_3d_3d": {
+    "components": [],
+    "coupling": "none",
+    "discipline": "geometry",
+    "input_dim": "3d",
+    "modality": "point_cloud",
+    "nas_dir": "DeepJEB_3D_3D",
+    "out_dim": 0,
+    "output_dim": "3d",
+    "output_support": "shape",
+    "scenario": "",
+    "source": "DeepJEB",
+    "target_label": "",
+    "task": "generation",
+    "vector_groups": []
+  },
+  "deepwheel_2d_1d_mass": {
+    "components": [
+      {
+        "axis": null,
+        "component": "mass",
+        "index": 0
+      }
+    ],
+    "coupling": "single",
+    "discipline": "structural",
+    "input_dim": "2d",
+    "modality": "image",
+    "nas_dir": "DeepWheel_2D_1D_Mass",
+    "out_dim": 1,
+    "output_dim": "1d",
+    "output_support": "scalar",
+    "scenario": "mass",
+    "source": "DeepWheel",
+    "target_label": "mass",
+    "task": "scalar_regression",
+    "vector_groups": []
+  },
+  "deepwheel_2d_1d_modal": {
+    "components": [
+      {
+        "axis": null,
+        "component": "mode_freq_7",
+        "index": 0
+      },
+      {
+        "axis": null,
+        "component": "mode_freq_11",
+        "index": 1
+      }
+    ],
+    "coupling": "coupled",
+    "discipline": "modal",
+    "input_dim": "2d",
+    "modality": "image",
+    "nas_dir": "DeepWheel_2D_1D_Modal",
+    "out_dim": 2,
+    "output_dim": "1d",
+    "output_support": "scalar",
+    "scenario": "modal",
+    "source": "DeepWheel",
+    "target_label": "natural_frequencies",
+    "task": "scalar_regression",
+    "vector_groups": []
+  },
+  "deepwheel_2d_2d": {
+    "components": [],
+    "coupling": "none",
+    "discipline": "geometry",
+    "input_dim": "2d",
+    "modality": "image",
+    "nas_dir": "DeepWheel_2D_2D",
+    "out_dim": 0,
+    "output_dim": "2d",
+    "output_support": "image",
+    "scenario": "",
+    "source": "DeepWheel",
+    "target_label": "",
+    "task": "generation",
+    "vector_groups": []
+  },
+  "deepwheel_2d_2d_depth": {
+    "components": [
+      {
+        "axis": null,
+        "component": "depth",
+        "index": 0
+      }
+    ],
+    "coupling": "single",
+    "discipline": "geometry",
+    "input_dim": "2d",
+    "modality": "image",
+    "nas_dir": "DeepWheel_2D_2D_Depth",
+    "out_dim": 1,
+    "output_dim": "2d",
+    "output_support": "image",
+    "scenario": "depth",
+    "source": "DeepWheel",
+    "target_label": "depth",
+    "task": "field_prediction",
+    "vector_groups": []
+  },
+  "deepwheel_3d_1d_mass": {
+    "components": [
+      {
+        "axis": null,
+        "component": "mass",
+        "index": 0
+      }
+    ],
+    "coupling": "single",
+    "discipline": "structural",
+    "input_dim": "3d",
+    "modality": "point_cloud",
+    "nas_dir": "DeepWheel_3D_1D_Mass",
+    "out_dim": 1,
+    "output_dim": "1d",
+    "output_support": "scalar",
+    "scenario": "mass",
+    "source": "DeepWheel",
+    "target_label": "mass",
+    "task": "scalar_regression",
+    "vector_groups": []
+  },
+  "deepwheel_3d_1d_modal": {
+    "components": [
+      {
+        "axis": null,
+        "component": "mode_freq_7",
+        "index": 0
+      },
+      {
+        "axis": null,
+        "component": "mode_freq_11",
+        "index": 1
+      }
+    ],
+    "coupling": "coupled",
+    "discipline": "modal",
+    "input_dim": "3d",
+    "modality": "point_cloud",
+    "nas_dir": "DeepWheel_3D_1D_Modal",
+    "out_dim": 2,
+    "output_dim": "1d",
+    "output_support": "scalar",
+    "scenario": "modal",
+    "source": "DeepWheel",
+    "target_label": "natural_frequencies",
+    "task": "scalar_regression",
+    "vector_groups": []
+  },
+  "deepwheel_3d_3d": {
+    "components": [],
+    "coupling": "none",
+    "discipline": "geometry",
+    "input_dim": "3d",
+    "modality": "point_cloud",
+    "nas_dir": "DeepWheel_3D_3D",
+    "out_dim": 0,
+    "output_dim": "3d",
+    "output_support": "shape",
+    "scenario": "",
+    "source": "DeepWheel",
+    "target_label": "",
+    "task": "generation",
+    "vector_groups": []
+  },
+  "drivaerml_3d_2d_surface": {
+    "components": [
+      {
+        "axis": null,
+        "component": "pressure",
+        "index": 0
+      },
+      {
+        "axis": "x",
+        "component": "wall_shear_stress",
+        "index": 1
+      },
+      {
+        "axis": "y",
+        "component": "wall_shear_stress",
+        "index": 2
+      },
+      {
+        "axis": "z",
+        "component": "wall_shear_stress",
+        "index": 3
+      }
+    ],
+    "coupling": "coupled",
+    "discipline": "aerodynamics",
+    "input_dim": "3d",
+    "modality": "point_cloud",
+    "nas_dir": "DrivAerML_3D_2D_Surface",
+    "out_dim": 4,
+    "output_dim": "2d",
+    "output_support": "surface",
+    "scenario": "surface",
+    "source": "DrivAerML",
+    "target_label": "pressure+wall_shear_stress",
+    "task": "field_prediction",
+    "vector_groups": [
+      [
+        1,
+        2,
+        3
+      ]
+    ]
+  },
+  "drivaerml_3d_3d_volume": {
+    "components": [
+      {
+        "axis": null,
+        "component": "totalpcoeff",
+        "index": 0
+      },
+      {
+        "axis": "x",
+        "component": "velocity",
+        "index": 1
+      },
+      {
+        "axis": "y",
+        "component": "velocity",
+        "index": 2
+      },
+      {
+        "axis": "z",
+        "component": "velocity",
+        "index": 3
+      },
+      {
+        "axis": "x",
+        "component": "vorticity",
+        "index": 4
+      },
+      {
+        "axis": "y",
+        "component": "vorticity",
+        "index": 5
+      },
+      {
+        "axis": "z",
+        "component": "vorticity",
+        "index": 6
+      }
+    ],
+    "coupling": "coupled",
+    "discipline": "aerodynamics",
+    "input_dim": "3d",
+    "modality": "point_cloud",
+    "nas_dir": "DrivAerML_3D_3D_Volume",
+    "out_dim": 7,
+    "output_dim": "3d",
+    "output_support": "volume",
+    "scenario": "volume",
+    "source": "DrivAerML",
+    "target_label": "pressure_coeff+velocity+vorticity",
+    "task": "field_prediction",
+    "vector_groups": [
+      [
+        1,
+        2,
+        3
+      ]
+    ]
+  },
+  "drivaernet_2d_2d": {
+    "components": [],
+    "coupling": "none",
+    "discipline": "geometry",
+    "input_dim": "2d",
+    "modality": "image",
+    "nas_dir": "DrivAerNet_2D_2D",
+    "out_dim": 0,
+    "output_dim": "2d",
+    "output_support": "image",
+    "scenario": "",
+    "source": "DrivAerNet",
+    "target_label": "",
+    "task": "generation",
+    "vector_groups": []
+  },
+  "drivaernet_3d_2d_centerplane": {
+    "components": [
+      {
+        "axis": null,
+        "component": "pressure",
+        "index": 0
+      },
+      {
+        "axis": "x",
+        "component": "velocity",
+        "index": 1
+      },
+      {
+        "axis": "y",
+        "component": "velocity",
+        "index": 2
+      },
+      {
+        "axis": "z",
+        "component": "velocity",
+        "index": 3
+      }
+    ],
+    "coupling": "coupled",
+    "discipline": "aerodynamics",
+    "input_dim": "3d",
+    "modality": "point_cloud",
+    "nas_dir": "DrivAerNet_3D_2D_Centerplane",
+    "out_dim": 4,
+    "output_dim": "2d",
+    "output_support": "plane",
+    "scenario": "centerplane",
+    "source": "DrivAerNet",
+    "target_label": "pressure+velocity",
+    "task": "field_prediction",
+    "vector_groups": [
+      [
+        1,
+        2,
+        3
+      ]
+    ]
+  },
+  "drivaernet_3d_2d_surface": {
+    "components": [
+      {
+        "axis": null,
+        "component": "pressure",
+        "index": 0
+      }
+    ],
+    "coupling": "single",
+    "discipline": "aerodynamics",
+    "input_dim": "3d",
+    "modality": "point_cloud",
+    "nas_dir": "DrivAerNet_3D_2D_Surface",
+    "out_dim": 1,
+    "output_dim": "2d",
+    "output_support": "surface",
+    "scenario": "surface",
+    "source": "DrivAerNet",
+    "target_label": "pressure",
+    "task": "field_prediction",
+    "vector_groups": []
+  },
+  "drivaernet_3d_3d": {
+    "components": [],
+    "coupling": "none",
+    "discipline": "geometry",
+    "input_dim": "3d",
+    "modality": "point_cloud",
+    "nas_dir": "DrivAerNet_3D_3D",
+    "out_dim": 0,
+    "output_dim": "3d",
+    "output_support": "shape",
+    "scenario": "",
+    "source": "DrivAerNet",
+    "target_label": "",
+    "task": "generation",
+    "vector_groups": []
+  },
+  "pdebenchdarcy_2d_2d_pressure": {
+    "components": [
+      {
+        "axis": null,
+        "component": "pressure",
+        "index": 0
+      }
+    ],
+    "coupling": "single",
+    "discipline": "porous_flow",
+    "input_dim": "2d",
+    "modality": "image",
+    "nas_dir": "PDEBenchDarcy_2D_2D_Pressure",
+    "out_dim": 1,
+    "output_dim": "2d",
+    "output_support": "image",
+    "scenario": "pressure",
+    "source": "PDEBench",
+    "target_label": "pressure",
+    "task": "field_prediction",
+    "vector_groups": []
+  }
+}

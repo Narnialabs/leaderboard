@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-19T09:29:21.887790",
+  "generated": "2026-06-16T17:30:16.329862",
   "total_samples": 864,
   "filters": {
     "models": [
@@ -29,6 +29,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 491,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/100/sample_00000.bin"
     },
@@ -38,6 +39,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 159,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/100/sample_00001.bin"
     },
@@ -47,6 +49,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 214,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/100/sample_00002.bin"
     },
@@ -56,6 +59,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 280,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/100/sample_00003.bin"
     },
@@ -65,6 +69,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 186,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/100/sample_00004.bin"
     },
@@ -74,6 +79,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 251,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/100/sample_00005.bin"
     },
@@ -83,6 +89,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 168,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/100/sample_00006.bin"
     },
@@ -92,6 +99,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 243,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/100/sample_00007.bin"
     },
@@ -101,6 +109,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 192,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/100/sample_00008.bin"
     },
@@ -110,6 +119,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 161,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/100/sample_00009.bin"
     },
@@ -119,6 +129,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 180,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/100/sample_00010.bin"
     },
@@ -128,6 +139,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 279,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/100/sample_00011.bin"
     },
@@ -137,6 +149,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 344,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/100/sample_00000.bin"
     },
@@ -146,6 +159,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 312,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/100/sample_00001.bin"
     },
@@ -155,6 +169,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 178,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/100/sample_00002.bin"
     },
@@ -164,6 +179,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 423,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/100/sample_00003.bin"
     },
@@ -173,6 +189,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 304,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/100/sample_00004.bin"
     },
@@ -182,6 +199,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 5,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/100/sample_00005.bin"
     },
@@ -191,6 +209,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 408,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/100/sample_00006.bin"
     },
@@ -200,6 +219,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 242,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/100/sample_00007.bin"
     },
@@ -209,6 +229,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 39,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/100/sample_00008.bin"
     },
@@ -218,6 +239,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 175,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/100/sample_00009.bin"
     },
@@ -227,6 +249,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 395,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/100/sample_00010.bin"
     },
@@ -236,6 +259,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 339,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/100/sample_00011.bin"
     },
@@ -245,6 +269,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 466,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/100/sample_00000.bin"
     },
@@ -254,6 +279,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 126,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/100/sample_00001.bin"
     },
@@ -263,6 +289,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 111,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/100/sample_00002.bin"
     },
@@ -272,6 +299,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 120,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/100/sample_00003.bin"
     },
@@ -281,6 +309,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 127,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/100/sample_00004.bin"
     },
@@ -290,6 +319,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 36,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/100/sample_00005.bin"
     },
@@ -299,6 +329,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 48,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/100/sample_00006.bin"
     },
@@ -308,6 +339,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 488,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/100/sample_00007.bin"
     },
@@ -317,6 +349,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 390,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/100/sample_00008.bin"
     },
@@ -326,6 +359,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 101,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/100/sample_00009.bin"
     },
@@ -335,6 +369,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 33,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/100/sample_00010.bin"
     },
@@ -344,6 +379,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 459,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/100/sample_00011.bin"
     },
@@ -353,6 +389,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 174,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/20/sample_00000.bin"
     },
@@ -362,6 +399,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 11,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/20/sample_00001.bin"
     },
@@ -371,6 +409,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 213,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/20/sample_00002.bin"
     },
@@ -380,6 +419,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 455,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/20/sample_00003.bin"
     },
@@ -389,6 +429,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 453,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/20/sample_00004.bin"
     },
@@ -398,6 +439,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 245,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/20/sample_00005.bin"
     },
@@ -407,6 +449,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 73,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/20/sample_00006.bin"
     },
@@ -416,6 +459,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 422,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/20/sample_00007.bin"
     },
@@ -425,6 +469,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 449,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/20/sample_00008.bin"
     },
@@ -434,6 +479,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 326,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/20/sample_00009.bin"
     },
@@ -443,6 +489,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 263,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/20/sample_00010.bin"
     },
@@ -452,6 +499,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 348,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/20/sample_00011.bin"
     },
@@ -461,6 +509,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 17,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/20/sample_00000.bin"
     },
@@ -470,6 +519,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 319,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/20/sample_00001.bin"
     },
@@ -479,6 +529,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 132,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/20/sample_00002.bin"
     },
@@ -488,6 +539,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 48,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/20/sample_00003.bin"
     },
@@ -497,6 +549,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 99,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/20/sample_00004.bin"
     },
@@ -506,6 +559,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 80,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/20/sample_00005.bin"
     },
@@ -515,6 +569,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 72,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/20/sample_00006.bin"
     },
@@ -524,6 +579,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 170,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/20/sample_00007.bin"
     },
@@ -533,6 +589,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 236,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/20/sample_00008.bin"
     },
@@ -542,6 +599,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 8,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/20/sample_00009.bin"
     },
@@ -551,6 +609,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 338,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/20/sample_00010.bin"
     },
@@ -560,6 +619,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 354,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/20/sample_00011.bin"
     },
@@ -569,6 +629,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 93,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/20/sample_00000.bin"
     },
@@ -578,6 +639,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 305,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/20/sample_00001.bin"
     },
@@ -587,6 +649,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 265,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/20/sample_00002.bin"
     },
@@ -596,6 +659,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 439,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/20/sample_00003.bin"
     },
@@ -605,6 +669,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 364,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/20/sample_00004.bin"
     },
@@ -614,6 +679,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 187,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/20/sample_00005.bin"
     },
@@ -623,6 +689,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 271,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/20/sample_00006.bin"
     },
@@ -632,6 +699,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 11,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/20/sample_00007.bin"
     },
@@ -641,6 +709,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 75,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/20/sample_00008.bin"
     },
@@ -650,6 +719,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 382,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/20/sample_00009.bin"
     },
@@ -659,6 +729,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 85,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/20/sample_00010.bin"
     },
@@ -668,6 +739,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 426,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/20/sample_00011.bin"
     },
@@ -677,6 +749,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 447,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/200/sample_00000.bin"
     },
@@ -686,6 +759,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 23,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/200/sample_00001.bin"
     },
@@ -695,6 +769,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 471,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/200/sample_00002.bin"
     },
@@ -704,6 +779,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 475,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/200/sample_00003.bin"
     },
@@ -713,6 +789,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 12,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/200/sample_00004.bin"
     },
@@ -722,6 +799,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 88,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/200/sample_00005.bin"
     },
@@ -731,6 +809,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 18,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/200/sample_00006.bin"
     },
@@ -740,6 +819,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 168,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/200/sample_00007.bin"
     },
@@ -749,6 +829,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 120,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/200/sample_00008.bin"
     },
@@ -758,6 +839,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 293,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/200/sample_00009.bin"
     },
@@ -767,6 +849,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 175,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/200/sample_00010.bin"
     },
@@ -776,6 +859,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 492,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/200/sample_00011.bin"
     },
@@ -785,6 +869,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 410,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/200/sample_00000.bin"
     },
@@ -794,6 +879,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 19,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/200/sample_00001.bin"
     },
@@ -803,6 +889,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 38,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/200/sample_00002.bin"
     },
@@ -812,6 +899,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 213,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/200/sample_00003.bin"
     },
@@ -821,6 +909,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 370,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/200/sample_00004.bin"
     },
@@ -830,6 +919,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 276,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/200/sample_00005.bin"
     },
@@ -839,6 +929,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 3,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/200/sample_00006.bin"
     },
@@ -848,6 +939,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 12,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/200/sample_00007.bin"
     },
@@ -857,6 +949,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 310,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/200/sample_00008.bin"
     },
@@ -866,6 +959,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 450,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/200/sample_00009.bin"
     },
@@ -875,6 +969,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 8,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/200/sample_00010.bin"
     },
@@ -884,6 +979,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 0,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/200/sample_00011.bin"
     },
@@ -893,6 +989,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 431,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/200/sample_00000.bin"
     },
@@ -902,6 +999,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 32,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/200/sample_00001.bin"
     },
@@ -911,6 +1009,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 12,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/200/sample_00002.bin"
     },
@@ -920,6 +1019,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 144,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/200/sample_00003.bin"
     },
@@ -929,6 +1029,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 3,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/200/sample_00004.bin"
     },
@@ -938,6 +1039,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 392,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/200/sample_00005.bin"
     },
@@ -947,6 +1049,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 97,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/200/sample_00006.bin"
     },
@@ -956,6 +1059,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 175,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/200/sample_00007.bin"
     },
@@ -965,6 +1069,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 140,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/200/sample_00008.bin"
     },
@@ -974,6 +1079,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 249,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/200/sample_00009.bin"
     },
@@ -983,6 +1089,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 423,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/200/sample_00010.bin"
     },
@@ -992,6 +1099,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 76,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/200/sample_00011.bin"
     },
@@ -1001,6 +1109,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 157,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/50/sample_00000.bin"
     },
@@ -1010,6 +1119,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 59,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/50/sample_00001.bin"
     },
@@ -1019,6 +1129,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 69,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/50/sample_00002.bin"
     },
@@ -1028,6 +1139,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 58,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/50/sample_00003.bin"
     },
@@ -1037,6 +1149,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 292,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/50/sample_00004.bin"
     },
@@ -1046,6 +1159,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 8,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/50/sample_00005.bin"
     },
@@ -1055,6 +1169,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 101,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/50/sample_00006.bin"
     },
@@ -1064,6 +1179,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 424,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/50/sample_00007.bin"
     },
@@ -1073,6 +1189,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 135,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/50/sample_00008.bin"
     },
@@ -1082,6 +1199,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 414,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/50/sample_00009.bin"
     },
@@ -1091,6 +1209,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 88,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/50/sample_00010.bin"
     },
@@ -1100,6 +1219,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 55,
       "num_points": 8192,
       "path": "atlasnet/deepjeb_3d_3d/50/sample_00011.bin"
     },
@@ -1109,6 +1229,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 94,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/50/sample_00000.bin"
     },
@@ -1118,6 +1239,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 238,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/50/sample_00001.bin"
     },
@@ -1127,6 +1249,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 409,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/50/sample_00002.bin"
     },
@@ -1136,6 +1259,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 338,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/50/sample_00003.bin"
     },
@@ -1145,6 +1269,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 277,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/50/sample_00004.bin"
     },
@@ -1154,6 +1279,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 213,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/50/sample_00005.bin"
     },
@@ -1163,6 +1289,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 436,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/50/sample_00006.bin"
     },
@@ -1172,6 +1299,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 327,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/50/sample_00007.bin"
     },
@@ -1181,6 +1309,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 408,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/50/sample_00008.bin"
     },
@@ -1190,6 +1319,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 301,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/50/sample_00009.bin"
     },
@@ -1199,6 +1329,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 221,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/50/sample_00010.bin"
     },
@@ -1208,6 +1339,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 461,
       "num_points": 8192,
       "path": "atlasnet/deepwheel_3d_3d/50/sample_00011.bin"
     },
@@ -1217,6 +1349,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 355,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/50/sample_00000.bin"
     },
@@ -1226,6 +1359,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 199,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/50/sample_00001.bin"
     },
@@ -1235,6 +1369,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 401,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/50/sample_00002.bin"
     },
@@ -1244,6 +1379,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 101,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/50/sample_00003.bin"
     },
@@ -1253,6 +1389,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 142,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/50/sample_00004.bin"
     },
@@ -1262,6 +1399,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 124,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/50/sample_00005.bin"
     },
@@ -1271,6 +1409,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 93,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/50/sample_00006.bin"
     },
@@ -1280,6 +1419,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 111,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/50/sample_00007.bin"
     },
@@ -1289,6 +1429,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 13,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/50/sample_00008.bin"
     },
@@ -1298,6 +1439,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 179,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/50/sample_00009.bin"
     },
@@ -1307,6 +1449,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 4,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/50/sample_00010.bin"
     },
@@ -1316,6 +1459,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 333,
       "num_points": 8192,
       "path": "atlasnet/drivaernet_3d_3d/50/sample_00011.bin"
     },
@@ -1325,6 +1469,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 401,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/100/sample_00000.bin"
     },
@@ -1334,6 +1479,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 482,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/100/sample_00001.bin"
     },
@@ -1343,6 +1489,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 431,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/100/sample_00002.bin"
     },
@@ -1352,6 +1499,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 329,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/100/sample_00003.bin"
     },
@@ -1361,6 +1509,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 340,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/100/sample_00004.bin"
     },
@@ -1370,6 +1519,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 281,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/100/sample_00005.bin"
     },
@@ -1379,6 +1529,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 328,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/100/sample_00006.bin"
     },
@@ -1388,6 +1539,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 241,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/100/sample_00007.bin"
     },
@@ -1397,6 +1549,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 256,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/100/sample_00008.bin"
     },
@@ -1406,6 +1559,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 168,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/100/sample_00009.bin"
     },
@@ -1415,6 +1569,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 349,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/100/sample_00010.bin"
     },
@@ -1424,6 +1579,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 416,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/100/sample_00011.bin"
     },
@@ -1433,6 +1589,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 357,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/100/sample_00000.bin"
     },
@@ -1442,6 +1599,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 446,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/100/sample_00001.bin"
     },
@@ -1451,6 +1609,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 142,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/100/sample_00002.bin"
     },
@@ -1460,6 +1619,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 1,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/100/sample_00003.bin"
     },
@@ -1469,6 +1629,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 413,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/100/sample_00004.bin"
     },
@@ -1478,6 +1639,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 295,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/100/sample_00005.bin"
     },
@@ -1487,6 +1649,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 139,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/100/sample_00006.bin"
     },
@@ -1496,6 +1659,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 154,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/100/sample_00007.bin"
     },
@@ -1505,6 +1669,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 354,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/100/sample_00008.bin"
     },
@@ -1514,6 +1679,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 437,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/100/sample_00009.bin"
     },
@@ -1523,6 +1689,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 473,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/100/sample_00010.bin"
     },
@@ -1532,6 +1699,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 372,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/100/sample_00011.bin"
     },
@@ -1541,6 +1709,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 34,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/100/sample_00000.bin"
     },
@@ -1550,6 +1719,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 422,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/100/sample_00001.bin"
     },
@@ -1559,6 +1729,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 408,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/100/sample_00002.bin"
     },
@@ -1568,6 +1739,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 251,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/100/sample_00003.bin"
     },
@@ -1577,6 +1749,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 317,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/100/sample_00004.bin"
     },
@@ -1586,6 +1759,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 177,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/100/sample_00005.bin"
     },
@@ -1595,6 +1769,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 182,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/100/sample_00006.bin"
     },
@@ -1604,6 +1779,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 289,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/100/sample_00007.bin"
     },
@@ -1613,6 +1789,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 222,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/100/sample_00008.bin"
     },
@@ -1622,6 +1799,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 302,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/100/sample_00009.bin"
     },
@@ -1631,6 +1809,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 371,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/100/sample_00010.bin"
     },
@@ -1640,6 +1819,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 199,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/100/sample_00011.bin"
     },
@@ -1649,6 +1829,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 414,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/20/sample_00000.bin"
     },
@@ -1658,6 +1839,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 87,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/20/sample_00001.bin"
     },
@@ -1667,6 +1849,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 209,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/20/sample_00002.bin"
     },
@@ -1676,6 +1859,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 392,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/20/sample_00003.bin"
     },
@@ -1685,6 +1869,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 55,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/20/sample_00004.bin"
     },
@@ -1694,6 +1879,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 192,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/20/sample_00005.bin"
     },
@@ -1703,6 +1889,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 74,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/20/sample_00006.bin"
     },
@@ -1712,6 +1899,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 476,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/20/sample_00007.bin"
     },
@@ -1721,6 +1909,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 44,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/20/sample_00008.bin"
     },
@@ -1730,6 +1919,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 417,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/20/sample_00009.bin"
     },
@@ -1739,6 +1929,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 89,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/20/sample_00010.bin"
     },
@@ -1748,6 +1939,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 120,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/20/sample_00011.bin"
     },
@@ -1757,6 +1949,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 396,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/20/sample_00000.bin"
     },
@@ -1766,6 +1959,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 354,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/20/sample_00001.bin"
     },
@@ -1775,6 +1969,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 141,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/20/sample_00002.bin"
     },
@@ -1784,6 +1979,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 169,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/20/sample_00003.bin"
     },
@@ -1793,6 +1989,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 341,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/20/sample_00004.bin"
     },
@@ -1802,6 +1999,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 172,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/20/sample_00005.bin"
     },
@@ -1811,6 +2009,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 39,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/20/sample_00006.bin"
     },
@@ -1820,6 +2019,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 226,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/20/sample_00007.bin"
     },
@@ -1829,6 +2029,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 370,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/20/sample_00008.bin"
     },
@@ -1838,6 +2039,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 8,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/20/sample_00009.bin"
     },
@@ -1847,6 +2049,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 461,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/20/sample_00010.bin"
     },
@@ -1856,6 +2059,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 471,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/20/sample_00011.bin"
     },
@@ -1865,6 +2069,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 469,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/20/sample_00000.bin"
     },
@@ -1874,6 +2079,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 168,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/20/sample_00001.bin"
     },
@@ -1883,6 +2089,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 237,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/20/sample_00002.bin"
     },
@@ -1892,6 +2099,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 10,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/20/sample_00003.bin"
     },
@@ -1901,6 +2109,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 18,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/20/sample_00004.bin"
     },
@@ -1910,6 +2119,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 51,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/20/sample_00005.bin"
     },
@@ -1919,6 +2129,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 110,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/20/sample_00006.bin"
     },
@@ -1928,6 +2139,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 336,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/20/sample_00007.bin"
     },
@@ -1937,6 +2149,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 377,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/20/sample_00008.bin"
     },
@@ -1946,6 +2159,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 15,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/20/sample_00009.bin"
     },
@@ -1955,6 +2169,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 345,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/20/sample_00010.bin"
     },
@@ -1964,6 +2179,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 105,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/20/sample_00011.bin"
     },
@@ -1973,6 +2189,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 472,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/200/sample_00000.bin"
     },
@@ -1982,6 +2199,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 457,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/200/sample_00001.bin"
     },
@@ -1991,6 +2209,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 144,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/200/sample_00002.bin"
     },
@@ -2000,6 +2219,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 199,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/200/sample_00003.bin"
     },
@@ -2009,6 +2229,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 50,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/200/sample_00004.bin"
     },
@@ -2018,6 +2239,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 108,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/200/sample_00005.bin"
     },
@@ -2027,6 +2249,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 341,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/200/sample_00006.bin"
     },
@@ -2036,6 +2259,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 52,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/200/sample_00007.bin"
     },
@@ -2045,6 +2269,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 355,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/200/sample_00008.bin"
     },
@@ -2054,6 +2279,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 427,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/200/sample_00009.bin"
     },
@@ -2063,6 +2289,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 297,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/200/sample_00010.bin"
     },
@@ -2072,6 +2299,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 327,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/200/sample_00011.bin"
     },
@@ -2081,6 +2309,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 104,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/200/sample_00000.bin"
     },
@@ -2090,6 +2319,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 496,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/200/sample_00001.bin"
     },
@@ -2099,6 +2329,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 145,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/200/sample_00002.bin"
     },
@@ -2108,6 +2339,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 106,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/200/sample_00003.bin"
     },
@@ -2117,6 +2349,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 174,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/200/sample_00004.bin"
     },
@@ -2126,6 +2359,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 263,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/200/sample_00005.bin"
     },
@@ -2135,6 +2369,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 166,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/200/sample_00006.bin"
     },
@@ -2144,6 +2379,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 30,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/200/sample_00007.bin"
     },
@@ -2153,6 +2389,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 124,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/200/sample_00008.bin"
     },
@@ -2162,6 +2399,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 226,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/200/sample_00009.bin"
     },
@@ -2171,6 +2409,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 466,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/200/sample_00010.bin"
     },
@@ -2180,6 +2419,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 229,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/200/sample_00011.bin"
     },
@@ -2189,6 +2429,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 404,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/200/sample_00000.bin"
     },
@@ -2198,6 +2439,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 340,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/200/sample_00001.bin"
     },
@@ -2207,6 +2449,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 415,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/200/sample_00002.bin"
     },
@@ -2216,6 +2459,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 166,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/200/sample_00003.bin"
     },
@@ -2225,6 +2469,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 3,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/200/sample_00004.bin"
     },
@@ -2234,6 +2479,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 309,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/200/sample_00005.bin"
     },
@@ -2243,6 +2489,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 335,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/200/sample_00006.bin"
     },
@@ -2252,6 +2499,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 444,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/200/sample_00007.bin"
     },
@@ -2261,6 +2509,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 413,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/200/sample_00008.bin"
     },
@@ -2270,6 +2519,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 153,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/200/sample_00009.bin"
     },
@@ -2279,6 +2529,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 368,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/200/sample_00010.bin"
     },
@@ -2288,6 +2539,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 312,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/200/sample_00011.bin"
     },
@@ -2297,6 +2549,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 417,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/50/sample_00000.bin"
     },
@@ -2306,6 +2559,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 436,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/50/sample_00001.bin"
     },
@@ -2315,6 +2569,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 63,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/50/sample_00002.bin"
     },
@@ -2324,6 +2579,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 129,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/50/sample_00003.bin"
     },
@@ -2333,6 +2589,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 28,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/50/sample_00004.bin"
     },
@@ -2342,6 +2599,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 119,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/50/sample_00005.bin"
     },
@@ -2351,6 +2609,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 60,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/50/sample_00006.bin"
     },
@@ -2360,6 +2619,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 100,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/50/sample_00007.bin"
     },
@@ -2369,6 +2629,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 126,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/50/sample_00008.bin"
     },
@@ -2378,6 +2639,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 13,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/50/sample_00009.bin"
     },
@@ -2387,6 +2649,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 196,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/50/sample_00010.bin"
     },
@@ -2396,6 +2659,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 418,
       "num_points": 8192,
       "path": "deepsdf/deepjeb_3d_3d/50/sample_00011.bin"
     },
@@ -2405,6 +2669,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 159,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/50/sample_00000.bin"
     },
@@ -2414,6 +2679,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 215,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/50/sample_00001.bin"
     },
@@ -2423,6 +2689,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 329,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/50/sample_00002.bin"
     },
@@ -2432,6 +2699,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 284,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/50/sample_00003.bin"
     },
@@ -2441,6 +2709,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 445,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/50/sample_00004.bin"
     },
@@ -2450,6 +2719,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 277,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/50/sample_00005.bin"
     },
@@ -2459,6 +2729,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 97,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/50/sample_00006.bin"
     },
@@ -2468,6 +2739,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 499,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/50/sample_00007.bin"
     },
@@ -2477,6 +2749,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 33,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/50/sample_00008.bin"
     },
@@ -2486,6 +2759,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 61,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/50/sample_00009.bin"
     },
@@ -2495,6 +2769,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 291,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/50/sample_00010.bin"
     },
@@ -2504,6 +2779,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 315,
       "num_points": 8192,
       "path": "deepsdf/deepwheel_3d_3d/50/sample_00011.bin"
     },
@@ -2513,6 +2789,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 313,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/50/sample_00000.bin"
     },
@@ -2522,6 +2799,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 122,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/50/sample_00001.bin"
     },
@@ -2531,6 +2809,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 433,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/50/sample_00002.bin"
     },
@@ -2540,6 +2819,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 106,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/50/sample_00003.bin"
     },
@@ -2549,6 +2829,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 259,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/50/sample_00004.bin"
     },
@@ -2558,6 +2839,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 7,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/50/sample_00005.bin"
     },
@@ -2567,6 +2849,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 345,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/50/sample_00006.bin"
     },
@@ -2576,6 +2859,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 186,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/50/sample_00007.bin"
     },
@@ -2585,6 +2869,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 410,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/50/sample_00008.bin"
     },
@@ -2594,6 +2879,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 398,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/50/sample_00009.bin"
     },
@@ -2603,6 +2889,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 286,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/50/sample_00010.bin"
     },
@@ -2612,6 +2899,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 349,
       "num_points": 8192,
       "path": "deepsdf/drivaernet_3d_3d/50/sample_00011.bin"
     },
@@ -2621,6 +2909,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 411,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/100/sample_00000.bin"
     },
@@ -2630,6 +2919,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 132,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/100/sample_00001.bin"
     },
@@ -2639,6 +2929,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 4,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/100/sample_00002.bin"
     },
@@ -2648,6 +2939,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 211,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/100/sample_00003.bin"
     },
@@ -2657,6 +2949,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 11,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/100/sample_00004.bin"
     },
@@ -2666,6 +2959,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 131,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/100/sample_00005.bin"
     },
@@ -2675,6 +2969,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 146,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/100/sample_00006.bin"
     },
@@ -2684,6 +2979,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 388,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/100/sample_00007.bin"
     },
@@ -2693,6 +2989,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 244,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/100/sample_00008.bin"
     },
@@ -2702,6 +2999,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 447,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/100/sample_00009.bin"
     },
@@ -2711,6 +3009,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 249,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/100/sample_00010.bin"
     },
@@ -2720,6 +3019,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 95,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/100/sample_00011.bin"
     },
@@ -2729,6 +3029,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 315,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/100/sample_00000.bin"
     },
@@ -2738,6 +3039,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 278,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/100/sample_00001.bin"
     },
@@ -2747,6 +3049,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 497,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/100/sample_00002.bin"
     },
@@ -2756,6 +3059,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 280,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/100/sample_00003.bin"
     },
@@ -2765,6 +3069,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 279,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/100/sample_00004.bin"
     },
@@ -2774,6 +3079,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 383,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/100/sample_00005.bin"
     },
@@ -2783,6 +3089,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 46,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/100/sample_00006.bin"
     },
@@ -2792,6 +3099,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 282,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/100/sample_00007.bin"
     },
@@ -2801,6 +3109,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 59,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/100/sample_00008.bin"
     },
@@ -2810,6 +3119,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 419,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/100/sample_00009.bin"
     },
@@ -2819,6 +3129,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 368,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/100/sample_00010.bin"
     },
@@ -2828,6 +3139,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 351,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/100/sample_00011.bin"
     },
@@ -2837,6 +3149,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 267,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/100/sample_00000.bin"
     },
@@ -2846,6 +3159,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 65,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/100/sample_00001.bin"
     },
@@ -2855,6 +3169,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 175,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/100/sample_00002.bin"
     },
@@ -2864,6 +3179,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 214,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/100/sample_00003.bin"
     },
@@ -2873,6 +3189,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 389,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/100/sample_00004.bin"
     },
@@ -2882,6 +3199,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 380,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/100/sample_00005.bin"
     },
@@ -2891,6 +3209,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 394,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/100/sample_00006.bin"
     },
@@ -2900,6 +3219,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 288,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/100/sample_00007.bin"
     },
@@ -2909,6 +3229,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 124,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/100/sample_00008.bin"
     },
@@ -2918,6 +3239,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 456,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/100/sample_00009.bin"
     },
@@ -2927,6 +3249,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 365,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/100/sample_00010.bin"
     },
@@ -2936,6 +3259,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 391,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/100/sample_00011.bin"
     },
@@ -2945,6 +3269,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 135,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/20/sample_00000.bin"
     },
@@ -2954,6 +3279,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 75,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/20/sample_00001.bin"
     },
@@ -2963,6 +3289,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 455,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/20/sample_00002.bin"
     },
@@ -2972,6 +3299,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 248,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/20/sample_00003.bin"
     },
@@ -2981,6 +3309,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 274,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/20/sample_00004.bin"
     },
@@ -2990,6 +3319,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 301,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/20/sample_00005.bin"
     },
@@ -2999,6 +3329,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 128,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/20/sample_00006.bin"
     },
@@ -3008,6 +3339,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 42,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/20/sample_00007.bin"
     },
@@ -3017,6 +3349,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 492,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/20/sample_00008.bin"
     },
@@ -3026,6 +3359,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 168,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/20/sample_00009.bin"
     },
@@ -3035,6 +3369,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 171,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/20/sample_00010.bin"
     },
@@ -3044,6 +3379,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 309,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/20/sample_00011.bin"
     },
@@ -3053,6 +3389,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 45,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/20/sample_00000.bin"
     },
@@ -3062,6 +3399,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 133,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/20/sample_00001.bin"
     },
@@ -3071,6 +3409,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 78,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/20/sample_00002.bin"
     },
@@ -3080,6 +3419,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 298,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/20/sample_00003.bin"
     },
@@ -3089,6 +3429,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 274,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/20/sample_00004.bin"
     },
@@ -3098,6 +3439,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 264,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/20/sample_00005.bin"
     },
@@ -3107,6 +3449,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 473,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/20/sample_00006.bin"
     },
@@ -3116,6 +3459,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 198,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/20/sample_00007.bin"
     },
@@ -3125,6 +3469,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 68,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/20/sample_00008.bin"
     },
@@ -3134,6 +3479,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 227,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/20/sample_00009.bin"
     },
@@ -3143,6 +3489,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 296,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/20/sample_00010.bin"
     },
@@ -3152,6 +3499,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 126,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/20/sample_00011.bin"
     },
@@ -3161,6 +3509,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 290,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/20/sample_00000.bin"
     },
@@ -3170,6 +3519,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 27,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/20/sample_00001.bin"
     },
@@ -3179,6 +3529,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 305,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/20/sample_00002.bin"
     },
@@ -3188,6 +3539,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 465,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/20/sample_00003.bin"
     },
@@ -3197,6 +3549,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 401,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/20/sample_00004.bin"
     },
@@ -3206,6 +3559,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 481,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/20/sample_00005.bin"
     },
@@ -3215,6 +3569,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 479,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/20/sample_00006.bin"
     },
@@ -3224,6 +3579,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 31,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/20/sample_00007.bin"
     },
@@ -3233,6 +3589,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 313,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/20/sample_00008.bin"
     },
@@ -3242,6 +3599,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 33,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/20/sample_00009.bin"
     },
@@ -3251,6 +3609,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 369,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/20/sample_00010.bin"
     },
@@ -3260,6 +3619,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 404,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/20/sample_00011.bin"
     },
@@ -3269,6 +3629,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 208,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/200/sample_00000.bin"
     },
@@ -3278,6 +3639,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 216,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/200/sample_00001.bin"
     },
@@ -3287,6 +3649,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 175,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/200/sample_00002.bin"
     },
@@ -3296,6 +3659,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 335,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/200/sample_00003.bin"
     },
@@ -3305,6 +3669,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 23,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/200/sample_00004.bin"
     },
@@ -3314,6 +3679,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 391,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/200/sample_00005.bin"
     },
@@ -3323,6 +3689,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 176,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/200/sample_00006.bin"
     },
@@ -3332,6 +3699,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 401,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/200/sample_00007.bin"
     },
@@ -3341,6 +3709,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 144,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/200/sample_00008.bin"
     },
@@ -3350,6 +3719,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 271,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/200/sample_00009.bin"
     },
@@ -3359,6 +3729,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 57,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/200/sample_00010.bin"
     },
@@ -3368,6 +3739,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 25,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/200/sample_00011.bin"
     },
@@ -3377,6 +3749,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 114,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/200/sample_00000.bin"
     },
@@ -3386,6 +3759,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 232,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/200/sample_00001.bin"
     },
@@ -3395,6 +3769,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 426,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/200/sample_00002.bin"
     },
@@ -3404,6 +3779,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 305,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/200/sample_00003.bin"
     },
@@ -3413,6 +3789,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 34,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/200/sample_00004.bin"
     },
@@ -3422,6 +3799,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 379,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/200/sample_00005.bin"
     },
@@ -3431,6 +3809,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 144,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/200/sample_00006.bin"
     },
@@ -3440,6 +3819,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 156,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/200/sample_00007.bin"
     },
@@ -3449,6 +3829,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 445,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/200/sample_00008.bin"
     },
@@ -3458,6 +3839,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 476,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/200/sample_00009.bin"
     },
@@ -3467,6 +3849,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 322,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/200/sample_00010.bin"
     },
@@ -3476,6 +3859,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 64,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/200/sample_00011.bin"
     },
@@ -3485,6 +3869,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 178,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/200/sample_00000.bin"
     },
@@ -3494,6 +3879,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 413,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/200/sample_00001.bin"
     },
@@ -3503,6 +3889,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 64,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/200/sample_00002.bin"
     },
@@ -3512,6 +3899,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 234,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/200/sample_00003.bin"
     },
@@ -3521,6 +3909,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 159,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/200/sample_00004.bin"
     },
@@ -3530,6 +3919,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 499,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/200/sample_00005.bin"
     },
@@ -3539,6 +3929,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 320,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/200/sample_00006.bin"
     },
@@ -3548,6 +3939,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 477,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/200/sample_00007.bin"
     },
@@ -3557,6 +3949,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 26,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/200/sample_00008.bin"
     },
@@ -3566,6 +3959,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 326,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/200/sample_00009.bin"
     },
@@ -3575,6 +3969,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 14,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/200/sample_00010.bin"
     },
@@ -3584,6 +3979,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 100,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/200/sample_00011.bin"
     },
@@ -3593,6 +3989,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 480,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/50/sample_00000.bin"
     },
@@ -3602,6 +3999,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 61,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/50/sample_00001.bin"
     },
@@ -3611,6 +4009,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 407,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/50/sample_00002.bin"
     },
@@ -3620,6 +4019,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 83,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/50/sample_00003.bin"
     },
@@ -3629,6 +4029,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 45,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/50/sample_00004.bin"
     },
@@ -3638,6 +4039,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 166,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/50/sample_00005.bin"
     },
@@ -3647,6 +4049,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 24,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/50/sample_00006.bin"
     },
@@ -3656,6 +4059,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 269,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/50/sample_00007.bin"
     },
@@ -3665,6 +4069,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 375,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/50/sample_00008.bin"
     },
@@ -3674,6 +4079,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 323,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/50/sample_00009.bin"
     },
@@ -3683,6 +4089,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 245,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/50/sample_00010.bin"
     },
@@ -3692,6 +4099,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 162,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepjeb_3d_3d/50/sample_00011.bin"
     },
@@ -3701,6 +4109,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 394,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/50/sample_00000.bin"
     },
@@ -3710,6 +4119,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 152,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/50/sample_00001.bin"
     },
@@ -3719,6 +4129,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 377,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/50/sample_00002.bin"
     },
@@ -3728,6 +4139,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 33,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/50/sample_00003.bin"
     },
@@ -3737,6 +4149,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 31,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/50/sample_00004.bin"
     },
@@ -3746,6 +4159,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 1,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/50/sample_00005.bin"
     },
@@ -3755,6 +4169,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 145,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/50/sample_00006.bin"
     },
@@ -3764,6 +4179,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 269,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/50/sample_00007.bin"
     },
@@ -3773,6 +4189,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 309,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/50/sample_00008.bin"
     },
@@ -3782,6 +4199,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 174,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/50/sample_00009.bin"
     },
@@ -3791,6 +4209,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 122,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/50/sample_00010.bin"
     },
@@ -3800,6 +4219,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 53,
       "num_points": 8192,
       "path": "diffusionpointcloud/deepwheel_3d_3d/50/sample_00011.bin"
     },
@@ -3809,6 +4229,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 176,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/50/sample_00000.bin"
     },
@@ -3818,6 +4239,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 323,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/50/sample_00001.bin"
     },
@@ -3827,6 +4249,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 437,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/50/sample_00002.bin"
     },
@@ -3836,6 +4259,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 127,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/50/sample_00003.bin"
     },
@@ -3845,6 +4269,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 436,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/50/sample_00004.bin"
     },
@@ -3854,6 +4279,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 72,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/50/sample_00005.bin"
     },
@@ -3863,6 +4289,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 56,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/50/sample_00006.bin"
     },
@@ -3872,6 +4299,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 187,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/50/sample_00007.bin"
     },
@@ -3881,6 +4309,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 345,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/50/sample_00008.bin"
     },
@@ -3890,6 +4319,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 240,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/50/sample_00009.bin"
     },
@@ -3899,6 +4329,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 143,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/50/sample_00010.bin"
     },
@@ -3908,6 +4339,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 224,
       "num_points": 8192,
       "path": "diffusionpointcloud/drivaernet_3d_3d/50/sample_00011.bin"
     },
@@ -3917,6 +4349,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 481,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/100/sample_00000.bin"
     },
@@ -3926,6 +4359,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 187,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/100/sample_00001.bin"
     },
@@ -3935,6 +4369,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 49,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/100/sample_00002.bin"
     },
@@ -3944,6 +4379,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 443,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/100/sample_00003.bin"
     },
@@ -3953,6 +4389,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 344,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/100/sample_00004.bin"
     },
@@ -3962,6 +4399,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 86,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/100/sample_00005.bin"
     },
@@ -3971,6 +4409,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 104,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/100/sample_00006.bin"
     },
@@ -3980,6 +4419,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 468,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/100/sample_00007.bin"
     },
@@ -3989,6 +4429,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 439,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/100/sample_00008.bin"
     },
@@ -3998,6 +4439,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 449,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/100/sample_00009.bin"
     },
@@ -4007,6 +4449,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 346,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/100/sample_00010.bin"
     },
@@ -4016,6 +4459,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 361,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/100/sample_00011.bin"
     },
@@ -4025,6 +4469,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 13,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/100/sample_00000.bin"
     },
@@ -4034,6 +4479,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 172,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/100/sample_00001.bin"
     },
@@ -4043,6 +4489,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 231,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/100/sample_00002.bin"
     },
@@ -4052,6 +4499,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 58,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/100/sample_00003.bin"
     },
@@ -4061,6 +4509,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 279,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/100/sample_00004.bin"
     },
@@ -4070,6 +4519,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 223,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/100/sample_00005.bin"
     },
@@ -4079,6 +4529,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 385,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/100/sample_00006.bin"
     },
@@ -4088,6 +4539,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 29,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/100/sample_00007.bin"
     },
@@ -4097,6 +4549,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 153,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/100/sample_00008.bin"
     },
@@ -4106,6 +4559,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 191,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/100/sample_00009.bin"
     },
@@ -4115,6 +4569,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 357,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/100/sample_00010.bin"
     },
@@ -4124,6 +4579,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 401,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/100/sample_00011.bin"
     },
@@ -4133,6 +4589,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 410,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/100/sample_00000.bin"
     },
@@ -4142,6 +4599,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 3,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/100/sample_00001.bin"
     },
@@ -4151,6 +4609,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 77,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/100/sample_00002.bin"
     },
@@ -4160,6 +4619,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 160,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/100/sample_00003.bin"
     },
@@ -4169,6 +4629,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 378,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/100/sample_00004.bin"
     },
@@ -4178,6 +4639,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 271,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/100/sample_00005.bin"
     },
@@ -4187,6 +4649,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 63,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/100/sample_00006.bin"
     },
@@ -4196,6 +4659,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 204,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/100/sample_00007.bin"
     },
@@ -4205,6 +4669,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 477,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/100/sample_00008.bin"
     },
@@ -4214,6 +4679,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 150,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/100/sample_00009.bin"
     },
@@ -4223,6 +4689,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 321,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/100/sample_00010.bin"
     },
@@ -4232,6 +4699,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 356,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/100/sample_00011.bin"
     },
@@ -4241,6 +4709,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 219,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/20/sample_00000.bin"
     },
@@ -4250,6 +4719,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 356,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/20/sample_00001.bin"
     },
@@ -4259,6 +4729,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 153,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/20/sample_00002.bin"
     },
@@ -4268,6 +4739,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 362,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/20/sample_00003.bin"
     },
@@ -4277,6 +4749,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 222,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/20/sample_00004.bin"
     },
@@ -4286,6 +4759,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 288,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/20/sample_00005.bin"
     },
@@ -4295,6 +4769,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 204,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/20/sample_00006.bin"
     },
@@ -4304,6 +4779,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 17,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/20/sample_00007.bin"
     },
@@ -4313,6 +4789,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 182,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/20/sample_00008.bin"
     },
@@ -4322,6 +4799,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 230,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/20/sample_00009.bin"
     },
@@ -4331,6 +4809,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 216,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/20/sample_00010.bin"
     },
@@ -4340,6 +4819,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 438,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/20/sample_00011.bin"
     },
@@ -4349,6 +4829,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 272,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/20/sample_00000.bin"
     },
@@ -4358,6 +4839,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 81,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/20/sample_00001.bin"
     },
@@ -4367,6 +4849,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 217,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/20/sample_00002.bin"
     },
@@ -4376,6 +4859,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 445,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/20/sample_00003.bin"
     },
@@ -4385,6 +4869,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 324,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/20/sample_00004.bin"
     },
@@ -4394,6 +4879,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 67,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/20/sample_00005.bin"
     },
@@ -4403,6 +4889,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 61,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/20/sample_00006.bin"
     },
@@ -4412,6 +4899,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 499,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/20/sample_00007.bin"
     },
@@ -4421,6 +4909,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 46,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/20/sample_00008.bin"
     },
@@ -4430,6 +4919,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 338,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/20/sample_00009.bin"
     },
@@ -4439,6 +4929,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 416,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/20/sample_00010.bin"
     },
@@ -4448,6 +4939,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 56,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/20/sample_00011.bin"
     },
@@ -4457,6 +4949,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 81,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/20/sample_00000.bin"
     },
@@ -4466,6 +4959,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 311,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/20/sample_00001.bin"
     },
@@ -4475,6 +4969,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 218,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/20/sample_00002.bin"
     },
@@ -4484,6 +4979,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 454,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/20/sample_00003.bin"
     },
@@ -4493,6 +4989,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 91,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/20/sample_00004.bin"
     },
@@ -4502,6 +4999,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 412,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/20/sample_00005.bin"
     },
@@ -4511,6 +5009,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 478,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/20/sample_00006.bin"
     },
@@ -4520,6 +5019,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 152,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/20/sample_00007.bin"
     },
@@ -4529,6 +5029,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 300,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/20/sample_00008.bin"
     },
@@ -4538,6 +5039,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 64,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/20/sample_00009.bin"
     },
@@ -4547,6 +5049,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 168,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/20/sample_00010.bin"
     },
@@ -4556,6 +5059,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 158,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/20/sample_00011.bin"
     },
@@ -4565,6 +5069,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 328,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/200/sample_00000.bin"
     },
@@ -4574,6 +5079,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 456,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/200/sample_00001.bin"
     },
@@ -4583,6 +5089,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 230,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/200/sample_00002.bin"
     },
@@ -4592,6 +5099,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 322,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/200/sample_00003.bin"
     },
@@ -4601,6 +5109,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 89,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/200/sample_00004.bin"
     },
@@ -4610,6 +5119,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 146,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/200/sample_00005.bin"
     },
@@ -4619,6 +5129,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 313,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/200/sample_00006.bin"
     },
@@ -4628,6 +5139,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 348,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/200/sample_00007.bin"
     },
@@ -4637,6 +5149,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 0,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/200/sample_00008.bin"
     },
@@ -4646,6 +5159,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 222,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/200/sample_00009.bin"
     },
@@ -4655,6 +5169,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 269,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/200/sample_00010.bin"
     },
@@ -4664,6 +5179,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 288,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/200/sample_00011.bin"
     },
@@ -4673,6 +5189,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 217,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/200/sample_00000.bin"
     },
@@ -4682,6 +5199,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 277,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/200/sample_00001.bin"
     },
@@ -4691,6 +5209,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 122,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/200/sample_00002.bin"
     },
@@ -4700,6 +5219,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 37,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/200/sample_00003.bin"
     },
@@ -4709,6 +5229,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 272,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/200/sample_00004.bin"
     },
@@ -4718,6 +5239,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 157,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/200/sample_00005.bin"
     },
@@ -4727,6 +5249,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 213,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/200/sample_00006.bin"
     },
@@ -4736,6 +5259,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 159,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/200/sample_00007.bin"
     },
@@ -4745,6 +5269,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 383,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/200/sample_00008.bin"
     },
@@ -4754,6 +5279,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 401,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/200/sample_00009.bin"
     },
@@ -4763,6 +5289,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 296,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/200/sample_00010.bin"
     },
@@ -4772,6 +5299,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 321,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/200/sample_00011.bin"
     },
@@ -4781,6 +5309,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 204,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/200/sample_00000.bin"
     },
@@ -4790,6 +5319,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 435,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/200/sample_00001.bin"
     },
@@ -4799,6 +5329,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 315,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/200/sample_00002.bin"
     },
@@ -4808,6 +5339,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 440,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/200/sample_00003.bin"
     },
@@ -4817,6 +5349,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 278,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/200/sample_00004.bin"
     },
@@ -4826,6 +5359,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 32,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/200/sample_00005.bin"
     },
@@ -4835,6 +5369,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 387,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/200/sample_00006.bin"
     },
@@ -4844,6 +5379,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 294,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/200/sample_00007.bin"
     },
@@ -4853,6 +5389,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 46,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/200/sample_00008.bin"
     },
@@ -4862,6 +5399,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 153,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/200/sample_00009.bin"
     },
@@ -4871,6 +5409,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 85,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/200/sample_00010.bin"
     },
@@ -4880,6 +5419,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 72,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/200/sample_00011.bin"
     },
@@ -4889,6 +5429,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 410,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/50/sample_00000.bin"
     },
@@ -4898,6 +5439,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 380,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/50/sample_00001.bin"
     },
@@ -4907,6 +5449,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 72,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/50/sample_00002.bin"
     },
@@ -4916,6 +5459,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 212,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/50/sample_00003.bin"
     },
@@ -4925,6 +5469,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 307,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/50/sample_00004.bin"
     },
@@ -4934,6 +5479,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 320,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/50/sample_00005.bin"
     },
@@ -4943,6 +5489,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 190,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/50/sample_00006.bin"
     },
@@ -4952,6 +5499,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 285,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/50/sample_00007.bin"
     },
@@ -4961,6 +5509,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 458,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/50/sample_00008.bin"
     },
@@ -4970,6 +5519,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 280,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/50/sample_00009.bin"
     },
@@ -4979,6 +5529,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 70,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/50/sample_00010.bin"
     },
@@ -4988,6 +5539,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 197,
       "num_points": 8192,
       "path": "gan3d/deepjeb_3d_3d/50/sample_00011.bin"
     },
@@ -4997,6 +5549,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 173,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/50/sample_00000.bin"
     },
@@ -5006,6 +5559,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 284,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/50/sample_00001.bin"
     },
@@ -5015,6 +5569,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 244,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/50/sample_00002.bin"
     },
@@ -5024,6 +5579,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 46,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/50/sample_00003.bin"
     },
@@ -5033,6 +5589,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 381,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/50/sample_00004.bin"
     },
@@ -5042,6 +5599,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 348,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/50/sample_00005.bin"
     },
@@ -5051,6 +5609,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 204,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/50/sample_00006.bin"
     },
@@ -5060,6 +5619,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 182,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/50/sample_00007.bin"
     },
@@ -5069,6 +5629,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 122,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/50/sample_00008.bin"
     },
@@ -5078,6 +5639,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 435,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/50/sample_00009.bin"
     },
@@ -5087,6 +5649,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 250,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/50/sample_00010.bin"
     },
@@ -5096,6 +5659,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 272,
       "num_points": 8192,
       "path": "gan3d/deepwheel_3d_3d/50/sample_00011.bin"
     },
@@ -5105,6 +5669,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 119,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/50/sample_00000.bin"
     },
@@ -5114,6 +5679,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 85,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/50/sample_00001.bin"
     },
@@ -5123,6 +5689,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 95,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/50/sample_00002.bin"
     },
@@ -5132,6 +5699,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 13,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/50/sample_00003.bin"
     },
@@ -5141,6 +5709,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 210,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/50/sample_00004.bin"
     },
@@ -5150,6 +5719,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 465,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/50/sample_00005.bin"
     },
@@ -5159,6 +5729,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 405,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/50/sample_00006.bin"
     },
@@ -5168,6 +5739,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 33,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/50/sample_00007.bin"
     },
@@ -5177,6 +5749,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 288,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/50/sample_00008.bin"
     },
@@ -5186,6 +5759,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 380,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/50/sample_00009.bin"
     },
@@ -5195,6 +5769,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 460,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/50/sample_00010.bin"
     },
@@ -5204,6 +5779,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 172,
       "num_points": 8192,
       "path": "gan3d/drivaernet_3d_3d/50/sample_00011.bin"
     },
@@ -5213,6 +5789,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 372,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/100/sample_00000.bin"
     },
@@ -5222,6 +5799,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 456,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/100/sample_00001.bin"
     },
@@ -5231,6 +5809,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 394,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/100/sample_00002.bin"
     },
@@ -5240,6 +5819,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 146,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/100/sample_00003.bin"
     },
@@ -5249,6 +5829,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 399,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/100/sample_00004.bin"
     },
@@ -5258,6 +5839,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 40,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/100/sample_00005.bin"
     },
@@ -5267,6 +5849,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 472,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/100/sample_00006.bin"
     },
@@ -5276,6 +5859,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 107,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/100/sample_00007.bin"
     },
@@ -5285,6 +5869,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 160,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/100/sample_00008.bin"
     },
@@ -5294,6 +5879,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 16,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/100/sample_00009.bin"
     },
@@ -5303,6 +5889,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 453,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/100/sample_00010.bin"
     },
@@ -5312,6 +5899,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 249,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/100/sample_00011.bin"
     },
@@ -5321,6 +5909,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 168,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/100/sample_00000.bin"
     },
@@ -5330,6 +5919,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 179,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/100/sample_00001.bin"
     },
@@ -5339,6 +5929,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 66,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/100/sample_00002.bin"
     },
@@ -5348,6 +5939,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 96,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/100/sample_00003.bin"
     },
@@ -5357,6 +5949,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 452,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/100/sample_00004.bin"
     },
@@ -5366,6 +5959,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 358,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/100/sample_00005.bin"
     },
@@ -5375,6 +5969,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 46,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/100/sample_00006.bin"
     },
@@ -5384,6 +5979,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 242,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/100/sample_00007.bin"
     },
@@ -5393,6 +5989,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 23,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/100/sample_00008.bin"
     },
@@ -5402,6 +5999,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 71,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/100/sample_00009.bin"
     },
@@ -5411,6 +6009,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 396,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/100/sample_00010.bin"
     },
@@ -5420,6 +6019,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 258,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/100/sample_00011.bin"
     },
@@ -5429,6 +6029,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 411,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/100/sample_00000.bin"
     },
@@ -5438,6 +6039,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 212,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/100/sample_00001.bin"
     },
@@ -5447,6 +6049,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 264,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/100/sample_00002.bin"
     },
@@ -5456,6 +6059,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 144,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/100/sample_00003.bin"
     },
@@ -5465,6 +6069,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 169,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/100/sample_00004.bin"
     },
@@ -5474,6 +6079,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 93,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/100/sample_00005.bin"
     },
@@ -5483,6 +6089,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 373,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/100/sample_00006.bin"
     },
@@ -5492,6 +6099,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 323,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/100/sample_00007.bin"
     },
@@ -5501,6 +6109,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 363,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/100/sample_00008.bin"
     },
@@ -5510,6 +6119,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 232,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/100/sample_00009.bin"
     },
@@ -5519,6 +6129,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 76,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/100/sample_00010.bin"
     },
@@ -5528,6 +6139,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 259,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/100/sample_00011.bin"
     },
@@ -5537,6 +6149,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 479,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/20/sample_00000.bin"
     },
@@ -5546,6 +6159,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 321,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/20/sample_00001.bin"
     },
@@ -5555,6 +6169,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 223,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/20/sample_00002.bin"
     },
@@ -5564,6 +6179,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 154,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/20/sample_00003.bin"
     },
@@ -5573,6 +6189,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 168,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/20/sample_00004.bin"
     },
@@ -5582,6 +6199,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 4,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/20/sample_00005.bin"
     },
@@ -5591,6 +6209,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 436,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/20/sample_00006.bin"
     },
@@ -5600,6 +6219,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 452,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/20/sample_00007.bin"
     },
@@ -5609,6 +6229,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 441,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/20/sample_00008.bin"
     },
@@ -5618,6 +6239,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 113,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/20/sample_00009.bin"
     },
@@ -5627,6 +6249,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 469,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/20/sample_00010.bin"
     },
@@ -5636,6 +6259,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 50,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/20/sample_00011.bin"
     },
@@ -5645,6 +6269,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 70,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/20/sample_00000.bin"
     },
@@ -5654,6 +6279,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 414,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/20/sample_00001.bin"
     },
@@ -5663,6 +6289,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 365,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/20/sample_00002.bin"
     },
@@ -5672,6 +6299,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 6,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/20/sample_00003.bin"
     },
@@ -5681,6 +6309,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 79,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/20/sample_00004.bin"
     },
@@ -5690,6 +6319,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 325,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/20/sample_00005.bin"
     },
@@ -5699,6 +6329,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 141,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/20/sample_00006.bin"
     },
@@ -5708,6 +6339,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 25,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/20/sample_00007.bin"
     },
@@ -5717,6 +6349,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 178,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/20/sample_00008.bin"
     },
@@ -5726,6 +6359,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 15,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/20/sample_00009.bin"
     },
@@ -5735,6 +6369,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 252,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/20/sample_00010.bin"
     },
@@ -5744,6 +6379,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 306,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/20/sample_00011.bin"
     },
@@ -5753,6 +6389,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 123,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/20/sample_00000.bin"
     },
@@ -5762,6 +6399,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 426,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/20/sample_00001.bin"
     },
@@ -5771,6 +6409,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 465,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/20/sample_00002.bin"
     },
@@ -5780,6 +6419,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 117,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/20/sample_00003.bin"
     },
@@ -5789,6 +6429,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 315,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/20/sample_00004.bin"
     },
@@ -5798,6 +6439,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 274,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/20/sample_00005.bin"
     },
@@ -5807,6 +6449,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 300,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/20/sample_00006.bin"
     },
@@ -5816,6 +6459,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 338,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/20/sample_00007.bin"
     },
@@ -5825,6 +6469,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 467,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/20/sample_00008.bin"
     },
@@ -5834,6 +6479,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 75,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/20/sample_00009.bin"
     },
@@ -5843,6 +6489,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 23,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/20/sample_00010.bin"
     },
@@ -5852,6 +6499,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 372,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/20/sample_00011.bin"
     },
@@ -5861,6 +6509,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 332,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/200/sample_00000.bin"
     },
@@ -5870,6 +6519,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 13,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/200/sample_00001.bin"
     },
@@ -5879,6 +6529,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 287,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/200/sample_00002.bin"
     },
@@ -5888,6 +6539,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 129,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/200/sample_00003.bin"
     },
@@ -5897,6 +6549,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 443,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/200/sample_00004.bin"
     },
@@ -5906,6 +6559,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 469,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/200/sample_00005.bin"
     },
@@ -5915,6 +6569,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 285,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/200/sample_00006.bin"
     },
@@ -5924,6 +6579,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 276,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/200/sample_00007.bin"
     },
@@ -5933,6 +6589,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 483,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/200/sample_00008.bin"
     },
@@ -5942,6 +6599,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 330,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/200/sample_00009.bin"
     },
@@ -5951,6 +6609,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 274,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/200/sample_00010.bin"
     },
@@ -5960,6 +6619,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 275,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/200/sample_00011.bin"
     },
@@ -5969,6 +6629,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 470,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/200/sample_00000.bin"
     },
@@ -5978,6 +6639,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 395,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/200/sample_00001.bin"
     },
@@ -5987,6 +6649,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 33,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/200/sample_00002.bin"
     },
@@ -5996,6 +6659,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 420,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/200/sample_00003.bin"
     },
@@ -6005,6 +6669,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 108,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/200/sample_00004.bin"
     },
@@ -6014,6 +6679,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 31,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/200/sample_00005.bin"
     },
@@ -6023,6 +6689,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 211,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/200/sample_00006.bin"
     },
@@ -6032,6 +6699,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 47,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/200/sample_00007.bin"
     },
@@ -6041,6 +6709,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 275,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/200/sample_00008.bin"
     },
@@ -6050,6 +6719,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 304,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/200/sample_00009.bin"
     },
@@ -6059,6 +6729,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 493,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/200/sample_00010.bin"
     },
@@ -6068,6 +6739,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 466,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/200/sample_00011.bin"
     },
@@ -6077,6 +6749,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 480,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/200/sample_00000.bin"
     },
@@ -6086,6 +6759,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 285,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/200/sample_00001.bin"
     },
@@ -6095,6 +6769,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 415,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/200/sample_00002.bin"
     },
@@ -6104,6 +6779,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 151,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/200/sample_00003.bin"
     },
@@ -6113,6 +6789,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 27,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/200/sample_00004.bin"
     },
@@ -6122,6 +6799,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 349,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/200/sample_00005.bin"
     },
@@ -6131,6 +6809,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 390,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/200/sample_00006.bin"
     },
@@ -6140,6 +6819,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 133,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/200/sample_00007.bin"
     },
@@ -6149,6 +6829,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 122,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/200/sample_00008.bin"
     },
@@ -6158,6 +6839,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 59,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/200/sample_00009.bin"
     },
@@ -6167,6 +6849,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 376,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/200/sample_00010.bin"
     },
@@ -6176,6 +6859,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 459,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/200/sample_00011.bin"
     },
@@ -6185,6 +6869,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 334,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/50/sample_00000.bin"
     },
@@ -6194,6 +6879,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 123,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/50/sample_00001.bin"
     },
@@ -6203,6 +6889,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 27,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/50/sample_00002.bin"
     },
@@ -6212,6 +6899,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 100,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/50/sample_00003.bin"
     },
@@ -6221,6 +6909,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 201,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/50/sample_00004.bin"
     },
@@ -6230,6 +6919,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 399,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/50/sample_00005.bin"
     },
@@ -6239,6 +6929,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 291,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/50/sample_00006.bin"
     },
@@ -6248,6 +6939,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 99,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/50/sample_00007.bin"
     },
@@ -6257,6 +6949,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 248,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/50/sample_00008.bin"
     },
@@ -6266,6 +6959,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 409,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/50/sample_00009.bin"
     },
@@ -6275,6 +6969,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 420,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/50/sample_00010.bin"
     },
@@ -6284,6 +6979,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 198,
       "num_points": 8192,
       "path": "pointflow/deepjeb_3d_3d/50/sample_00011.bin"
     },
@@ -6293,6 +6989,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 320,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/50/sample_00000.bin"
     },
@@ -6302,6 +6999,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 441,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/50/sample_00001.bin"
     },
@@ -6311,6 +7009,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 132,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/50/sample_00002.bin"
     },
@@ -6320,6 +7019,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 177,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/50/sample_00003.bin"
     },
@@ -6329,6 +7029,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 102,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/50/sample_00004.bin"
     },
@@ -6338,6 +7039,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 359,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/50/sample_00005.bin"
     },
@@ -6347,6 +7049,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 365,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/50/sample_00006.bin"
     },
@@ -6356,6 +7059,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 156,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/50/sample_00007.bin"
     },
@@ -6365,6 +7069,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 471,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/50/sample_00008.bin"
     },
@@ -6374,6 +7079,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 276,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/50/sample_00009.bin"
     },
@@ -6383,6 +7089,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 341,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/50/sample_00010.bin"
     },
@@ -6392,6 +7099,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 409,
       "num_points": 8192,
       "path": "pointflow/deepwheel_3d_3d/50/sample_00011.bin"
     },
@@ -6401,6 +7109,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 18,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/50/sample_00000.bin"
     },
@@ -6410,6 +7119,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 208,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/50/sample_00001.bin"
     },
@@ -6419,6 +7129,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 331,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/50/sample_00002.bin"
     },
@@ -6428,6 +7139,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 382,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/50/sample_00003.bin"
     },
@@ -6437,6 +7149,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 117,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/50/sample_00004.bin"
     },
@@ -6446,6 +7159,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 124,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/50/sample_00005.bin"
     },
@@ -6455,6 +7169,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 409,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/50/sample_00006.bin"
     },
@@ -6464,6 +7179,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 80,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/50/sample_00007.bin"
     },
@@ -6473,6 +7189,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 444,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/50/sample_00008.bin"
     },
@@ -6482,6 +7199,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 491,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/50/sample_00009.bin"
     },
@@ -6491,6 +7209,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 473,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/50/sample_00010.bin"
     },
@@ -6500,6 +7219,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 311,
       "num_points": 8192,
       "path": "pointflow/drivaernet_3d_3d/50/sample_00011.bin"
     },
@@ -6509,6 +7229,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 367,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/100/sample_00000.bin"
     },
@@ -6518,6 +7239,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 423,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/100/sample_00001.bin"
     },
@@ -6527,6 +7249,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 354,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/100/sample_00002.bin"
     },
@@ -6536,6 +7259,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 232,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/100/sample_00003.bin"
     },
@@ -6545,6 +7269,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 293,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/100/sample_00004.bin"
     },
@@ -6554,6 +7279,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 244,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/100/sample_00005.bin"
     },
@@ -6563,6 +7289,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 248,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/100/sample_00006.bin"
     },
@@ -6572,6 +7299,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 30,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/100/sample_00007.bin"
     },
@@ -6581,6 +7309,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 308,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/100/sample_00008.bin"
     },
@@ -6590,6 +7319,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 135,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/100/sample_00009.bin"
     },
@@ -6599,6 +7329,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 380,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/100/sample_00010.bin"
     },
@@ -6608,6 +7339,7 @@
       "size": "L",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 193,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/100/sample_00011.bin"
     },
@@ -6617,6 +7349,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 171,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/100/sample_00000.bin"
     },
@@ -6626,6 +7359,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 129,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/100/sample_00001.bin"
     },
@@ -6635,6 +7369,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 417,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/100/sample_00002.bin"
     },
@@ -6644,6 +7379,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 46,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/100/sample_00003.bin"
     },
@@ -6653,6 +7389,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 473,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/100/sample_00004.bin"
     },
@@ -6662,6 +7399,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 157,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/100/sample_00005.bin"
     },
@@ -6671,6 +7409,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 47,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/100/sample_00006.bin"
     },
@@ -6680,6 +7419,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 485,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/100/sample_00007.bin"
     },
@@ -6689,6 +7429,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 208,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/100/sample_00008.bin"
     },
@@ -6698,6 +7439,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 160,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/100/sample_00009.bin"
     },
@@ -6707,6 +7449,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 42,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/100/sample_00010.bin"
     },
@@ -6716,6 +7459,7 @@
       "size": "L",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 192,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/100/sample_00011.bin"
     },
@@ -6725,6 +7469,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 472,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/100/sample_00000.bin"
     },
@@ -6734,6 +7479,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 32,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/100/sample_00001.bin"
     },
@@ -6743,6 +7489,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 285,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/100/sample_00002.bin"
     },
@@ -6752,6 +7499,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 199,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/100/sample_00003.bin"
     },
@@ -6761,6 +7509,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 290,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/100/sample_00004.bin"
     },
@@ -6770,6 +7519,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 109,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/100/sample_00005.bin"
     },
@@ -6779,6 +7529,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 394,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/100/sample_00006.bin"
     },
@@ -6788,6 +7539,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 378,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/100/sample_00007.bin"
     },
@@ -6797,6 +7549,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 270,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/100/sample_00008.bin"
     },
@@ -6806,6 +7559,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 58,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/100/sample_00009.bin"
     },
@@ -6815,6 +7569,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 188,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/100/sample_00010.bin"
     },
@@ -6824,6 +7579,7 @@
       "size": "L",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 55,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/100/sample_00011.bin"
     },
@@ -6833,6 +7589,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 26,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/20/sample_00000.bin"
     },
@@ -6842,6 +7599,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 458,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/20/sample_00001.bin"
     },
@@ -6851,6 +7609,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 419,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/20/sample_00002.bin"
     },
@@ -6860,6 +7619,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 214,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/20/sample_00003.bin"
     },
@@ -6869,6 +7629,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 260,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/20/sample_00004.bin"
     },
@@ -6878,6 +7639,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 404,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/20/sample_00005.bin"
     },
@@ -6887,6 +7649,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 290,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/20/sample_00006.bin"
     },
@@ -6896,6 +7659,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 204,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/20/sample_00007.bin"
     },
@@ -6905,6 +7669,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 57,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/20/sample_00008.bin"
     },
@@ -6914,6 +7679,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 423,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/20/sample_00009.bin"
     },
@@ -6923,6 +7689,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 397,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/20/sample_00010.bin"
     },
@@ -6932,6 +7699,7 @@
       "size": "S",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 374,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/20/sample_00011.bin"
     },
@@ -6941,6 +7709,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 120,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/20/sample_00000.bin"
     },
@@ -6950,6 +7719,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 245,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/20/sample_00001.bin"
     },
@@ -6959,6 +7729,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 386,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/20/sample_00002.bin"
     },
@@ -6968,6 +7739,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 168,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/20/sample_00003.bin"
     },
@@ -6977,6 +7749,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 223,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/20/sample_00004.bin"
     },
@@ -6986,6 +7759,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 459,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/20/sample_00005.bin"
     },
@@ -6995,6 +7769,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 339,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/20/sample_00006.bin"
     },
@@ -7004,6 +7779,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 360,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/20/sample_00007.bin"
     },
@@ -7013,6 +7789,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 484,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/20/sample_00008.bin"
     },
@@ -7022,6 +7799,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 311,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/20/sample_00009.bin"
     },
@@ -7031,6 +7809,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 462,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/20/sample_00010.bin"
     },
@@ -7040,6 +7819,7 @@
       "size": "S",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 433,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/20/sample_00011.bin"
     },
@@ -7049,6 +7829,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 207,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/20/sample_00000.bin"
     },
@@ -7058,6 +7839,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 170,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/20/sample_00001.bin"
     },
@@ -7067,6 +7849,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 455,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/20/sample_00002.bin"
     },
@@ -7076,6 +7859,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 478,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/20/sample_00003.bin"
     },
@@ -7085,6 +7869,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 175,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/20/sample_00004.bin"
     },
@@ -7094,6 +7879,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 188,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/20/sample_00005.bin"
     },
@@ -7103,6 +7889,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 331,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/20/sample_00006.bin"
     },
@@ -7112,6 +7899,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 271,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/20/sample_00007.bin"
     },
@@ -7121,6 +7909,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 391,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/20/sample_00008.bin"
     },
@@ -7130,6 +7919,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 386,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/20/sample_00009.bin"
     },
@@ -7139,6 +7929,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 483,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/20/sample_00010.bin"
     },
@@ -7148,6 +7939,7 @@
       "size": "S",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 384,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/20/sample_00011.bin"
     },
@@ -7157,6 +7949,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 430,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/200/sample_00000.bin"
     },
@@ -7166,6 +7959,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 396,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/200/sample_00001.bin"
     },
@@ -7175,6 +7969,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 169,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/200/sample_00002.bin"
     },
@@ -7184,6 +7979,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 324,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/200/sample_00003.bin"
     },
@@ -7193,6 +7989,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 198,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/200/sample_00004.bin"
     },
@@ -7202,6 +7999,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 42,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/200/sample_00005.bin"
     },
@@ -7211,6 +8009,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 370,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/200/sample_00006.bin"
     },
@@ -7220,6 +8019,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 349,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/200/sample_00007.bin"
     },
@@ -7229,6 +8029,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 346,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/200/sample_00008.bin"
     },
@@ -7238,6 +8039,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 81,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/200/sample_00009.bin"
     },
@@ -7247,6 +8049,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 70,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/200/sample_00010.bin"
     },
@@ -7256,6 +8059,7 @@
       "size": "XL",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 486,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/200/sample_00011.bin"
     },
@@ -7265,6 +8069,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 238,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/200/sample_00000.bin"
     },
@@ -7274,6 +8079,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 207,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/200/sample_00001.bin"
     },
@@ -7283,6 +8089,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 434,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/200/sample_00002.bin"
     },
@@ -7292,6 +8099,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 150,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/200/sample_00003.bin"
     },
@@ -7301,6 +8109,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 110,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/200/sample_00004.bin"
     },
@@ -7310,6 +8119,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 293,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/200/sample_00005.bin"
     },
@@ -7319,6 +8129,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 18,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/200/sample_00006.bin"
     },
@@ -7328,6 +8139,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 458,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/200/sample_00007.bin"
     },
@@ -7337,6 +8149,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 195,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/200/sample_00008.bin"
     },
@@ -7346,6 +8159,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 13,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/200/sample_00009.bin"
     },
@@ -7355,6 +8169,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 192,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/200/sample_00010.bin"
     },
@@ -7364,6 +8179,7 @@
       "size": "XL",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 476,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/200/sample_00011.bin"
     },
@@ -7373,6 +8189,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 459,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/200/sample_00000.bin"
     },
@@ -7382,6 +8199,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 188,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/200/sample_00001.bin"
     },
@@ -7391,6 +8209,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 375,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/200/sample_00002.bin"
     },
@@ -7400,6 +8219,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 372,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/200/sample_00003.bin"
     },
@@ -7409,6 +8229,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 443,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/200/sample_00004.bin"
     },
@@ -7418,6 +8239,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 377,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/200/sample_00005.bin"
     },
@@ -7427,6 +8249,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 323,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/200/sample_00006.bin"
     },
@@ -7436,6 +8259,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 455,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/200/sample_00007.bin"
     },
@@ -7445,6 +8269,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 60,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/200/sample_00008.bin"
     },
@@ -7454,6 +8279,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 412,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/200/sample_00009.bin"
     },
@@ -7463,6 +8289,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 98,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/200/sample_00010.bin"
     },
@@ -7472,6 +8299,7 @@
       "size": "XL",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 328,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/200/sample_00011.bin"
     },
@@ -7481,6 +8309,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 0,
+      "src": 445,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/50/sample_00000.bin"
     },
@@ -7490,6 +8319,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 1,
+      "src": 259,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/50/sample_00001.bin"
     },
@@ -7499,6 +8329,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 2,
+      "src": 21,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/50/sample_00002.bin"
     },
@@ -7508,6 +8339,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 3,
+      "src": 237,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/50/sample_00003.bin"
     },
@@ -7517,6 +8349,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 4,
+      "src": 123,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/50/sample_00004.bin"
     },
@@ -7526,6 +8359,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 5,
+      "src": 365,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/50/sample_00005.bin"
     },
@@ -7535,6 +8369,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 6,
+      "src": 352,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/50/sample_00006.bin"
     },
@@ -7544,6 +8379,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 7,
+      "src": 426,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/50/sample_00007.bin"
     },
@@ -7553,6 +8389,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 8,
+      "src": 370,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/50/sample_00008.bin"
     },
@@ -7562,6 +8399,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 9,
+      "src": 20,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/50/sample_00009.bin"
     },
@@ -7571,6 +8409,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 10,
+      "src": 183,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/50/sample_00010.bin"
     },
@@ -7580,6 +8419,7 @@
       "size": "M",
       "dataset": "deepjeb_3d_3d",
       "sample": 11,
+      "src": 382,
       "num_points": 8192,
       "path": "shapegf/deepjeb_3d_3d/50/sample_00011.bin"
     },
@@ -7589,6 +8429,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 0,
+      "src": 224,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/50/sample_00000.bin"
     },
@@ -7598,6 +8439,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 1,
+      "src": 203,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/50/sample_00001.bin"
     },
@@ -7607,6 +8449,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 2,
+      "src": 26,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/50/sample_00002.bin"
     },
@@ -7616,6 +8459,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 3,
+      "src": 184,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/50/sample_00003.bin"
     },
@@ -7625,6 +8469,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 4,
+      "src": 106,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/50/sample_00004.bin"
     },
@@ -7634,6 +8479,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 5,
+      "src": 318,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/50/sample_00005.bin"
     },
@@ -7643,6 +8489,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 6,
+      "src": 84,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/50/sample_00006.bin"
     },
@@ -7652,6 +8499,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 7,
+      "src": 25,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/50/sample_00007.bin"
     },
@@ -7661,6 +8509,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 8,
+      "src": 402,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/50/sample_00008.bin"
     },
@@ -7670,6 +8519,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 9,
+      "src": 450,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/50/sample_00009.bin"
     },
@@ -7679,6 +8529,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 10,
+      "src": 47,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/50/sample_00010.bin"
     },
@@ -7688,6 +8539,7 @@
       "size": "M",
       "dataset": "deepwheel_3d_3d",
       "sample": 11,
+      "src": 171,
       "num_points": 8192,
       "path": "shapegf/deepwheel_3d_3d/50/sample_00011.bin"
     },
@@ -7697,6 +8549,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 0,
+      "src": 272,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/50/sample_00000.bin"
     },
@@ -7706,6 +8559,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 1,
+      "src": 245,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/50/sample_00001.bin"
     },
@@ -7715,6 +8569,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 2,
+      "src": 276,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/50/sample_00002.bin"
     },
@@ -7724,6 +8579,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 3,
+      "src": 488,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/50/sample_00003.bin"
     },
@@ -7733,6 +8589,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 4,
+      "src": 303,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/50/sample_00004.bin"
     },
@@ -7742,6 +8599,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 5,
+      "src": 57,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/50/sample_00005.bin"
     },
@@ -7751,6 +8609,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 6,
+      "src": 256,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/50/sample_00006.bin"
     },
@@ -7760,6 +8619,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 7,
+      "src": 476,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/50/sample_00007.bin"
     },
@@ -7769,6 +8629,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 8,
+      "src": 266,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/50/sample_00008.bin"
     },
@@ -7778,6 +8639,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 9,
+      "src": 56,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/50/sample_00009.bin"
     },
@@ -7787,6 +8649,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 10,
+      "src": 11,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/50/sample_00010.bin"
     },
@@ -7796,6 +8659,7 @@
       "size": "M",
       "dataset": "drivaernet_3d_3d",
       "sample": 11,
+      "src": 194,
       "num_points": 8192,
       "path": "shapegf/drivaernet_3d_3d/50/sample_00011.bin"
     }

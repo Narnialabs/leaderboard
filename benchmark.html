@@ -5,9 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Narnia Labs - Benchmark</title>
 <link rel="icon" type="image/png" href="favicon.png">
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Joungkyun/font-d2coding@1.3.2/d2coding.css">
+<link rel="stylesheet" href="shared/lib/fonts/pretendard.css">
+<link rel="stylesheet" href="shared/lib/fonts/d2coding.css">
 <link rel="stylesheet" href="shared/style.css">
 <link rel="stylesheet" href="shared/mobile.css">
 <script src="shared/lib/papaparse.min.js"></script>
@@ -175,6 +174,7 @@ window.addEventListener('unhandledrejection', function(e) {
 <script src="shared/nav.js"></script>
 <script>initNav('benchmark');</script>
 <script src="shared/data-loader.js"></script>
+<script src="shared/viz-common.js"></script>
 <script src="shared/url-state.js"></script>
 
 <div class="page-content">
@@ -197,6 +197,7 @@ window.addEventListener('unhandledrejection', function(e) {
       <span class="filter-label">Dimension</span>
       <button class="filter-pill active" data-filter="dim" data-value="3d" onclick="setDimension('3d')">3D</button>
       <button class="filter-pill" data-filter="dim" data-value="2d" onclick="setDimension('2d')">2D</button>
+      <button class="filter-pill" data-filter="dim" data-value="1d" onclick="setDimension('1d')">1D</button>
     </div>
     <div class="filter-group" id="task-filter">
       <span class="filter-label">Task</span>
@@ -213,13 +214,21 @@ window.addEventListener('unhandledrejection', function(e) {
     </div>
   </div>
 
-  <!-- Level 3: Target Key + Component (3D pred only) -->
+  <!-- Level 3: Target + Component (prediction only) -->
   <div class="lb-filter-row" id="level3-filters" style="display:none; gap:16px; align-items:center; flex-wrap:wrap; margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.06);">
     <div class="filter-group" id="targetkey-filter">
-      <span class="filter-label">Target Key</span>
+      <span class="filter-label">Target</span>
     </div>
     <div class="filter-group" id="dimension-filter">
       <span class="filter-label">Component</span>
+    </div>
+    <!-- Axis (3D-field vector components + AirfRANS velocity) sits INLINE here on
+         PC — to the right of Component with a subtle left divider — so toggling it
+         doesn't push the page down a row. On mobile the row stacks (mobile.css), so
+         Axis falls under Component as before. Drives the viewer + metrics table only;
+         BenchRank ranking stays per-component/vector. -->
+    <div class="filter-group" id="axis-filter" style="display:none; border-left:1px solid rgba(255,255,255,0.12); padding-left:16px;">
+      <span class="filter-label">Axis</span>
     </div>
   </div>
 
@@ -353,9 +362,18 @@ let state = {
   task: 'generation',
   outputType: 'field',  // 'field' | 'scalar' — Prediction 탭 내 서브필터
   dataScale: 'Extra Large',
+  // Filter taxonomy (redesign 2026-06-15): the UI selects an `umbrella` (friendly
+  // source family) + `target` (scenario or channel discriminator). Those resolve
+  // to the canonical `dataset` (split id) + `targetKey` used for paths/summary.
+  // `target === 'all'` aggregates an umbrella's problems (per-umbrella leaderboard
+  // for scenario-type; dataset-level for channel-type). `axis` (x/y/z) refines the
+  // per-sample viewer + metrics table only — BenchRank stays per-component.
+  umbrella: null,
+  target: null,
   dataset: null,
   targetKey: null,
   dimension: null,
+  axis: null,
   sampleCount: null,
   branch: BRANCH_QUALITY,
 };
@@ -398,12 +416,26 @@ function getSizeCode() {
 // ══════════════════════════════════════════
 function setDimension(dim) {
   state.dim = dim;
-  state.task = 'generation';
-  state.outputType = 'field';
+  // Dimension and Task are independent filters — switching dimension should
+  // PRESERVE the current task/output-type (2D and 3D both support
+  // generation + prediction·field + prediction·scalar), so e.g. 3D-prediction →
+  // 2D keeps you on 2D-prediction rather than silently snapping to generation.
+  // The only constraint: 1D is scalar-prediction-only (no generation/field
+  // task), so coming INTO 1D forces prediction/scalar, and leaving 1D for a
+  // task it can't represent is impossible since prediction/scalar is valid on
+  // 2D/3D too. (1D has no `generation` category — building it would 404 the
+  // summary fetch.)
+  if (dim === '1d') {
+    state.task = 'prediction';
+    state.outputType = 'scalar';
+  }
   state.dataScale = null;
+  state.umbrella = null;
+  state.target = null;
   state.dataset = null;
   state.targetKey = null;
   state.dimension = null;
+  state.axis = null;
   state.sampleCount = getDefaultSampleCount();
   document.querySelectorAll('[data-filter="dim"]').forEach(el =>
     el.classList.toggle('active', el.dataset.value === dim)
@@ -415,9 +447,12 @@ function setTask(task, btn) {
   state.task = task;
   state.outputType = 'field';  // reset to default on task change
   state.dataScale = null;
+  state.umbrella = null;
+  state.target = null;
   state.dataset = null;
   state.targetKey = null;
   state.dimension = null;
+  state.axis = null;
   state.sampleCount = getDefaultSampleCount();
   btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
@@ -426,9 +461,12 @@ function setTask(task, btn) {
 
 function setOutputType(outputType, btn) {
   state.outputType = outputType;
+  state.umbrella = null;
+  state.target = null;
   state.dataset = null;
   state.targetKey = null;
   state.dimension = null;
+  state.axis = null;
   // Mirror setTask's pill-update pattern so the highlight flips immediately
   // instead of waiting on loadAllData → renderTaskFilter.
   if (btn) {
@@ -481,13 +519,32 @@ async function loadAllData() {
     const opts = extractFilterOptions(allSummaryData);
     renderTaskFilter();
     renderLevel2Filters(opts);
-    renderLevel3Filters(opts);
+    renderLevel3Filters();
     await applyFilters(prefetched);
+    prefetchSiblingSummaries();   // warm sibling-category summaries for the next task/output switch
   } catch (err) {
     console.error('Failed to load data:', err);
     document.getElementById('loading-indicator').innerHTML =
       `<div style="color:var(--red-400);">Failed to load data. Run: <code style="background:rgba(255,255,255,0.06); padding:2px 6px; border-radius:4px;">python -m http.server 8080</code> from LEADERBOARD root</div>`;
   }
+}
+
+// After the current view paints, warm the in-memory CSV cache for the OTHER
+// task/output categories of the current dimension on idle. The summary fetch is
+// what gates the ranking paint on a task/output switch, so pre-warming it turns
+// the first such switch into a cache hit (instant) instead of a ~network-round-trip
+// stall. Fire-and-forget: loadCSV dedupes concurrent calls and evicts failures,
+// so this never double-fetches and never surfaces an error.
+function prefetchSiblingSummaries() {
+  const run = () => {
+    const d = state.dim;
+    const cats = (d === '1d')
+      ? ['dimension_1d/prediction/scalar']
+      : [`dimension_${d}/generation`, `dimension_${d}/prediction/field`, `dimension_${d}/prediction/scalar`];
+    cats.filter(c => c !== getCategory()).forEach(c => { loadSummaryMetrics(c).catch(() => {}); });
+  };
+  if (typeof requestIdleCallback === 'function') requestIdleCallback(run, { timeout: 2000 });
+  else setTimeout(run, 300);
 }
 
 function showLoading(show) {
@@ -508,16 +565,22 @@ function showLoading(show) {
 // FILTER RENDERING
 // ══════════════════════════════════════════
 function renderTaskFilter() {
+  // 1D is scalar-prediction only: hide the Generation task and the Field output
+  // (neither exists for tabular/timeseries 1D), leaving Prediction + Scalar.
+  const is1D = state.dim === '1d';
   const outputTypeHtml = state.task === 'prediction' ? `
     <span class="filter-label" style="margin-left:12px">Output</span>
     <span class="pill-wrap">
-      <button class="filter-pill ${state.outputType==='field'?'active':''}" onclick="setOutputType('field',this)">Field</button>
+      ${is1D ? '' : `<button class="filter-pill ${state.outputType==='field'?'active':''}" onclick="setOutputType('field',this)">Field</button>`}
       <button class="filter-pill ${state.outputType==='scalar'?'active':''}" onclick="setOutputType('scalar',this)">Scalar</button>
     </span>` : '';
+  const taskPills = is1D
+    ? `<button class="filter-pill active" onclick="setTask('prediction',this)">Prediction</button>`
+    : `<button class="filter-pill ${state.task==='generation'?'active':''}" onclick="setTask('generation',this)">Generation</button>
+       <button class="filter-pill ${state.task==='prediction'?'active':''}" onclick="setTask('prediction',this)">Prediction</button>`;
   document.getElementById('task-filter').innerHTML = `
     <span class="filter-label">Task</span>
-    <span class="pill-wrap"><button class="filter-pill ${state.task==='generation'?'active':''}" onclick="setTask('generation',this)">Generation</button>
-    <button class="filter-pill ${state.task==='prediction'?'active':''}" onclick="setTask('prediction',this)">Prediction</button></span>
+    <span class="pill-wrap">${taskPills}</span>
     ${outputTypeHtml}
   `;
 }
@@ -539,18 +602,46 @@ function renderLevel2Filters(opts) {
     }).join('')}</span>
   `;
 
-  // Prediction tasks: no "All" (cross-dataset mean is meaningless); auto-select first dataset
+  // ── Dataset = umbrella (friendly source family). The milestone9.x split
+  //    datasets collapse to one pill; the per-problem discriminator (load case /
+  //    region / analysis / channel) moves to the Target row below. ──
+  const { order: umbrellas, byUmbrella } = umbrellasInData(allSummaryData);
   const isPred = state.task === 'prediction';
-  if (isPred && !state.dataset && opts.datasets.length) state.dataset = opts.datasets[0];
+  // Prediction: auto-select the first umbrella (no cross-source "All" — that is a
+  // separate generalist concern). Generation: keep the cross-dataset "All".
+  if (isPred) {
+    // Drop a stale umbrella (e.g. from a URL that no longer matches this category).
+    if (state.umbrella && !umbrellas.includes(state.umbrella)) {
+      state.umbrella = null; state.target = null; state.dataset = null; state.targetKey = null;
+    }
+    if (!state.umbrella && umbrellas.length) selectUmbrella(umbrellas[0]);
+    // Restored from URL (umbrella set but dataset not yet resolved): resolve the
+    // split dataset/targetKey from the saved target, preserving component/axis.
+    // (scenario-type Target=All legitimately leaves dataset null — selectTarget
+    // re-derives it deterministically, so this stays idempotent.)
+    else if (state.umbrella && !state.dataset) {
+      selectTarget(state.target || 'all', null, true);
+    }
+  }
 
-  const allBtn = isPred ? '' : `<button class="filter-pill ${!state.dataset?'active':''}"
-          onclick="setDataset('all',this)">All</button>`;
+  const allBtn = isPred ? '' : `<button class="filter-pill ${!state.umbrella?'active':''}"
+          onclick="setUmbrella('all',this)">All</button>`;
   document.getElementById('dataset-filter').innerHTML = `
     <span class="filter-label">Dataset</span>
     <span class="pill-wrap">${allBtn}
-    ${opts.datasets.map(ds => {
-      return `<button class="filter-pill ${ds===state.dataset?'active':''}"
-              onclick="setDataset('${ds}',this)">${displayDataset(ds)}</button>`;
+    ${umbrellas.map(u => {
+      // Discipline (engineering framing) + modality on hover. Modality is only
+      // surfaced for the 1D set (Tabular vs Time-series) — it's what separates
+      // CMAPSS (time-series) from airfoil/concrete (tabular); 3D/2D point-cloud
+      // and image modalities are left implicit (discipline already conveys them).
+      const id0 = (byUmbrella[u] || [])[0];
+      const disc = disciplineLabel(id0);
+      const mod0 = getDatasetMeta(id0)?.modality;
+      const mod = mod0 === 'timeseries' ? 'Time-series' : (mod0 === 'tabular' ? 'Tabular' : '');
+      const titleTxt = [disc, mod].filter(Boolean).join(' · ');
+      const title = titleTxt ? ` title="${titleTxt}"` : '';
+      return `<button class="filter-pill ${u===state.umbrella?'active':''}"${title}
+              onclick="setUmbrella('${u}',this)">${u}</button>`;
     }).join('')}</span>
   `;
 }
@@ -562,119 +653,167 @@ function setDataScale(scale, btn) {
   applyFilters();
 }
 
-function setDataset(ds, btn) {
-  state.dataset = (ds === 'all') ? null : ds;
-  state.targetKey = null;
-  state.dimension = null;
-  btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  if (hasLevel3Filter()) renderLevel3Filters(extractFilterOptions(allSummaryData));
-  else document.getElementById('level3-filters').style.display = 'none';
+// ── Selection resolution (no DOM) — used by both render auto-select and click
+//    handlers. The UI's (umbrella, target) resolve to the canonical (dataset,
+//    targetKey) the leaderboard paths + summary filtering are keyed on. ──
+function selectUmbrella(u) {
+  state.umbrella = (u === 'all') ? null : u;
+  state.target = null; state.dataset = null; state.targetKey = null;
+  state.dimension = null; state.axis = null;
+  if (!state.umbrella) return;                       // generation cross-dataset "All"
+  if (state.task !== 'prediction') {                 // generation: umbrella == one dataset id
+    state.dataset = (umbrellasInData(allSummaryData).byUmbrella[u] || [])[0] || null;
+    return;
+  }
+  const tgts = getTargetsForUmbrella(allSummaryData, u);
+  // Default to "All" when it exists (≥2 targets) — the holistic per-umbrella /
+  // all-channel view is the natural landing; otherwise the lone target.
+  if (tgts.length >= 2) selectTarget('all', tgts);
+  else if (tgts.length) selectTarget(tgts[0].key, tgts);
+}
+
+function selectTarget(key, tgts, preserveSub) {
+  tgts = tgts || (state.umbrella ? getTargetsForUmbrella(allSummaryData, state.umbrella) : []);
+  if (key === 'all' && tgts.length === 1) key = tgts[0].key;        // single target → select it, no redundant aggregate
+  if (!preserveSub) { state.dimension = null; state.axis = null; }  // preserve on URL restore
+  if (key === 'all') {
+    state.target = 'all';
+    // channel-type → aggregate over channels = dataset-level leaderboard (dataset
+    // pinned, targetKey null). scenario-type → per-umbrella aggregate (both null;
+    // applyFilters resolves the umbrella roll-up key + umbrella summary filter).
+    state.dataset = (tgts[0] && tgts[0].kind === 'channel') ? tgts[0].datasetId : null;
+    state.targetKey = null;
+    return;
+  }
+  const opt = tgts.find(o => o.key === key) || tgts[0];
+  if (!opt) return;
+  state.target = opt.key;
+  state.dataset = opt.datasetId;
+  state.targetKey = opt.targetKey;
+}
+
+function setUmbrella(u, btn) {
+  selectUmbrella(u);
+  if (btn) { btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active')); btn.classList.add('active'); }
+  renderLevel3Filters();
+  renderLevel4Filters();
   applyFilters();
 }
 
-// Level3 (Target Key / Component) filter visibility:
-//   3D prediction (field/scalar) — both target key and component
-//   2D scalar prediction         — target key only (no component dim)
-//   2D field prediction (depth)  — hidden (single target key, no component)
-function hasLevel3Filter() {
-  if (state.task !== 'prediction') return false;
-  if (state.dim === '2d' && state.outputType === 'field') return false;
-  return true;
+// Level3 (Target / Component) shows for every prediction task; the Target row is
+// the per-umbrella discriminator (scenario or channel). Generation has neither.
+function hasLevel3Filter() { return state.task === 'prediction'; }
+
+// Component drill-down exists when the current (dataset, targetKey) carries ≥2
+// physical quantities (data-driven — covers 3D field displacement/von_mises AND
+// scalar modal mode_freq_7/11, not just 3D field as before).
+function hasComponentFilter() {
+  // ≥1 (not ≥2): even a single-component problem shows its Component pill so the
+  // user can see WHAT was measured (e.g. drivaernet surface → "Pressure"). The
+  // "All" button is still gated to ≥2 in renderLevel3Filters (no redundant All).
+  return state.task === 'prediction' && !!state.dataset
+      && (isAirfransLike(state.dataset) || !!state.targetKey)
+      && getDimensionsForTargetKey(allSummaryData, state.dataset, state.targetKey).length >= 1;
 }
 
-function renderLevel3Filters(opts) {
+// Axis row exists when a specific vector Component is pinned and it spans ≥2 axes.
+function hasAxisFilter() {
+  return state.task === 'prediction' && !!state.dataset && !!state.dimension
+      && (isAirfransLike(state.dataset) || !!state.targetKey)
+      && getAxesFor(allSummaryData, state.dataset, state.targetKey, state.dimension).length >= 2;
+}
+
+function renderLevel3Filters() {
   const c = document.getElementById('level3-filters');
-  if (!hasLevel3Filter()) { c.style.display = 'none'; return; }
+  if (!hasLevel3Filter()) { c.style.display = 'none'; document.getElementById('axis-filter').style.display = 'none'; return; }
   c.style.display = 'flex';
 
-  // Always show all target keys in absolute order; clicking a specific one auto-selects its paired dataset
-  const tks = state.dataset
-    ? getTargetKeysForDataset(allSummaryData, state.dataset)
-    : getAllTargetKeysOrdered(allSummaryData);
-
-  // If current targetKey is not in the visible list, reset to All
-  if (state.targetKey && !tks.includes(state.targetKey)) {
-    state.targetKey = null;
-    state.dimension = null;
-  }
-
+  // ── Target row: umbrella-derived discriminator. "All" only when ≥2 options
+  //    (1-option → just the single pill, no redundant All). ──
+  const tgts = state.umbrella ? getTargetsForUmbrella(allSummaryData, state.umbrella) : [];
+  const targetAll = tgts.length >= 2
+    ? `<button class="filter-pill ${state.target==='all'?'active':''}" onclick="setTarget('all',this)">All</button>` : '';
   document.getElementById('targetkey-filter').innerHTML = `
-    <span class="filter-label">Target Key</span>
-    <button class="filter-pill ${!state.targetKey?'active':''}"
-            onclick="setTargetKey('all',this)">All</button>
-    ${tks.map(tk => `<button class="filter-pill ${tk===state.targetKey?'active':''}"
-      onclick="setTargetKey('${tk}',this)">${tk}</button>`).join('')}
+    <span class="filter-label">Target</span>
+    ${targetAll}
+    ${tgts.map(o => `<button class="filter-pill ${o.key===state.target?'active':''}"
+      onclick="setTarget('${o.key}',this)">${o.label}</button>`).join('')}
   `;
 
-  // Component filter: only meaningful for 3D field prediction (per-axis x/y/z breakdown)
+  // ── Component row: friendly labels (von_mises/stress → "Stress"). "All" only
+  //    when ≥2 (no redundant All on a single quantity); a single-component
+  //    problem auto-selects its one pill so the user still sees WHAT was measured
+  //    (e.g. drivaernet surface → "Pressure"). Hidden only for aggregate
+  //    Target=All or when the problem carries no Component at all. ──
   const dimFilter = document.getElementById('dimension-filter');
   if (!hasComponentFilter()) {
     state.dimension = null;
     dimFilter.style.display = 'none';
-  } else if (state.targetKey) {
+  } else {
     const dims = getDimensionsForTargetKey(allSummaryData, state.dataset, state.targetKey);
-    if (!state.dimension && dims.length) state.dimension = dims[0];
+    const multi = dims.length >= 2;
+    // Single component → pin it (informative + its component leaderboard exists);
+    // multi → default to "All" (state.dimension = null) per the redesign.
+    if (!multi) state.dimension = dims[0];
+    else if (state.dimension && !dims.includes(state.dimension)) state.dimension = null;
+    const allBtn = multi
+      ? `<button class="filter-pill ${!state.dimension?'active':''}" onclick="setComponent('all',this)">All</button>` : '';
     dimFilter.innerHTML = `
       <span class="filter-label">Component</span>
-      ${dims.map(d => `<button class="filter-pill ${d===state.dimension?'active':''}"
-        onclick="setDimensionFilter('${d}',this)">${d}</button>`).join('')}
+      ${allBtn}
+      ${dims.map(d => {
+        const tip = componentTooltip(d);
+        const title = tip ? ` title="${tip}"` : '';
+        return `<button class="filter-pill ${d===state.dimension?'active':''}"${title}
+          onclick="setComponent('${d}',this)">${componentLabel(d)}</button>`;
+      }).join('')}
     `;
     dimFilter.style.display = '';
-  } else {
-    state.dimension = null;
-    dimFilter.style.display = 'none';
   }
+  renderLevel4Filters();
 }
 
-function hasComponentFilter() {
-  return state.task === 'prediction' && state.dim === '3d' && state.outputType === 'field';
+// Axis (x/y/z) for the selected vector Component. Lives INLINE in the Component
+// row (level3) — toggling the group itself (not a separate row) avoids pushing the
+// page down on PC; on mobile the row stacks so Axis falls under Component. Drives
+// the per-sample viewer + metrics table only; BenchRank ranking stays per-component.
+function renderLevel4Filters() {
+  const c = document.getElementById('axis-filter');
+  if (!hasAxisFilter()) { state.axis = null; c.style.display = 'none'; return; }
+  const axes = getAxesFor(allSummaryData, state.dataset, state.targetKey, state.dimension);
+  // AirfRANS velocity has no combined u+v board → always a concrete axis, no "All".
+  const air = isAirfransLike(state.dataset);
+  if (air && !axes.includes(state.axis)) state.axis = axes[0];
+  const allBtn = air ? '' : `<button class="filter-pill ${!state.axis?'active':''}" onclick="setAxis('all',this)">All</button>`;
+  c.innerHTML = `
+    <span class="filter-label">Axis</span>
+    ${allBtn}
+    ${axes.map(a => `<button class="filter-pill ${a===state.axis?'active':''}"
+      onclick="setAxis('${a}',this)">${a}</button>`).join('')}
+  `;
+  c.style.display = '';   // inline within level3 (PC); stacks under Component on mobile
 }
 
-function setTargetKey(tk, btn) {
-  state.targetKey = (tk === 'all') ? null : tk;
-  state.dimension = null;
-
-  // Auto-select the paired dataset if a specific target key requires it
-  if (state.targetKey) {
-    const requiredDs = resolveTargetKeyDataset(state.targetKey, state.dim);
-    if (requiredDs && state.dataset !== requiredDs) {
-      state.dataset = requiredDs;
-      // Update dataset filter pills
-      const dsBtns = document.getElementById('dataset-filter').querySelectorAll('.filter-pill');
-      dsBtns.forEach(p => {
-        p.classList.remove('active');
-        // Match by onclick argument
-        if (p.getAttribute('onclick') === `setDataset('${requiredDs}',this)`) {
-          p.classList.add('active');
-        }
-      });
-    }
-  }
-
-  btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-
-  const dimFilter = document.getElementById('dimension-filter');
-  if (state.targetKey && hasComponentFilter()) {
-    const dims = getDimensionsForTargetKey(allSummaryData, state.dataset, state.targetKey);
-    if (dims.length) state.dimension = dims[0];
-    dimFilter.innerHTML = `
-      <span class="filter-label">Component</span>
-      ${dims.map(d => `<button class="filter-pill ${d===state.dimension?'active':''}"
-        onclick="setDimensionFilter('${d}',this)">${d}</button>`).join('')}
-    `;
-    dimFilter.style.display = '';
-  } else {
-    dimFilter.style.display = 'none';
-  }
+function setTarget(key, btn) {
+  selectTarget(key);
+  if (btn) { btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active')); btn.classList.add('active'); }
+  renderLevel3Filters();   // re-render Component (+Axis) for the new target
   applyFilters();
 }
 
-function setDimensionFilter(d, btn) {
-  state.dimension = d;
-  btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
+function setComponent(d, btn) {
+  state.dimension = (d === 'all') ? null : d;
+  state.axis = null;       // axis resets when the component changes
+  // AirfRANS velocity resolves only through an axis (no combined u+v board) → default x
+  if (isAirfransLike(state.dataset) && state.dimension === 'velocity') state.axis = 'x';
+  if (btn) { btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active')); btn.classList.add('active'); }
+  renderLevel4Filters();
+  applyFilters();
+}
+
+function setAxis(a, btn) {
+  state.axis = (a === 'all') ? null : a;
+  if (btn) { btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active')); btn.classList.add('active'); }
   applyFilters();
 }
 
@@ -684,19 +823,33 @@ function setDimensionFilter(d, btn) {
 // In-flight token: rapid filter clicks issue overlapping fetches whose
 // resolution order is not guaranteed.  Without this guard the latest click's
 // awaited Promise could resolve before an earlier one, letting the older
-// filter state overwrite the table.  Bump on entry, verify on every await
-// boundary, bail out if the token moved.
+// filter state overwrite the table.  Bump on entry, verify after the async
+// fetch, bail out if the token moved.
 let _applyFiltersToken = 0;
 async function applyFilters(prefetched = null) {
   const myToken = ++_applyFiltersToken;
   const cat = getCategory();
   const sc = getSizeCode();
 
-  // Filter summary data
-  const filters = { dataset: state.dataset, dataScale: state.dataScale };
+  // Filter summary data. The umbrella/target/component/axis selection resolves to
+  // a canonical filter. For scenario-type Target=All the dataset is unset but the
+  // umbrella is pinned → match every split dataset under that umbrella.
+  const filters = { dataScale: state.dataScale };
+  if (state.dataset) filters.dataset = state.dataset;
+  else if (state.umbrella && state.task === 'prediction') filters.umbrella = state.umbrella;
   if (state.task === 'prediction') {
-    if (hasLevel3Filter()) filters.targetKey = state.targetKey;
-    if (hasComponentFilter()) filters.dimension = state.dimension;
+    if (isAirfransLike(state.dataset)) {
+      // Component(Velocity/Pressure/Turbulence)+Axis(x/y) re-present the single
+      // channel Target Key (u/v/p_over_rho/nu_t). Map back to the channel so the
+      // existing per-channel board / gallery / summary rows resolve unchanged; the
+      // data's Component/Axis columns are blank, so do NOT filter on them.
+      state.targetKey = airfransChannel(state.dimension, state.axis);
+      if (state.targetKey) filters.targetKey = state.targetKey;
+    } else {
+      if (state.targetKey) filters.targetKey = state.targetKey;
+      if (hasComponentFilter() && state.dimension) filters.dimension = state.dimension;
+      if (hasAxisFilter() && state.axis) filters.axis = state.axis;
+    }
   }
   filteredSummary = filterSummaryData(allSummaryData, filters);
 
@@ -704,13 +857,19 @@ async function applyFilters(prefetched = null) {
   // First-load fast path: loadAllData may have started these fetches in parallel
   // with the summary fetch; reuse them when the resolved filter state still matches.
   // Component is only honored when both dataset and targetKey are pinned (matches Step C output layout).
-  const compForPath = (state.dataset && state.targetKey && hasComponentFilter()) ? (state.dimension || '') : '';
-  const cacheKey = `${cat}|${sc}|${state.dataset || ''}|${state.targetKey || ''}|${compForPath}|${state.branch}`;
+  // Axis never enters the path — BenchRank ranks per-component (vector); a scenario-type
+  // Target=All resolves to the per-umbrella roll-up leaderboard key.
+  let pathDataset = state.dataset;
+  if (!pathDataset && state.umbrella && state.task === 'prediction') {
+    pathDataset = umbrellaLeaderboardKey(allSummaryData, state.umbrella);
+  }
+  const compForPath = (!isAirfransLike(state.dataset) && state.dataset && state.targetKey && hasComponentFilter() && state.dimension) ? state.dimension : '';
+  const cacheKey = `${cat}|${sc}|${pathDataset || ''}|${state.targetKey || ''}|${compForPath}|${state.branch}`;
   let leaderboardData = [], metricsData = [];
   try {
     const usePrefetch = prefetched && prefetched.key === cacheKey;
-    const lbP = usePrefetch ? prefetched.lb : loadLeaderboard(cat, sc, state.dataset, state.targetKey, compForPath || undefined, state.branch);
-    const mrP = usePrefetch ? prefetched.mr : loadMetricsRanking(cat, sc, state.dataset, state.targetKey, compForPath || undefined, state.branch);
+    const lbP = usePrefetch ? prefetched.lb : loadLeaderboard(cat, sc, pathDataset, state.targetKey, compForPath || undefined, state.branch);
+    const mrP = usePrefetch ? prefetched.mr : loadMetricsRanking(cat, sc, pathDataset, state.targetKey, compForPath || undefined, state.branch);
     const [lb, mr] = await Promise.all([lbP, mrP]);
     leaderboardData = lb || [];
     metricsData = mr || [];
@@ -756,7 +915,13 @@ function renderRankingTable(data) {
   const ranges = getMetricRanges(data, allMetrics);
 
   // Group metrics by category
-  const groups = groupMetricsByCategory(allMetrics, state.dim, state.task);
+  let groups = groupMetricsByCategory(allMetrics, state.dim, state.task);
+  // Drop metric columns that are entirely empty for the current selection — e.g. MAC
+  // (a shared-vector metric) on a scalar Component like center-plane pressure. An
+  // all-blank column reads as a glitch; keep a column if ANY row carries a value.
+  if (data.length) groups = groups
+    .map(g => ({ ...g, metrics: g.metrics.filter(m => data.some(r => !isNaN(parseFloat(r[m])))) }))
+    .filter(g => g.metrics.length);
   const infoCols = ['Rank', 'Model', 'Total Score'];
   // Ordered column list: info + grouped metrics
   const orderedCols = [...infoCols];
@@ -829,8 +994,15 @@ function renderWeightsChart(data) {
     return;
   }
 
-  const metrics = data.map(r => r['Metric']);
-  const weights = data.map(r => parseFloat(r['Weight']));
+  // Drop metrics that carry no weight for the current selection — e.g. depth-only
+  // metrics (AbsRel/sqRel/δ<1.25) on a non-depth field dataset. Step C emits them as
+  // rows with a blank Weight; rendering them as zero-length bars reads as a glitch.
+  // (0.0-weight rows — resource metrics in the quality branch — are kept intentionally.)
+  const rows = data.filter(r => Number.isFinite(parseFloat(r['Weight'])));
+  if (!rows.length) { document.getElementById('chart-section').style.display = 'none'; return; }
+
+  const metrics = rows.map(r => r['Metric']);
+  const weights = rows.map(r => parseFloat(r['Weight']));
   const metricLabels = metrics.map(m => shortMetricLabel(m));
 
   weightsChart = new Chart(ctx, {
@@ -878,7 +1050,11 @@ function renderRadarChart(data) {
   if (!data || !data.length) return;
 
   const headers = Object.keys(data[0]);
-  const { qualityMetrics } = getMetricColumns(headers);
+  let { qualityMetrics } = getMetricColumns(headers);
+  // Drop metric axes that are entirely empty for the current selection (e.g. depth-only
+  // AbsRel/sqRel/δ<1.25 on a non-depth field dataset) — otherwise they plot as a 0 axis,
+  // which misreads as "worst". Mirrors the all-empty-column drop in the ranking/summary tables.
+  qualityMetrics = qualityMetrics.filter(m => data.some(r => !isNaN(parseFloat(r[m]))));
   if (!qualityMetrics.length) return;
 
   const ranges = getMetricRanges(data, qualityMetrics);
@@ -943,7 +1119,13 @@ function renderMetricsTable(data) {
   const ranges = getMetricRanges(data, allMetrics);
 
   // Group metrics by category
-  const groups = groupMetricsByCategory(allMetrics, state.dim, state.task);
+  let groups = groupMetricsByCategory(allMetrics, state.dim, state.task);
+  // Drop metric columns that are entirely empty for the current selection — e.g. MAC
+  // (a shared-vector metric) on a scalar Component like center-plane pressure. An
+  // all-blank column reads as a glitch; keep a column if ANY row carries a value.
+  if (data.length) groups = groups
+    .map(g => ({ ...g, metrics: g.metrics.filter(m => data.some(r => !isNaN(parseFloat(r[m])))) }))
+    .filter(g => g.metrics.length);
   // Info columns: Type before Dataset for intuitive scanning
   const infoCols = state.dataset
     ? ['Model Name', 'Model Type', 'Parameters (M)']
@@ -952,7 +1134,11 @@ function renderMetricsTable(data) {
   if (state.task === 'prediction') {
     const insertIdx = infoCols.indexOf('Parameters (M)');
     if (hasLevel3Filter() && !state.targetKey) infoCols.splice(insertIdx, 0, 'Target Key');
-    if (hasComponentFilter() && !state.dimension) infoCols.splice(infoCols.indexOf('Parameters (M)'), 0, 'Component');
+    if (hasComponentFilter() && !state.dimension && !isAirfransLike(state.dataset)) infoCols.splice(infoCols.indexOf('Parameters (M)'), 0, 'Component');
+    // Axis (x/y/z) disambiguates vector components — e.g. displacement/velocity/mode_shape
+    // each split into x/y/z rows. Shown only when the data actually carries an axis so the
+    // 3 per-axis rows don't look identical (scalars like von_mises keep a blank axis).
+    if (hasComponentFilter() && data.some(r => r['Axis'])) infoCols.splice(infoCols.indexOf('Parameters (M)'), 0, 'Axis');
   }
   // Ordered metric columns
   const metricCols = [];
@@ -974,6 +1160,7 @@ function renderMetricsTable(data) {
     if (h === 'Model Type')    return `<th onclick="sortTable('metrics',${i})">Type</th>`;
     if (h === 'Target Key')    return `<th onclick="sortTable('metrics',${i})">Target Key</th>`;
     if (h === 'Component')     return `<th onclick="sortTable('metrics',${i})">Component</th>`;
+    if (h === 'Axis')          return `<th onclick="sortTable('metrics',${i})">Axis</th>`;
     if (h === 'Parameters (M)') return `<th onclick="sortTable('metrics',${i})">Params</th>`;
     const short = shortMetricLabel(h);
     const dir = h.includes('↑') ? ' ↑' : h.includes('↓') ? ' ↓' : '';
@@ -998,6 +1185,7 @@ function renderMetricsTable(data) {
       if (h === 'Model Type') return `<td class="type-cell">${displayModelType(modelId)}</td>`;
       if (h === 'Target Key') return `<td style="color:var(--text-tertiary); font-size:11px;">${row['Target Key'] || '-'}</td>`;
       if (h === 'Component')  return `<td style="color:var(--text-tertiary); font-size:11px;">${row['Component'] || '-'}</td>`;
+      if (h === 'Axis')       return `<td style="color:var(--text-tertiary); font-size:11px;">${row['Axis'] || '-'}</td>`;
       if (h === 'Parameters (M)') {
         const v = row['Parameters (M)'];
         return `<td class="metric-cell" style="color:var(--text-tertiary); font-size:11px;">${v != null ? parseFloat(v).toFixed(2)+' M' : '-'}</td>`;
@@ -1017,7 +1205,7 @@ function renderMetricsTable(data) {
   else metricsTitleParts.push('All Datasets');
   if (state.task === 'prediction') {
     if (state.targetKey) metricsTitleParts.push(state.targetKey);
-    if (state.dimension) metricsTitleParts.push(state.dimension);
+    if (state.dimension) metricsTitleParts.push(componentLabel(state.dimension));
   }
   document.getElementById('metrics-section-label').textContent =
     `Dataset Metrics — ${metricsTitleParts.join(' / ')}`;
@@ -1026,7 +1214,7 @@ function renderMetricsTable(data) {
   const resStr = uniqueRes.join(', ');
   const parts = [ds, sz, resStr].filter(Boolean);
   const info = state.dim === '3d'
-    ? [...parts, state.targetKey, state.dimension].filter(Boolean).join(' / ')
+    ? [...parts, state.targetKey, componentLabel(state.dimension)].filter(Boolean).join(' / ')
     : parts.join(' / ');
   document.getElementById('metrics-info').textContent = `${info} · ${data.length} rows`;
 
@@ -1147,12 +1335,24 @@ function isField2DContext() {
   return state.dim === '2d' && state.task === 'prediction' && state.outputType !== 'scalar';
 }
 
+// 3D field prediction: like 2D field, each sample is a GT/PRED/|ERR| triptych — but
+// here every panel is a live Three.js viewer, and on mobile the row stacks to three
+// 240px panels (~720px tall) per sample. So the per-sample cost is even higher than
+// 2D field, which is why mobile gets a 1-sample floor (see getSampleCountOptions).
+function isField3DContext() {
+  return state.dim === '3d' && state.task === 'prediction' && state.outputType !== 'scalar';
+}
+
 // Sample-count pill options.
 //   2D field:  [3, 6, 9] aligns with the 3-panel-per-sample triptych.
 //              On mobile the triptych is stacked one-per-row (mobile.css),
 //              so the row count drives screen real-estate — drop the floor
 //              to 1 and cap at 6 so the gallery doesn't become a 9-row
 //              wall on a phone.
+//   3D field:  [2, 4, 8] on desktop; on mobile the GT/PRED/|ERR| panels stack
+//              into a ~720px-tall column per sample (three live WebGL viewers),
+//              so offer a 1-sample floor — [1, 2, 4] — mirroring the 2D-field
+//              treatment so a phone isn't a wall of stacked viewers.
 //   3D scalar: [2, 4, 8] — each card has its own Three.js viewer. The
 //              gallery caps cards-per-row at 2 on desktop (see Option C in
 //              lbDrawScalarGalleryRow) so simultaneous WebGL contexts stay
@@ -1162,6 +1362,7 @@ function isField2DContext() {
 function getSampleCountOptions() {
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
   if (isField2DContext()) return isMobile ? [1, 3, 6] : [3, 6, 9];
+  if (isField3DContext()) return isMobile ? [1, 2, 4] : [2, 4, 8];
   if (state.task === 'prediction' && state.outputType === 'scalar') return [2, 4, 8];
   return [2, 4, 8];
 }
@@ -1179,7 +1380,8 @@ const LB_3D_VIEWER_PC_ROW_CAP = 2;
 //   2D Field Prediction:  3  (GT/pred/err triptych ⇒ each sample is 3 panels wide;
 //                             3 samples = one full row at desktop width)
 //   2D Scalar:            4  (img + axis card; 4 fits the row comfortably)
-//   3D Field Prediction:  2  (heavy Three.js viewer)
+//   3D Field Prediction:  2 desktop / 1 mobile  (heavy Three.js viewer; mobile
+//                            stacks the triptych ~720px tall, so floor at 1)
 //   3D Scalar:            2  (Three.js viewer per sample × N models — keep low)
 //   3D Generation:        4  (Three.js viewer, but lighter than per-sample pred)
 //   Mobile:               clamp to the smallest sane option per branch
@@ -1203,7 +1405,7 @@ function getDefaultSampleCount() {
     // LB_3D_VIEWER_PC_ROW_CAP; mobile is 1/row via mobile.css. Default 2
     // keeps the initial gallery short on a phone.
     if (state.outputType === 'scalar') return 2;
-    return 2; // 3D field
+    return isMobile ? 1 : 2; // 3D field — floor at 1 on mobile (720px stacked triptych/sample)
   }
   return isMobile ? 2 : 4; // 3D generation
 }
@@ -1224,7 +1426,10 @@ function updateSampleCountVisibility() {
 }
 
 function explorerDetailURL(model, ds, dataSize) {
-  const dimPart = state.dim === '2d' ? '2d' : '3d';
+  // Use state.dim verbatim ('1d' | '2d' | '3d') — the old `=== '2d' ? '2d' : '3d'`
+  // collapsed 1D onto the 3D tree, so 1D-scalar links pointed at a nonexistent
+  // `3d-pred-scalar|…|<1d dataset>` key → explorer "failed to load output".
+  const dimPart = state.dim || '3d';
   let treeId;
   if (state.task === 'prediction') {
     // Prediction trees split by output_type: {dim}-pred-{field|scalar}
@@ -1260,7 +1465,16 @@ function renderVisualSection(data, rankOrder) {
   const section = document.getElementById('visual-section');
   if (!data || !data.length) { section.style.display = 'none'; return; }
   section.style.display = 'block';
-  updateSampleCountVisibility();
+
+  // 1D scalar prediction is tabular / timeseries regression — no per-sample geometry,
+  // so instead of the N-card per-sample gallery it shows a pred-vs-GT scatter per model
+  // (CMAPSS = the RUL pred-vs-true scatter). The Samples filter has no meaning here → hide it.
+  if (state.dim === '1d') {
+    const scf = document.getElementById('sample-count-filter');
+    if (scf) scf.style.display = 'none';
+  } else {
+    updateSampleCountVisibility();
+  }
 
   // Update section label text + task-aware color (Gen → green, Pred → blue —
   // matches the convention used across index.html and explorer.html).
@@ -1268,18 +1482,21 @@ function renderVisualSection(data, rankOrder) {
   const visualParts = [state.dataset ? displayDataset(state.dataset) : 'All Datasets'];
   if (state.task === 'prediction') {
     if (state.targetKey) visualParts.push(state.targetKey);
-    if (state.dimension) visualParts.push(state.dimension);
+    if (state.dimension) visualParts.push(componentLabel(state.dimension));
   }
   const labelEl = document.getElementById('visual-section-label');
   labelEl.textContent = `${resultLabel} — ${visualParts.join(' / ')}`;
   labelEl.style.color = state.task === 'prediction' ? '#38bdf8' : '#22c55e';
 
   const container = document.getElementById('visual-content');
-  if (state.task === 'prediction' && state.outputType === 'scalar') {
+  if (state.dim === '1d') {
+    // 1D tabular / timeseries scalar — pred-vs-GT scatter per model
+    render1DScalarPredictionAllModels(container, data, rankOrder);
+  } else if (state.task === 'prediction' && state.outputType === 'scalar') {
     // 2D + 3D scalar prediction share the same renderer (single value per sample)
     renderScalarPredictionAllModels(container, data, rankOrder);
   } else if (state.dim === '2d' && state.task === 'prediction') {
-    // 2D field prediction (depth) — pred / GT / |error| triptych with jet colormap
+    // 2D field prediction (depth) — pred / GT / |error| triptych with turbo colormap
     render2DFieldPredictionAllModels(container, data, rankOrder);
   } else if (state.dim === '2d') {
     render2DAllModels(container, data, rankOrder);
@@ -1288,6 +1505,18 @@ function renderVisualSection(data, rankOrder) {
   } else {
     render3DGenAllModels(container, data, rankOrder);
   }
+}
+
+// Shared result-row header — keeps every visual renderer (2D/3D gen, 2D/3D field)
+// consistent: the model name (Explorer link) + a sub-line, no rank badge.
+// `widthAuto` is for the stacked-row renderers whose label sits on its own line
+// above the viewers.
+function cmpRowLabel(expURL, friendly, sub, widthAuto) {
+  const st = widthAuto ? ' style="width:auto;"' : '';
+  return `<a href="${expURL}" class="compare-row-label explorer-link"${st} title="View in Explorer">
+    <span class="cmp-name">${friendly}</span>
+    <div class="sub">${sub}</div>
+  </a>`;
 }
 
 function render2DAllModels(container, data, rankOrder) {
@@ -1309,10 +1538,7 @@ function render2DAllModels(container, data, rankOrder) {
       const dsName = displayDataset(ds);
       const expURL = explorerDetailURL(model, ds, dataSize);
       html += `<div class="compare-row">
-        <a href="${expURL}" class="compare-row-label explorer-link" title="View in Explorer">
-          ${friendly}
-          <div class="sub">${type ? type + ' · ' : ''}${dsName} · N=${dataSize}</div>
-        </a>
+        ${cmpRowLabel(expURL, friendly, `${type ? type + ' · ' : ''}${dsName} · N=${dataSize}`)}
         <div class="compare-row-images">`;
       for (let i = 0; i < state.sampleCount; i++) {
         const idx = String(i).padStart(5, '0');
@@ -1417,10 +1643,7 @@ function render3DGenAllModels(container, data, rankOrder) {
       const expURL = explorerDetailURL(model, ds, dataSize);
       html += `<div class="compare-row" style="flex-direction:column; align-items:stretch; gap:10px;">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-          <a href="${expURL}" class="compare-row-label explorer-link" style="width:auto;" title="View in Explorer">
-            ${friendly}
-            <div class="sub">${type ? type + ' · ' : ''}${dsName} · N=${dataSize}</div>
-          </a>
+          ${cmpRowLabel(expURL, friendly, `${type ? type + ' · ' : ''}${dsName} · N=${dataSize}`, true)}
         </div>
         <div style="display:flex; flex-wrap:wrap; gap:8px; width:100%;">`;
 
@@ -1473,6 +1696,8 @@ function render3DGenAllModels(container, data, rankOrder) {
             (function animate() {
               vState.animId = requestAnimationFrame(animate);
               vState.controls.update();
+              if (vState.spinning && !vState._dragging && vState.points)
+                applySpinAzimuth(vState.camera, vState.controls.target, vState.spinBase, vState.spinOffset, _AUTOROT_SPEED);
               vState.renderer.render(vState.scene, vState.camera);
             })();
           }
@@ -1489,38 +1714,28 @@ function render3DGenAllModels(container, data, rankOrder) {
   });
 }
 
-// ── 3D Pred Channel Config (same as explorer) ──
-const EVAL3D_CHANNELS = {
-  'deepjeb_3d_2d': {
-    'vertical':     ['disp_x', 'disp_y', 'disp_z', 'stress'],
-    'horizontal':   ['disp_x', 'disp_y', 'disp_z', 'stress'],
-    'diagonal':     ['disp_x', 'disp_y', 'disp_z', 'stress'],
-    'torsion':      ['disp_x', 'disp_y', 'disp_z', 'stress'],
-    'mode_shape_1': ['mode_x', 'mode_y', 'mode_z'],
-    'mode_shape_2': ['mode_x', 'mode_y', 'mode_z'],
-  },
-  'drivaernet_3d_2d': {
-    'velocity':      ['velocity_x', 'velocity_y', 'velocity_z'],
-    'pressure':      ['pressure'],
-    'pv_coupled':    ['pressure', 'velocity_x', 'velocity_y', 'velocity_z'],
-    'body_pressure': ['body_pressure'],
-  },
-};
+// ── 3D Pred Channel Config ──
+// EVAL3D_CHANNELS is defined once in shared/viz-common.js (loaded above) and shared
+// with explorer.html / analysis.html — see that file for the keying rationale.
 
 // ══════════════════════════════════════════
 // VISUAL HELPERS — colormap, image loader, observer registry
 // ══════════════════════════════════════════
-function jetColormap(t) {
-  // Kept for SIGNED scalar fields (3D field GT/Pred displacement). For unsigned
-  // |error| use infernoColormap instead — sequential, perceptually uniform.
-  t = Math.max(0, Math.min(1, t));
-  let r, g, b;
-  if (t < 0.125)      { r = 0;            g = 0;       b = 0.5 + t * 4; }
-  else if (t < 0.375) { const s = (t - 0.125) / 0.25; r = 0;       g = s;       b = 1; }
-  else if (t < 0.625) { const s = (t - 0.375) / 0.25; r = s;       g = 1;       b = 1 - s; }
-  else if (t < 0.875) { const s = (t - 0.625) / 0.25; r = 1;       g = 1 - s;   b = 0; }
-  else                { const s = (t - 0.875) / 0.125; r = 1 - 0.5 * s; g = 0;  b = 0; }
-  return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+// Google Turbo — a perceptually-improved rainbow (monotonic luminance, no acid
+// cyan/yellow bands) that replaces jet site-wide. Used for the 2D-field GT / Pred
+// / |error| panels and the 3D-field viewer so the leaderboard keeps one engineering
+// rainbow language without jet's harsh false-contour banding on filled 2D images.
+// Polynomial approximation (Anton Mikhailov's Turbo, ~quintic fit). Returns 8-bit.
+function turboColormap(t) {
+  const x = Math.max(0, Math.min(1, t));
+  const r = 0.13572138 + x*(4.61539260 + x*(-42.66032258 + x*(132.13108234 + x*(-152.94239396 + x*59.28637943))));
+  const g = 0.09140261 + x*(2.19418839 + x*(4.84296658 + x*(-14.18503333 + x*(4.27729857 + x*2.82956604))));
+  const b = 0.10667330 + x*(12.64194608 + x*(-60.58204836 + x*(110.36276771 + x*(-89.90310912 + x*27.34824973))));
+  return [
+    Math.round(Math.max(0, Math.min(1, r)) * 255),
+    Math.round(Math.max(0, Math.min(1, g)) * 255),
+    Math.round(Math.max(0, Math.min(1, b)) * 255),
+  ];
 }
 
 // matplotlib inferno (polynomial fit by Matt Zucker, ~2/255 max channel error).
@@ -1571,6 +1786,23 @@ function imageToGrayFloat(img) {
   return { gray, W, H };
 }
 
+// The 2D field panels are 100%-filled opaque images, so the same turbo ramp reads
+// a touch hotter than on the 3D point cloud (which is 0.85-opacity specks over a
+// near-black bg, so every point already blends ~15% toward dark). Blend each turbo
+// sample lightly toward the panel's dark theme bg (~rgb 12,12,12) to match that
+// perceived intensity — turbo already kills jet's acid bands, so a small 0.12 is
+// enough; heavier (0.20) washes the filled field toward slate. Keep 2D ≈ 3D.
+const F2D_BG = [12, 12, 12];
+const F2D_BG_BLEND = 0.12;
+function blendToPanelBg(r, g, b) {
+  const k = F2D_BG_BLEND;
+  return [
+    Math.round(r * (1 - k) + F2D_BG[0] * k),
+    Math.round(g * (1 - k) + F2D_BG[1] * k),
+    Math.round(b * (1 - k) + F2D_BG[2] * k),
+  ];
+}
+
 function paintColormap(canvas, gray, W, H, vmin = 0, vmax = 1, cmap = grayscaleColormap) {
   canvas.width = W; canvas.height = H;
   const ctx = canvas.getContext('2d');
@@ -1578,7 +1810,7 @@ function paintColormap(canvas, gray, W, H, vmin = 0, vmax = 1, cmap = grayscaleC
   const range = (vmax - vmin) || 1;
   for (let i = 0; i < gray.length; i++) {
     const t = (gray[i] - vmin) / range;
-    const [r, g, b] = cmap(t);
+    const [r, g, b] = blendToPanelBg(...cmap(t));
     out.data[i * 4]     = r;
     out.data[i * 4 + 1] = g;
     out.data[i * 4 + 2] = b;
@@ -1596,8 +1828,8 @@ function paintErrorMap(canvas, predGray, gtGray, W, H, errMax) {
   for (let i = 0; i < predGray.length; i++) {
     const e = Math.abs(predGray[i] - gtGray[i]);
     const t = Math.min(1, e / cap);
-    // Inferno: low error fades into dark theme, large error pops bright.
-    const [r, g, b] = infernoColormap(t);
+    // Turbo: matches the GT/Pred panels (cool blue = low error → hot red = large error).
+    const [r, g, b] = blendToPanelBg(...turboColormap(t));
     out.data[i * 4]     = r;
     out.data[i * 4 + 1] = g;
     out.data[i * 4 + 2] = b;
@@ -1640,65 +1872,65 @@ function renderScalarPredictionAllModels(container, data, rankOrder) {
 
   const models = sortModelsByRank([...new Set(data.map(r => r['Model Name']))], rankOrder || {});
   const dataSize = Math.round(data[0]['Data Size']);
-  const dataset = data[0]?.['Dataset'];
-  const allTks = [...new Set(data.map(r => r['Target Key']).filter(Boolean))];
-  const orderedTks = (typeof TARGET_KEY_ORDER !== 'undefined' && TARGET_KEY_ORDER[dataset])
-    ? TARGET_KEY_ORDER[dataset].filter(t => allTks.includes(t))
-    : allTks.sort();
+  // Visual scalar assets (pred JSON + _shapes manifest) are published under the UMBRELLA
+  // dataset name (deepwheel_{2,3}d_1d); the summary carries the split analysis name
+  // (…_mass / …_modal). Map back so the gallery paths resolve.
+  const dataset = (data[0]?.['Dataset'] || '').replace(/_(mass|modal)$/, '');
+  // Per-target keys must match the JSON `targets` keys, which are per-component labels
+  // (mass; mode_freq_7 / mode_freq_11) — NOT the coupled summary Target Key
+  // (natural_frequencies). Use Components when present (modal), else the Target Key (mass).
+  // JSON `targets` keys = the Component when present (modal → mode_freq_7/11),
+  // else the Target Key (mass carries NO Component). Resolve PER ROW, not
+  // all-or-nothing: a mixed umbrella view (Target=All → mass + modal rows) must
+  // keep BOTH. The prior `comps.length ? comps : allTks` dropped mass whenever
+  // any modal row was present (modal has components, mass doesn't).
+  const orderedTks = [...new Set(data.map(r => r['Component'] || r['Target Key']).filter(Boolean))].sort((a, b) => {
+    const ord = (typeof DIMENSION_ORDER !== 'undefined') ? DIMENSION_ORDER : [];
+    const ai = ord.indexOf(a), bi = ord.indexOf(b);
+    if (ai !== -1 && bi !== -1) return ai - bi;
+    if (ai !== -1) return -1;
+    if (bi !== -1) return 1;
+    return String(a).localeCompare(String(b));
+  });
   const scalarBase = state.dim === '2d' ? 'output/pred2d_scalar' : 'output/pred3d_scalar';
-
-  // Persist target across re-renders (sample count comes from the global filter).
-  window._lbScalarGallery = window._lbScalarGallery || { target: null };
-  if (!orderedTks.includes(window._lbScalarGallery.target)) {
-    window._lbScalarGallery.target = orderedTks[0] || null;
-  }
 
   let html = '';
 
   // ── Per-Sample Gallery ───────────────────────────────────────────────────
   // Follows the same per-row convention used by 2D/3D Gen and 2D/3D Field Pred:
   // each model occupies one row, and `state.sampleCount` cards are rendered in
-  // parallel — no separate ◀ ▶ sample switcher (that's the explorer
-  // pattern, not benchmark's). Target switcher stays because mass/mode7/mode11
-  // are dataset-level, not per-sample.
+  // parallel — no ◀ ▶ sample switcher (that's the explorer pattern).
+  // When the Target filter resolves to more than one quantity (e.g. DeepWheel
+  // All → mass + mode7 + mode11), the row stacks ONE labeled sub-strip per
+  // quantity (in filter order: mass → mode7 → mode11), each strip showing the
+  // same `state.sampleCount` sample cards in parallel — mirroring how the field
+  // gallery lays out samples. (Replaced the old single-Target switcher, which
+  // hid the other quantities behind a click.)
   if (orderedTks.length) {
-    const tkPills = orderedTks.map(tk =>
-      `<button class="filter-pill ${tk === window._lbScalarGallery.target ? 'active' : ''}"
-        data-tk="${tk}" onclick="window._lbScalarSetTarget('${tk}', this)">${tk}</button>`
-    ).join('');
-    const modelRows = models.map((model, idx) => {
-      const rank = rankOrder?.[model] ?? (idx + 1);
+    // Single-quantity view → name it in the row sub-label (like the field gallery's
+    // `· {target}`); multi-quantity (All) → the per-strip labels carry the names.
+    const subTk = orderedTks.length === 1 ? ` · ${componentLabel(orderedTks[0])}` : '';
+    const modelRows = models.map(model => {
       const rowKey = `sc-gal-${model}-${dataset}-${dataSize}`;
       const dataUrl = `${scalarBase}/${model}_${dataSize}/${dataset}.json`;
       const expURL = explorerDetailURL(model, dataset, dataSize);
       const friendly = displayModelName(model);
       const type = displayModelType(model) || '';
-      return `<div class="sp-gallery-row glass" data-key="${rowKey}" data-model="${model}" data-url="${dataUrl}">
-        <div class="sp-row-info" style="width:170px; flex-shrink:0;">
-          <div class="sp-rank">#${rank}</div>
-          <a href="${expURL}" class="sp-name explorer-link" style="font-size:13px;" title="Open in Explorer">${friendly}</a>
-          <div class="sp-sub">${type ? type + ' · ' : ''}N=${dataSize}</div>
+      return `<div class="sp-gallery-row" data-key="${rowKey}" data-model="${model}" data-url="${dataUrl}">
+        <div class="sp-row-info">
+          <a href="${expURL}" class="sp-name explorer-link" title="Open in Explorer">${friendly}</a>
+          <div class="sp-sub">${type ? type + ' · ' : ''}N=${dataSize}${subTk}</div>
         </div>
-        <div class="sp-gallery-cards" style="flex:1; min-width:0; display:grid; gap:6px;">
+        <div class="sp-gallery-strips" style="flex:1; min-width:0; display:flex; flex-direction:column; gap:8px;">
           <div style="padding:10px; font-size:11px; color:rgba(255,255,255,0.4); text-align:center;">loading…</div>
         </div>
       </div>`;
     }).join('');
-    // The 3D scalar gallery now always renders a live 3D viewer (force2D=false
-    // in lbDrawScalarGalleryRow), so the old "2D preview … drop to 2 for the
-    // rolling 3D viewer" banner has no truth left to convey. Default note only.
-    const headerNote = `Use the <strong style="color:rgba(255,255,255,0.55);">Samples</strong> filter above to change how many samples each row shows.`;
-    html += `
-      <div id="sp-gallery-section" style="margin-bottom:18px;">
-        <div class="sp-gallery-header" style="display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:10px 14px; background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:0; margin-bottom:10px;">
-          <div style="font-size:11px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#9961FF;">Per-Sample Comparison</div>
-          <span style="font-size:10px; color:rgba(255,255,255,0.4); letter-spacing:0.5px; text-transform:uppercase;">Target</span>
-          <div style="display:flex; gap:5px; flex-wrap:wrap;">${tkPills}</div>
-          <div style="margin-left:auto; font-size:10px; color:rgba(255,255,255,0.35);">${headerNote}</div>
-        </div>
-        <div id="sp-gallery-body" style="display:flex; flex-direction:column; gap:6px;">${modelRows}</div>
-      </div>
-    `;
+    // No bespoke section header — the flat per-model rows match the 2D/3D Gen and
+    // 2D/3D Field galleries exactly (same row label + neutral hover, no glass card
+    // or accent-colored header block). Quantities are named by the per-strip labels
+    // (multi-quantity All view) and the outer panel title (single quantity).
+    html += `<div id="sp-gallery-section"><div id="sp-gallery-body">${modelRows}</div></div>`;
   }
 
   // (Earlier versions also rendered a per-target scatter strip below; removed
@@ -1831,7 +2063,7 @@ async function lbInitScalarGallery() {
   if (!manifest) {
     const body = document.getElementById('sp-gallery-body');
     if (body) body.innerHTML = `<div style="padding:14px;color:rgba(255,255,255,0.4);font-size:12px;background:rgba(255,255,255,0.025);border:1px dashed rgba(255,255,255,0.12);border-radius:0;text-align:center;">
-      Per-sample shapes not exported yet — run <code>python tools/websites/scripts/convert_pred_scalar_shapes.py</code>
+      Per-sample shapes not exported yet — run <code>python websites/scripts/convert_pred_scalar_shapes.py</code>
     </div>`;
     return;
   }
@@ -1857,24 +2089,32 @@ async function lbInitScalarGallery() {
   });
 }
 
+// Single brand-violet accent for the scalar gallery PRED tile/axis — matches the
+// page's accent language (links, hover, the field gallery's neutral chrome). The
+// earlier per-quantity palette (cyan/amber/…) was off the site palette and is what
+// made the scalar panel read as "different in color"; quantities are distinguished
+// by the strip's text label, not a hue.
+const LB_SCALAR_ACCENT = '#9961FF';
+
 function lbDrawScalarGalleryRow(row) {
   const ctx = window._lbScalarGalleryCtx;
   if (!ctx || !ctx.manifest) return;
-  const tk = window._lbScalarGallery.target;
-  const range = ctx.manifest.target_ranges[tk] || { min: 0, max: 1, p05: 0, p95: 1 };
+  const tks = ctx.orderedTks || [];
   const payload = window._lbScalarGalleryPayloads.get(row.dataset.url);
 
-  // Render `state.sampleCount` cards in a horizontal grid — matches the per-row
-  // gallery convention every other prediction task uses on this page.
+  // Render `state.sampleCount` cards per quantity — matches the per-row gallery
+  // convention every other prediction task uses on this page. When the Target
+  // filter resolves to >1 quantity, each gets its OWN labeled sub-strip, stacked
+  // in filter order (mass → mode7 → mode11), so all quantities show in parallel.
   const n = Math.min(state.sampleCount || 4, ctx.manifest.num_samples);
-  const cardsEl = row.querySelector('.sp-gallery-cards');
-  if (!cardsEl) return;
+  const stripsEl = row.querySelector('.sp-gallery-strips');
+  if (!stripsEl) return;
 
   // Pre-rebuild cleanup — dispose any 3D viewers attached to the old card DOM
   // so their WebGL contexts are released BEFORE innerHTML overwrites the nodes.
-  // Without this, every sample-count or target change leaks N contexts and the
-  // browser's ~16 cap kicks in, blanking older rows to white.
-  cardsEl.querySelectorAll('.lb-scalar-shape-3d').forEach(el => {
+  // Without this, every sample-count change leaks contexts and the browser's
+  // ~16 cap kicks in, blanking older rows to white.
+  stripsEl.querySelectorAll('.lb-scalar-shape-3d').forEach(el => {
     if (window._lbScalarShape3DObs) window._lbScalarShape3DObs.unobserve(el);
     if (el._lbScalarShapeViewer && el._lbScalarShapeViewer.dispose) {
       el._lbScalarShapeViewer.dispose();
@@ -1889,40 +2129,44 @@ function lbDrawScalarGalleryRow(row) {
   // actually a 3D-input prediction task.
   //
   // The historical reason for the fallback was the browser's ~16
-  // simultaneous WebGL context cap — ~6 models × n cards per row blew past
-  // it at n=4/8. We solve that by *capping cards per row* instead:
-  //   Mobile (mobile.css forces 1fr): 1 card/row, viewport visibility caps
-  //     live viewers at ~3–5 → safe.
-  //   Desktop 3D scalar: cap at 2 cards/row regardless of n. n=8 then
-  //     becomes 4 rows of 2 cards instead of 1 row of 8; the user still
-  //     sees every sample, just stacked. With ~2 visible model rows at
-  //     a time × 2 cards/row = ~4 live contexts → safely under the cap.
-  //   Desktop 2D scalar: no cap (pure <img>, no WebGL pressure), keeps
-  //     n cards/row so wide-sample comparison stays compact.
+  // simultaneous WebGL context cap. We solve that by *capping cards per row*:
+  //   Mobile (mobile.css forces 1fr): 1 card/row → safe.
+  //   Desktop 3D scalar: cap at LB_3D_VIEWER_PC_ROW_CAP cards/row; extra
+  //     samples wrap to the next line. (Each quantity strip is its own grid,
+  //     but the shared IntersectionObserver disposes off-screen viewers so the
+  //     multi-strip All view stays under the context cap.)
+  //   Desktop 2D scalar: no cap (pure <img>, no WebGL pressure).
   const isMobileScalar = window.matchMedia('(max-width: 768px)').matches;
   const is3D = ctx.dataset.includes('_3d_');
   const force2D = false; // never — see comment above
   const cardsPerRow = (is3D && !isMobileScalar) ? Math.min(n, LB_3D_VIEWER_PC_ROW_CAP) : n;
-  cardsEl.style.gridTemplateColumns = `repeat(${cardsPerRow}, minmax(0, 1fr))`;
-  // Mini variant kicks in at ≥6 cards/row, where the horizontal shape+info
-  // layout gets too cramped. With cardsPerRow capped at 2 for 3D scalar on
-  // desktop, mini never fires there. Mobile is already forced to 1
-  // card/row, so mini is suppressed there too.
   const mini = !isMobileScalar && cardsPerRow >= 6;
-  const cards = [];
-  for (let slot = 0; slot < n; slot++) {
-    const sample = ctx.manifest.samples[slot];
-    if (!sample) continue;
-    const gtVal = sample.gt[tk];
-    const predVal = (payload && payload.targets && payload.targets[tk]) ? payload.targets[tk].pred[slot] : NaN;
-    cards.push(lbScalarBuildCard(slot, ctx.dataset, gtVal, predVal, range, '#9961FF', force2D, mini));
-  }
-  cardsEl.innerHTML = cards.join('');
+  const single = tks.length <= 1;
+
+  const stripsHtml = tks.map((tk, ti) => {
+    const range = ctx.manifest.target_ranges[tk] || { min: 0, max: 1, p05: 0, p95: 1 };
+    const cards = [];
+    for (let slot = 0; slot < n; slot++) {
+      const sample = ctx.manifest.samples[slot];
+      if (!sample) continue;
+      const gtVal = sample.gt[tk];
+      const predVal = (payload && payload.targets && payload.targets[tk]) ? payload.targets[tk].pred[slot] : NaN;
+      cards.push(lbScalarBuildCard(slot, ctx.dataset, gtVal, predVal, range, LB_SCALAR_ACCENT, force2D, mini));
+    }
+    // Neutral quantity label (matches the field gallery's muted caption chrome);
+    // suppressed when there's only one quantity (the panel title + row sub name it).
+    const stripLabel = single ? '' :
+      `<div class="sp-strip-label" style="font-size:10px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; color:var(--text-tertiary); margin-bottom:3px;">${componentLabel(tk)}</div>`;
+    return `<div class="sp-quantity-strip">${stripLabel}
+      <div class="sp-gallery-cards" style="display:grid; gap:6px; grid-template-columns:repeat(${cardsPerRow}, minmax(0, 1fr));">${cards.join('')}</div>
+    </div>`;
+  }).join('');
+  stripsEl.innerHTML = stripsHtml;
 
   // Lifecycle observer for 3D shape mini-viewers — visible placeholders init
   // on intersection, off-screen ones dispose to free WebGL contexts.  Single
   // shared observer across rows so we don't multiply allocations.
-  const shape3d = cardsEl.querySelectorAll('.lb-scalar-shape-3d');
+  const shape3d = stripsEl.querySelectorAll('.lb-scalar-shape-3d');
   if (shape3d.length) {
     if (!window._lbScalarShape3DObs) {
       window._lbScalarShape3DObs = new IntersectionObserver(entries => {
@@ -1946,16 +2190,6 @@ function lbDrawScalarGalleryRow(row) {
 function lbDrawScalarGalleryAll() {
   document.querySelectorAll('#sp-gallery-body .sp-gallery-row').forEach(lbDrawScalarGalleryRow);
 }
-
-window._lbScalarSetTarget = function(tk, btn) {
-  if (btn) {
-    btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-  }
-  window._lbScalarGallery = window._lbScalarGallery || { target: null };
-  window._lbScalarGallery.target = tk;
-  lbDrawScalarGalleryAll();
-};
 
 async function initScalarPredRow(row) {
   const url = row.dataset.url;
@@ -2074,6 +2308,109 @@ function drawScalarTargetChart(chartEl, payload, tk, rowKey) {
 }
 
 // ══════════════════════════════════════════
+// 1D SCALAR PREDICTION RENDERER — predicted-vs-GT scatter, one model per row
+// ══════════════════════════════════════════
+// 1D scalar prediction (tabular concrete/airfoil + timeseries CMAPSS RUL) has no per-sample
+// geometry, so each model gets its own row: a square predicted-vs-actual (1:1) scatter of the
+// 500 test points with the dashed y=x diagonal — points on the line are perfect. JSON shape:
+// targets[tk].{pred,gt}. Sorted by leaderboard rank.
+function render1DScalarPredictionAllModels(container, data, rankOrder) {
+  cleanupAllViewers();
+  cleanupVisualSection();
+
+  const models = sortModelsByRank([...new Set(data.map(r => r['Model Name']))], rankOrder || {});
+  const dataset = data[0]?.['Dataset'];
+  const dataSize = Math.round(data[0]['Data Size']);
+  // 1D datasets carry exactly one target each (strength / scaled_sound_pressure_db / rul).
+  const tk = (data.find(r => r['Target Key']) || {})['Target Key'] || null;
+
+  let html = `<div style="margin-bottom:12px; font-size:11px; color:rgba(255,255,255,0.45);">
+    Per model: a square <strong>predicted-vs-actual</strong> scatter (points on the dashed
+    <span style="color:rgba(255,255,255,0.7);">y = x</span> line are perfect) beside a wide
+    <strong>residual</strong> plot (error = pred − GT vs the zero line; the trend drifting off zero shows
+    where the model is biased). One row per model, sorted by leaderboard rank.</div>`;
+  html += `<div style="display:flex; flex-direction:column; gap:8px;">`;
+  models.forEach(model => {
+    const key = `lb1d-${model}-${dataset}-${dataSize}`;
+    const url = `output/pred1d_scalar/${model}_${dataSize}/${dataset}.json`;
+    const friendly = displayModelName(model);
+    const type = displayModelType(model) || '';
+    const expURL = explorerDetailURL(model, dataset, dataSize);
+    html += `<div class="sp-gallery-row sp-1d-card" data-key="${key}" data-url="${url}">
+      <div class="sp-row-info">
+        <a href="${expURL}" class="sp-name explorer-link" title="Open ${friendly} in Explorer">${friendly}</a>
+        <div class="sp-sub">${type ? type + ' · ' : ''}N=${dataSize}</div>
+        <div class="sp-sub">R² <span class="sp-r2-val" style="font-weight:700; color:var(--text-secondary);">—</span> · MAE <span class="sp-mae-val" style="font-weight:700; color:var(--text-secondary);">—</span></div>
+      </div>
+      <div class="sp-row-charts">
+        <div class="sp-chartwrap" style="position:relative; width:240px; height:240px; flex-shrink:0; background:rgba(0,0,0,0.4); padding:6px;">
+          <div class="sp-loading" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:11px; color:rgba(255,255,255,0.4);">loading…</div>
+          <canvas class="sp-canvas"></canvas>
+        </div>
+        <div style="position:relative; flex:1; min-width:0; height:240px; background:rgba(0,0,0,0.4); padding:6px;">
+          <canvas class="sp-canvas-res"></canvas>
+        </div>
+      </div>
+    </div>`;
+  });
+  html += `</div>`;
+  container.innerHTML = html;
+
+  // Hydrate each row: fetch the pred JSON and draw the 1:1 scatter + residual plot (both
+  // register in window._lbScalarCharts → cleaned up by cleanupVisualSection).
+  container.querySelectorAll('.sp-1d-card').forEach(card => {
+    fetch(`${card.dataset.url}?t=${PAGE_CACHE_BUST}`)
+      .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then(payload => {
+        const useTk = (payload.targets && payload.targets[tk]) ? tk : Object.keys(payload.targets || {})[0];
+        if (!useTk) throw new Error('no target in payload');
+        draw1DScatterRow(card, payload, useTk, card.dataset.key);
+      })
+      .catch(() => {
+        const l = card.querySelector('.sp-loading');
+        if (l) { l.textContent = 'no data'; l.style.color = 'rgba(255,255,255,0.25)'; }
+      });
+  });
+}
+
+// Per-row 1D panels: a square predicted-vs-GT raw scatter (left) + a wide residual scatter
+// (right), via the shared drawers in viz-common.js. Fills the row's R²/MAE labels.
+function draw1DScatterRow(chartEl, payload, tk, rowKey) {
+  const t = payload.targets?.[tk];
+  if (!t || !t.gt || !t.pred) return;
+
+  const loadingEl = chartEl.querySelector('.sp-loading');
+  if (loadingEl) loadingEl.style.display = 'none';
+
+  const PURPLE = 'rgba(153,97,255,0.85)';
+  const destroy = k => { const p = window._lbScalarCharts.get(k); if (p) { try { p.destroy(); } catch {} window._lbScalarCharts.delete(k); } };
+
+  const calibKey = `${rowKey}__${tk}`;
+  destroy(calibKey);
+  window._lbScalarCharts.set(calibKey, buildScalar1DCalib(chartEl.querySelector('.sp-canvas'), {
+    gt: t.gt, series: [{ pred: t.pred, color: PURPLE }],
+    points: true, median: false, band: false, showLegend: false,
+    xTitle: 'actual (GT)', yTitle: 'predicted',
+  }));
+
+  const resKey = `${rowKey}__${tk}__res`;
+  destroy(resKey);
+  window._lbScalarCharts.set(resKey, buildScalar1DResidualScatter(chartEl.querySelector('.sp-canvas-res'), {
+    gt: t.gt, pred: t.pred, color: PURPLE,
+    xTitle: 'actual (GT)', yTitle: 'error (pred − GT)',
+  }));
+
+  const { r2, mae } = scalar1DStats(t.gt, t.pred);
+  const r2El = chartEl.querySelector('.sp-r2-val');
+  if (r2El) {
+    r2El.textContent = isFinite(r2) ? r2.toFixed(3) : '—';
+    r2El.style.color = isFinite(r2) ? (r2 > 0.7 ? '#34d399' : r2 > 0.3 ? '#fbbf24' : '#f87171') : 'var(--text-muted)';
+  }
+  const maeEl = chartEl.querySelector('.sp-mae-val');
+  if (maeEl) maeEl.textContent = mae < 0.01 ? mae.toExponential(2) : mae.toFixed(3);
+}
+
+// ══════════════════════════════════════════
 // 2D FIELD PREDICTION RENDERER — per-sample pred / GT / |error| triptych
 // ══════════════════════════════════════════
 function render2DFieldPredictionAllModels(container, data, rankOrder) {
@@ -2083,59 +2420,78 @@ function render2DFieldPredictionAllModels(container, data, rankOrder) {
   const models = sortModelsByRank([...new Set(data.map(r => r['Model Name']))], rankOrder || {});
   const datasets = state.dataset ? [state.dataset] : sortDatasets([...new Set(data.map(r => r['Dataset']))]);
   const dataSize = Math.round(data[0]['Data Size']);
-  const tk = data[0]['Target Key'] || 'depth';
+
+  // One triptych strip (state.sampleCount cells) for a given (model, ds, target key).
+  // Target Key segments the image path convert_pred_image writes, keeping pred / GT /
+  // |error| on the same channel.
+  const buildSamples = (model, ds, tk) => {
+    const basePath = `output/pred2d_field/${model}/${ds}/${tk}/${dataSize}`;
+    const gtPath = `output/pred2d_field/_gt/${ds}/${tk}`;
+    let cells = '';
+    for (let i = 0; i < state.sampleCount; i++) {
+      const idx = String(i).padStart(5, '0');
+      cells += `<div class="f2d-cell"
+        data-pred="${basePath}/img_${idx}.png"
+        data-gt="${gtPath}/img_${idx}.png"
+        data-idx="${i}">
+        <div class="f2d-triptych">
+          <div class="f2d-panel"><canvas class="f2d-gt-cv"></canvas><div class="f2d-tag">GT</div></div>
+          <div class="f2d-panel"><canvas class="f2d-pred-cv"></canvas><div class="f2d-tag">pred</div></div>
+          <div class="f2d-panel"><canvas class="f2d-err-cv"></canvas><div class="f2d-tag">|err|</div></div>
+        </div>
+        <div class="f2d-caption"><span class="f2d-idx">#${i}</span><span class="f2d-mae">—</span></div>
+      </div>`;
+    }
+    return cells;
+  };
 
   let html = '';
   models.forEach(model => {
     datasets.forEach(ds => {
-      const row = data.find(r => r['Model Name'] === model && r['Dataset'] === ds);
-      if (!row) return;
-      const basePath = `output/pred2d_field/${model}/${ds}/${dataSize}`;
-      const gtPath = `output/pred2d_field/_gt/${ds}/${tk}`;
+      const rows = data.filter(r => r['Model Name'] === model && r['Dataset'] === ds);
+      if (!rows.length) return;
+      // Every Target Key present for this (model, ds), in canonical filter order.
+      // A coupled / multi-channel field (AirfRANS Flow → velocity-x/y, pressure,
+      // turbulence; 2D-structural → stress / disp) resolves to >1 → stack ONE
+      // labeled sub-strip per channel (mirrors the scalar gallery's per-quantity
+      // strips). Single-target datasets (depth, darcy) keep the original single
+      // strip with the channel named in the row label, NOT a per-strip label.
+      let tks = getTargetKeysForDataset(rows, ds);
+      if (!tks.length) tks = [rows[0]['Target Key'] || 'depth'];
       const friendly = displayModelName(model);
       const type = displayModelType(model);
       const dsName = displayDataset(ds);
       const expURL = explorerDetailURL(model, ds, dataSize);
+      const multi = tks.length > 1;
+      const rowSub = `${type ? type + ' · ' : ''}${dsName} · N=${dataSize}${multi ? '' : ' · ' + getTargetKeyLabel(ds, tks[0])}`;
 
-      let samplesHtml = '';
-      for (let i = 0; i < state.sampleCount; i++) {
-        const idx = String(i).padStart(5, '0');
-        samplesHtml += `<div class="f2d-cell"
-          data-pred="${basePath}/img_${idx}.png"
-          data-gt="${gtPath}/img_${idx}.png"
-          data-idx="${i}">
-          <div class="f2d-triptych">
-            <div class="f2d-panel"><canvas class="f2d-gt-cv"></canvas><div class="f2d-tag">GT</div></div>
-            <div class="f2d-panel"><canvas class="f2d-pred-cv"></canvas><div class="f2d-tag">pred</div></div>
-            <div class="f2d-panel"><canvas class="f2d-err-cv"></canvas><div class="f2d-tag">|err|</div></div>
-          </div>
-          <div class="f2d-caption"><span class="f2d-idx">#${i}</span><span class="f2d-mae">—</span></div>
-        </div>`;
-      }
+      const strips = tks.map(tk => {
+        const label = multi
+          ? `<div class="f2d-strip-label" style="font-size:10px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; color:var(--text-tertiary); margin-bottom:3px;">${getTargetKeyLabel(ds, tk)}</div>`
+          : '';
+        return `<div class="f2d-strip">${label}<div class="f2d-samples">${buildSamples(model, ds, tk)}</div></div>`;
+      }).join('');
 
       html += `<div class="compare-row">
-        <a href="${expURL}" class="compare-row-label explorer-link" title="View in Explorer">
-          ${friendly}
-          <div class="sub">${type ? type + ' · ' : ''}${dsName} · N=${dataSize} · ${tk}</div>
-        </a>
-        <div class="f2d-samples">${samplesHtml}</div>
+        ${cmpRowLabel(expURL, friendly, rowSub)}
+        <div class="f2d-strips" style="flex:1; min-width:0; display:flex; flex-direction:column; gap:10px;">${strips}</div>
       </div>`;
     });
   });
 
-  // Color bar legends (grayscale for depth, jet for error)
+  // Color bar legends — turbo across all panels (matches the 3D-field viewer)
   html += `<div class="f2d-legend">
     <div class="f2d-legend-row">
-      <span class="f2d-legend-title">Depth (GT &amp; Pred)</span>
-      <div class="f2d-legend-bar f2d-legend-grayscale"></div>
-      <div class="f2d-legend-labels"><span>near</span><span>far</span></div>
+      <span class="f2d-legend-title">Field (GT &amp; Pred)</span>
+      <div class="f2d-legend-bar f2d-legend-turbo"></div>
+      <div class="f2d-legend-labels"><span>low</span><span>high</span></div>
     </div>
     <div class="f2d-legend-row">
       <span class="f2d-legend-title">|Pred − GT|</span>
-      <div class="f2d-legend-bar f2d-legend-jet"></div>
+      <div class="f2d-legend-bar f2d-legend-turbo"></div>
       <div class="f2d-legend-labels"><span>0</span><span>p95</span></div>
     </div>
-    <div class="f2d-legend-note">Depth rendered as grayscale over the GT/Pred union range; error uses inferno capped at 95th-percentile |Δ| so a few outlier pixels don't desaturate the heatmap.</div>
+    <div class="f2d-legend-note">Rendered with the turbo colormap over the GT/Pred union range (unified with the 3D-field viewer); error is capped at the 95th-percentile |Δ| so a few outlier pixels don't desaturate the heatmap.</div>
   </div>`;
 
   container.innerHTML = html;
@@ -2168,11 +2524,17 @@ async function paintField2DCell(cell) {
   const { gray: pGray, W, H } = imageToGrayFloat(predImg);
   const { gray: gGray }       = imageToGrayFloat(gtImg);
 
-  // Common range for pred & GT (use union min/max so both are comparable)
+  // Colormap range from the GT ONLY (not the pred∪GT union). The GT for a given
+  // sample is SHARED across every model, so deriving the range from GT alone makes
+  // that GT tile render identically in every model row — the old union range shifted
+  // with each model's prediction min/max, so the same GT looked different per row
+  // (the reported inconsistency). Pred is mapped on the SAME GT range, so it stays
+  // directly comparable to GT (over/under-prediction reads as a color shift; the few
+  // pred values beyond the GT range clip at the ends — fine for these [0,1] tiles).
   let lo = Infinity, hi = -Infinity;
-  for (let i = 0; i < pGray.length; i++) {
-    if (pGray[i] < lo) lo = pGray[i]; if (pGray[i] > hi) hi = pGray[i];
-    if (gGray[i] < lo) lo = gGray[i]; if (gGray[i] > hi) hi = gGray[i];
+  for (let i = 0; i < gGray.length; i++) {
+    if (gGray[i] < lo) lo = gGray[i];
+    if (gGray[i] > hi) hi = gGray[i];
   }
 
   // Error stats — use 95th percentile cap so a few outliers don't desaturate the heatmap
@@ -2182,8 +2544,10 @@ async function paintField2DCell(cell) {
   const errCap = percentile(errs, 0.95) || 1e-6;
   const mae = sumE / errs.length;
 
-  paintColormap(cell.querySelector('.f2d-pred-cv'), pGray, W, H, lo, hi);
-  paintColormap(cell.querySelector('.f2d-gt-cv'),   gGray, W, H, lo, hi);
+  // Turbo across all three panels — unified with the 3D-field viewer (engineering
+  // rainbow convention; turbo's blue low-end stays legible on the dark theme).
+  paintColormap(cell.querySelector('.f2d-pred-cv'), pGray, W, H, lo, hi, turboColormap);
+  paintColormap(cell.querySelector('.f2d-gt-cv'),   gGray, W, H, lo, hi, turboColormap);
   paintErrorMap(cell.querySelector('.f2d-err-cv'),  pGray, gGray, W, H, errCap);
   cell.querySelector('.f2d-mae').textContent = `MAE ${mae.toFixed(3)}`;
 }
@@ -2194,12 +2558,36 @@ function percentile(arr, q) {
   return sorted[idx];
 }
 
+// Model-aware gate for the 3D-field viewer: only models whose per-sample bins were
+// published have entries in pred3d_field/manifest.json (reused-prediction datasets
+// like drivaer{net,ml} surface/volume publish bins for only a subset of models). The
+// summary still lists ALL scored models, so without this gate the viewer requests
+// bins for models that have only metrics → 404 + blank viewers. Mirrors explorer's
+// pred3dGeomKeys gate. Keyed by `${model}|${dataset}`.
+let _lbPred3dGeomKeys = null;
+let _lbPred3dGeomPromise = null;
+function lbLoadPred3dGeomKeys() {
+  if (_lbPred3dGeomKeys) return Promise.resolve(_lbPred3dGeomKeys);
+  if (_lbPred3dGeomPromise) return _lbPred3dGeomPromise;
+  _lbPred3dGeomPromise = fetch(`output/pred3d_field/manifest.json?t=${PAGE_CACHE_BUST}`)
+    .then(r => r.ok ? r.json() : { entries: [] })
+    .then(m => { _lbPred3dGeomKeys = new Set((m.entries || []).map(e => `${e.model}|${e.dataset}`)); return _lbPred3dGeomKeys; })
+    .catch(() => { _lbPred3dGeomKeys = new Set(); return _lbPred3dGeomKeys; });
+  return _lbPred3dGeomPromise;
+}
+
 function render3DEvalAllModels(container, data, rankOrder) {
   cleanupAllViewers();
+  lbLoadPred3dGeomKeys();  // warm the gate set so it's ready by the time viewers scroll into view
   const models = sortModelsByRank([...new Set(data.map(r => r['Model Name']))], rankOrder || {});
-  const targetKey = state.targetKey;
-  const dimension = state.dimension;
   const dataset = state.dataset;
+  // The summary Target Key (coupled label) and Component (axis-free quantity)
+  // don't match the viewer's axis-baked channel vocab (disp_x / stress / …), so
+  // bridge them: when a specific Component is pinned, the viewer locks to that
+  // component's bin token + channel subset; Axis picks a single channel within it.
+  const fixedBinTk = (dataset && state.dimension) ? componentBinToken(dataset, state.dimension) : null;
+  const fixedChannel = (dataset && state.dimension && state.axis)
+    ? componentAxisToChannel(state.dimension, state.axis) : null;
 
   if (!data.length) {
     container.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-muted);">
@@ -2217,14 +2605,29 @@ function render3DEvalAllModels(container, data, rankOrder) {
   const seen = new Set();
   data.forEach(r => {
     const ds = r['Dataset'];
-    const tk = r['Target Key'];
-    if (!ds || !tk) return;
-    const key = `${ds}|${tk}`;
-    if (seen.has(key)) return;
-    seen.add(key);
-    const chs = (EVAL3D_CHANNELS[ds] && EVAL3D_CHANNELS[ds][tk]) || [];
-    if (chs.length) availableGroups.push({ ds, tk, chs });
+    if (!ds || seen.has(ds)) return;
+    seen.add(ds);
+    // Bin token(s) come from the dataset's canonical channel map, not the summary
+    // Target Key (coupled label). One group per bin token (modal → 2).
+    const binTks = EVAL3D_CHANNELS[ds];
+    if (!binTks) return;
+    Object.keys(binTks).forEach(binTk => {
+      let chs = binTks[binTk];
+      // Restrict to the pinned Component's channels (so cycling/Axis stays within
+      // e.g. displacement's disp_x/y/z, not the sibling stress channel).
+      if (dataset && ds === dataset && state.dimension && binTk === fixedBinTk) {
+        chs = componentChannels(ds, state.dimension, state.axis);
+      }
+      availableGroups.push({ ds, tk: binTk, chs });
+    });
   });
+  // Order the umbrella's sibling datasets by canonical scenario order (DrivAerNet
+  // Surface→Center Plane, DrivAerML Surface→Volume, DeepJEB vertical→…→modal) so
+  // the stacked viewer rows read in the SAME order as the Target pills, instead of
+  // the raw summary-row order (which had centerplane ahead of surface). Stable, so
+  // a multi-token dataset (modal mode_shape_1/2) keeps its internal token order.
+  availableGroups.sort((a, b) =>
+    scenarioRank(datasetScenarioToken(a.ds)) - scenarioRank(datasetScenarioToken(b.ds)));
 
   // Build viewer slots: spread across target keys → dimensions → samples
   // Each slot = { ds, tk, chIdx, sample }
@@ -2282,12 +2685,19 @@ function render3DEvalAllModels(container, data, rankOrder) {
   // after gaps, close to the per-panel area users get on desktop.
   const viewerHeight = isMobilePred ? 720 : 320;
   const sampleCount = state.sampleCount;
-  const viewerSlots = buildViewerSlots(availableGroups, sampleCount, targetKey, dimension);
+  // Viewer slots are built per-model below: a model may lack some umbrella-sibling
+  // datasets (e.g. linearno has DrivAerNet surface but no centerplane), so a shared
+  // slot list would render a spurious "geometry not published" panel for it.
   let html = '';
 
   models.forEach(model => {
     const row = data.find(r => r['Model Name'] === model);
     if (!row) return;
+    // Restrict this model's panels to datasets it was actually run on.
+    const modelGroups = availableGroups.filter(g =>
+      data.some(r => r['Model Name'] === model && r['Dataset'] === g.ds));
+    const modelSlots = buildViewerSlots(modelGroups, sampleCount, fixedBinTk, fixedChannel);
+    if (!modelSlots.length) return;
     const friendly = displayModelName(model);
     const type = displayModelType(model);
     const dsLabel = dataset ? '' : ' · ' + sortDatasets([...new Set(data.filter(r => r['Model Name'] === model).map(r => r['Dataset']))]).map(displayDataset).join(', ');
@@ -2296,14 +2706,11 @@ function render3DEvalAllModels(container, data, rankOrder) {
     const expURL = explorerDetailURL(model, evalDS, dataSize);
     html += `<div class="compare-row" style="flex-direction:column; align-items:stretch; gap:8px;">
       <div style="display:flex; justify-content:space-between; align-items:center;">
-        <a href="${expURL}" class="compare-row-label explorer-link" style="width:auto;" title="View in Explorer">
-          ${friendly}
-          <div class="sub">${type ? type + ' · ' : ''}${parseFloat(row['Parameters (M)'] || 0).toFixed(2)}M${dsLabel}</div>
-        </a>
+        ${cmpRowLabel(expURL, friendly, `${type ? type + ' · ' : ''}${parseFloat(row['Parameters (M)'] || 0).toFixed(2)}M${dsLabel}`, true)}
       </div>
       <div style="display:flex; flex-wrap:wrap; gap:8px; width:100%;">`;
 
-    viewerSlots.forEach((slot, s) => {
+    modelSlots.forEach((slot, s) => {
       const viewerId = `lb-pred3d-${model}-s${s}`.replace(/[^a-zA-Z0-9-]/g, '_');
       html += `<div id="${viewerId}" class="lb-pred3d-viewer" style="width:100%;"
            data-model="${model}" data-size="${dataSize}" data-size-code="${sizeCode}"
@@ -2313,7 +2720,7 @@ function render3DEvalAllModels(container, data, rankOrder) {
            data-init-channel="${slot.chIdx}"
            data-viewer-height="${viewerHeight}"
            data-sample="${slot.sample}"
-           data-all-groups='${JSON.stringify(availableGroups)}'>
+           data-all-groups='${JSON.stringify(modelGroups)}'>
         <div style="text-align:center; padding:30px; color:rgba(255,255,255,0.3); font-size:13px;">Loading 3D Pred Viewer...</div>
       </div>`;
     });
@@ -2338,7 +2745,16 @@ function render3DEvalAllModels(container, data, rankOrder) {
       if (entry.isIntersecting && !el._evalInitialized) {
         el._evalInitialized = true;
         el.innerHTML = `<div style="height:${el.dataset.viewerHeight||320}px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:12px; border-radius:0; border:1px solid rgba(255,255,255,0.06);">Loading...</div>`;
-        window.initLeaderboardPredViewer(el).catch(e => console.warn('Pred viewer init failed:', e));
+        lbLoadPred3dGeomKeys().then(gkeys => {
+          const gkey = `${el.dataset.model}|${el.dataset.dataset}`;
+          if (gkeys.size && !gkeys.has(gkey)) {
+            // No per-sample geometry published for this (model, dataset) — show a
+            // metrics-only notice instead of fetching a non-existent .bin (404).
+            el.innerHTML = `<div style="height:${el.dataset.viewerHeight||320}px; display:flex; align-items:center; justify-content:center; text-align:center; color:rgba(255,255,255,0.35); font-size:11px; line-height:1.5; padding:0 16px; border-radius:0; border:1px solid rgba(255,255,255,0.06);">Per-sample geometry not published<br>for this model — see metrics above.</div>`;
+            return;
+          }
+          return window.initLeaderboardPredViewer(el);
+        }).catch(e => console.warn('Pred viewer init failed:', e));
       }
       // Pause/resume pred viewer animation
       if (el._evalInitialized && el._evalViewer) {
@@ -2445,7 +2861,7 @@ function renderBenchRankDetails() {
 // TABLE SORT (generic)
 // ══════════════════════════════════════════
 // Stable per deploy — see explorer.html for rationale.
-const PAGE_CACHE_BUST = 'v20260512';
+const PAGE_CACHE_BUST = 'v20260617a';
 
 // ── 3D Pred: global color ranges from manifest ──
 let pred3dManifestPromise = null;
@@ -2477,7 +2893,7 @@ async function ensureEval3DManifestData() {
       }
       return manifest;
     })
-    .catch(() => null);
+    .catch(() => { pred3dManifestPromise = null; return null; });  // clear cache so a transient fetch failure retries next call
   return pred3dManifestPromise;
 }
 
@@ -2542,9 +2958,10 @@ function syncURL() {
     task: state.task !== 'generation' ? state.task : null,
     ot: (state.task === 'prediction' && state.outputType !== 'field') ? state.outputType : null,
     scale: state.dataScale !== 'Extra Large' ? state.dataScale : null,
-    ds: state.dataset,
-    tk: state.targetKey,
+    u: state.umbrella,
+    t: state.target,
     d: state.dimension,
+    x: state.axis,
     samples: (state.sampleCount && state.sampleCount !== defaultSamples) ? state.sampleCount : null,
     branch: state.branch !== BRANCH_QUALITY ? state.branch : null,
   });
@@ -2555,25 +2972,37 @@ function syncURL() {
 // ══════════════════════════════════════════
 function initFromURL() {
   const h = readHashState();
-  // Fallback to query params for backward compat
+  // Fallback to query params for backward compat (external deep links use ?dim=…).
   const params = new URLSearchParams(window.location.search);
-  if (h.dim) state.dim = h.dim;
-  else if (params.get('dim')) state.dim = params.get('dim');
-  if (h.task) state.task = h.task;
-  else if (params.get('task')) state.task = params.get('task');
-  if (h.ot) state.outputType = h.ot;
-  else if (params.get('output')) state.outputType = params.get('output');
-  if (h.scale) state.dataScale = h.scale;
-  else if (params.get('size')) {
+  // syncURL() writes a COMPLETE snapshot of the non-default state to the hash, so
+  // an ABSENT hash key means "this field is at its default", NOT "keep whatever it
+  // was". Reconstruct the full state every time (hash → query fallback → default).
+  // The old code preserved absent keys, so a prior view's selection leaked across
+  // back/forward + dim/task switches — e.g. switching prediction→generation kept
+  // the prediction dataset/targetKey, which 404'd the leaderboard and left the
+  // ranking board empty (generation skips renderLevel2Filters' re-derivation).
+  state.dim = h.dim || params.get('dim') || '3d';
+  state.task = h.task || params.get('task') || 'generation';
+  state.outputType = h.ot || params.get('output') || 'field';
+  let scale = h.scale || null;
+  if (!scale && params.get('size')) {
     const sizeToScale = { 'S': 'Small', 'M': 'Medium', 'L': 'Large', 'XL': 'Extra Large' };
-    const scale = sizeToScale[params.get('size').toUpperCase()];
-    if (scale) state.dataScale = scale;
+    scale = sizeToScale[params.get('size').toUpperCase()] || null;
   }
-  if (h.ds) state.dataset = h.ds;
-  if (h.tk) state.targetKey = h.tk;
-  if (h.d) state.dimension = h.d;
-  if (h.samples) state.sampleCount = parseInt(h.samples);
-  if (h.branch) state.branch = h.branch;
+  state.dataScale = scale;   // null → renderLevel2Filters auto-picks the default available size
+  // Filter taxonomy: umbrella/target/component(d)/axis(x). The split dataset +
+  // targetKey are re-derived from (umbrella, target) once summary data loads
+  // (renderLevel2Filters), so only the UI-level selection is persisted — reset
+  // dataset/targetKey here so a stale pair can't survive into the next category.
+  state.umbrella = h.u || (h.ds ? datasetUmbrella(h.ds) : null);   // h.ds = legacy inbound link (split id)
+  state.target = h.t || null;
+  state.dimension = h.d || null;
+  state.axis = h.x || null;
+  state.dataset = null;
+  state.targetKey = null;
+  if (state.dim === '1d') { state.task = 'prediction'; state.outputType = 'scalar'; }
+  state.sampleCount = h.samples ? parseInt(h.samples) : getDefaultSampleCount();
+  state.branch = h.branch || BRANCH_QUALITY;
   // Update efficiency toggle UI
   const tog = document.getElementById('efficiency-toggle');
   if (tog) tog.classList.toggle('active', state.branch === BRANCH_QUALITY_EFFICIENCY);
@@ -2598,14 +3027,29 @@ window.addEventListener('hashchange', () => {
 <script type="importmap">
 {
   "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+    "three": "./shared/lib/three.module.js",
+    "three/addons/": "./shared/lib/three-addons/"
   }
 }
 </script>
 <script type="module">
-import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+// three.js is imported LAZILY (dynamic import), not statically. Measured: compiling+
+// executing its ~1.27MB bundle is a ~400ms main-thread long task that, with a static
+// import, ran during initial page load and blocked first paint (the ranking table) even
+// though every 3D viewer lives below the fold. ensureThree() is awaited at each viewer
+// entry point (initLeaderboard{PC,Pred,ScalarShape}Viewer) before any THREE.* use, so the
+// load+compile happens only on first scroll into a viewer — off the initial critical path.
+let THREE, OrbitControls;
+let _threePromise = null;
+function ensureThree() {
+  if (!_threePromise) {
+    _threePromise = Promise.all([
+      import('three'),
+      import('three/addons/controls/OrbitControls.js'),
+    ]).then(([t, oc]) => { THREE = t; OrbitControls = oc.OrbitControls; });
+  }
+  return _threePromise;
+}
 
 // ── Per-viewer state (multiple viewers on one page) ──
 const viewers = new Map();
@@ -2656,6 +3100,56 @@ function syncCameraFromSource(sourceId) {
   _syncLock = false;
 }
 
+// ── Global auto-rotation phase ───────────────────────────────────────────
+// Every 3D result viewer (generation point clouds, field-pred panels, scalar
+// roll) shares ONE wall-clock-driven rotation angle. A viewer that is lazily
+// created as the user scrolls down — or resumed after going off-screen — snaps
+// straight to this page-wide phase, so newly-revealed samples/models continue
+// the rotation already in progress instead of restarting from 0°.
+const _AUTOROT_SPEED = 1.02375;  // matches the generation viewer's old controls.autoRotateSpeed
+const _ROLL_SPEED = 1.2285;     // scalar-thumbnail (DeepWheel) axle roll (rad/s) — 70% of prior 1.755
+let _spinT0 = null;
+function _spinClock() {
+  if (_spinT0 === null) _spinT0 = performance.now();
+  return (performance.now() - _spinT0) / 1000;  // seconds since first spin
+}
+// Global frame counter driving the camera-orbit azimuth. A single always-on rAF
+// ticker advances it once per animation frame, so every viewer reads the SAME
+// frame count (→ stays in sync) AND each frame contributes exactly the per-frame
+// angle OrbitControls.autoRotate used to add (2π/3600·speed, the deltaTime=null
+// path in three@0.164) — preserving the previous, refresh-rate-scaled speed.
+let _spinFrames = 0;
+let _spinTickerOn = false;
+function _startSpinTicker() {
+  if (_spinTickerOn) return;
+  _spinTickerOn = true;
+  (function tick() { _spinFrames++; requestAnimationFrame(tick); })();
+}
+function globalSpinAzimuth(speed) {
+  _startSpinTicker();
+  return (2 * Math.PI / 3600) * (speed == null ? _AUTOROT_SPEED : speed) * _spinFrames;
+}
+// Scalar axle roll stays wall-clock-based (the old viewer used dt·0.6 rad/s,
+// already frame-rate-independent), so its speed is unchanged.
+function globalRollAngle() { return _spinClock() * _ROLL_SPEED; }
+
+// Orbit `camera` about the world-Y axis through `target` so its azimuth equals
+// (baseTheta + offset + globalSpinAzimuth(speed)); polar angle, radius and target
+// are left untouched — identical to OrbitControls.autoRotate, but phase-locked.
+function applySpinAzimuth(camera, target, baseTheta, offset, speed) {
+  const dx = camera.position.x - target.x;
+  const dz = camera.position.z - target.z;
+  const r = Math.hypot(dx, dz);
+  if (r < 1e-6) return;
+  const theta = baseTheta + offset + globalSpinAzimuth(speed);
+  camera.position.x = target.x + r * Math.sin(theta);
+  camera.position.z = target.z + r * Math.cos(theta);
+  camera.lookAt(target);
+}
+function azimuthOf(camera, target) {
+  return Math.atan2(camera.position.x - target.x, camera.position.z - target.z);
+}
+
 function colorPoints(positions, mode) {
   const count = positions.length / 3;
   const colors = new Float32Array(count * 3);
@@ -2702,31 +3196,42 @@ function createMiniViewer(canvasContainer, id, syncGroup) {
   controls.enableDamping = true;
   controls.dampingFactor = 0.08;
   controls.enableZoom = false;
-  controls.autoRotate = true;
-  controls.autoRotateSpeed = 0.35;
+  // autoRotate is driven manually off the global spin phase (see applySpinAzimuth
+  // in the animate loop) so viewers lazily created/resumed on scroll stay in sync
+  // with the rows already spinning — OrbitControls' own autoRotate is left off.
+  controls.autoRotate = false;
   controls.minDistance = 0.5;
   controls.maxDistance = 8;
-  // 'start' / 'end': pause autoRotate during user drag and resume on release.
-  // Sync-group peers freeze together so the row reads as one unit (peers
-  // track source via camera-sync, so their autoRotate stays off after — only
-  // the dragged source re-enables on release).  Earlier rollMode branch
-  // span-rotated points around their own axle to mimic a rolling tire, but
-  // the constant spin made spoke/rim quality inspection in 3D-gen panels
-  // hard, so it was reverted to plain camera-orbit autoRotate.
+  // 'start' / 'end': pause the spin during user drag and resume on release.
+  // Sync-group peers freeze together so the row reads as one unit. On release we
+  // re-anchor each viewer's spinOffset to wherever the user left the camera, so
+  // the resumed rotation continues smoothly from there (no snap to the global
+  // angle). Earlier a rollMode branch span-rotated points around their own axle
+  // to mimic a rolling tire, but the constant spin made spoke/rim quality
+  // inspection hard, so it was reverted to plain camera-orbit auto-rotation.
   controls.addEventListener('start', () => {
-    controls.autoRotate = false;
+    vState._dragging = true;
     if (syncGroup && syncGroups.has(syncGroup)) {
       syncGroups.get(syncGroup).forEach(pid => {
         const p = viewers.get(pid);
-        if (p) p.controls.autoRotate = false;
+        if (p) p._dragging = true;
       });
     }
   });
-  controls.addEventListener('end', () => { controls.autoRotate = true; });
+  controls.addEventListener('end', () => {
+    const reanchor = (p) => {
+      if (!p) return;
+      p.spinOffset = azimuthOf(p.camera, p.controls.target) - p.spinBase - globalSpinAzimuth(_AUTOROT_SPEED);
+      p._dragging = false;
+    };
+    reanchor(vState);
+    if (syncGroup && syncGroups.has(syncGroup)) {
+      syncGroups.get(syncGroup).forEach(pid => reanchor(viewers.get(pid)));
+    }
+  });
 
-  scene.add(new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30));
-
-  const vState = { scene, camera, renderer, controls, points: null, data: null, colorMode: 'height', animId: null, syncGroup: syncGroup || null };
+  const vState = { scene, camera, renderer, controls, points: null, data: null, colorMode: 'height', animId: null, syncGroup: syncGroup || null,
+    spinning: true, spinBase: 0, spinOffset: 0, _dragging: false };
   viewers.set(id, vState);
 
   // Zoom activation: enable zoom only after user clicks on canvas
@@ -2769,6 +3274,8 @@ function createMiniViewer(canvasContainer, id, syncGroup) {
   function animate() {
     vState.animId = requestAnimationFrame(animate);
     controls.update();
+    if (vState.spinning && !vState._dragging && vState.points)
+      applySpinAzimuth(camera, controls.target, vState.spinBase, vState.spinOffset, _AUTOROT_SPEED);
     renderer.render(scene, camera);
   }
   animate();
@@ -2848,22 +3355,25 @@ function loadIntoViewer(vState, positions, dataset) {
   //     around world-Y) sweeps the camera around the wheel and reveals
   //     spokes / rim / hub from every angle without spinning the cloud
   //     itself — better for quality inspection than the prior axle-spin.
-  // Front-quarter camera (engineering elevation drawing feel):
-  // small Y (≈10° above horizon) + asymmetric X/Z so the model reads as
-  // "viewed from in front of the bench" rather than "looked down upon from
-  // above".  baseLen still reflects the diagonal so isDeepWheel scaling
-  // keeps its proportions.
+  // Three-quarter camera looking slightly down (engineering 3/4 view): the
+  // (2.4,0.4,1.6) heading re-aimed to the shared VIEW_ELEV_DEG elevation (see
+  // viz-common.js) — easier to parse shape/topology than the old near-horizon
+  // angle. viewCamVec preserves the heading's magnitude (≈2.92 = baseLen) and
+  // azimuth, so isDeepWheel scaling proportions are unchanged.
   const baseLen = Math.sqrt(2.4*2.4 + 0.4*0.4 + 1.6*1.6); // ≈ 2.92
   const radius = (geometry.boundingSphere && geometry.boundingSphere.radius) || 1;
   const k = isDeepWheel
-    ? (5.0 * radius / baseLen)
+    ? (5.0 / 1.2 * radius / baseLen)
     : (isDriv ? (1.0 / 1.1) : 1.0);
-  vState.camera.position.set(
-    c.x + 2.4 * k,
-    c.y + 0.4 * k,
-    c.z + 1.6 * k,
-  );
+  const _o = viewCamVec(2.4, 0.4, 1.6, k);
+  vState.camera.position.set(c.x + _o.x, c.y + _o.y, c.z + _o.z);
   vState.controls.update();
+  // Anchor the spin phase to the freshly-framed pose. The default camera
+  // direction (and hence base azimuth) is identical across all generation
+  // viewers, so with spinOffset reset to 0 every viewer evaluates to the same
+  // global azimuth — a viewer loaded later simply continues the current angle.
+  vState.spinBase = azimuthOf(vState.camera, vState.controls.target);
+  vState.spinOffset = 0;
 }
 
 function recolorViewer(vState, mode) {
@@ -2877,7 +3387,8 @@ function recolorViewer(vState, mode) {
 // sampleIdx: which sample to load initially (0-11)
 // viewerHeight: pixel height for the viewer wrap
 // totalSamples: how many viewers are shown per model (1, 4, or 8)
-window.initLeaderboardPCViewer = function(el, model, size, dataset, sampleIdx, viewerHeight, totalSamples) {
+window.initLeaderboardPCViewer = async function(el, model, size, dataset, sampleIdx, viewerHeight, totalSamples) {
+  await ensureThree();
   sampleIdx = sampleIdx || 0;
   viewerHeight = viewerHeight || 360;
   totalSamples = totalSamples || 1;
@@ -2911,7 +3422,7 @@ window.initLeaderboardPCViewer = function(el, model, size, dataset, sampleIdx, v
   el._pcViewerId = id;
 
   async function loadSample(idx) {
-    const binPath = `output/gen3d/${model}/${dataset}/${size}/sample_${String(idx).padStart(5, '0')}.bin`;
+    const binPath = `output/gen3d/${model}/${dataset}/${size}/sample_${String(idx).padStart(5, '0')}.bin?v=${PAGE_CACHE_BUST}`;
     const loadingEl = document.getElementById(`${id}-loading`);
     try {
       if (loadingEl) {
@@ -2948,21 +3459,25 @@ window.initLeaderboardPCViewer = function(el, model, size, dataset, sampleIdx, v
 // ── 3D Prediction Viewer (GT / Prediction / Error — synchronized) ──
 // ══════════════════════════════════════════════════════════════════════
 
-function jetColormap(t) {
-  // Used for SIGNED scalar fields (GT/Pred displacement etc.).
-  t = Math.max(0, Math.min(1, t));
-  let r, g, b;
-  if (t < 0.125) { r=0; g=0; b=0.5+t*4; }
-  else if (t < 0.375) { const s=(t-0.125)/0.25; r=0; g=s; b=1; }
-  else if (t < 0.625) { const s=(t-0.375)/0.25; r=s; g=1; b=1-s; }
-  else if (t < 0.875) { const s=(t-0.625)/0.25; r=1; g=1-s; b=0; }
-  else { const s=(t-0.875)/0.125; r=1-0.5*s; g=0; b=0; }
-  return [r, g, b];
+// Google Turbo (float 0..1 for the Three.js vertex-color path) — the 3D-field
+// GT / Pred / error clouds. Same map as the 2D-field panels' turboColormap, so
+// the leaderboard keeps one rainbow language; turbo replaces jet to drop the
+// harsh cyan/yellow false-contour bands while staying legible on the dark theme.
+function turboColormap(t) {
+  const x = Math.max(0, Math.min(1, t));
+  const r = 0.13572138 + x*(4.61539260 + x*(-42.66032258 + x*(132.13108234 + x*(-152.94239396 + x*59.28637943))));
+  const g = 0.09140261 + x*(2.19418839 + x*(4.84296658 + x*(-14.18503333 + x*(4.27729857 + x*2.82956604))));
+  const b = 0.10667330 + x*(12.64194608 + x*(-60.58204836 + x*(110.36276771 + x*(-89.90310912 + x*27.34824973))));
+  return [
+    Math.max(0, Math.min(1, r)),
+    Math.max(0, Math.min(1, g)),
+    Math.max(0, Math.min(1, b)),
+  ];
 }
 
 // Inferno (matplotlib) — perceptually uniform sequential. Polynomial fit by
 // Matt Zucker. Used for unsigned magnitudes (|error|). Returns floats 0..1
-// to match jetColormap's signature (Three.js vertex-color path).
+// to match turboColormap's signature (Three.js vertex-color path).
 function infernoColormap(t) {
   t = Math.max(0, Math.min(1, t));
   const r = 0.000219 + t * (0.1065 + t * (11.602 + t * (-41.70 + t * ( 77.16 + t * (-71.32 + t *  25.13)))));
@@ -2976,7 +3491,7 @@ function infernoColormap(t) {
 }
 
 function colorByField(values, vmin, vmax, cmap) {
-  const fn = cmap || jetColormap;
+  const fn = cmap || turboColormap;
   const count = values.length;
   const colors = new Float32Array(count * 3);
   const range = (vmax - vmin) || 1;
@@ -3019,14 +3534,17 @@ function createEvalPanel(container, w, h) {
   controls.enableDamping = true;
   controls.dampingFactor = 0.08;
   controls.enableZoom = false;
-  controls.autoRotate = true;
-  controls.autoRotateSpeed = 0.30;
+  // Spin is driven manually off the global phase (see the row animate loop), so
+  // panels lazily created/resumed on scroll stay in sync with rows already
+  // spinning. OrbitControls' own autoRotate stays off; autoRotateSpeed is still
+  // set per-dataset below and read as the global-phase speed for this panel.
+  controls.autoRotate = false;
+  controls.autoRotateSpeed = 0.8775;
   controls.minDistance = 0.5;
   controls.maxDistance = 20;
-  controls.addEventListener('end', () => { controls.autoRotate = true; });
-  scene.add(new THREE.GridHelper(2, 10, 0x1a1045, 0x140e30));
   scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-  const panel = { scene, camera, renderer, controls, points: null, carMesh: null, container };
+  const panel = { scene, camera, renderer, controls, points: null, carMesh: null, container,
+    spinBase: 0, spinOffset: 0, spinSpeed: 0.8775 };
 
   // Handle WebGL context loss gracefully
   renderer.domElement.addEventListener('webglcontextlost', (e) => {
@@ -3041,9 +3559,9 @@ function createEvalPanel(container, w, h) {
 }
 
 function setEvalPanelCloud(panel, positions, fieldValues, vmin, vmax, isDrivAerNet, cmap, dataset, targetKey) {
-  // After milestone7.0 drivaernet merge, body_pressure is a target key under
-  // drivaernet_3d_2d. Detect by target_key so body-surface camera framing applies.
-  const isBodyPressure = targetKey === 'body_pressure' || dataset === 'drivaernet_pressure_3d_3d';
+  // body_pressure is the target of drivaernet_3d_2d_surface (re-derived from the
+  // retired drivaernet_pressure_3d_3d). Detect by target_key so body-surface camera framing applies.
+  const isBodyPressure = targetKey === 'body_pressure' || dataset === 'drivaernet_3d_2d_surface';
   if (panel.points) {
     panel.scene.remove(panel.points);
     panel.points.geometry.dispose();
@@ -3052,34 +3570,90 @@ function setEvalPanelCloud(panel, positions, fieldValues, vmin, vmax, isDrivAerN
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
   geometry.setAttribute('color', new THREE.Float32BufferAttribute(colorByField(fieldValues, vmin, vmax, cmap), 3));
+  geometry.computeBoundingBox();
+  geometry.computeBoundingSphere();
+  const c = new THREE.Vector3();
+  geometry.boundingBox.getCenter(c);
+  // Frame to the cloud's actual bounding-sphere radius so every coordinate scale
+  // fills the viewport — DrivAerML surface lives in a ~0.02-unit box, DrivAerML
+  // volume ~0.43, DeepJEB ~1.0, DrivAerNet center plane ~2.5. The old fixed
+  // 2.5-unit camera distance made the small ones render as specks.
+  const r = (geometry.boundingSphere && geometry.boundingSphere.radius) || 1;
+  // Point size scales with radius too, else tiny clouds become overlapping blobs.
+  const ptSize = (isDrivAerNet && !isBodyPressure) ? 0.018 : Math.max(r * 0.012, 0.0006);
   panel.points = new THREE.Points(geometry, new THREE.PointsMaterial({
-    // Body-surface pressure shares DeepJEB's tighter 0.012 — its 8192 points
-    // pack into a unit-sphere body, not the wider wake plane (0.018).
-    size: (isDrivAerNet && !isBodyPressure) ? 0.018 : 0.012,
+    size: ptSize,
     vertexColors: true, sizeAttenuation: true, transparent: true, opacity: 0.85,
   }));
   panel.scene.add(panel.points);
-  geometry.computeBoundingBox();
-  const c = new THREE.Vector3();
-  geometry.boundingBox.getCenter(c);
+  // OrbitControls clamps camera distance to [minDistance, maxDistance]; the
+  // default [0.5, 20] would shove a 0.02-radius DrivAerML cloud back out to 0.5
+  // (re-shrinking it). Scale the clamp with the radius so the framing holds.
+  panel.controls.minDistance = r * 0.3;
+  panel.controls.maxDistance = r * 30;
   panel.controls.target.copy(c);
+  // Uniform ANGULAR velocity (0.30) for every scene: within DrivAerNet (surface
+  // vs centerplane) and DrivAerML (surface vs volume), the two siblings now orbit
+  // at the same rate. Previously volume (0.25) and centerplane (0.115) were slowed
+  // to equalise apparent on-screen *edge* speed, but that made the angular rate
+  // visibly differ between a dataset's surface and its volume/plane — which read
+  // as inconsistent. Equal angular velocity is the requested behaviour.
+  panel.controls.autoRotateSpeed = 0.8775;
   if (isDrivAerNet && !isBodyPressure) {
+    // Centerplane: fixed-distance framing (≈6.4), now also raised to VIEW_ELEV_DEG
+    // (keeps the +0.8 x-composition nudge; y²+z² stays 6.4² so the distance holds).
     const tgtY = c.y * 0.55, tgtX = c.x * 1.50;
     panel.controls.target.set(tgtX, tgtY, c.z);
-    panel.camera.position.set(tgtX + 0.8, tgtY, c.z + 6.4);
+    panel.camera.position.set(tgtX + 0.8, tgtY + 6.4 * VIEW_ELEV_SIN, c.z + 6.4 * VIEW_ELEV_COS);
     const vw1 = panel.renderer.domElement.width, vh1 = panel.renderer.domElement.height;
     panel.camera.setViewOffset(vw1, vh1, vw1 * 0.02, 0, vw1, vh1);
   } else if (isBodyPressure) {
-    // Body-surface pressure: full car in unit-sphere space — side view, slightly elevated
+    // Body-surface pressure: side view, slightly elevated. Distance ∝ radius, matched
+    // to the deepjeb / drivaerml-surface scenes (d=2.6R — was 3.0R, which left this car
+    // ~15 % smaller than its siblings) + the same 2 % view offset. The surface is a
+    // clean car shell (no far-field tail), so 2.6R clears a full auto-rotate with margin
+    // (worst-case horizontal fill ≈0.84).
+    const d = r * 2.6;
     panel.controls.target.set(c.x, c.y, c.z);
-    panel.camera.position.set(c.x, c.y + 0.3, c.z + 2.5);
+    panel.camera.position.set(c.x, c.y + d * VIEW_ELEV_SIN, c.z + d * VIEW_ELEV_COS);
+    const vw = panel.renderer.domElement.width, vh = panel.renderer.domElement.height;
+    panel.camera.setViewOffset(vw, vh, vw * 0.02, 0, vw, vh);
+  } else if (dataset === 'drivaerml_3d_3d_volume') {
+    // Volume: the robust-normalised cloud is a thin, wide "pancake" hugging the road —
+    // ~99 % of points sit in a ≈0.27-tall band near the origin (car + near-wake), while
+    // the bounding box stretches up to y≈0.9 on a sparse far-field tail. So the BOX
+    // centre `c` lands ≈0.4 *above* the car, and targeting it jammed the car into the
+    // bottom quarter of the frame with dead space on top. Aim at the CENTROID instead,
+    // and size the distance from the RMS radius (not the far-field-inflated bounding
+    // sphere) so the car sits vertically centred and fills ~⅓ of the height — matching
+    // the surface / deepjeb scenes. The sparse wake tail still grazes the edges at some
+    // spin angles (irreducible for a ground-hugging volume), but the dense body stays
+    // framed through the full rotation. d = 3.5·RMS just fits the dense 95 % horizontally.
+    let mx=0, my=0, mz=0; const npv = positions.length / 3;
+    for (let i=0;i<npv;i++){ mx+=positions[i*3]; my+=positions[i*3+1]; mz+=positions[i*3+2]; }
+    mx/=npv; my/=npv; mz/=npv;
+    let s2=0;
+    for (let i=0;i<npv;i++){ const ax=positions[i*3]-mx, ay=positions[i*3+1]-my, az=positions[i*3+2]-mz; s2+=ax*ax+ay*ay+az*az; }
+    const d = (Math.sqrt(s2/npv) || r) * 3.5;
+    panel.controls.target.set(mx, my, mz);
+    panel.camera.position.set(mx, my + d * VIEW_ELEV_SIN, mz + d * VIEW_ELEV_COS);
+    const vw = panel.renderer.domElement.width, vh = panel.renderer.domElement.height;
+    panel.camera.setViewOffset(vw, vh, vw * 0.02, 0, vw, vh);
   } else {
-    // DeepJEB: target at bounding box center, camera straight ahead
-    panel.camera.position.set(c.x, c.y + 0.3, c.z + 2.5);
+    // DeepJEB + DrivAerML surface: distance ∝ radius so the cloud fills
+    // the view regardless of its native coordinate scale. Raised to the shared
+    // VIEW_ELEV_DEG elevation (d·SIN up, d·COS back → same distance d).
+    const d = r * 2.6;
+    panel.camera.position.set(c.x, c.y + d * VIEW_ELEV_SIN, c.z + d * VIEW_ELEV_COS);
     const vw = panel.renderer.domElement.width, vh = panel.renderer.domElement.height;
     panel.camera.setViewOffset(vw, vh, vw * 0.02, 0, vw, vh);
   }
   panel.controls.update();
+  // Anchor the spin phase to the freshly-framed pose (offset 0 → continues the
+  // global angle); spinSpeed = the per-dataset autoRotateSpeed set in createEvalPanel.
+  panel.spinBase = azimuthOf(panel.camera, panel.controls.target);
+  panel.spinOffset = 0;
+  panel.spinSpeed = panel.controls.autoRotateSpeed;
 }
 
 function setEvalCarMesh(panel, carPositions) {
@@ -3099,6 +3673,7 @@ function setEvalCarMesh(panel, carPositions) {
 }
 
 window.initLeaderboardPredViewer = async function(el) {
+  await ensureThree();
   const model = el.dataset.model;
   const dataSize = parseInt(el.dataset.size);
   const sizeCode = el.dataset.sizeCode;
@@ -3124,6 +3699,11 @@ window.initLeaderboardPredViewer = async function(el) {
   let currentSample = sampleIdx;
   let panels = []; // [gt, pred, error]
   let evalAnimId = null;
+  // Global-phase spin: panel 0 orbits off the shared azimuth and the other two
+  // panels mirror it, so a row revealed on scroll continues the current angle.
+  // A user drag stops the spin for this row (matching the prior behaviour where
+  // autoRotate was switched off on interaction and not auto-resumed).
+  let evalSpinning = true;
 
   el.innerHTML = `
     <div style="border-radius:0; overflow:hidden; border:1px solid rgba(255,255,255,0.06);">
@@ -3167,9 +3747,10 @@ window.initLeaderboardPredViewer = async function(el) {
   function animate() {
     evalAnimId = requestAnimationFrame(animate);
     panels.forEach(p => p.controls.update());
-    // Sync cameras from panel 0
-    if (panels[0].controls.autoRotate) {
+    // Spin panel 0 off the global phase, then mirror its pose to the GT/Pred/Error siblings.
+    if (evalSpinning && panels[0].points) {
       const src = panels[0];
+      applySpinAzimuth(src.camera, src.controls.target, src.spinBase, src.spinOffset, src.spinSpeed);
       panels.slice(1).forEach(dst => {
         dst.camera.position.copy(src.camera.position);
         dst.camera.quaternion.copy(src.camera.quaternion);
@@ -3201,8 +3782,13 @@ window.initLeaderboardPredViewer = async function(el) {
   }
   panels.forEach((panel, idx) => {
     panel.controls.addEventListener('change', () => syncFrom(idx));
-    panel.controls.addEventListener('start', () => {
-      panels.forEach(p => { p.controls.autoRotate = false; });
+    panel.controls.addEventListener('start', () => { evalSpinning = false; });
+    panel.controls.addEventListener('end', () => {
+      // Re-anchor panel 0's phase to wherever the user left the (synced) camera,
+      // then resume the global-phase spin smoothly from there.
+      const src = panels[0];
+      src.spinOffset = azimuthOf(src.camera, src.controls.target) - src.spinBase - globalSpinAzimuth(src.spinSpeed);
+      evalSpinning = true;
     });
     // Zoom activation: click on any panel enables zoom on all panels
     panel.renderer.domElement.addEventListener('pointerdown', () => {
@@ -3232,7 +3818,7 @@ window.initLeaderboardPredViewer = async function(el) {
 
   async function loadEvalData() {
     const ch = currentChs[currentChIdx];
-    const binPath = `output/pred3d_field/${model}/${currentDS}/${currentTK}/${ch}/${sizeCode}_${String(currentSample).padStart(2, '0')}.bin`;
+    const binPath = `output/pred3d_field/${model}/${currentDS}/${currentTK}/${ch}/${sizeCode}_${String(currentSample).padStart(2, '0')}.bin?v=${PAGE_CACHE_BUST}`;
 
     // Show loading overlay
     panels.forEach(p => {
@@ -3277,10 +3863,14 @@ window.initLeaderboardPredViewer = async function(el) {
         vmin = globalVR.vmin;
         vmax = globalVR.vmax;
       } else {
+        // GT-only range so the GT panel colours identically across models even
+        // when the cross-model global range is unavailable. A model's pred over/
+        // undershoot must not recolour the shared ground truth (otherwise the same
+        // GT looks different per model — e.g. geotransolver/domino vorticity, whose
+        // pred slightly exceeds the GT range). Pred saturates against this range if
+        // it exceeds GT; the |error| panel captures the overshoot.
         vmin = Infinity; vmax = -Infinity;
         for (let i = 0; i < numPoints; i++) {
-          if (pred[i] < vmin) vmin = pred[i];
-          if (pred[i] > vmax) vmax = pred[i];
           if (gt[i] < vmin) vmin = gt[i];
           if (gt[i] > vmax) vmax = gt[i];
         }
@@ -3293,18 +3883,16 @@ window.initLeaderboardPredViewer = async function(el) {
       const driv = isDrivAerNet();
       setEvalPanelCloud(panels[0], pos, gt, vmin, vmax, driv, undefined, currentDS, currentTK);
       setEvalPanelCloud(panels[1], pos, pred, vmin, vmax, driv, undefined, currentDS, currentTK);
-      // All three panels share the jet colormap (default) so the error
+      // All three panels share the turbo colormap (default) so the error
       // panel reads on the same colour axis as GT / Pred — direct visual
-      // comparison across panels.  (2D field prediction keeps inferno for
-      // its error heatmap because the GT/Pred there are grayscale depth
-      // maps, not jet, so a perceptually-uniform error map is the better
-      // contrast there.)
+      // comparison across panels.  (2D field prediction also renders GT /
+      // Pred / error with turbo now, for site-wide colormap consistency.)
       setEvalPanelCloud(panels[2], pos, error, 0, errorScaleMax, driv, undefined, currentDS, currentTK);
 
-      // Car mesh overlay for DrivAerNet wake-plane (skipped for body-surface
+      // Car mesh overlay for DrivAerNet center-plane (skipped for body-surface
       // pressure since pred points already lie on the car surface).
       if (driv && currentTK !== 'body_pressure') {
-        const carPath = `output/pred3d_field/${model}/${currentDS}/${currentTK}/_car/${sizeCode}_${String(currentSample).padStart(2, '0')}.bin`;
+        const carPath = `output/pred3d_field/${model}/${currentDS}/${currentTK}/_car/${sizeCode}_${String(currentSample).padStart(2, '0')}.bin?v=${PAGE_CACHE_BUST}`;
         try {
           const carResp = await fetch(carPath);
           if (carResp.ok) {
@@ -3368,10 +3956,12 @@ window.initLeaderboardPredViewer = async function(el) {
 // ══════════════════════════════════════════════════════════════════════
 // Matches explorer's initScalarShapeViewer3D so the benchmark
 // shows the actual 3D wheel shape on the 3D-scalar page (instead of the prior
-// 2D RGB fallback). Camera is on +Z (looking at wheel face) and the cloud
-// spins around its own Z axis to mimic a rolling wheel — see the comment in
-// explorer.html for the data inspection that confirms Z is the axis.
-window.initLeaderboardScalarShapeViewer = function(el) {
+// 2D RGB fallback). Camera is on -Z (back view, looking head-on at the wheel's
+// inner face) and the cloud spins around its own Z axis to mimic a rolling wheel
+// — see the comment in explorer.html for the data inspection that confirms Z is
+// the axis.
+window.initLeaderboardScalarShapeViewer = async function(el) {
+  await ensureThree();
   const dataset = el.dataset.dataset;
   const slot = parseInt(el.dataset.slot);
   const w = el.clientWidth || 78;
@@ -3381,7 +3971,7 @@ window.initLeaderboardScalarShapeViewer = function(el) {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0C0C0C);
   const camera = new THREE.PerspectiveCamera(45, w / h, 0.01, 100);
-  camera.position.set(0, 0, 2.6);
+  camera.position.set(0, 0, -2.6);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(w, h);
@@ -3399,15 +3989,15 @@ window.initLeaderboardScalarShapeViewer = function(el) {
 
   let pts = null;
   let animId = null;
-  let lastT = performance.now();
-  const ROLL_SPEED = 0.6;
+  // Axle roll is driven off the shared global roll phase (not a per-viewer dt
+  // accumulator) so a thumbnail revealed on scroll is already in phase with the
+  // ones above it. rollOffset re-anchors the roll after a drag so it resumes
+  // smoothly from where the user left it.
   let rollEnabled = true;
+  let rollOffset = 0;
   function animate() {
     animId = requestAnimationFrame(animate);
-    const now = performance.now();
-    const dt = Math.min(0.05, (now - lastT) / 1000);
-    lastT = now;
-    if (pts && rollEnabled) pts.rotation.z += ROLL_SPEED * dt;
+    if (pts && rollEnabled) pts.rotation.z = globalRollAngle() + rollOffset;
     controls.update();
     renderer.render(scene, camera);
   }
@@ -3415,7 +4005,10 @@ window.initLeaderboardScalarShapeViewer = function(el) {
   // Match the leaderboard convention used by 3D gen/field pred viewers:
   // pause rotation while the user is dragging, resume the moment they release.
   controls.addEventListener('start', () => { rollEnabled = false; });
-  controls.addEventListener('end', () => { rollEnabled = true; });
+  controls.addEventListener('end', () => {
+    if (pts) rollOffset = pts.rotation.z - globalRollAngle();
+    rollEnabled = true;
+  });
 
   el._lbScalarShapeViewer = {
     get animId() { return animId; },
@@ -3462,7 +4055,7 @@ window.initLeaderboardScalarShapeViewer = function(el) {
   ro.observe(el);
 
   const idx = String(slot).padStart(2, '0');
-  const binPath = `output/pred3d_scalar/_shapes/${dataset}/sample_${idx}.bin`;
+  const binPath = `output/pred3d_scalar/_shapes/${dataset}/sample_${idx}.bin?v=${PAGE_CACHE_BUST}`;
   fetch(binPath)
     .then(resp => resp.ok ? resp.arrayBuffer() : Promise.reject(new Error(`HTTP ${resp.status}`)))
     .then(buf => {
@@ -3496,7 +4089,11 @@ window.initLeaderboardScalarShapeViewer = function(el) {
       const c = new THREE.Vector3();
       geom.boundingBox.getCenter(c);
       controls.target.copy(c);
-      camera.position.set(c.x, c.y, c.z + 2.6);
+      // Dead-on back view: camera on -Z looking at the wheel's INNER face head-on
+      // (no elevation tilt). (Was the shared VIEW_ELEV_DEG three-quarter elevation —
+      // kept for the field/gen viewers, but the scalar wheel reads best perfectly
+      // face-on; -Z shows the inner/back face.)
+      camera.position.set(c.x, c.y, c.z - 2.6);
       camera.up.set(0, 1, 0);
       controls.update();
     })

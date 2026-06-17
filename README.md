@@ -2,7 +2,7 @@
 
 **A non-commercial research benchmark for evaluating and ranking AI models in manufacturing and engineering domains.**
 
-Developed by [Narnia Labs](https://www.narnia.ai/), this leaderboard provides transparent, standardized performance benchmarks to objectively assess AI models across six engineering tasks: 2D image generation, 2D field prediction, 2D scalar prediction, 3D geometry generation, 3D field prediction, and 3D scalar prediction.
+Developed by [Narnia Labs](https://www.narnia.ai/), this leaderboard provides transparent, standardized performance benchmarks to objectively assess AI models across seven engineering tasks: 1D scalar prediction, 2D image generation, 2D field prediction, 2D scalar prediction, 3D geometry generation, 3D field prediction, and 3D scalar prediction.
 
 > **Live Dashboard:** [http://leaderboard.narnia.ai/](http://leaderboard.narnia.ai/)
 
@@ -19,11 +19,12 @@ This benchmark is intended solely for academic and research evaluation purposes.
 | Domain | Task | Description |
 |--------|------|-------------|
 | **2D Image Generation** | Generation | Evaluates generative models on engineering image synthesis tasks |
-| **2D Field Prediction** | Prediction (image → image) | Evaluates models that predict per-pixel engineering fields (e.g. depth maps) from RGB renders |
+| **2D Field Prediction** | Prediction (image → image) | Per-pixel engineering fields from images — z-buffer depth (DeepWheel), FEA von Mises stress (DeepJEB), steady Darcy pressure (PDEBench), and RANS flow (AirfRANS) |
 | **2D Scalar Prediction** | Prediction (image → scalar) | Evaluates models that estimate global engineering scalars (mass, modal frequencies) from RGB renders |
 | **3D Geometry Generation** | Generation | Evaluates generative models that produce 3D point cloud geometries for engineering components |
-| **3D Field Prediction** | Prediction (point cloud → field) | Evaluates models that predict per-point engineering fields — displacement & stress (DeepJEB), surface pressure, velocity, pressure-velocity coupled fields, and body-surface pressure (DrivAerNet), and mode shapes |
+| **3D Field Prediction** | Prediction (point cloud → field) | Per-point engineering fields — displacement, von Mises stress & mode shapes (DeepJEB), automotive aero surface/center-plane fields (DrivAerNet), and surface + volume CFD fields (DrivAerML) |
 | **3D Scalar Prediction** | Prediction (point cloud → scalar) | Evaluates models that estimate global engineering scalars from 3D geometries |
+| **1D Scalar Prediction** | Prediction (tabular / timeseries → scalar) | Tabular regression (UCI Concrete, Airfoil Self-Noise) and turbofan remaining-useful-life from timeseries (NASA C-MAPSS) |
 
 ## Evaluated Models
 
@@ -33,24 +34,28 @@ This benchmark is intended solely for academic and research evaluation purposes.
 | **2D Field Prediction** | U-Net, ResNet-U-Net, Attention U-Net, U-Net++, SegFormer-B0, FPN-ResNet18, GLPN, DPT-Hybrid |
 | **2D Scalar Prediction** | SimpleCNN, ResNet-18, ResNet-34, EfficientNet-B0, ConvNeXt-Tiny, DenseNet-121, ViT-Tiny |
 | **3D Generation** | 3D-GAN, DeepSDF, PointFlow, ShapeGF, AtlasNet, Diffusion3D |
-| **3D Field Prediction** | Transolver++, AB-UPT, Transolver, PointNet, RegDGCNN, GeoFNO |
+| **3D Field Prediction** | Transolver++, Transolver, LinearNO, LinearNO-Big, GeoFNO, GeoTransolver, DoMINO, PointNet, RegDGCNN |
 | **3D Scalar Prediction** | PointNet, PointNet++, PointNet++ Lite, DGCNN, PCT, PCT-Small, Point Transformer, Point Transformer-Small, PointMLP, PointMLP-Elite |
+| **1D Scalar Prediction** | MLP, FT-Transformer, NODE, TabNet, TabPFN, XGBoost, LightGBM, Random Forest, Gaussian Process, Ridge · *(timeseries)* LSTM, BiLSTM, DCNN, TCN, CNN-LSTM, DAST |
 
 All models are benchmarked across four dataset sizes to assess data efficiency and scalability:
-- **2D Generation, 2D Field Prediction:** S (50), M (100), L (200), XL (500)
-- **2D Scalar Prediction, 3D Generation, 3D Field/Scalar Prediction:** S (20), M (50), L (100), XL (200)
+- **2D Generation:** S (50), M (100), L (200), XL (500)
+- **All Prediction tasks (1D / 2D / 3D, field & scalar) and 3D Generation:** S (20), M (50), L (100), XL (200)
 
 ## Evaluation Metrics
 
 | Domain | Metrics |
 |--------|---------|
 | **2D Generation** | IS, FID, LPIPS, PSNR, MS-SSIM, Precision, Density, Recall, Coverage, Train Time, Infer Time |
-| **2D Field Prediction** | MAE, RMSE, MaxAE, MAPE, R², Rel-L2, PSNR, SSIM, AbsRel, sqRel, δ<1.25, Train Time, Infer Time |
+| **2D Field Prediction** | MAE, RMSE, MAPE, R², Rel-L2, PSNR, SSIM (+ AbsRel, sqRel, δ<1.25 on the depth dataset only), Train Time, Infer Time |
 | **2D / 3D Scalar Prediction** | MAE, RMSE, MAPE, R², Rel-L2, MaxAE, Pearson, Spearman, Train Time, Infer Time |
 | **3D Generation** | MV-FID, FPD, CD, EMD, F-Score, MS-SSIM, Precision, Recall, Density, Coverage, Manifold-Δ, Uniformity-Δ, Train Time, Infer Time |
-| **3D Field Prediction** | MAE, RMSE, MAPE, R², Rel-L2, MaxAE, MAC, Sign Agree, Extremal Agree, Train Time, Infer Time |
+| **3D Field Prediction** | MAE, RMSE, MAPE, R², Rel-L2, MAC, Sign Agree, Extremal Agree, Train Time, Infer Time |
+| **1D Scalar Prediction** | MAE, RMSE, MAPE, R², Rel-L2, MaxAE, Pearson, Spearman, Train Time, Infer Time |
 
-Models are ranked using **BenchRank**, a graph-based ranking system combining Spearman correlation with debiased PageRank scoring for robust multi-metric evaluation.
+Every metric a task lists is both **computed and ranked** — what the leaderboard shows is exactly what BenchRank ranks on, with no display-only "reference" columns. Two field-specific choices keep the ranking faithful to quality: **MaxAE is not computed for field tasks** (the single worst-pixel error rewards blurry, under-confident "mean" predictions, so it is anti-correlated with field quality — it stays a ranked metric for **scalar** tasks, where one error per sample makes it well-behaved), and the monocular-depth metrics (**AbsRel / sqRel / δ<1.25**) are computed only for the depth dataset, where they are meaningful. Everything else — MAPE included — is ranked wherever it is computed.
+
+Models are ranked using **BenchRank**, a graph-based ranking system combining Spearman debiasing with PageRank over a head-to-head dominance graph, plus a viability gate that floors catastrophic-failure outliers and a geometric-mean cross-dataset aggregate.
 
 ## Benchmark Pipeline
 
@@ -64,12 +69,27 @@ All models follow a standardized 3-step pipeline to ensure fair comparison:
 
 Rankings are generated per dataset size (S/M/L/XL), with a switchable quality-only and quality+efficiency view.
 
+## Build & Data Pipeline
+
+The dashboard is a fully static site — every page fetches pre-built JSON / `.bin` / PNG artifacts from `output/` (via `shared/data-loader.js`); there is no backend. The artifacts are regenerated from the benchmark's committed `results/` fragments and per-run inference outputs by the scripts in `scripts/`:
+
+| Script | Produces | Notes |
+|--------|----------|-------|
+| `copy_csv_data.py` | `output/data/` — leaderboard CSVs, `summary_metrics.csv`, `performance.json` | Re-ranks the DeepJEB 3D-field boards with the AB-UPT family (`abupt`, `narnia_abupt`, `svmoe_abupt`) license-excluded; applies the publication toggles |
+| `convert_gen_image.py` / `convert_gen_pointcloud.py` | `output/gen2d/`, `output/gen3d/` | 2D PNGs copied verbatim; 3D `.npy → .bin` (Float32Array). Both use farthest-point sampling so the displayed subset spans the visual/shape distribution |
+| `convert_pred_image.py` | `output/pred2d_field/` | Field-prediction PNGs + a shared `_gt/` tree for pred ↔ GT pairs |
+| `convert_pred_pointcloud.py` + `convert_pred_coupled.py` | `output/pred3d_field/` | Per-channel `.bin` + merged `manifest.json` (coupled DrivAerML/DrivAerNet surface & volume merge into the existing manifest) |
+| `convert_pred_scalar.py` + `convert_pred_scalar_shapes.py` | `output/pred{1,2,3}d_scalar/` | Per-target `pred`/`gt` arrays for the scatter & error-diagnostics views, plus per-sample input-shape thumbnails |
+
+After a benchmark re-run, the publish pass is **Step C → `copy_csv_data.py` → the relevant `convert_*` scripts**.
+
 ## Features
 
 - **Leaderboard Rankings** — Ranked model tables with multi-metric evaluation and visual heatmaps across dataset sizes (S/M/L/XL)
-- **Interactive 3D Viewer** — Explore generated and predicted 3D point cloud geometries directly in the browser
+- **Interactive 3D Viewer** — Explore generated and predicted 3D point cloud geometries directly in the browser, with a shared three-quarter camera elevation and one turbo colormap (legend-matched) across every 2D-field and 3D-field panel for a consistent engineering colour language
 - **Synchronized Dual 3D Viewer** — Side-by-side 3D comparison with camera-synced rotation and navigation
-- **Explorer** — Browse the full model inventory and drill into any model's detail view (performance metrics + interactive 3D viewer + per-sample gallery, with a switcher for model · size · dataset · target)
+- **Scalar Error Diagnostics** — Scalar/tabular tasks (no per-sample geometry) render predicted-vs-actual (1:1) scatters, signed-residual plots, error histograms, and MAE-by-ground-truth-band charts to show *where* across the value range a model is biased
+- **Explorer** — Browse the full model inventory and drill into any model's detail view (performance metrics + interactive 3D viewer + per-sample gallery / error diagnostics, with a switcher for model · size · dataset · target)
 - **Scalability Analysis** — Benchmarks across multiple training-set sizes to assess data efficiency
 - **Cross-Page Navigation** — Benchmark model labels link directly to corresponding Explorer detail views
 - **URL State Persistence** — Filter selections preserved across page refresh and shareable via URL
@@ -80,9 +100,9 @@ Rankings are generated per dataset size (S/M/L/XL), with a switchable quality-on
 | Page | Description |
 |------|-------------|
 | **Overview** | Statement, purpose, mission & KPI, benchmark pipeline, domain status, roadmap, and ultimate goal |
-| **Benchmark** | Interactive model rankings with filtering by dimension, task, and dataset size |
+| **Benchmark** | Interactive model rankings with a **Dataset → Target → Component → Axis** filter ladder (atop dimension / task / data size), per-task ranked tables, and per-sample visual results (2D fields with the turbo colormap; interactive 3D field point-cloud viewer; scalar/1D tasks as per-model predicted-vs-actual + residual scatters). Model labels link straight into the matching Explorer detail view |
 | **Analysis** | Head-to-head Model A vs Model B comparison across Dataset · Data Size · Target axes — Trajectory, Qualitative, Mathematical, Frontier, Progression, Disagreement, and Distribution views |
-| **Explorer** | Per-model browse — inventory strip, model card grid, and a detail view with performance metrics, interactive 3D viewer, and per-sample gallery (switcher for model · size · dataset · target) |
+| **Explorer** | Per-model browse — inventory strip, model card grid, and a detail view with performance metrics, interactive 3D viewer, and a per-sample gallery (field/generation tasks) or error-diagnostics dashboard (scalar/1D tasks); switcher for model · size · dataset · target |
 
 ## Datasets & Attribution
 
@@ -90,10 +110,14 @@ This benchmark utilizes the following research datasets. All datasets are used s
 
 | Dataset | Source | License |
 |---------|--------|---------|
-| **DrivAerNet** | [Mohamedelrefaie/DrivAerNet](https://github.com/Mohamedelrefaie/DrivAerNet) | [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) |
-| **DrivAerNet++** | [Mohamedelrefaie/DrivAerNet](https://github.com/Mohamedelrefaie/DrivAerNet) | [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) |
 | **DeepJEB** | [Narnia Labs](https://dataset.narnia.ai/) | [ODC-By v1.0](https://opendatacommons.org/licenses/by/1-0/) |
 | **DeepWheel** | [Narnia Labs](https://dataset.narnia.ai/) | [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) |
+| **DrivAerML** | [caemldatasets.org/drivaerml](https://caemldatasets.org/drivaerml/) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| **DrivAerNet / DrivAerNet++** | [Mohamedelrefaie/DrivAerNet](https://github.com/Mohamedelrefaie/DrivAerNet) | [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) |
+| **AirfRANS** | [Bonnet et al., NeurIPS 2022](https://airfrans.readthedocs.io/) | [ODbL 1.0](https://opendatacommons.org/licenses/odbl/) |
+| **PDEBench (Darcy)** | [pdebench/PDEBench, NeurIPS 2022](https://github.com/pdebench/PDEBench) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| **UCI Concrete / Airfoil Self-Noise** | [UCI ML Repository](https://archive.ics.uci.edu/) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| **NASA C-MAPSS** | [NASA Prognostics Data Repository](https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/) | U.S. Gov — Public Domain |
 
 > Mohamed Elrefaie, Angela Dai, Florian Padberg. *DrivAerNet++: A Large-Scale Multimodal Car Dataset with Computational Fluid Dynamics Simulations and Deep Learning Benchmarks.* NeurIPS 2024 Datasets and Benchmarks Track.
 

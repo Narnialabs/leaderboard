@@ -1,13 +1,12 @@
-﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6
-1,Parameters (M),0.1836,regdgcnn,geofno,transolver_pp,pointnet,transolver,abupt
-2,Inference Time (s),0.1129,geofno,transolver,pointnet,abupt,transolver_pp,regdgcnn
-3,MaxAE,0.0961,transolver,transolver_pp,abupt,regdgcnn,geofno,pointnet
-4,Sign Agree,0.0777,regdgcnn,transolver_pp,abupt,transolver,geofno,pointnet
-5,Training Time (s),0.0772,pointnet,geofno,transolver_pp,transolver,abupt,regdgcnn
-6,Extremal Agree,0.0719,transolver,transolver_pp,regdgcnn,abupt,geofno,pointnet
-7,MAPE (%),0.0688,regdgcnn,transolver_pp,transolver,abupt,geofno,pointnet
-8,MAE,0.0673,transolver,transolver_pp,regdgcnn,abupt,geofno,pointnet
-9,Rel-L2,0.066,transolver,regdgcnn,transolver_pp,abupt,geofno,pointnet
-10,R²,0.066,transolver,regdgcnn,transolver_pp,abupt,geofno,pointnet
-11,RMSE,0.066,transolver,transolver_pp,regdgcnn,abupt,geofno,pointnet
-12,MAC,0.0465,regdgcnn,abupt,transolver,transolver_pp,geofno,pointnet
+﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7
+1,Parameters (M),0.1902,regdgcnn,geofno,transolver_pp,linearno,pointnet,transolver,linearno_big
+2,Training Time (s),0.1134,geofno,pointnet,transolver,transolver_pp,linearno,linearno_big,regdgcnn
+3,Inference Time (s),0.1133,geofno,transolver,pointnet,regdgcnn,linearno,linearno_big,transolver_pp
+4,Sign Agree,0.09,regdgcnn,transolver,transolver_pp,linearno_big,linearno,geofno,pointnet
+5,MAPE (%),0.0837,transolver_pp,transolver,regdgcnn,linearno_big,linearno,geofno,pointnet
+6,Extremal Agree,0.0733,linearno_big,linearno,transolver_pp,transolver,regdgcnn,geofno,pointnet
+7,R²,0.073,linearno,transolver,linearno_big,transolver_pp,regdgcnn,geofno,pointnet
+8,Rel-L2,0.073,linearno,linearno_big,transolver,transolver_pp,regdgcnn,geofno,pointnet
+9,RMSE,0.0727,linearno_big,linearno,transolver_pp,transolver,regdgcnn,geofno,pointnet
+10,MAE,0.0725,linearno,transolver_pp,linearno_big,transolver,regdgcnn,geofno,pointnet
+11,MAC,0.056,linearno_big,linearno,regdgcnn,transolver,transolver_pp,geofno,pointnet

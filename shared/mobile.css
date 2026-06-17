@@ -193,6 +193,15 @@
      INDEX.HTML — Overview Page
      ══════════════════════════════════════════════════════════ */
 
+  /* Statement headline: 21px is oversized for a phone and, more importantly,
+     its `Backed by Objective Evaluation` span is `white-space:nowrap` inside a
+     glass card with `overflow:hidden` — at 21px that ~300px run sits right at
+     the ~322px inner width on a 370px phone and clips outright on 320–360px
+     devices (the overflow hides, it doesn't scroll). Dropping to 18px keeps the
+     phrase intact while leaving comfortable margin down to the narrowest phones,
+     and reads better as mobile display type. */
+  .statement-headline { font-size: 18px !important; }
+
   /* TF Statement principles: 3 cols → 1 col */
   #principles-row {
     flex-direction: column !important;
@@ -265,6 +274,12 @@
     flex-wrap: wrap;
     row-gap: 4px;
     gap: 5px;
+  }
+  /* Axis is inline with Component on PC (subtle left divider); on mobile the groups
+     stack, so drop the divider/indent to match the other stacked filter groups. */
+  #axis-filter {
+    border-left: none !important;
+    padding-left: 0 !important;
   }
   .lb-filters .pill-wrap {
     gap: 5px;
@@ -387,8 +402,12 @@
     grid-template-columns: 110px minmax(0, 1fr) !important;
   }
 
-  /* Metrics table: force horizontal scroll instead of compact truncation */
-  .data-table-wrapper:has(.compact-metrics) {
+  /* Metrics table: horizontal scroll instead of compact truncation. Applied to
+     every .data-table-wrapper (they all carry the ←scroll→ hint via ::after
+     above), so it needs no :has() — which is unsupported on Safari <15.4 /
+     Firefox <121, where :has(.compact-metrics) would silently fail and leave the
+     table truncating hidden columns instead of scrolling. */
+  .data-table-wrapper {
     overflow-x: auto !important;
   }
   #metrics-table.compact-metrics {
@@ -428,8 +447,8 @@
      ══════════════════════════════════════════════════════════ */
 
   /* ── analysis.html chart card grids: force single column on phones ──
-     The Distribution / Disagreement / Mathematical / Frontier tabs use
-     inline `grid-template-columns: repeat(auto-fit, minmax(360px, 1fr))`
+     The Distribution / Disagreement / Trajectory tabs use inline
+     `grid-template-columns: repeat(auto-fit, minmax(360px, 1fr))`
      for the chart cards. At 375px viewport with .glass padding the
      container is ~310px wide — auto-fit still keeps tracks at 360px and
      lets them overflow into the parent's max-width clip, which visually
@@ -615,14 +634,15 @@
      2d-scalar). Without their own rule they fell back to the inline
      `min-width:120px; flex:1` from _renderCard(), which is fine but leaves
      them slightly out of step with the older sections at the 375px breakpoint
-     (3 cards/row instead of 2). Bundle all six under one selector so each
+     (3 cards/row instead of 2). Bundle all seven under one selector so each
      gallery section consistently lands at 2-per-row on phones. */
   #perf-cards-2d .perf-card,
   #perf-cards-3d .perf-card,
   #perf-cards-3d-gen .perf-card,
   #perf-cards-2d-field .perf-card,
   #perf-cards-3d-scalar .perf-card,
-  #perf-cards-2d-scalar .perf-card {
+  #perf-cards-2d-scalar .perf-card,
+  #perf-cards-1d-scalar .perf-card {
     flex: 1 1 calc(50% - 4px) !important;
     min-width: calc(50% - 4px) !important;
   }
@@ -826,5 +846,34 @@
   }
   #pc-canvas-wrap {
     height: 220px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NARROW PHONES — max-width: 420px
+   Tighter breakpoint than the 768px block on purpose.
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 420px) {
+  /* Scalar / 1D-error detail grids overflow the frame on the smallest phones.
+     The explorer + analysis detail panels render three inline grids into
+     #scalar-gallery-content (scalar per-sample card gallery, and the 1D
+     "Error Diagnostics" residual/hist/quantile drawers) using
+     `repeat(auto-fit|auto-fill, minmax(300px, 1fr))`.  A single 300px min
+     track overflows once the container drops below 300px — i.e. viewport
+     < ~348px (#detail-content inner = viewport − 10px×2 page-content
+     − 14px×2 glass = viewport − 48px).  At 370px it still fits (322px,
+     ~22px to spare), but 320–347px phones clip the right edge.
+
+     Why 420px and not the shared 768px block: these are 300px tracks, so two
+     columns legitimately fit once the inner width reaches ~614px (≈662px
+     viewport) — e.g. an iPad-mini-width 768px portrait shows a healthy 2-up.
+     Collapsing to 1fr across the whole 768px range would needlessly kill that
+     tablet/large-phone 2-column layout.  Forcing 1fr only ≤420px fixes the
+     overflow on small phones (already 1-column there anyway, so it's a no-op
+     above the ~348px threshold) while leaving every wider device untouched.
+     Mirrors the analysis-tab `1fr` rule (which targets 360px tracks, where the
+     768px block is correct because two never fit below desktop width). */
+  #scalar-gallery-content div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
   }
 }

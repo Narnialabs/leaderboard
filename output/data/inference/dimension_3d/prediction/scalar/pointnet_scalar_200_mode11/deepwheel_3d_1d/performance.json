@@ -1,9 +1,0 @@
-{
-  "model_parameters": 75905,
-  "training_time_sec": 28.001331367492675,
-  "inference_time_sec": 0.42952537536621094,
-  "total_generated": 500,
-  "training_time_estimated": true,
-  "training_time_total_sec": 233.34442806243896,
-  "best_epoch": 60
-}
