@@ -2062,9 +2062,21 @@ window.initCmpEvalViewer = async function(el) {
       function setPtCloud(panel,vals,mn,mx,cmap){
         if(panel.points){panel.scene.remove(panel.points);panel.points.geometry.dispose();panel.points.material.dispose();}
         const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('color',new THREE.Float32BufferAttribute(colorByField(vals,mn,mx,cmap),3));
-        panel.points=new THREE.Points(g,new THREE.PointsMaterial({size:profile.pointSize,vertexColors:true,sizeAttenuation:true,transparent:true,opacity:0.85}));
-        panel.scene.add(panel.points);g.computeBoundingBox();const c=new THREE.Vector3();g.boundingBox.getCenter(c);panel.controls.target.copy(c);
-        if(profile.cameraMode==='wake'){const ty=c.y*0.55,tx=c.x*1.5,wd=isMobileCmpPred?6.7:5.8;panel.controls.target.set(tx,ty,c.z);panel.camera.position.set(tx+0.8,ty+wd*VIEW_ELEV_SIN,c.z+wd*VIEW_ELEV_COS);}else if(profile.cameraMode==='body'){panel.controls.target.set(c.x,c.y,c.z);panel.camera.position.set(c.x,c.y+2.5*VIEW_ELEV_SIN,c.z+2.5*VIEW_ELEV_COS);}else{const mz=isMobileCmpPred?2.65:2.3;panel.camera.position.set(c.x,c.y+mz*VIEW_ELEV_SIN,c.z+mz*VIEW_ELEV_COS);const vw=panel.renderer.domElement.width,vh=panel.renderer.domElement.height;panel.camera.setViewOffset(vw,vh,vw*0.02,0,vw,vh);}
+        g.computeBoundingBox();g.computeBoundingSphere();const c=new THREE.Vector3();g.boundingBox.getCenter(c);const r=(g.boundingSphere&&g.boundingSphere.radius)||1;
+        // Point size matches the single-model (PC) eval viewer: radius-relative so DrivAerML's
+        // small-scale clouds (~0.02 surface) aren't over-sized; centerplane keeps absolute 0.018.
+        const ptSize=profile.cameraMode==='wake'?profile.pointSize:Math.max(r*0.012,0.0006);
+        panel.points=new THREE.Points(g,new THREE.PointsMaterial({size:ptSize,vertexColors:true,sizeAttenuation:true,transparent:true,opacity:0.85}));
+        panel.scene.add(panel.points);panel.controls.target.copy(c);
+        // Match the single-model (PC) eval viewer's per-dataset framing: body/default
+        // are RADIUS-RELATIVE (r*3.0 / r*2.6) so DrivAerML surface (~0.02) & volume
+        // (~0.43) AND DeepJEB (~1.0) all fill the panel — the old absolute distances
+        // only suited DeepJEB's scale and left DrivAerML a tiny speck. wake/centerplane
+        // stays absolute 5.8 (consistent coordinate scale). On the 240px less-landscape
+        // mobile panel, a 1.15x pull-back keeps anti-clip margin for wide cars/brackets
+        // without over-shrinking (the eased over-shrink-relief gesture).
+        const mob = isMobileCmpPred ? 1.15 : 1.0;
+        if(profile.cameraMode==='wake'){const ty=c.y*0.55,tx=c.x*1.5,wd=5.8*mob;panel.controls.target.set(tx,ty,c.z);panel.camera.position.set(tx+0.8,ty+wd*VIEW_ELEV_SIN,c.z+wd*VIEW_ELEV_COS);}else if(profile.cameraMode==='body'){const d=r*3.0*mob;panel.controls.target.set(c.x,c.y,c.z);panel.camera.position.set(c.x,c.y+d*VIEW_ELEV_SIN,c.z+d*VIEW_ELEV_COS);}else{const d=r*2.6*mob;panel.camera.position.set(c.x,c.y+d*VIEW_ELEV_SIN,c.z+d*VIEW_ELEV_COS);const vw=panel.renderer.domElement.width,vh=panel.renderer.domElement.height;panel.camera.setViewOffset(vw,vh,vw*0.02,0,vw,vh);}
         panel.controls.update();
       }
       // All three panels share turbo (default cmap) for direct cross-panel
