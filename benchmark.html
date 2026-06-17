@@ -3604,7 +3604,10 @@ function setEvalPanelCloud(panel, positions, fieldValues, vmin, vmax, isDrivAerN
   // 2.5-unit camera distance made the small ones render as specks.
   const r = (geometry.boundingSphere && geometry.boundingSphere.radius) || 1;
   // Point size scales with radius too, else tiny clouds become overlapping blobs.
-  const ptSize = (isDrivAerNet && !isBodyPressure) ? 0.018 : Math.max(r * 0.012, 0.0006);
+  // Floor 0.0002 (was 0.0006): keeps the proportional r*0.012 down to DrivAerML's
+  // tiny-scale surface (~0.02 box) so its points stay ~1.2%-of-radius like every
+  // other dataset instead of being clamped ~3x larger. Still a min-visibility net.
+  const ptSize = (isDrivAerNet && !isBodyPressure) ? 0.018 : Math.max(r * 0.012, 0.0002);
   panel.points = new THREE.Points(geometry, new THREE.PointsMaterial({
     size: ptSize,
     vertexColors: true, sizeAttenuation: true, transparent: true, opacity: 0.85,

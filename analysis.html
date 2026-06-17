@@ -1102,7 +1102,9 @@ function setEvalPointCloud(panel, positions, fieldValues, vmin, vmax, dataset, c
 
   const material = new THREE.PointsMaterial({
     // Point size ∝ radius (center-plane 'wake' keeps its hand-tuned profile size).
-    size: profile.cameraMode === 'wake' ? profile.pointSize : Math.max(r * 0.012, 0.0006),
+    // Floor 0.0002 (was 0.0006) so DrivAerML's tiny-scale surface keeps the
+    // proportional r*0.012 size instead of being clamped ~3x larger (see benchmark.html).
+    size: profile.cameraMode === 'wake' ? profile.pointSize : Math.max(r * 0.012, 0.0002),
     vertexColors: true,
     sizeAttenuation: true,
     transparent: true,
@@ -2065,7 +2067,7 @@ window.initCmpEvalViewer = async function(el) {
         g.computeBoundingBox();g.computeBoundingSphere();const c=new THREE.Vector3();g.boundingBox.getCenter(c);const r=(g.boundingSphere&&g.boundingSphere.radius)||1;
         // Point size matches the single-model (PC) eval viewer: radius-relative so DrivAerML's
         // small-scale clouds (~0.02 surface) aren't over-sized; centerplane keeps absolute 0.018.
-        const ptSize=profile.cameraMode==='wake'?profile.pointSize:Math.max(r*0.012,0.0006);
+        const ptSize=profile.cameraMode==='wake'?profile.pointSize:Math.max(r*0.012,0.0002);
         panel.points=new THREE.Points(g,new THREE.PointsMaterial({size:ptSize,vertexColors:true,sizeAttenuation:true,transparent:true,opacity:0.85}));
         panel.scene.add(panel.points);panel.controls.target.copy(c);
         // Match the single-model (PC) eval viewer's per-dataset framing: body/default
