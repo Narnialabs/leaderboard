@@ -2405,13 +2405,26 @@ function setEvalPointCloud(panel, positions, fieldValues, vmin, vmax, isDrivAerN
   // Frame to the cloud's actual radius so every coordinate scale fills the view
   // (DrivAerML surface lives in a ~0.02-unit box, volume ~0.43, DeepJEB ~1.0).
   const r = (geometry.boundingSphere && geometry.boundingSphere.radius) || 1;
+  // Volume's sparse far-field tail inflates the bounding sphere; use the RMS radius
+  // about the centroid as the EFFECTIVE radius for both point size and camera distance
+  // (see benchmark.html) so the dense body fills the view and points aren't oversized.
+  const isVolume = dataset === 'drivaerml_3d_3d_volume';
+  let volC = null, rEff = r;
+  if (isVolume) {
+    let mx=0, my=0, mz=0; const npv = positions.length / 3;
+    for (let i=0;i<npv;i++){ mx+=positions[i*3]; my+=positions[i*3+1]; mz+=positions[i*3+2]; }
+    mx/=npv; my/=npv; mz/=npv;
+    let s2=0;
+    for (let i=0;i<npv;i++){ const ax=positions[i*3]-mx, ay=positions[i*3+1]-my, az=positions[i*3+2]-mz; s2+=ax*ax+ay*ay+az*az; }
+    rEff = (Math.sqrt(s2/npv) || r);
+    volC = new THREE.Vector3(mx, my, mz);
+  }
 
   const material = new THREE.PointsMaterial({
-    // Point size ∝ radius so tiny clouds aren't overlapping blobs (center plane
-    // keeps its hand-tuned 0.018).
-    // Floor 0.0002 (was 0.0006) so DrivAerML's tiny-scale surface keeps the
-    // proportional r*0.012 size instead of being clamped ~3x larger (see benchmark.html).
-    size: (isDrivAerNet && !isBodyPressure) ? 0.018 : Math.max(r * 0.012, 0.0002),
+    // Point size ∝ effective radius so tiny/dense clouds aren't overlapping blobs
+    // (center plane keeps its hand-tuned 0.018). Floor 0.0002 keeps the proportional
+    // rEff*0.012 down to DrivAerML's tiny-scale surface (see benchmark.html).
+    size: (isDrivAerNet && !isBodyPressure) ? 0.018 : Math.max(rEff * 0.012, 0.0002),
     vertexColors: true,
     sizeAttenuation: true,
     transparent: true,
@@ -2453,22 +2466,13 @@ function setEvalPointCloud(panel, positions, fieldValues, vmin, vmax, isDrivAerN
       panel.camera.position.set(center.x, center.y + d * VIEW_ELEV_SIN, center.z + d * VIEW_ELEV_COS);
       const vw = panel.renderer.domElement.width, vh = panel.renderer.domElement.height;
       panel.camera.setViewOffset(vw, vh, vw * 0.02, 0, vw, vh);
-    } else if (dataset === 'drivaerml_3d_3d_volume') {
-      // Volume: thin, wide "pancake" hugging the road — ~99 % of points sit in a
-      // ≈0.27-tall band near the origin (car + near-wake) while the bounding box
-      // stretches up to y≈0.9 on a sparse far-field tail, so the box centre lands
-      // ≈0.4 above the car. Aim at the CENTROID and size from the RMS radius (not the
-      // far-field-inflated bounding sphere) so the car is vertically centred and fills
-      // ~⅓ of the height. Mirrors benchmark.html's volume framing so the two pages
-      // match (this viewer's baseline autoRotateSpeed 0.375 already equals it).
-      let mx=0, my=0, mz=0; const npv = positions.length / 3;
-      for (let i=0;i<npv;i++){ mx+=positions[i*3]; my+=positions[i*3+1]; mz+=positions[i*3+2]; }
-      mx/=npv; my/=npv; mz/=npv;
-      let s2=0;
-      for (let i=0;i<npv;i++){ const ax=positions[i*3]-mx, ay=positions[i*3+1]-my, az=positions[i*3+2]-mz; s2+=ax*ax+ay*ay+az*az; }
-      const d = (Math.sqrt(s2/npv) || r) * 3.5;
-      panel.controls.target.set(mx, my, mz);
-      panel.camera.position.set(mx, my + d * VIEW_ELEV_SIN, mz + d * VIEW_ELEV_COS);
+    } else if (isVolume) {
+      // Pancake volume: box centre lands above the car (sparse y≈0.9 tail), so aim at
+      // the centroid (volC) and size the distance from the RMS radius (rEff, above) so
+      // the dense body is centred and fills ~⅓ height. Mirrors benchmark.html. d = 3.5·RMS.
+      const d = rEff * 3.5;
+      panel.controls.target.set(volC.x, volC.y, volC.z);
+      panel.camera.position.set(volC.x, volC.y + d * VIEW_ELEV_SIN, volC.z + d * VIEW_ELEV_COS);
       const vw = panel.renderer.domElement.width, vh = panel.renderer.domElement.height;
       panel.camera.setViewOffset(vw, vh, vw * 0.02, 0, vw, vh);
     } else {
