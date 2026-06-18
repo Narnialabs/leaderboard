@@ -715,17 +715,17 @@ const EXPERIMENTS = {
     // drivaer{ml,net} surface/volume remain metrics-only where bins are absent
     // (model-aware gate via ensureEval3DManifestData).
     models: [
-      { name: 'transolver_pp', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_3d_volume', 'drivaerml_3d_2d_surface', 'drivaernet_3d_2d_surface'] },
-      { name: 'transolver',    sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_3d_volume', 'drivaerml_3d_2d_surface', 'drivaernet_3d_2d_surface'] },
-      { name: 'pointnet',      sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_3d_volume', 'drivaerml_3d_2d_surface', 'drivaernet_3d_2d_surface'] },
-      { name: 'regdgcnn',      sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_3d_volume', 'drivaerml_3d_2d_surface', 'drivaernet_3d_2d_surface'] },
-      { name: 'geofno',        sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_3d_volume', 'drivaerml_3d_2d_surface', 'drivaernet_3d_2d_surface'] },
-      { name: 'linearno',      sizes: [20, 50, 100, 200], datasets: ['drivaernet_3d_2d_centerplane', 'drivaerml_3d_3d_volume', 'drivaerml_3d_2d_surface', 'drivaernet_3d_2d_surface'] },
-      { name: 'linearno_big',  sizes: [20, 50, 100, 200], datasets: ['drivaernet_3d_2d_centerplane', 'drivaerml_3d_3d_volume', 'drivaerml_3d_2d_surface', 'drivaernet_3d_2d_surface'] },
-      { name: 'geotransolver', sizes: [20, 50, 100, 200], datasets: ['drivaerml_3d_3d_volume', 'drivaerml_3d_2d_surface'] },
-      { name: 'domino',        sizes: [20, 50, 100, 200], datasets: ['drivaerml_3d_3d_volume', 'drivaerml_3d_2d_surface'] },
+      { name: 'transolver_pp', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
+      { name: 'transolver',    sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
+      { name: 'pointnet',      sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
+      { name: 'regdgcnn',      sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
+      { name: 'geofno',        sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
+      { name: 'linearno',      sizes: [20, 50, 100, 200], datasets: ['drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
+      { name: 'linearno_big',  sizes: [20, 50, 100, 200], datasets: ['drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
+      { name: 'geotransolver', sizes: [20, 50, 100, 200], datasets: ['drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume'] },
+      { name: 'domino',        sizes: [20, 50, 100, 200], datasets: ['drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume'] },
     ],
-    datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_3d_volume', 'drivaerml_3d_2d_surface', 'drivaernet_3d_2d_surface'],
+    datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'],
     type: '3d',
     variantsByDataset: {
       'deepjeb_3d_2d_vertical':   ['vertical'],
@@ -734,13 +734,13 @@ const EXPERIMENTS = {
       'deepjeb_3d_2d_diagonal':   ['diagonal'],
       'deepjeb_3d_2d_modal':      ['mode_shape_1', 'mode_shape_2'],
       'drivaernet_3d_2d_centerplane': ['pv_coupled'],
-      'drivaerml_3d_3d_volume':   ['volume_coupled'],
       'drivaerml_3d_2d_surface':  ['pwss_coupled'],
+      'drivaerml_3d_3d_volume':   ['volume_coupled'],
       'drivaernet_3d_2d_surface': ['body_pressure'],
     },
     // All 3d-field inference run-names are now tokenless ({model}_{size}/{dataset});
     // selectExperiment uses this to build the perf.json path with no variant suffix.
-    noRunVariant: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_3d_volume', 'drivaerml_3d_2d_surface', 'drivaernet_3d_2d_surface'],
+    noRunVariant: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'],
     variants: ['vertical', 'horizontal', 'torsion', 'diagonal', 'mode_shape_1', 'mode_shape_2', 'pv_coupled', 'pwss_coupled', 'volume_coupled', 'body_pressure'],
   },
   '2d-pred-field': {

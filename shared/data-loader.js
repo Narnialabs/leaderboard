@@ -788,12 +788,11 @@ function scenarioLabel(tok) {
 
 // Canonical order for scenario-type Target pills (engineering reading order, not
 // alphabetic). Cross-umbrella total order chosen so each umbrella's subset comes
-// out right: deepjeb vertical→…→modal; drivaernet centerplane→surface; drivaerml
-// volume→surface; deepwheel mass→modal. Unlisted tokens fall to the end.
-// (volume/centerplane precede surface — the 3D field comes before the 2-manifold.)
+// out right: deepjeb vertical→…→modal; drivaernet surface→centerplane; drivaerml
+// surface→volume; deepwheel mass→modal. Unlisted tokens fall to the end.
 const SCENARIO_ORDER = [
   'vertical', 'horizontal', 'diagonal', 'torsion',
-  'mass', 'volume', 'centerplane', 'surface', 'modal',
+  'mass', 'surface', 'volume', 'centerplane', 'modal',
   'flow', 'depth', 'structural', 'pressure', 'strength', 'noise', 'rul',
 ];
 function scenarioRank(tok) {
