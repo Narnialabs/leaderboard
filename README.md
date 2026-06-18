@@ -19,7 +19,7 @@ This benchmark is intended solely for academic and research evaluation purposes.
 | Domain | Task | Description |
 |--------|------|-------------|
 | **3D Geometry Generation** | Generation | Evaluates generative models that produce 3D point cloud geometries for engineering components |
-| **3D Field Prediction** | Prediction (point cloud → field) | Per-point engineering fields — displacement, von Mises stress & mode shapes (DeepJEB), automotive aero surface/center-plane fields (DrivAerNet), and surface + volume CFD fields (DrivAerML) |
+| **3D Field Prediction** | Prediction (point cloud → field) | Per-point engineering fields — displacement, von Mises stress & mode shapes (DeepJEB), automotive aero center-plane/surface fields (DrivAerNet), and volume + surface CFD fields (DrivAerML) |
 | **3D Scalar Prediction** | Prediction (point cloud → scalar) | Evaluates models that estimate global engineering scalars from 3D geometries |
 | **2D Image Generation** | Generation | Evaluates generative models on engineering image synthesis tasks |
 | **2D Field Prediction** | Prediction (image → image) | Per-pixel engineering fields from images — z-buffer depth (DeepWheel), FEA von Mises stress (DeepJEB), steady Darcy pressure (PDEBench), and RANS flow (AirfRANS) |
@@ -80,7 +80,7 @@ The dashboard is a fully static site — every page fetches pre-built JSON / `.b
 | `copy_csv_data.py` | `output/data/` — leaderboard CSVs, `summary_metrics.csv`, `performance.json` | Re-ranks the DeepJEB 3D-field boards with the AB-UPT family (`abupt`, `narnia_abupt`, `svmoe_abupt`) license-excluded; applies the publication toggles |
 | `convert_gen_image.py` / `convert_gen_pointcloud.py` | `output/gen2d/`, `output/gen3d/` | 2D PNGs copied verbatim; 3D `.npy → .bin` (Float32Array). Both use farthest-point sampling so the displayed subset spans the visual/shape distribution |
 | `convert_pred_image.py` | `output/pred2d_field/` | Field-prediction PNGs + a shared `_gt/` tree for pred ↔ GT pairs |
-| `convert_pred_pointcloud.py` + `convert_pred_coupled.py` | `output/pred3d_field/` | Per-channel `.bin` + merged `manifest.json` (coupled DrivAerML/DrivAerNet surface & volume merge into the existing manifest) |
+| `convert_pred_pointcloud.py` + `convert_pred_coupled.py` | `output/pred3d_field/` | Per-channel `.bin` + merged `manifest.json` (coupled DrivAerML/DrivAerNet volume & surface merge into the existing manifest) |
 | `convert_pred_scalar.py` + `convert_pred_scalar_shapes.py` | `output/pred{1,2,3}d_scalar/` | Per-target `pred`/`gt` arrays for the scatter & error-diagnostics views, plus per-sample input-shape thumbnails |
 
 After a benchmark re-run, the publish pass is **Step C → `copy_csv_data.py` → the relevant `convert_*` scripts**.
