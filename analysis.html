@@ -619,7 +619,7 @@ function createViewer(container, width, height) {
   pcControls.dampingFactor = 0.08;
   pcControls.enableZoom = false;
   pcControls.autoRotate = pcAutoRotate;
-  pcControls.autoRotateSpeed = 1.125;
+  pcControls.autoRotateSpeed = -1.125;  // negative ⇒ +θ (azimuth increases), matching benchmark's applySpinAzimuth
   pcControls.minDistance = 0.5;
   pcControls.maxDistance = 8;
 
@@ -1014,7 +1014,7 @@ function createEvalPanel(container, width, height, labelClass, labelText) {
   controls.dampingFactor = 0.08;
   controls.enableZoom = false;
   controls.autoRotate = evalAutoRotate;
-  controls.autoRotateSpeed = 0.2625;
+  controls.autoRotateSpeed = -0.2625;  // negative ⇒ +θ, matching benchmark
   controls.minDistance = 0.5;
   controls.maxDistance = 20;
 
@@ -1814,12 +1814,12 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true; controls.dampingFactor = 0.08;
   controls.enableZoom = false;
-  controls.autoRotate = true; controls.autoRotateSpeed = 0.1875;
+  controls.autoRotate = true; controls.autoRotateSpeed = -0.1875;
   controls.minDistance = 0.5; controls.maxDistance = 20;
   // Slow down autoRotate to 66% after user interaction
   controls.addEventListener('start', () => {
     const group = window._cmpPcSyncGroups[side] || [];
-    group.forEach(g => { g.controls.autoRotateSpeed = 0.1875; });
+    group.forEach(g => { g.controls.autoRotateSpeed = -0.1875; });
   });
 
   // Zoom activation on click — enables zoom on all synced viewers in same side
@@ -2001,7 +2001,7 @@ window.initCmpEvalViewer = async function(el) {
     const camDist = isMobileCmpPred ? 1.15 : 1.0;
     const cam = new THREE.PerspectiveCamera(45,w/h,0.01,100); cam.position.set(2.4*camDist,0.4*camDist,1.6*camDist);
     const ren = new THREE.WebGLRenderer({antialias:true}); ren.setSize(w,h); ren.setPixelRatio(Math.min(window.devicePixelRatio,2)); cont.appendChild(ren.domElement);
-    const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.enableZoom=false; ctrl.autoRotate=true; ctrl.autoRotateSpeed=0.1875; ctrl.minDistance=0.5; ctrl.maxDistance=20;
+    const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.enableZoom=false; ctrl.autoRotate=true; ctrl.autoRotateSpeed=-0.1875; ctrl.minDistance=0.5; ctrl.maxDistance=20;
     s.add(new THREE.AmbientLight(0xffffff,0.5));
     return {scene:s,camera:cam,renderer:ren,controls:ctrl,points:null,carMesh:null,container:cont};
   }

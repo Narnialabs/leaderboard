@@ -1917,7 +1917,7 @@ function createViewer(container, width, height) {
   pcControls.dampingFactor = 0.08;
   pcControls.enableZoom = false;
   pcControls.autoRotate = pcAutoRotate;
-  pcControls.autoRotateSpeed = 2.25;
+  pcControls.autoRotateSpeed = -2.25;  // negative ⇒ +θ (azimuth increases), matching benchmark's applySpinAzimuth
   pcControls.minDistance = 0.5;
   pcControls.maxDistance = 8;
 
@@ -2336,7 +2336,7 @@ function createEvalPanel(container, width, height, labelClass, labelText) {
   controls.dampingFactor = 0.08;
   controls.enableZoom = false;
   controls.autoRotate = evalAutoRotate;
-  controls.autoRotateSpeed = 0.525;
+  controls.autoRotateSpeed = -0.525;  // negative ⇒ +θ, matching benchmark
   controls.minDistance = 0.5;
   controls.maxDistance = 20;
 
@@ -2458,7 +2458,7 @@ function setEvalPointCloud(panel, positions, fieldValues, vmin, vmax, isDrivAerN
   // Previously centerplane was slowed (0.0875) to equalise apparent on-screen edge
   // speed, but that made a dataset's plane spin at a visibly different angular rate
   // than its surface; equal angular velocity is the requested behaviour.
-  panel.controls.autoRotateSpeed = 0.375;
+  panel.controls.autoRotateSpeed = -0.375;
 
   if (isFirstLoad) {
     const center = new THREE.Vector3();
@@ -3266,13 +3266,13 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true; controls.dampingFactor = 0.08;
   controls.enableZoom = false;
-  controls.autoRotate = true; controls.autoRotateSpeed = 0.375;
+  controls.autoRotate = true; controls.autoRotateSpeed = -0.375;
   controls.minDistance = 0.5; controls.maxDistance = 20;
 
   // Slow down autoRotate to 66% after user interaction
   controls.addEventListener('start', () => {
     const group = window._cmpPcSyncGroups[side] || [];
-    group.forEach(g => { g.controls.autoRotateSpeed = 0.375; });
+    group.forEach(g => { g.controls.autoRotateSpeed = -0.375; });
   });
 
   // Zoom activation on click — enables zoom on all synced viewers in same side
