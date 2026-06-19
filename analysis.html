@@ -1953,12 +1953,14 @@ window.initCmpEvalViewer = async function(el) {
   const isVertical = el.dataset.layout === 'vertical';
   const vH = isVertical ? 240 : 250;
   // DrivAer field shapes read slow at the shared angular speed (large car body), so
-  // bump their spin on this qualitative comparison viewer: surface 1.5×, volume /
-  // center-plane 1.2×. Other datasets (DeepJEB/DeepWheel) stay 1.0×. (Scoped to the
-  // qualitative tab only — benchmark/explorer viewers keep the uniform speed.)
+  // tune their spin on this qualitative comparison viewer: surface 1.5× (large car
+  // body reads slow), volume 1.2×, center-plane 0.66× (the wide y=0 plane reads
+  // fast, so slow it below baseline). Other datasets (DeepJEB/DeepWheel) stay 1.0×.
+  // (Scoped to the qualitative tab only — benchmark/explorer keep the uniform speed.)
   const _dsl = (ds || '').toLowerCase();
   const _cmpSpinMult = _dsl.includes('surface') ? 1.5
-    : (_dsl.includes('volume') || _dsl.includes('centerplane')) ? 1.2 : 1.0;
+    : _dsl.includes('volume') ? 1.2
+    : _dsl.includes('centerplane') ? 0.66 : 1.0;
 
   if (!channels.length) { el.innerHTML='<div style="text-align:center;padding:20px;color:rgba(255,255,255,0.3);font-size:11px;">No channels</div>'; return; }
 
