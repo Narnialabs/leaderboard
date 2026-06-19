@@ -1952,6 +1952,13 @@ window.initCmpEvalViewer = async function(el) {
   const id = el.id;
   const isVertical = el.dataset.layout === 'vertical';
   const vH = isVertical ? 240 : 250;
+  // DrivAer field shapes read slow at the shared angular speed (large car body), so
+  // bump their spin on this qualitative comparison viewer: surface 1.5×, volume /
+  // center-plane 1.2×. Other datasets (DeepJEB/DeepWheel) stay 1.0×. (Scoped to the
+  // qualitative tab only — benchmark/explorer viewers keep the uniform speed.)
+  const _dsl = (ds || '').toLowerCase();
+  const _cmpSpinMult = _dsl.includes('surface') ? 1.5
+    : (_dsl.includes('volume') || _dsl.includes('centerplane')) ? 1.2 : 1.0;
 
   if (!channels.length) { el.innerHTML='<div style="text-align:center;padding:20px;color:rgba(255,255,255,0.3);font-size:11px;">No channels</div>'; return; }
 
@@ -2001,7 +2008,7 @@ window.initCmpEvalViewer = async function(el) {
     const camDist = isMobileCmpPred ? 1.15 : 1.0;
     const cam = new THREE.PerspectiveCamera(45,w/h,0.01,100); cam.position.set(2.4*camDist,0.4*camDist,1.6*camDist);
     const ren = new THREE.WebGLRenderer({antialias:true}); ren.setSize(w,h); ren.setPixelRatio(Math.min(window.devicePixelRatio,2)); cont.appendChild(ren.domElement);
-    const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.enableZoom=false; ctrl.autoRotate=true; ctrl.autoRotateSpeed=-0.1875; ctrl.minDistance=0.5; ctrl.maxDistance=20;
+    const ctrl = new OrbitControls(cam,ren.domElement); ctrl.enableDamping=true; ctrl.dampingFactor=0.08; ctrl.enableZoom=false; ctrl.autoRotate=true; ctrl.autoRotateSpeed=-0.1875*_cmpSpinMult; ctrl.minDistance=0.5; ctrl.maxDistance=20;
     s.add(new THREE.AmbientLight(0xffffff,0.5));
     return {scene:s,camera:cam,renderer:ren,controls:ctrl,points:null,carMesh:null,container:cont};
   }

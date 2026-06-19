@@ -254,6 +254,9 @@
       <button class="filter-pill"        data-explorer-dataset="deepjeb"    onclick="explorerSetFilter('dataset','deepjeb',this)">DeepJEB</button>
       <button class="filter-pill"        data-explorer-dataset="deepwheel"  onclick="explorerSetFilter('dataset','deepwheel',this)">DeepWheel</button>
       <button class="filter-pill"        data-explorer-dataset="drivaernet" onclick="explorerSetFilter('dataset','drivaernet',this)">DrivAerNet</button>
+      <button class="filter-pill"        data-explorer-dataset="drivaerml"  onclick="explorerSetFilter('dataset','drivaerml',this)">DrivAerML</button>
+      <button class="filter-pill"        data-explorer-dataset="airfrans"   onclick="explorerSetFilter('dataset','airfrans',this)">AirfRANS</button>
+      <button class="filter-pill"        data-explorer-dataset="darcy"      onclick="explorerSetFilter('dataset','darcy',this)">Darcy</button>
       <button class="filter-pill"        data-explorer-dataset="concrete"   onclick="explorerSetFilter('dataset','concrete',this)">Concrete</button>
       <button class="filter-pill"        data-explorer-dataset="airfoil"    onclick="explorerSetFilter('dataset','airfoil',this)">Airfoil</button>
       <button class="filter-pill"        data-explorer-dataset="cmapss"     onclick="explorerSetFilter('dataset','cmapss',this)">CMAPSS</button>
@@ -636,9 +639,9 @@ const _STAT_DETAIL = {
   },
   datasets: {
     color: '#f472b6',
-    title: '6 dataset families',
+    title: '9 dataset families',
     body: 'Real-world engineering data, not toy shapes — CAD-derived geometry plus tabular/timeseries benchmarks. Each family emphasises a different physics or analysis regime.',
-    chips: ['DeepJEB — engine bracket topology', 'DeepWheel — wheel rim modal analysis', 'DrivAerNet — automotive aerodynamics', 'Concrete — mix-design strength', 'Airfoil — self-noise', 'CMAPSS — turbofan RUL'],
+    chips: ['DeepJEB — engine bracket topology', 'DeepWheel — wheel rim modal analysis', 'DrivAerNet — automotive aerodynamics', 'DrivAerML — automotive surface/volume CFD', 'AirfRANS — airfoil RANS flow', 'Darcy — PDEBench Darcy flow', 'Concrete — mix-design strength', 'Airfoil — self-noise', 'CMAPSS — turbofan RUL'],
   },
 };
 let _activeStatKey = null;
@@ -1663,6 +1666,9 @@ function _datasetTokens(treeId, modelName) {
     if (l.includes('deepjeb')) tokens.add('deepjeb');
     if (l.includes('deepwheel')) tokens.add('deepwheel');
     if (l.includes('drivaernet')) tokens.add('drivaernet');
+    if (l.includes('drivaerml')) tokens.add('drivaerml');
+    if (l.includes('airfrans')) tokens.add('airfrans');
+    if (l.includes('darcy')) tokens.add('darcy');           // pdebenchdarcy_2d_2d_pressure
     if (l.includes('concrete')) tokens.add('concrete');
     if (l.includes('airfoil')) tokens.add('airfoil');
     if (l.includes('cmapss')) tokens.add('cmapss');
@@ -1673,6 +1679,7 @@ function _datasetCaption(treeId, modelName) {
   const t = _datasetTokens(treeId, modelName).split(',').filter(Boolean);
   if (!t.length) return '';
   const map = { deepjeb: 'DeepJEB', drivaernet: 'DrivAerNet', deepwheel: 'DeepWheel',
+                drivaerml: 'DrivAerML', airfrans: 'AirfRANS', darcy: 'Darcy',
                 concrete: 'Concrete', airfoil: 'Airfoil', cmapss: 'CMAPSS' };
   return t.map(x => map[x] || x).join(' + ');
 }
