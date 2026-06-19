@@ -2280,9 +2280,11 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
       const c = new THREE.Vector3();
       geom.boundingBox.getCenter(c);
       controls.target.copy(c);
-      // VIEW_ELEV_DEG three-quarter elevation looking slightly down at the wheel
-      // face (same 2.6 distance: 2.6·SIN up, 2.6·COS back).
-      camera.position.set(c.x, c.y + 2.6 * VIEW_ELEV_SIN, c.z + 2.6 * VIEW_ELEV_COS);
+      // Dead-on back view: camera on -Z looking at the wheel's INNER face head-on
+      // (no elevation tilt) — matches the benchmark.html / explorer.html scalar
+      // shape viewers (both `c.z - 2.6`). The prior VIEW_ELEV_DEG three-quarter
+      // elevation made this the lone page viewing the wheel from +Z/above.
+      camera.position.set(c.x, c.y, c.z - 2.6);
       camera.up.set(0, 1, 0);
       controls.update();
     })

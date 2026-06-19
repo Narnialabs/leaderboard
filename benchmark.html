@@ -3211,14 +3211,19 @@ function globalSpinAzimuth(speed) {
 function globalRollAngle() { return _spinClock() * _ROLL_SPEED; }
 
 // Orbit `camera` about the world-Y axis through `target` so its azimuth equals
-// (baseTheta + offset + globalSpinAzimuth(speed)); polar angle, radius and target
+// (baseTheta + offset - globalSpinAzimuth(speed)); polar angle, radius and target
 // are left untouched — identical to OrbitControls.autoRotate, but phase-locked.
+// NOTE the MINUS: OrbitControls.autoRotate spins via rotateLeft() which does
+// sphericalDelta.theta -= angle, i.e. azimuth DECREASES. An earlier "+ globalSpin"
+// here span the opposite way to explorer.html / analysis.html (which use the real
+// OrbitControls.autoRotate), so the site-wide direction was inconsistent; the
+// minus restores parity with those pages (and with this comment's stated intent).
 function applySpinAzimuth(camera, target, baseTheta, offset, speed) {
   const dx = camera.position.x - target.x;
   const dz = camera.position.z - target.z;
   const r = Math.hypot(dx, dz);
   if (r < 1e-6) return;
-  const theta = baseTheta + offset + globalSpinAzimuth(speed);
+  const theta = baseTheta + offset - globalSpinAzimuth(speed);
   camera.position.x = target.x + r * Math.sin(theta);
   camera.position.z = target.z + r * Math.cos(theta);
   camera.lookAt(target);
@@ -3302,7 +3307,7 @@ function createMiniViewer(canvasContainer, id, syncGroup) {
     vState._isDragSource = false;
     const reanchor = (p) => {
       if (!p) return;
-      p.spinOffset = azimuthOf(p.camera, p.controls.target) - p.spinBase - globalSpinAzimuth(_AUTOROT_SPEED);
+      p.spinOffset = azimuthOf(p.camera, p.controls.target) - p.spinBase + globalSpinAzimuth(_AUTOROT_SPEED);
       p._dragging = false;
     };
     reanchor(vState);
@@ -3904,7 +3909,7 @@ window.initLeaderboardPredViewer = async function(el) {
       // Re-anchor panel 0's phase to wherever the user left the (synced) camera,
       // then resume the global-phase spin smoothly from there.
       const src = panels[0];
-      src.spinOffset = azimuthOf(src.camera, src.controls.target) - src.spinBase - globalSpinAzimuth(src.spinSpeed);
+      src.spinOffset = azimuthOf(src.camera, src.controls.target) - src.spinBase + globalSpinAzimuth(src.spinSpeed);
       evalSpinning = true;
     });
     // Zoom activation: click on any panel enables zoom on all panels
