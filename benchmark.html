@@ -5,12 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Narnia Labs - Benchmark</title>
 <link rel="icon" type="image/png" href="favicon.png">
+<!-- Preload the subset webfonts (Latin+symbols, ~170/88 KB) so the @font-face swap
+     starts at parse-time instead of after font CSS downloads+parses. crossorigin is
+     required even same-origin for the preload to match the font fetch. -->
+<link rel="preload" href="shared/lib/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="shared/lib/fonts/D2Coding.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="shared/lib/fonts/pretendard.css">
 <link rel="stylesheet" href="shared/lib/fonts/d2coding.css">
 <link rel="stylesheet" href="shared/style.css">
 <link rel="stylesheet" href="shared/mobile.css">
-<script src="shared/lib/papaparse.min.js"></script>
-<script src="shared/lib/chart.umd.min.js"></script>
+<!-- defer: download in parallel during parse, execute after parse (non-render-blocking).
+     papaparse is only used inside loadCSV(); chart.js only in post-DOMContentLoaded
+     render paths — so neither needs to run before first paint. (Chart.defaults is set
+     in a DOMContentLoaded handler below, after the deferred chart.js has executed.) -->
+<script defer src="shared/lib/papaparse.min.js"></script>
+<script defer src="shared/lib/chart.umd.min.js"></script>
 <style>
   /* Metrics table collapse */
   .metrics-collapse-wrap {
@@ -392,10 +401,16 @@ let currentRankOrder = {};
 let weightsChart = null;
 let radarChart = null;
 
-Chart.defaults.color = 'rgba(255,255,255,0.6)';
-Chart.defaults.borderColor = 'rgba(255,255,255,0.08)';
-Chart.defaults.font.family = 'Inter, system-ui, sans-serif';
-Chart.defaults.font.size = 11;
+// chart.js is deferred (non-render-blocking): it executes after parsing but before
+// DOMContentLoaded. Every new Chart() runs in an async render path that fires after
+// DOMContentLoaded, so setting the global defaults here guarantees Chart is defined
+// and the defaults land before the first chart paints.
+document.addEventListener('DOMContentLoaded', () => {
+  Chart.defaults.color = 'rgba(255,255,255,0.6)';
+  Chart.defaults.borderColor = 'rgba(255,255,255,0.08)';
+  Chart.defaults.font.family = 'Inter, system-ui, sans-serif';
+  Chart.defaults.font.size = 11;
+});
 
 // ══════════════════════════════════════════
 // CATEGORY / PATH HELPERS
@@ -1711,9 +1726,25 @@ function render3DGenAllModels(container, data, rankOrder) {
               vState.renderer.render(vState.scene, vState.camera);
             })();
           }
-        } else if (vState && vState.animId) {
-          cancelAnimationFrame(vState.animId);
-          vState.animId = null;
+        } else if (vState) {
+          // Off-screen: fully RELEASE the WebGL context, don't just pause the RAF.
+          // Browsers cap concurrent WebGL contexts (~16 in Chrome); a long gallery
+          // that only paused scrolled-past viewers kept every context alive and
+          // exhausted the pool, after which new/returning viewers rendered as
+          // permanent black (the reported bug). forceContextLoss() releases the GL
+          // handle synchronously; we drop the viewer and let the !_pcInitialized
+          // branch re-create it on scroll-back (the .bin is HTTP-cached → cheap).
+          // Mirrors the scalar-shape observer's dispose-on-exit.
+          if (vState.animId) cancelAnimationFrame(vState.animId);
+          try { vState.renderer.forceContextLoss(); } catch(e) {}
+          try { vState.renderer.dispose(); } catch(e) {}
+          try { vState.controls.dispose(); } catch(e) {}
+          if (vState.points) { vState.points.geometry.dispose(); vState.points.material.dispose(); }
+          if (vState.syncGroup && window._lbSyncGroups && window._lbSyncGroups.has(vState.syncGroup))
+            window._lbSyncGroups.get(vState.syncGroup).delete(el._pcViewerId);
+          window._lbViewers.delete(el._pcViewerId);
+          el._pcInitialized = false;
+          el._pcViewerId = null;
         }
       }
     });
@@ -2657,8 +2688,22 @@ function render3DEvalAllModels(container, data, rankOrder) {
         if (chIdx >= group.chs.length) { chIdx = startCh; sample++; }
       }
     } else {
-      // Target key is "All" — interleave datasets, then spread across target keys → dimensions → samples
-      // Group by dataset, then round-robin across datasets
+      // Target/Component = "All". The "Samples" pill means "how many DISTINCT
+      // inference samples to show", and every member of the All-axis is rendered
+      // once per sample-round. So raising Samples adds another sample to EACH
+      // member rather than more of the first one — the previous code spread the
+      // count across members first, which made e.g. Target=All + Samples 1 vs 2
+      // look identical whenever there were exactly 2 targets, and made a higher
+      // Samples fan out *components* instead of showing more samples.
+      //
+      // The All-axis members are:
+      //   • multiple groups (Target=All on an umbrella → one group per target;
+      //     modal → one group per mode shape) → one panel per group, at its first
+      //     channel — coupled components are cycled with the in-viewer toggle; or
+      //   • a single coupled group (Component=All on one dataset) → one panel per
+      //     component channel, so every component surfaces.
+      // Layout is round-by-round — [m0·s0, m1·s0, …][m0·s1, m1·s1, …] — keeping
+      // every member visible at the top of the gallery.
       const byDS = {};
       groups.forEach(g => { (byDS[g.ds] = byDS[g.ds] || []).push(g); });
       const dsKeys = Object.keys(byDS);
@@ -2668,19 +2713,16 @@ function render3DEvalAllModels(container, data, rankOrder) {
         dsKeys.forEach(dk => { if (i < byDS[dk].length) interleaved.push(byDS[dk][i]); });
       }
 
-      let gIdx = 0, chIdx = 0, sample = 0;
-      for (let i = 0; i < sampleCount; i++) {
-        const g = interleaved[gIdx];
-        slots.push({ ds: g.ds, tk: g.tk, chs: g.chs, chIdx, sample });
-        gIdx++;
-        if (gIdx >= interleaved.length) {
-          gIdx = 0;
-          chIdx++;
-          const maxCh = Math.max(...interleaved.map(gg => gg.chs.length));
-          if (chIdx >= maxCh) { chIdx = 0; sample++; }
-        }
+      // One "unit" = one panel per sample-round. Multi-group → per group (ch 0);
+      // single coupled group → per component channel (so Component=All fans out).
+      const units = (interleaved.length === 1 && interleaved[0].chs.length > 1)
+        ? interleaved[0].chs.map((_, ch) => ({ g: interleaved[0], chIdx: ch }))
+        : interleaved.map(g => ({ g, chIdx: 0 }));
+
+      const nSamples = Math.max(1, sampleCount);   // ≥1 ⇒ every unit always shows
+      for (let sample = 0; sample < nSamples; sample++) {
+        units.forEach(u => slots.push({ ds: u.g.ds, tk: u.g.tk, chs: u.g.chs, chIdx: u.chIdx, sample }));
       }
-      slots.forEach(s => { if (s.chIdx >= s.chs.length) s.chIdx = s.chIdx % s.chs.length; });
     }
     return slots;
   }
@@ -2764,7 +2806,7 @@ function render3DEvalAllModels(container, data, rankOrder) {
             return;
           }
           return window.initLeaderboardPredViewer(el);
-        }).catch(e => console.warn('Pred viewer init failed:', e));
+        }).catch(e => { console.warn('Pred viewer init failed:', e); el._evalInitialized = false; });
       }
       // Pause/resume pred viewer animation
       if (el._evalInitialized && el._evalViewer) {
@@ -2787,12 +2829,28 @@ function render3DEvalAllModels(container, data, rankOrder) {
             el.innerHTML = `<div style="height:${el.dataset.viewerHeight||320}px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:12px; border-radius:0; border:1px solid rgba(255,255,255,0.06);">Loading...</div>`;
             el._evalViewer = null;
             el._evalInitialized = true;
-            window.initLeaderboardPredViewer(el).catch(e => console.warn('Pred viewer re-init failed:', e));
+            window.initLeaderboardPredViewer(el).catch(e => { console.warn('Pred viewer re-init failed:', e); el._evalInitialized = false; });
           } else if (!v.isAnimating()) {
             v.resume();
           }
         } else {
-          v.pause();
+          // Off-screen: RELEASE the 3 panels' WebGL contexts (not just pause).
+          // Each pred viewer holds 3 contexts (GT/Pred/Error), so a scrolled-past
+          // gallery exhausts the browser's ~16-context cap even faster than gen3d,
+          // bricking later viewers as permanent black. Re-init on scroll-back via
+          // the !_evalInitialized branch (bins are HTTP-cached → cheap). Same
+          // dispose-on-exit pattern as the gen3d + scalar-shape observers.
+          v.cancel();
+          v.panels.forEach(p => {
+            try { p.renderer && p.renderer.forceContextLoss(); } catch(e) {}
+            try { p.renderer && p.renderer.dispose(); } catch(e) {}
+            if (p.controls) p.controls.dispose();
+            if (p.points) { p.points.geometry.dispose(); p.points.material.dispose(); }
+            if (p.carMesh) { p.carMesh.geometry.dispose(); p.carMesh.material.dispose(); }
+          });
+          if (window._lbEvalViewers) window._lbEvalViewers = window._lbEvalViewers.filter(h => h !== v);
+          el._evalViewer = null;
+          el._evalInitialized = false;
         }
       }
     });
@@ -3056,7 +3114,11 @@ function ensureThree() {
     _threePromise = Promise.all([
       import('three'),
       import('three/addons/controls/OrbitControls.js'),
-    ]).then(([t, oc]) => { THREE = t; OrbitControls = oc.OrbitControls; });
+    ]).then(([t, oc]) => { THREE = t; OrbitControls = oc.OrbitControls; })
+      // Don't cache a rejected promise: a single transient import failure would
+      // otherwise brick every viewer that loads after it (all awaits reject
+      // forever). Clear it so the next ensureThree() retries the import.
+      .catch((e) => { _threePromise = null; throw e; });
   }
   return _threePromise;
 }
@@ -3412,6 +3474,7 @@ function recolorViewer(vState, mode) {
 // viewerHeight: pixel height for the viewer wrap
 // totalSamples: how many viewers are shown per model (1, 4, or 8)
 window.initLeaderboardPCViewer = async function(el, model, size, dataset, sampleIdx, viewerHeight, totalSamples) {
+  try {
   await ensureThree();
   sampleIdx = sampleIdx || 0;
   viewerHeight = viewerHeight || 360;
@@ -3477,6 +3540,17 @@ window.initLeaderboardPCViewer = async function(el, model, size, dataset, sample
   }
 
   loadSample(sampleIdx);
+  } catch (err) {
+    // A throw here (e.g. createMiniViewer hitting the WebGL context cap, or
+    // ensureThree failing) would otherwise leave _pcInitialized=true with no
+    // _pcViewerId set — the observer then skips BOTH its re-init and its
+    // dispose paths and the panel stays black forever. Reset so the next
+    // scroll into view re-attempts a clean init (contexts freed by the
+    // dispose-on-scroll-out above by then).
+    console.warn('Leaderboard PC viewer init failed:', err);
+    el._pcInitialized = false;
+    el._pcViewerId = null;
+  }
 };
 
 // ══════════════════════════════════════════════════════════════════════

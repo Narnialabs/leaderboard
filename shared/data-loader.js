@@ -126,7 +126,7 @@ async function loadDatasetRegistry() {
   if (_datasetRegistryPromise) return _datasetRegistryPromise;
   _datasetRegistryPromise = (async () => {
     try {
-      const resp = await fetch(`${DATA_BASE}/dataset_registry.json?v=${DATA_BUILD}`, { cache: 'no-cache' });
+      const resp = await fetch(`${DATA_BASE}/dataset_registry.json?v=${DATA_BUILD}`);
       _datasetRegistry = resp.ok ? await resp.json() : {};
     } catch {
       _datasetRegistry = {};
@@ -202,7 +202,13 @@ function loadCSV(path) {
   const url = path + (path.includes('?') ? '&' : '?') + 'v=' + DATA_BUILD;
   if (_csvCache[url]) return _csvCache[url];
   const p = (async () => {
-    const response = await fetch(url, { cache: 'no-cache' });
+    // No `cache: 'no-cache'`: the URL already carries ?v=DATA_BUILD, so the browser's
+    // default HTTP cache is safe — a republish bumps DATA_BUILD → new URL → cache miss
+    // → fresh fetch, while an unchanged build serves from disk cache with ZERO network
+    // (the previous no-cache forced a conditional 304 round-trip on every page
+    // navigation/reload even when nothing changed). Relies on DATA_BUILD being bumped
+    // on each data republish — which the publish flow already does.
+    const response = await fetch(url);
     if (!response.ok) throw new Error(`Failed to load ${path}: ${response.status}`);
     const text = (await response.text()).replace(/^\uFEFF/, ''); // strip BOM
     return new Promise((resolve, reject) => {

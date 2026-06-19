@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Narnia Labs - Leaderboard</title>
 <link rel="icon" type="image/png" href="favicon.png">
+<!-- Preload the subset webfonts (Latin+symbols, ~170/88 KB) so the @font-face swap
+     starts at parse-time instead of after font CSS downloads+parses. crossorigin is
+     required even same-origin for the preload to match the font fetch. -->
+<link rel="preload" href="shared/lib/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="shared/lib/fonts/D2Coding.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="shared/lib/fonts/pretendard.css">
 <link rel="stylesheet" href="shared/lib/fonts/d2coding.css">
 <link rel="stylesheet" href="shared/style.css">
