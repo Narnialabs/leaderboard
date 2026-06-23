@@ -525,7 +525,7 @@ function setRoadmap(i) {
 function overviewSync() {
   pushHashState({
     step: activeStep >= 0 ? activeStep : null,
-    rm: activeRoadmap !== 1 ? activeRoadmap : null,
+    rm: activeRoadmap !== 2 ? activeRoadmap : null,
     rmOpen: roadmapExpanded ? null : 0,
     goalOpen: goalExpanded ? 1 : null,
   });
@@ -538,8 +538,11 @@ function overviewInitFromURL() {
   if (wantRoadmapOpen !== roadmapExpanded) toggleRoadmap();
   const wantGoalOpen = h.goalOpen === '1';
   if (wantGoalOpen !== goalExpanded) toggleGoal();
-  const wantRm = h.rm != null ? parseInt(h.rm) : 1;
-  if (wantRm !== activeRoadmap) setRoadmap(wantRm);
+  const wantRm = h.rm != null ? parseInt(h.rm) : 2;
+  // Always normalize: ensures the selected card gets its computed active tint
+  // (the static HTML carries only a neutral purple stub), even when wantRm
+  // already equals the initial activeRoadmap.
+  setRoadmap(wantRm);
   const wantStep = h.step != null ? parseInt(h.step) : -1;
   if (wantStep !== activeStep) {
     if (activeStep !== -1) toggleStep(activeStep); // close current
