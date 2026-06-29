@@ -6,7 +6,7 @@
 5,R²,0.1397,geotransolver,domino,linearno_big,transolver,linearno,transolver_pp,geofno,pointnet,regdgcnn
 6,Rel-L2,0.1397,geotransolver,domino,linearno_big,transolver,linearno,transolver_pp,geofno,pointnet,regdgcnn
 7,RMSE,0.1397,geotransolver,domino,linearno_big,transolver,linearno,transolver_pp,geofno,pointnet,regdgcnn
-8,Inference Time (s),0.0,geofno,transolver_pp,pointnet,transolver,linearno,linearno_big,regdgcnn,domino,geotransolver
+8,Inference Time (s),0.0,geofno,transolver_pp,pointnet,transolver,linearno,linearno_big,geotransolver,regdgcnn,domino
 9,Training Time (s),0.0,regdgcnn,linearno,geofno,pointnet,transolver_pp,transolver,linearno_big,geotransolver,domino
 10,Parameters (M),0.0,regdgcnn,geofno,transolver_pp,linearno,pointnet,transolver,linearno_big,domino,geotransolver
 11,MAC,0.0,domino,geofno,geotransolver,linearno,linearno_big,pointnet,regdgcnn,transolver,transolver_pp

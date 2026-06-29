@@ -29,13 +29,13 @@ domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Medium,50.0
 domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Medium,50.0,pressure_coeff+velocity+vorticity,vorticity,x,72180.0,1.6024,2.0644,3.2362,70.9431,0.6481,0.5932,,0.8126,0.6741
 domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Medium,50.0,pressure_coeff+velocity+vorticity,vorticity,y,72180.0,1.6024,1.8319,3.136,56.5272,0.7047,0.5384,,0.8531,0.7197
 domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Medium,50.0,pressure_coeff+velocity+vorticity,vorticity,z,72180.0,1.6024,1.7735,2.985,60.2222,0.701,0.5468,,0.8428,0.6495
-domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Large,100.0,pressure_coeff+velocity+vorticity,totalpcoeff,,103020.0,1.1484,0.0504,0.0926,25.3557,0.9658,0.1751,,0.9658,0.9016
-domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Large,100.0,pressure_coeff+velocity+vorticity,velocity,x,103020.0,1.1484,1.7577,2.8544,35.2953,0.9697,0.1216,0.9763,0.94,0.9138
-domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Large,100.0,pressure_coeff+velocity+vorticity,velocity,y,103020.0,1.1484,1.2402,2.0971,60.3405,0.9408,0.2432,0.9763,0.8849,0.885
-domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Large,100.0,pressure_coeff+velocity+vorticity,velocity,z,103020.0,1.1484,1.0328,1.8168,63.8342,0.925,0.2733,0.9763,0.8745,0.8596
-domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Large,100.0,pressure_coeff+velocity+vorticity,vorticity,x,103020.0,1.1484,1.8578,2.971,66.5489,0.7034,0.5446,,0.8272,0.7133
-domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Large,100.0,pressure_coeff+velocity+vorticity,vorticity,y,103020.0,1.1484,1.6532,2.8891,52.7385,0.7493,0.496,,0.8662,0.7496
-domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Large,100.0,pressure_coeff+velocity+vorticity,vorticity,z,103020.0,1.1484,1.6097,2.7721,56.089,0.7421,0.5078,,0.8556,0.6869
+domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Large,100.0,pressure_coeff+velocity+vorticity,totalpcoeff,,103020.0,1.5134,0.0504,0.0926,25.3557,0.9658,0.1751,,0.9658,0.9016
+domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Large,100.0,pressure_coeff+velocity+vorticity,velocity,x,103020.0,1.5134,1.7577,2.8544,35.2953,0.9697,0.1216,0.9763,0.94,0.9138
+domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Large,100.0,pressure_coeff+velocity+vorticity,velocity,y,103020.0,1.5134,1.2402,2.0971,60.3405,0.9408,0.2432,0.9763,0.8849,0.885
+domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Large,100.0,pressure_coeff+velocity+vorticity,velocity,z,103020.0,1.5134,1.0328,1.8168,63.8342,0.925,0.2733,0.9763,0.8745,0.8596
+domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Large,100.0,pressure_coeff+velocity+vorticity,vorticity,x,103020.0,1.5134,1.8578,2.971,66.5489,0.7034,0.5446,,0.8272,0.7133
+domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Large,100.0,pressure_coeff+velocity+vorticity,vorticity,y,103020.0,1.5134,1.6532,2.8891,52.7385,0.7493,0.496,,0.8662,0.7496
+domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Large,100.0,pressure_coeff+velocity+vorticity,vorticity,z,103020.0,1.5134,1.6097,2.7721,56.089,0.7421,0.5078,,0.8556,0.6869
 domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Extra Large,200.0,pressure_coeff+velocity+vorticity,totalpcoeff,,161280.0,1.5127,0.0421,0.0781,22.1753,0.9756,0.1477,,0.9716,0.9156
 domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Extra Large,200.0,pressure_coeff+velocity+vorticity,velocity,x,161280.0,1.5127,1.5075,2.5197,31.5908,0.9764,0.1073,0.9819,0.9484,0.9256
 domino,dimension_3d,prediction,24.3143,8192.0,drivaerml_3d_3d_volume,Extra Large,200.0,pressure_coeff+velocity+vorticity,velocity,y,161280.0,1.5127,1.0593,1.8488,54.6702,0.954,0.2144,0.9819,0.8995,0.9026
@@ -195,14 +195,14 @@ geofno,dimension_3d,prediction,1.5454,8192.0,drivaernet_3d_2d_surface,Small,20.0
 geofno,dimension_3d,prediction,1.5454,8192.0,drivaernet_3d_2d_surface,Medium,50.0,pressure,pressure,,138.2748,0.1253,42.678,72.5722,43.8427,0.6018,0.4887,,0.9536,0.5996
 geofno,dimension_3d,prediction,1.5454,8192.0,drivaernet_3d_2d_surface,Large,100.0,pressure,pressure,,196.116,0.1269,42.6818,71.2352,46.062,0.6163,0.4797,,0.9508,0.622
 geofno,dimension_3d,prediction,1.5454,8192.0,drivaernet_3d_2d_surface,Extra Large,200.0,pressure,pressure,,399.6818,0.1252,32.3606,55.285,37.2307,0.7689,0.3723,,0.9618,0.7462
-geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Small,20.0,pressure+wall_shear_stress,pressure,,12540.0,20.6499,24.9893,43.7691,15.0037,0.9736,0.1237,,0.9893,0.9222
-geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Small,20.0,pressure+wall_shear_stress,wall_shear_stress,x,12540.0,20.6499,0.2118,0.3983,52.8609,0.9633,0.1659,0.9602,0.899,0.9111
-geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Small,20.0,pressure+wall_shear_stress,wall_shear_stress,y,12540.0,20.6499,0.1516,0.3331,73.3989,0.9395,0.246,0.9602,0.84,0.8896
-geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Small,20.0,pressure+wall_shear_stress,wall_shear_stress,z,12540.0,20.6499,0.1442,0.2935,63.3305,0.9301,0.2638,0.9602,0.8765,0.8686
-geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Medium,50.0,pressure+wall_shear_stress,pressure,,19800.0,22.1364,14.4628,25.7617,9.5202,0.9908,0.0728,,0.9938,0.9513
-geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Medium,50.0,pressure+wall_shear_stress,wall_shear_stress,x,19800.0,22.1364,0.1322,0.2554,40.4175,0.9849,0.1064,0.9837,0.9306,0.9464
-geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Medium,50.0,pressure+wall_shear_stress,wall_shear_stress,y,19800.0,22.1364,0.0931,0.2138,56.245,0.9751,0.1579,0.9837,0.891,0.9333
-geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Medium,50.0,pressure+wall_shear_stress,wall_shear_stress,z,19800.0,22.1364,0.0906,0.1845,48.1291,0.9724,0.1658,0.9837,0.9162,0.9182
+geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Small,20.0,pressure+wall_shear_stress,pressure,,12540.0,0.0963,24.9893,43.7691,15.0037,0.9736,0.1237,,0.9893,0.9222
+geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Small,20.0,pressure+wall_shear_stress,wall_shear_stress,x,12540.0,0.0963,0.2118,0.3983,52.8609,0.9633,0.1659,0.9602,0.899,0.9111
+geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Small,20.0,pressure+wall_shear_stress,wall_shear_stress,y,12540.0,0.0963,0.1516,0.3331,73.3989,0.9395,0.246,0.9602,0.84,0.8896
+geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Small,20.0,pressure+wall_shear_stress,wall_shear_stress,z,12540.0,0.0963,0.1442,0.2935,63.3305,0.9301,0.2638,0.9602,0.8765,0.8686
+geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Medium,50.0,pressure+wall_shear_stress,pressure,,19800.0,0.0963,14.4628,25.7617,9.5202,0.9908,0.0728,,0.9938,0.9513
+geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Medium,50.0,pressure+wall_shear_stress,wall_shear_stress,x,19800.0,0.0963,0.1322,0.2554,40.4175,0.9849,0.1064,0.9837,0.9306,0.9464
+geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Medium,50.0,pressure+wall_shear_stress,wall_shear_stress,y,19800.0,0.0963,0.0931,0.2138,56.245,0.9751,0.1579,0.9837,0.891,0.9333
+geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Medium,50.0,pressure+wall_shear_stress,wall_shear_stress,z,19800.0,0.0963,0.0906,0.1845,48.1291,0.9724,0.1658,0.9837,0.9162,0.9182
 geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Large,100.0,pressure+wall_shear_stress,pressure,,31980.0,0.0963,11.3231,20.075,7.6407,0.9944,0.0567,,0.9953,0.9604
 geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Large,100.0,pressure+wall_shear_stress,wall_shear_stress,x,31980.0,0.0963,0.1051,0.2073,34.6634,0.99,0.0864,0.9896,0.9438,0.9571
 geotransolver,dimension_3d,prediction,29.4907,8192.0,drivaerml_3d_2d_surface,Large,100.0,pressure+wall_shear_stress,wall_shear_stress,y,31980.0,0.0963,0.0716,0.1654,46.9363,0.9851,0.1221,0.9896,0.9168,0.9495

@@ -1,12 +1,12 @@
 ﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7,Rank 8,Rank 9,Rank 10
-1,Training Time (s),0.1851,ridge,lightgbm,xgboost,random_forest,tabpfn,gaussian_process,ft_transformer,mlp,node,tabnet
-2,Parameters (M),0.1681,gaussian_process,lightgbm,random_forest,ridge,tabnet,tabpfn,xgboost,node,mlp,ft_transformer
-3,Inference Time (s),0.1509,gaussian_process,lightgbm,mlp,ridge,xgboost,ft_transformer,node,tabnet,random_forest,tabpfn
-4,MaxAE,0.0806,node,lightgbm,gaussian_process,xgboost,mlp,ft_transformer,random_forest,tabpfn,ridge,tabnet
-5,MAPE (%),0.0611,xgboost,node,tabpfn,lightgbm,ft_transformer,mlp,gaussian_process,random_forest,tabnet,ridge
-6,MAE,0.0596,tabpfn,xgboost,node,lightgbm,ft_transformer,gaussian_process,mlp,random_forest,tabnet,ridge
-7,Pearson,0.0596,tabpfn,xgboost,lightgbm,node,ft_transformer,random_forest,gaussian_process,mlp,tabnet,ridge
-8,Spearman,0.0594,tabpfn,lightgbm,xgboost,node,ft_transformer,random_forest,gaussian_process,mlp,tabnet,ridge
-9,RMSE,0.0585,tabpfn,node,lightgbm,xgboost,ft_transformer,gaussian_process,mlp,random_forest,tabnet,ridge
-10,R²,0.0585,tabpfn,node,lightgbm,xgboost,ft_transformer,gaussian_process,mlp,random_forest,tabnet,ridge
-11,Rel-L2,0.0585,tabpfn,node,lightgbm,xgboost,ft_transformer,gaussian_process,mlp,random_forest,tabnet,ridge
+1,Parameters (M),0.1775,gaussian_process,lightgbm,random_forest,ridge,tabpfn,xgboost,tabnet,node,mlp,ft_transformer
+2,Training Time (s),0.1703,ridge,lightgbm,xgboost,random_forest,tabpfn,gaussian_process,ft_transformer,mlp,node,tabnet
+3,Inference Time (s),0.1492,gaussian_process,lightgbm,mlp,ridge,xgboost,ft_transformer,node,tabnet,random_forest,tabpfn
+4,MaxAE,0.0841,node,lightgbm,gaussian_process,xgboost,mlp,ft_transformer,random_forest,tabpfn,ridge,tabnet
+5,MAPE (%),0.0628,xgboost,node,tabpfn,lightgbm,ft_transformer,mlp,gaussian_process,random_forest,tabnet,ridge
+6,MAE,0.0599,tabpfn,xgboost,node,lightgbm,ft_transformer,gaussian_process,mlp,random_forest,tabnet,ridge
+7,RMSE,0.0598,tabpfn,node,lightgbm,xgboost,ft_transformer,gaussian_process,mlp,random_forest,tabnet,ridge
+8,R²,0.0598,tabpfn,node,lightgbm,xgboost,ft_transformer,gaussian_process,mlp,random_forest,tabnet,ridge
+9,Rel-L2,0.0598,tabpfn,node,lightgbm,xgboost,ft_transformer,gaussian_process,mlp,random_forest,tabnet,ridge
+10,Pearson,0.0586,tabpfn,xgboost,lightgbm,node,ft_transformer,random_forest,gaussian_process,mlp,tabnet,ridge
+11,Spearman,0.0584,tabpfn,lightgbm,xgboost,node,ft_transformer,random_forest,gaussian_process,mlp,tabnet,ridge

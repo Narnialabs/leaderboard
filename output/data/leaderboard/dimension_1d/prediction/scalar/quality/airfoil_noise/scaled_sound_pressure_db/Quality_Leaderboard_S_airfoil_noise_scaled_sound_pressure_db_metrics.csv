@@ -8,5 +8,5 @@
 7,MAPE (%),0.1227,mlp,ridge,tabpfn,gaussian_process,ft_transformer,node,xgboost,random_forest,tabnet,lightgbm
 8,MAE,0.1227,mlp,ridge,tabpfn,gaussian_process,ft_transformer,node,xgboost,random_forest,tabnet,lightgbm
 9,Inference Time (s),0.0,gaussian_process,lightgbm,mlp,ridge,xgboost,ft_transformer,node,tabnet,random_forest,tabpfn
-10,Parameters (M),0.0,gaussian_process,lightgbm,random_forest,ridge,tabnet,tabpfn,xgboost,node,mlp,ft_transformer
+10,Parameters (M),0.0,gaussian_process,lightgbm,random_forest,ridge,tabpfn,xgboost,tabnet,node,mlp,ft_transformer
 11,Training Time (s),0.0,xgboost,ridge,lightgbm,random_forest,gaussian_process,tabpfn,mlp,tabnet,ft_transformer,node

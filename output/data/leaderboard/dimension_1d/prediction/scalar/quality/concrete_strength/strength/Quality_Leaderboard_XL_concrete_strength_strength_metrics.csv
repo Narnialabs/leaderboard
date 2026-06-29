@@ -8,5 +8,5 @@
 7,RMSE,0.116,tabpfn,node,lightgbm,xgboost,ft_transformer,gaussian_process,mlp,random_forest,tabnet,ridge
 8,Rel-L2,0.116,tabpfn,node,lightgbm,xgboost,ft_transformer,gaussian_process,mlp,random_forest,tabnet,ridge
 9,Inference Time (s),0.0,gaussian_process,lightgbm,mlp,ridge,xgboost,ft_transformer,node,tabnet,random_forest,tabpfn
-10,Parameters (M),0.0,gaussian_process,lightgbm,random_forest,ridge,tabnet,tabpfn,xgboost,node,mlp,ft_transformer
+10,Parameters (M),0.0,gaussian_process,lightgbm,random_forest,ridge,tabpfn,xgboost,tabnet,node,mlp,ft_transformer
 11,Training Time (s),0.0,ridge,lightgbm,xgboost,random_forest,tabpfn,gaussian_process,ft_transformer,mlp,node,tabnet
