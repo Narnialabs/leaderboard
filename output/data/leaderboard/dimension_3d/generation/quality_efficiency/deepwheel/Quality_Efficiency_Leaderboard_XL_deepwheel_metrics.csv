@@ -3,14 +3,14 @@
 2,CD,0.0997,atlasnet,pointflow,deepsdf,diffusionpointcloud,shapegf,gan3d
 3,EMD,0.0719,deepsdf,diffusionpointcloud,pointflow,atlasnet,gan3d,shapegf
 4,F-Score,0.0719,atlasnet,pointflow,diffusionpointcloud,deepsdf,shapegf,gan3d
-5,Training Time (s),0.0687,shapegf,diffusionpointcloud,atlasnet,gan3d,deepsdf,pointflow
+5,Training Time (s),0.0687,shapegf,diffusionpointcloud,atlasnet,deepsdf,gan3d,pointflow
 6,MV-FID,0.0606,deepsdf,pointflow,atlasnet,diffusionpointcloud,shapegf,gan3d
 7,MS-SSIM,0.0606,gan3d,deepsdf,pointflow,atlasnet,diffusionpointcloud,shapegf
 8,Coverage,0.0606,pointflow,deepsdf,diffusionpointcloud,atlasnet,gan3d,shapegf
 9,FPD,0.0606,pointflow,deepsdf,diffusionpointcloud,atlasnet,shapegf,gan3d
 10,Parameters (M),0.0606,pointflow,deepsdf,diffusionpointcloud,shapegf,atlasnet,gan3d
 11,Recall,0.0606,pointflow,deepsdf,diffusionpointcloud,atlasnet,gan3d,shapegf
-12,Inference Time (s),0.0524,atlasnet,gan3d,diffusionpointcloud,pointflow,shapegf,deepsdf
+12,Inference Time (s),0.0524,atlasnet,diffusionpointcloud,gan3d,pointflow,shapegf,deepsdf
 13,Precision,0.0524,deepsdf,pointflow,diffusionpointcloud,atlasnet,gan3d,shapegf
 14,Density,0.0524,deepsdf,pointflow,diffusionpointcloud,atlasnet,gan3d,shapegf
 15,Uniformity-Δ,0.0524,deepsdf,pointflow,diffusionpointcloud,gan3d,atlasnet,shapegf

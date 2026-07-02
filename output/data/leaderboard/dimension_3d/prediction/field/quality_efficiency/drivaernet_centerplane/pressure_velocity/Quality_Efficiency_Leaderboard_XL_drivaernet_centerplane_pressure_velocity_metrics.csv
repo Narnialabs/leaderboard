@@ -1,12 +1,12 @@
 ﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7
-1,Parameters (M),0.1454,regdgcnn,geofno,transolver_pp,linearno,pointnet,transolver,linearno_big
-2,Inference Time (s),0.1383,transolver,geofno,pointnet,regdgcnn,transolver_pp,linearno,linearno_big
-3,Training Time (s),0.0922,pointnet,geofno,transolver,linearno,transolver_pp,linearno_big,regdgcnn
-4,MAPE (%),0.0914,regdgcnn,linearno_big,linearno,transolver,transolver_pp,pointnet,geofno
-5,Sign Agree,0.0887,transolver,linearno_big,regdgcnn,linearno,transolver_pp,pointnet,geofno
-6,Extremal Agree,0.0866,linearno_big,transolver,linearno,transolver_pp,regdgcnn,pointnet,geofno
-7,MAE,0.078,transolver,linearno_big,regdgcnn,linearno,transolver_pp,pointnet,geofno
-8,R²,0.0746,linearno_big,transolver,linearno,transolver_pp,regdgcnn,pointnet,geofno
-9,RMSE,0.0746,linearno_big,transolver,regdgcnn,transolver_pp,linearno,pointnet,geofno
-10,Rel-L2,0.0746,linearno_big,transolver,linearno,regdgcnn,transolver_pp,pointnet,geofno
-11,MAC,0.0558,linearno_big,regdgcnn,linearno,transolver,transolver_pp,pointnet,geofno
+1,Parameters (M),0.153,regdgcnn,geofno,transolver_pp,linearno,pointnet,transolver,linearno_big
+2,Inference Time (s),0.1347,regdgcnn,transolver,linearno_big,geofno,pointnet,transolver_pp,linearno
+3,Training Time (s),0.0944,pointnet,geofno,transolver,transolver_pp,linearno,linearno_big,regdgcnn
+4,MAPE (%),0.0887,regdgcnn,linearno_big,linearno,transolver,transolver_pp,pointnet,geofno
+5,Extremal Agree,0.0881,linearno_big,transolver,linearno,transolver_pp,regdgcnn,pointnet,geofno
+6,Sign Agree,0.0851,transolver,linearno_big,regdgcnn,linearno,transolver_pp,pointnet,geofno
+7,MAE,0.0773,transolver,linearno_big,regdgcnn,linearno,transolver_pp,pointnet,geofno
+8,R²,0.0741,linearno_big,transolver,linearno,transolver_pp,regdgcnn,pointnet,geofno
+9,RMSE,0.0741,linearno_big,transolver,regdgcnn,transolver_pp,linearno,pointnet,geofno
+10,Rel-L2,0.0741,linearno_big,transolver,linearno,regdgcnn,transolver_pp,pointnet,geofno
+11,MAC,0.0563,linearno_big,regdgcnn,linearno,transolver,transolver_pp,pointnet,geofno

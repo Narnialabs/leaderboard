@@ -7,6 +7,6 @@
 6,Rel-L2,0.1212,tabpfn,gaussian_process,ft_transformer,mlp,node,random_forest,xgboost,ridge,tabnet,lightgbm,dast,tcn,cnn_lstm,lstm_rul,bilstm_rul,dcnn_rul
 7,R²,0.1212,tabpfn,mlp,gaussian_process,ft_transformer,node,random_forest,xgboost,tabnet,ridge,dast,lightgbm,tcn,cnn_lstm,lstm_rul,bilstm_rul,dcnn_rul
 8,MAE,0.119,tabpfn,gaussian_process,ft_transformer,mlp,node,random_forest,xgboost,ridge,tabnet,lightgbm,dast,tcn,lstm_rul,bilstm_rul,cnn_lstm,dcnn_rul
-9,Inference Time (s),0.0,gaussian_process,lightgbm,mlp,node,ridge,xgboost,ft_transformer,tabnet,random_forest,bilstm_rul,dcnn_rul,cnn_lstm,dast,lstm_rul,tcn,tabpfn
+9,Inference Time (s),0.0,gaussian_process,lightgbm,mlp,node,ridge,xgboost,ft_transformer,tabnet,random_forest,bilstm_rul,dcnn_rul,cnn_lstm,tcn,dast,lstm_rul,tabpfn
 10,Parameters (M),0.0,gaussian_process,lightgbm,random_forest,ridge,tabpfn,xgboost,tabnet,node,dcnn_rul,tcn,mlp,cnn_lstm,lstm_rul,dast,ft_transformer,bilstm_rul
-11,Training Time (s),0.0,xgboost,ridge,lightgbm,gaussian_process,random_forest,tabpfn,cnn_lstm,bilstm_rul,ft_transformer,tabnet,dcnn_rul,lstm_rul,mlp,node,dast,tcn
+11,Training Time (s),0.0,xgboost,ridge,lightgbm,gaussian_process,random_forest,tabpfn,cnn_lstm,bilstm_rul,ft_transformer,mlp,dcnn_rul,lstm_rul,tabnet,node,dast,tcn

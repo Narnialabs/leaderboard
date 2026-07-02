@@ -6,10 +6,10 @@
 5,EMD,0.07,pointflow,deepsdf,diffusionpointcloud,atlasnet,gan3d,shapegf
 6,Parameters (M),0.07,pointflow,deepsdf,diffusionpointcloud,shapegf,atlasnet,gan3d
 7,MS-SSIM,0.0655,gan3d,pointflow,deepsdf,atlasnet,diffusionpointcloud,shapegf
-8,Training Time (s),0.0655,shapegf,diffusionpointcloud,atlasnet,gan3d,deepsdf,pointflow
+8,Training Time (s),0.0655,shapegf,diffusionpointcloud,atlasnet,deepsdf,pointflow,gan3d
 9,Recall,0.0627,deepsdf,atlasnet,diffusionpointcloud,gan3d,pointflow,shapegf
 10,Uniformity-Δ,0.0584,deepsdf,pointflow,diffusionpointcloud,gan3d,shapegf,atlasnet
-11,Inference Time (s),0.0584,atlasnet,diffusionpointcloud,gan3d,pointflow,shapegf,deepsdf
+11,Inference Time (s),0.0584,atlasnet,diffusionpointcloud,pointflow,gan3d,shapegf,deepsdf
 12,FPD,0.0553,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf
 13,Precision,0.0539,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf
 14,Density,0.0539,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf

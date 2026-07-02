@@ -1,7 +1,7 @@
 {
     "model_parameters": 1426842,
-    "training_time_sec": 68366.84712672234,
-    "inference_time_sec": 74.8964467048645,
+    "training_time_sec": 61903.53650181363,
+    "inference_time_sec": 0.1356381076694654,
     "total_generated": 500,
     "resumed_from": "experiments/inference/dimension_3d/generation/pointflow_200/deepjeb_3d_3d/checkpoints/last.ckpt"
 }

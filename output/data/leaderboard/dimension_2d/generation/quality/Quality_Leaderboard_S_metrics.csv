@@ -8,6 +8,6 @@
 7,LPIPS,0.0836,ddpm,gan,r1gan,vqvae,wgan_gp,vae,wgan_cp,dcgan,lsgan
 8,MS-SSIM,0.0815,ddpm,gan,vqvae,r1gan,wgan_gp,vae,dcgan,wgan_cp,lsgan
 9,IS,0.0815,ddpm,vqvae,gan,r1gan,vae,wgan_gp,dcgan,wgan_cp,lsgan
-10,Inference Time (s),0.0,vae,wgan_cp,r1gan,dcgan,lsgan,vqvae,wgan_gp,gan,ddpm
+10,Inference Time (s),0.0,r1gan,wgan_gp,vae,wgan_cp,dcgan,lsgan,vqvae,gan,ddpm
 11,Parameters (M),0.0,vqvae,wgan_cp,wgan_gp,dcgan,r1gan,lsgan,vae,ddpm,gan
-12,Training Time (s),0.0,wgan_cp,vqvae,wgan_gp,lsgan,dcgan,r1gan,ddpm,vae,gan
+12,Training Time (s),0.0,wgan_gp,r1gan,wgan_cp,vqvae,lsgan,dcgan,ddpm,vae,gan

@@ -7,6 +7,6 @@
 6,RMSE,0.1125,convnext_tiny,densenet121,resnet18,resnet34,efficientnet_b0,simplecnn,vit_tiny
 7,MAE,0.1125,convnext_tiny,densenet121,resnet18,resnet34,efficientnet_b0,simplecnn,vit_tiny
 8,Rel-L2,0.1125,convnext_tiny,densenet121,resnet18,resnet34,efficientnet_b0,simplecnn,vit_tiny
-9,Inference Time (s),0.0,simplecnn,resnet18,resnet34,vit_tiny,efficientnet_b0,densenet121,convnext_tiny
+9,Inference Time (s),0.0,resnet18,resnet34,convnext_tiny,densenet121,efficientnet_b0,vit_tiny,simplecnn
 10,Parameters (M),0.0,simplecnn,efficientnet_b0,vit_tiny,densenet121,resnet18,resnet34,convnext_tiny
-11,Training Time (s),0.0,vit_tiny,convnext_tiny,simplecnn,densenet121,efficientnet_b0,resnet18,resnet34
+11,Training Time (s),0.0,convnext_tiny,densenet121,vit_tiny,resnet34,resnet18,efficientnet_b0,simplecnn

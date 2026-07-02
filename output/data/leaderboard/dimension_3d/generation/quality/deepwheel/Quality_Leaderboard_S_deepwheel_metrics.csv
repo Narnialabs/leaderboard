@@ -11,6 +11,6 @@
 10,Recall,0.0764,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf
 11,FPD,0.0751,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf
 12,CD,0.0751,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf
-13,Training Time (s),0.0,shapegf,diffusionpointcloud,gan3d,atlasnet,deepsdf,pointflow
-14,Inference Time (s),0.0,atlasnet,diffusionpointcloud,gan3d,pointflow,shapegf,deepsdf
+13,Training Time (s),0.0,shapegf,diffusionpointcloud,atlasnet,deepsdf,gan3d,pointflow
+14,Inference Time (s),0.0,diffusionpointcloud,atlasnet,pointflow,gan3d,shapegf,deepsdf
 15,Parameters (M),0.0,pointflow,deepsdf,diffusionpointcloud,shapegf,atlasnet,gan3d

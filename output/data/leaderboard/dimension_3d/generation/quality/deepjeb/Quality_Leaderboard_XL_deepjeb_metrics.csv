@@ -11,6 +11,6 @@
 10,Coverage,0.0629,deepsdf,pointflow,diffusionpointcloud,atlasnet,gan3d,shapegf
 11,MV-FID,0.061,deepsdf,pointflow,atlasnet,diffusionpointcloud,gan3d,shapegf
 12,FPD,0.0606,pointflow,deepsdf,diffusionpointcloud,atlasnet,gan3d,shapegf
-13,Training Time (s),0.0,shapegf,diffusionpointcloud,atlasnet,gan3d,deepsdf,pointflow
-14,Inference Time (s),0.0,atlasnet,diffusionpointcloud,gan3d,pointflow,shapegf,deepsdf
+13,Training Time (s),0.0,shapegf,diffusionpointcloud,atlasnet,deepsdf,pointflow,gan3d
+14,Inference Time (s),0.0,atlasnet,diffusionpointcloud,pointflow,gan3d,shapegf,deepsdf
 15,Parameters (M),0.0,pointflow,deepsdf,diffusionpointcloud,shapegf,atlasnet,gan3d

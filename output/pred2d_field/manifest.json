@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-17T09:44:21.363375",
+  "generated": "2026-07-02T10:34:24.384112",
   "total_samples": 2688,
   "filters": {
     "models": [
@@ -3171,6 +3171,114 @@
       "model": "dpt_hybrid",
       "train_size": 100,
       "size": "L",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 0,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00000.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 1,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00001.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 2,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00002.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 3,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00003.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 4,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00004.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 5,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00005.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 6,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00006.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 7,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00007.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 8,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00008.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 9,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00009.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 10,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00010.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 11,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00011.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
       "dataset": "airfrans_2d_2d_flow",
       "target": "nu_t",
       "sample": 0,
@@ -3382,114 +3490,6 @@
       "target": "p_over_rho",
       "sample": 11,
       "path": "dpt_hybrid/airfrans_2d_2d_flow/p_over_rho/100/img_00011.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 100,
-      "size": "L",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 0,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00000.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 100,
-      "size": "L",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 1,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00001.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 100,
-      "size": "L",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 2,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00002.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 100,
-      "size": "L",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 3,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00003.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 100,
-      "size": "L",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 4,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00004.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 100,
-      "size": "L",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 5,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00005.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 100,
-      "size": "L",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 6,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00006.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 100,
-      "size": "L",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 7,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00007.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 100,
-      "size": "L",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 8,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00008.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 100,
-      "size": "L",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 9,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00009.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 100,
-      "size": "L",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 10,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00010.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 100,
-      "size": "L",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 11,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/100/img_00011.png"
     },
     {
       "model": "dpt_hybrid",
@@ -3925,6 +3925,114 @@
     },
     {
       "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 0,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00000.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 1,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00001.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 2,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00002.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 3,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00003.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 4,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00004.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 5,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00005.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 6,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00006.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 7,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00007.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 8,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00008.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 9,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00009.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 10,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00010.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 11,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00011.png"
+    },
+    {
+      "model": "dpt_hybrid",
       "train_size": 200,
       "size": "XL",
       "dataset": "deepwheel_2d_2d_depth",
@@ -4030,6 +4138,114 @@
       "target": "depth",
       "sample": 11,
       "path": "dpt_hybrid/deepwheel_2d_2d_depth/depth/200/img_00011.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 0,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00000.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 1,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00001.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 2,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00002.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 3,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00003.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 4,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00004.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 5,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00005.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 6,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00006.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 7,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00007.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 8,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00008.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 9,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00009.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 10,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00010.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 11,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00011.png"
     },
     {
       "model": "dpt_hybrid",
@@ -4246,114 +4462,6 @@
       "target": "p_over_rho",
       "sample": 11,
       "path": "dpt_hybrid/airfrans_2d_2d_flow/p_over_rho/200/img_00011.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 200,
-      "size": "XL",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 0,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00000.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 200,
-      "size": "XL",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 1,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00001.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 200,
-      "size": "XL",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 2,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00002.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 200,
-      "size": "XL",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 3,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00003.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 200,
-      "size": "XL",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 4,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00004.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 200,
-      "size": "XL",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 5,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00005.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 200,
-      "size": "XL",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 6,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00006.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 200,
-      "size": "XL",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 7,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00007.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 200,
-      "size": "XL",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 8,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00008.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 200,
-      "size": "XL",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 9,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00009.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 200,
-      "size": "XL",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 10,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00010.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 200,
-      "size": "XL",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 11,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/200/img_00011.png"
     },
     {
       "model": "dpt_hybrid",
@@ -4899,114 +5007,6 @@
       "model": "dpt_hybrid",
       "train_size": 20,
       "size": "S",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 0,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00000.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 20,
-      "size": "S",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 1,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00001.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 20,
-      "size": "S",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 2,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00002.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 20,
-      "size": "S",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 3,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00003.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 20,
-      "size": "S",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 4,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00004.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 20,
-      "size": "S",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 5,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00005.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 20,
-      "size": "S",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 6,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00006.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 20,
-      "size": "S",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 7,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00007.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 20,
-      "size": "S",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 8,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00008.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 20,
-      "size": "S",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 9,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00009.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 20,
-      "size": "S",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 10,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00010.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 20,
-      "size": "S",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 11,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/20/img_00011.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 20,
-      "size": "S",
       "dataset": "deepjeb_2d_2d_structural",
       "target": "stress",
       "sample": 0,
@@ -5439,6 +5439,114 @@
       "model": "dpt_hybrid",
       "train_size": 50,
       "size": "M",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 0,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00000.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 1,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00001.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 2,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00002.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 3,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00003.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 4,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00004.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 5,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00005.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 6,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00006.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 7,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00007.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 8,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00008.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 9,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00009.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 10,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00010.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "pdebenchdarcy_2d_2d_pressure",
+      "target": "pressure",
+      "sample": 11,
+      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00011.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
       "dataset": "airfrans_2d_2d_flow",
       "target": "nu_t",
       "sample": 0,
@@ -5650,114 +5758,6 @@
       "target": "p_over_rho",
       "sample": 11,
       "path": "dpt_hybrid/airfrans_2d_2d_flow/p_over_rho/50/img_00011.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 50,
-      "size": "M",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 0,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00000.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 50,
-      "size": "M",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 1,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00001.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 50,
-      "size": "M",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 2,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00002.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 50,
-      "size": "M",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 3,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00003.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 50,
-      "size": "M",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 4,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00004.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 50,
-      "size": "M",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 5,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00005.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 50,
-      "size": "M",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 6,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00006.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 50,
-      "size": "M",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 7,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00007.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 50,
-      "size": "M",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 8,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00008.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 50,
-      "size": "M",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 9,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00009.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 50,
-      "size": "M",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 10,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00010.png"
-    },
-    {
-      "model": "dpt_hybrid",
-      "train_size": 50,
-      "size": "M",
-      "dataset": "pdebenchdarcy_2d_2d_pressure",
-      "target": "pressure",
-      "sample": 11,
-      "path": "dpt_hybrid/pdebenchdarcy_2d_2d_pressure/pressure/50/img_00011.png"
     },
     {
       "model": "dpt_hybrid",

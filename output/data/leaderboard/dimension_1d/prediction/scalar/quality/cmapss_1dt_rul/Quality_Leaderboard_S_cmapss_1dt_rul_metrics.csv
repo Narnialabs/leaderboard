@@ -7,6 +7,6 @@
 6,MAE,0.0932,dast,cnn_lstm,lstm_rul,bilstm_rul,dcnn_rul,tcn
 7,RMSE,0.0932,dast,cnn_lstm,lstm_rul,bilstm_rul,dcnn_rul,tcn
 8,Rel-L2,0.0932,dast,cnn_lstm,lstm_rul,bilstm_rul,dcnn_rul,tcn
-9,Inference Time (s),0.0,dcnn_rul,dast,lstm_rul,bilstm_rul,cnn_lstm,tcn
+9,Inference Time (s),0.0,bilstm_rul,dcnn_rul,dast,lstm_rul,tcn,cnn_lstm
 10,Parameters (M),0.0,dcnn_rul,tcn,cnn_lstm,lstm_rul,dast,bilstm_rul
-11,Training Time (s),0.0,dcnn_rul,tcn,bilstm_rul,cnn_lstm,lstm_rul,dast
+11,Training Time (s),0.0,tcn,dcnn_rul,bilstm_rul,cnn_lstm,lstm_rul,dast

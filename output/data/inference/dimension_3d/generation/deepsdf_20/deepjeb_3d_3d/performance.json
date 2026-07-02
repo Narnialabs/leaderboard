@@ -1,7 +1,7 @@
 {
     "model_parameters": 2150913,
-    "training_time_sec": 6654.402457475662,
-    "inference_time_sec": 222.90216374397278,
+    "training_time_sec": 5487.028821059596,
+    "inference_time_sec": 0.3675938521044328,
     "total_generated": 500,
     "checkpoint_used": "experiments/inference/dimension_3d/generation/deepsdf_20/deepjeb_3d_3d/checkpoints/best_val.ckpt"
 }

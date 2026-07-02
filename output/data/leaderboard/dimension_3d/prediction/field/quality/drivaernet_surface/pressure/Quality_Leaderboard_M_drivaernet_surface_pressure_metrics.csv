@@ -8,5 +8,5 @@
 7,RMSE,0.1422,linearno_big,transolver,transolver_pp,linearno,regdgcnn,geofno,pointnet
 8,Parameters (M),0.0,regdgcnn,geofno,transolver_pp,linearno,pointnet,transolver,linearno_big
 9,Training Time (s),0.0,geofno,linearno,transolver,transolver_pp,pointnet,linearno_big,regdgcnn
-10,Inference Time (s),0.0,pointnet,geofno,transolver_pp,transolver,linearno,linearno_big,regdgcnn
+10,Inference Time (s),0.0,linearno_big,pointnet,transolver_pp,transolver,geofno,linearno,regdgcnn
 11,MAC,,geofno,linearno,linearno_big,pointnet,regdgcnn,transolver,transolver_pp

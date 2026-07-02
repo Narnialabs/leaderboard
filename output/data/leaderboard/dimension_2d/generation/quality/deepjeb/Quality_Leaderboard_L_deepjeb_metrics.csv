@@ -8,6 +8,6 @@
 7,Coverage,0.0998,ddpm,vae,vqvae,dcgan,r1gan,wgan_gp,gan,lsgan,wgan_cp
 8,Density,0.0998,ddpm,vae,vqvae,dcgan,r1gan,wgan_gp,gan,lsgan,wgan_cp
 9,Recall,0.0935,ddpm,r1gan,dcgan,gan,lsgan,vae,vqvae,wgan_cp,wgan_gp
-10,Inference Time (s),0.0,vae,r1gan,dcgan,gan,lsgan,vqvae,wgan_gp,wgan_cp,ddpm
+10,Inference Time (s),0.0,r1gan,wgan_gp,vae,dcgan,gan,lsgan,vqvae,wgan_cp,ddpm
 11,Parameters (M),0.0,vqvae,wgan_cp,wgan_gp,dcgan,r1gan,lsgan,vae,ddpm,gan
-12,Training Time (s),0.0,wgan_cp,vqvae,dcgan,wgan_gp,r1gan,lsgan,vae,gan,ddpm
+12,Training Time (s),0.0,wgan_gp,r1gan,wgan_cp,vqvae,dcgan,lsgan,vae,gan,ddpm

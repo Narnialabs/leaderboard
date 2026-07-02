@@ -1,6 +1,6 @@
 {
     "model_parameters": 1441801,
-    "training_time_sec": 908.8806023597717,
-    "inference_time_sec": 128.18335366249084,
+    "training_time_sec": 720.3760797817939,
+    "inference_time_sec": 0.2032218828920454,
     "total_generated": 500
 }

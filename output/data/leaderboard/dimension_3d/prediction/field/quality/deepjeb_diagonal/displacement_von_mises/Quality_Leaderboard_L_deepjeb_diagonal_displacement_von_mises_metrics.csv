@@ -7,6 +7,6 @@
 6,MAE,0.127,transolver,transolver_pp,regdgcnn,geofno,pointnet
 7,Extremal Agree,0.1247,transolver,transolver_pp,regdgcnn,geofno,pointnet
 8,MAC,0.0915,transolver,transolver_pp,regdgcnn,geofno,pointnet
-9,Inference Time (s),0.0,geofno,pointnet,regdgcnn,transolver,transolver_pp
+9,Inference Time (s),0.0,geofno,regdgcnn,pointnet,transolver,transolver_pp
 10,Parameters (M),0.0,regdgcnn,geofno,transolver_pp,pointnet,transolver
-11,Training Time (s),0.0,geofno,pointnet,transolver_pp,transolver,regdgcnn
+11,Training Time (s),0.0,geofno,transolver_pp,pointnet,transolver,regdgcnn

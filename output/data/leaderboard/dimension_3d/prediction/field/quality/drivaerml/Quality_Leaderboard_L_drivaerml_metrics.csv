@@ -9,4 +9,4 @@
 8,MAC,0.068,geotransolver,domino,transolver,linearno,linearno_big,transolver_pp,geofno,pointnet,regdgcnn
 9,Inference Time (s),0.0,geofno,pointnet,transolver,transolver_pp,linearno,linearno_big,geotransolver,regdgcnn,domino
 10,Parameters (M),0.0,regdgcnn,geofno,transolver_pp,linearno,pointnet,transolver,linearno_big,domino,geotransolver
-11,Training Time (s),0.0,pointnet,geofno,transolver,transolver_pp,linearno,regdgcnn,linearno_big,geotransolver,domino
+11,Training Time (s),0.0,pointnet,geofno,transolver_pp,transolver,linearno,regdgcnn,linearno_big,geotransolver,domino

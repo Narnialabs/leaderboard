@@ -6,7 +6,7 @@
 5,MAPE (%),0.141,regdgcnn,transolver,transolver_pp,pointnet,geofno
 6,Rel-L2,0.141,regdgcnn,transolver,transolver_pp,pointnet,geofno
 7,RMSE,0.141,regdgcnn,transolver,transolver_pp,pointnet,geofno
-8,Inference Time (s),0.0,geofno,transolver,pointnet,regdgcnn,transolver_pp
+8,Inference Time (s),0.0,geofno,regdgcnn,transolver,pointnet,transolver_pp
 9,Training Time (s),0.0,geofno,transolver_pp,pointnet,transolver,regdgcnn
 10,Parameters (M),0.0,regdgcnn,geofno,transolver_pp,pointnet,transolver
 11,MAC,0.0,geofno,pointnet,regdgcnn,transolver,transolver_pp

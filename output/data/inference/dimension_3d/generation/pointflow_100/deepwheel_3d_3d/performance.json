@@ -1,7 +1,7 @@
 {
     "model_parameters": 1426842,
-    "training_time_sec": 243116.50132107735,
-    "inference_time_sec": 104.21613883972168,
+    "training_time_sec": 220132.5913187793,
+    "inference_time_sec": 0.1886981417778144,
     "total_generated": 500,
     "training_time_sec_resume_recorded": 73551.50132107735,
     "training_time_sec_prior_wall_sacct": 86405,

@@ -7,6 +7,6 @@
 6,MAC,0.1208,transolver,regdgcnn,transolver_pp,geofno,pointnet
 7,RMSE,0.1203,transolver,regdgcnn,transolver_pp,geofno,pointnet
 8,MAE,0.1195,regdgcnn,transolver,transolver_pp,geofno,pointnet
-9,Inference Time (s),0.0,geofno,transolver_pp,pointnet,regdgcnn,transolver
+9,Inference Time (s),0.0,geofno,transolver_pp,regdgcnn,pointnet,transolver
 10,Parameters (M),0.0,regdgcnn,geofno,transolver_pp,pointnet,transolver
 11,Training Time (s),0.0,geofno,transolver_pp,transolver,pointnet,regdgcnn

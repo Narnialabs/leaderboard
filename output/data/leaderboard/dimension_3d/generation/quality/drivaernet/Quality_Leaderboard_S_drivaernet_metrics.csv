@@ -11,6 +11,6 @@
 10,Manifold-Δ,0.0356,pointflow,atlasnet,deepsdf,gan3d,shapegf,diffusionpointcloud
 11,FPD,0.034,pointflow,atlasnet,diffusionpointcloud,deepsdf,gan3d,shapegf
 12,EMD,0.034,pointflow,atlasnet,diffusionpointcloud,deepsdf,gan3d,shapegf
-13,Training Time (s),0.0,diffusionpointcloud,shapegf,atlasnet,gan3d,deepsdf,pointflow
-14,Inference Time (s),0.0,atlasnet,diffusionpointcloud,gan3d,pointflow,shapegf,deepsdf
+13,Training Time (s),0.0,diffusionpointcloud,shapegf,atlasnet,deepsdf,pointflow,gan3d
+14,Inference Time (s),0.0,atlasnet,diffusionpointcloud,pointflow,gan3d,shapegf,deepsdf
 15,Parameters (M),0.0,pointflow,deepsdf,diffusionpointcloud,shapegf,atlasnet,gan3d

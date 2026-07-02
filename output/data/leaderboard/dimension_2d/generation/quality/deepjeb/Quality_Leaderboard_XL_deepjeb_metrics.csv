@@ -8,6 +8,6 @@
 7,LPIPS,0.1003,gan,r1gan,wgan_gp,ddpm,lsgan,dcgan,vqvae,wgan_cp,vae
 8,PSNR,0.0963,vae,vqvae,dcgan,wgan_gp,lsgan,r1gan,wgan_cp,gan,ddpm
 9,Recall,0.0897,ddpm,r1gan,vqvae,wgan_gp,dcgan,gan,lsgan,vae,wgan_cp
-10,Inference Time (s),0.0,wgan_cp,lsgan,vae,vqvae,r1gan,dcgan,wgan_gp,gan,ddpm
+10,Inference Time (s),0.0,r1gan,wgan_gp,wgan_cp,lsgan,vqvae,vae,dcgan,gan,ddpm
 11,Parameters (M),0.0,vqvae,wgan_cp,wgan_gp,dcgan,r1gan,lsgan,vae,ddpm,gan
-12,Training Time (s),0.0,wgan_cp,vqvae,dcgan,wgan_gp,r1gan,lsgan,vae,gan,ddpm
+12,Training Time (s),0.0,wgan_gp,r1gan,wgan_cp,vqvae,dcgan,lsgan,vae,gan,ddpm

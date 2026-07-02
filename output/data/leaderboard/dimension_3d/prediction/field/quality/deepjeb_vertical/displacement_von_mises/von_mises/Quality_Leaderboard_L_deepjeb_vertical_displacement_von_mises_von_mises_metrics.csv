@@ -6,7 +6,7 @@
 5,Sign Agree,0.1431,transolver_pp,transolver,regdgcnn,pointnet,geofno
 6,MAPE (%),0.1431,transolver_pp,transolver,regdgcnn,pointnet,geofno
 7,MAE,0.1357,transolver,transolver_pp,regdgcnn,pointnet,geofno
-8,Inference Time (s),0.0,geofno,pointnet,transolver_pp,regdgcnn,transolver
+8,Inference Time (s),0.0,geofno,pointnet,regdgcnn,transolver_pp,transolver
 9,Training Time (s),0.0,geofno,transolver,transolver_pp,pointnet,regdgcnn
 10,Parameters (M),0.0,regdgcnn,geofno,transolver_pp,pointnet,transolver
 11,MAC,0.0,geofno,pointnet,regdgcnn,transolver,transolver_pp

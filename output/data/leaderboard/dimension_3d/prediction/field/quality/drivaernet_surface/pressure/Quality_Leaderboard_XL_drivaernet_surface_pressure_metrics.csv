@@ -8,5 +8,5 @@
 7,Sign Agree,0.1392,linearno_big,transolver,linearno,transolver_pp,regdgcnn,pointnet,geofno
 8,Parameters (M),0.0,regdgcnn,geofno,transolver_pp,linearno,pointnet,transolver,linearno_big
 9,Training Time (s),0.0,geofno,transolver,linearno,transolver_pp,linearno_big,pointnet,regdgcnn
-10,Inference Time (s),0.0,geofno,pointnet,linearno,transolver,transolver_pp,linearno_big,regdgcnn
+10,Inference Time (s),0.0,linearno_big,transolver_pp,pointnet,transolver,linearno,geofno,regdgcnn
 11,MAC,,geofno,linearno,linearno_big,pointnet,regdgcnn,transolver,transolver_pp

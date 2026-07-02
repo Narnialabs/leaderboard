@@ -7,6 +7,6 @@
 6,Rel-L2,0.1241,transolver_pp,transolver,regdgcnn,geofno,pointnet
 7,R²,0.1241,transolver_pp,transolver,regdgcnn,geofno,pointnet
 8,MAE,0.123,transolver_pp,transolver,regdgcnn,geofno,pointnet
-9,Inference Time (s),0.0,geofno,transolver_pp,pointnet,regdgcnn,transolver
+9,Inference Time (s),0.0,transolver_pp,geofno,regdgcnn,pointnet,transolver
 10,Parameters (M),0.0,regdgcnn,geofno,transolver_pp,pointnet,transolver
-11,Training Time (s),0.0,geofno,transolver_pp,transolver,pointnet,regdgcnn
+11,Training Time (s),0.0,geofno,transolver_pp,pointnet,transolver,regdgcnn
