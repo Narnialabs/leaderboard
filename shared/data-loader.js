@@ -961,14 +961,14 @@ function airfransChannel(component, axis) {
 
 // ── Metric Categories ──
 
-const CATEGORY_ORDER_GEN = ['Efficiency', 'Fidelity', 'Diversity', 'Structural'];
+const CATEGORY_ORDER_GEN = ['Efficiency', 'Fidelity', 'Diversity', 'Structural Quality'];
 const CATEGORY_ORDER_PRED = ['Efficiency', 'Absolute Error', 'Relative Error', 'Model Fit', 'Worst-case Error', 'Threshold Accuracy', 'Rank Correlation', 'Directional Accuracy', 'Pattern Quality'];
 
 const CATEGORY_COLORS = {
   'Efficiency':           'rgba(56,189,248,0.12)',
   'Fidelity':             'rgba(52,211,153,0.1)',
   'Diversity':            'rgba(153,97,255,0.1)',
-  'Structural':     'rgba(20,184,166,0.1)',
+  'Structural Quality':   'rgba(20,184,166,0.1)',
   'Absolute Error':       'rgba(248,113,113,0.1)',
   'Relative Error':       'rgba(251,146,60,0.1)',
   'Model Fit':            'rgba(52,211,153,0.1)',
@@ -983,7 +983,7 @@ const CATEGORY_TEXT_COLORS = {
   'Efficiency':           '#38bdf8',
   'Fidelity':             '#34d399',
   'Diversity':            '#9961FF',
-  'Structural':     '#14b8a6',
+  'Structural Quality':   '#14b8a6',
   'Absolute Error':       '#f87171',
   'Relative Error':       '#fb923c',
   'Model Fit':            '#34d399',
@@ -1000,7 +1000,7 @@ function getMetricCategory(metricName, dim, task) {
   if (task === 'generation') {
     if (['IS','FID','MV-FID','FPD','CD','EMD','PSNR','Precision','Density'].includes(clean)) return 'Fidelity';
     if (['LPIPS','MS-SSIM','F-Score','Recall','Coverage'].includes(clean)) return 'Diversity';
-    if (['Manifold-Δ','Uniformity-Δ'].includes(clean)) return 'Structural';
+    if (['Manifold-Δ','Uniformity-Δ'].includes(clean)) return 'Structural Quality';
   } else {
     // Prediction (2D field/scalar, 3D field/scalar) shares the regression metric taxonomy
     if (['MAE','RMSE'].includes(clean)) return 'Absolute Error';
