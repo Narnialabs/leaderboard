@@ -1,0 +1,129 @@
+{
+  "dataset": "deepjeb_3d_1d_structural",
+  "num_samples": 12,
+  "kind": "pointcloud",
+  "samples": [
+    {
+      "slot": 0,
+      "sample_index": 0,
+      "source_file": "107_113.npy",
+      "gt": {
+        "displacement": 0.2838076683618679,
+        "stress": 898.046082
+      }
+    },
+    {
+      "slot": 1,
+      "sample_index": 1,
+      "source_file": "107_240.npy",
+      "gt": {
+        "displacement": 0.4292952348687322,
+        "stress": 1076.947266
+      }
+    },
+    {
+      "slot": 2,
+      "sample_index": 2,
+      "source_file": "107_459.npy",
+      "gt": {
+        "displacement": 0.3446604113747327,
+        "stress": 795.549805
+      }
+    },
+    {
+      "slot": 3,
+      "sample_index": 3,
+      "source_file": "10_460.npy",
+      "gt": {
+        "displacement": 0.3128306330156943,
+        "stress": 1011.589478
+      }
+    },
+    {
+      "slot": 4,
+      "sample_index": 4,
+      "source_file": "10_80.npy",
+      "gt": {
+        "displacement": 0.656367738971074,
+        "stress": 1653.553833
+      }
+    },
+    {
+      "slot": 5,
+      "sample_index": 5,
+      "source_file": "113_129.npy",
+      "gt": {
+        "displacement": 0.3853309729583128,
+        "stress": 1016.766479
+      }
+    },
+    {
+      "slot": 6,
+      "sample_index": 6,
+      "source_file": "113_170.npy",
+      "gt": {
+        "displacement": 0.3001532383383528,
+        "stress": 779.25238
+      }
+    },
+    {
+      "slot": 7,
+      "sample_index": 7,
+      "source_file": "114_202.npy",
+      "gt": {
+        "displacement": 0.6273762874710839,
+        "stress": 1375.775391
+      }
+    },
+    {
+      "slot": 8,
+      "sample_index": 8,
+      "source_file": "114_28.npy",
+      "gt": {
+        "displacement": 0.4037719754440617,
+        "stress": 1152.328979
+      }
+    },
+    {
+      "slot": 9,
+      "sample_index": 9,
+      "source_file": "114_319.npy",
+      "gt": {
+        "displacement": 0.5589940636008579,
+        "stress": 1307.389893
+      }
+    },
+    {
+      "slot": 10,
+      "sample_index": 10,
+      "source_file": "116_102.npy",
+      "gt": {
+        "displacement": 0.4597599294294796,
+        "stress": 1275.224854
+      }
+    },
+    {
+      "slot": 11,
+      "sample_index": 11,
+      "source_file": "116_113.npy",
+      "gt": {
+        "displacement": 0.431129944609511,
+        "stress": 1283.301147
+      }
+    }
+  ],
+  "target_ranges": {
+    "displacement": {
+      "min": 0.1788281946841716,
+      "max": 1.153856875663962,
+      "p05": 0.21516493432469622,
+      "p95": 0.764378022834128
+    },
+    "stress": {
+      "min": 633.785706,
+      "max": 2225.673096,
+      "p05": 712.10565535,
+      "p95": 1620.6711000999999
+    }
+  }
+}

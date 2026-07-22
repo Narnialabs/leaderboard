@@ -1,0 +1,12 @@
+﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7
+1,MaxAE,0.2016,simplecnn,efficientnet_b0,convnext_tiny,resnet34,resnet18,densenet121,vit_tiny
+2,Spearman,0.1194,simplecnn,densenet121,resnet34,efficientnet_b0,resnet18,convnext_tiny,vit_tiny
+3,MAPE (%),0.117,simplecnn,densenet121,resnet34,efficientnet_b0,resnet18,convnext_tiny,vit_tiny
+4,MAE,0.1137,simplecnn,densenet121,efficientnet_b0,convnext_tiny,resnet34,resnet18,vit_tiny
+5,R²,0.1121,simplecnn,densenet121,efficientnet_b0,resnet34,resnet18,convnext_tiny,vit_tiny
+6,Rel-L2,0.1121,simplecnn,densenet121,efficientnet_b0,resnet34,resnet18,convnext_tiny,vit_tiny
+7,RMSE,0.1121,simplecnn,densenet121,efficientnet_b0,convnext_tiny,resnet34,resnet18,vit_tiny
+8,Pearson,0.1121,simplecnn,densenet121,efficientnet_b0,resnet34,convnext_tiny,resnet18,vit_tiny
+9,Inference Time (s),0.0,simplecnn,resnet34,resnet18,vit_tiny,efficientnet_b0,densenet121,convnext_tiny
+10,Parameters (M),0.0,simplecnn,efficientnet_b0,vit_tiny,densenet121,resnet18,resnet34,convnext_tiny
+11,Training Time (s),0.0,vit_tiny,resnet18,simplecnn,densenet121,efficientnet_b0,resnet34,convnext_tiny

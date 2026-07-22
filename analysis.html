@@ -347,7 +347,7 @@
       <div id="cmp-tk-pills" style="display:inline-flex; gap:5px; margin-left:6px;"></div>
     </div>
     <div class="filter-group">
-      <span class="filter-label">Component</span>
+      <span class="filter-label" id="cmp-dimfilter-label">Component</span>
       <div id="cmp-dimfilter-pills" style="display:inline-flex; gap:4px; margin-left:6px;"></div>
     </div>
   </div>
@@ -2165,16 +2165,17 @@ window.initCmpEvalViewer = async function(el) {
 window.initScalarShapeViewer3D = function(el, dataset, slot) {
   const w = el.clientWidth || 160;
   const h = el.clientHeight || 160;
+  // Both shapes spin around their own Z axis, viewed from opposite sides: DeepWheel
+  // rolls on its axle (camera face-on on −Z); the DeepJEB bracket is a flat CAD plate
+  // shown from directly overhead on +Z (top / plan view) so its XY outline reads —
+  // matching the canonical DeepJEB orientation elsewhere.
+  const isDeepWheel = (dataset || '').toLowerCase().includes('deepwheel');
 
   el.innerHTML = '';
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0C0C0C);
   const camera = new THREE.PerspectiveCamera(45, w / h, 0.01, 100);
-  // DeepWheel point clouds have their rotation axis along Z (verified: Z range
-  // ~[-0.46, 0.33], std 0.25 vs X/Y std ~0.52). Camera placed on -Z (back view)
-  // looking toward origin → wheel's inner face visible head-on. Matches the
-  // benchmark & explorer scalar viewers' shared face-on convention.
-  camera.position.set(0, 0, -2.6);
+  camera.position.set(0, 0, -2.6);   // DeepWheel default; DeepJEB reframed after load
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(w, h);
@@ -2185,9 +2186,9 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
   controls.enableDamping = true;
   controls.dampingFactor = 0.08;
   controls.enableZoom = false;
-  // Disable OrbitControls.autoRotate (azimuthal around Y) — instead we spin the
-  // point cloud itself around its own Z axis to mimic a wheel rolling. Camera
-  // stays on the wheel's axis so the spin reads as "wheel turning in place".
+  // Both shapes spin the cloud around its own Z axis (below): DeepWheel rolls on its
+  // axle (camera on −Z), the DeepJEB bracket turns in place under a top-down +Z
+  // camera. OrbitControls.autoRotate stays off — the object spins, not the camera.
   controls.autoRotate = false;
   controls.minDistance = 0.5;
   controls.maxDistance = 8;
@@ -2204,12 +2205,12 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
     const now = performance.now();
     const dt = Math.min(0.05, (now - lastT) / 1000);
     lastT = now;
-    if (pts && rollEnabled) pts.rotation.z += ROLL_SPEED * dt;
+    if (pts && rollEnabled) pts.rotation.z += ROLL_SPEED * dt;   // Z-axis spin (wheel axle / bracket top-down)
     controls.update();
     renderer.render(scene, camera);
   }
   animate();
-  // Pause rolling while dragging so the user can inspect a static pose; resume
+  // Pause rotation while dragging so the user can inspect a static pose; resume
   // on release to match the autoRotate-on-'end' convention used by the rest
   // of the 3D viewers (3D gen / field pred).
   controls.addEventListener('start', () => { rollEnabled = false; });
@@ -2256,29 +2257,35 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
     .then(resp => resp.ok ? resp.arrayBuffer() : Promise.reject(new Error(`HTTP ${resp.status}`)))
     .then(buf => {
       const positions = new Float32Array(buf);
-      // No Y/Z swap for DeepWheel: original Z is already the wheel's rotation axis,
-      // so we keep it as-is and place the camera on -Z (see camera.position above).
+      // Keep raw CAD coords (Z-up) for both — DeepWheel spins on its Z axle, the
+      // DeepJEB bracket is viewed straight down its vertical Z axis (top / plan view)
+      // and turned in place around it. No Y-up swap.
       const geom = new THREE.BufferGeometry();
       geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-      // Soft monochrome shading uses radial distance from the wheel axis (XY plane
-      // distance from origin) — emphasizes spokes/rim structure that a viewer of
-      // a rolling wheel naturally focuses on, rather than vertical luminance.
       const N = positions.length / 3;
       const colors = new Float32Array(N * 3);
-      let rMax = 0;
-      for (let i = 0; i < N; i++) {
-        const x = positions[i * 3], y = positions[i * 3 + 1];
-        const r = Math.hypot(x, y);
-        if (r > rMax) rMax = r;
-      }
-      rMax = rMax || 1;
-      for (let i = 0; i < N; i++) {
-        const x = positions[i * 3], y = positions[i * 3 + 1];
-        const t = Math.hypot(x, y) / rMax;                    // 0 (hub) → 1 (rim)
-        const lum = 0.30 + 0.60 * t;                          // [0.30, 0.90]
-        colors[i * 3]     = lum * 0.78;                       // mild cool tint
-        colors[i * 3 + 1] = lum * 0.82;
-        colors[i * 3 + 2] = lum * 1.00;
+      if (isDeepWheel) {
+        // Radial (hub→rim) shading emphasizes spokes/rim while the wheel rolls.
+        let rMax = 0;
+        for (let i = 0; i < N; i++) { const x = positions[i*3], y = positions[i*3+1]; const r = Math.hypot(x, y); if (r > rMax) rMax = r; }
+        rMax = rMax || 1;
+        for (let i = 0; i < N; i++) {
+          const x = positions[i*3], y = positions[i*3+1];
+          const t = Math.hypot(x, y) / rMax;
+          const lum = 0.30 + 0.60 * t;
+          colors[i*3] = lum*0.78; colors[i*3+1] = lum*0.82; colors[i*3+2] = lum*1.00;
+        }
+      } else {
+        // DeepJEB top view: shade by Z (bracket height/thickness, now facing the
+        // camera) so raised features read against the base plate.
+        let zMin = Infinity, zMax = -Infinity;
+        for (let i = 0; i < N; i++) { const z = positions[i*3+2]; if (z < zMin) zMin = z; if (z > zMax) zMax = z; }
+        const zr = (zMax - zMin) || 1;
+        for (let i = 0; i < N; i++) {
+          const t = (positions[i*3+2] - zMin) / zr;
+          const lum = 0.32 + 0.58 * t;
+          colors[i*3] = lum*0.78; colors[i*3+1] = lum*0.82; colors[i*3+2] = lum*1.00;
+        }
       }
       geom.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
       pts = new THREE.Points(geom, new THREE.PointsMaterial({
@@ -2286,15 +2293,20 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
       }));
       scene.add(pts);
       geom.computeBoundingBox();
+      geom.computeBoundingSphere();
       const c = new THREE.Vector3();
       geom.boundingBox.getCenter(c);
       controls.target.copy(c);
-      // Dead-on back view: camera on -Z looking at the wheel's INNER face head-on
-      // (no elevation tilt) — matches the benchmark.html / explorer.html scalar
-      // shape viewers (both `c.z - 2.6`). The prior VIEW_ELEV_DEG three-quarter
-      // elevation made this the lone page viewing the wheel from +Z/above.
-      camera.position.set(c.x, c.y, c.z - 2.6);
       camera.up.set(0, 1, 0);
+      if (isDeepWheel) {
+        // Dead-on back view (-Z): wheel inner face head-on, no elevation tilt.
+        camera.position.set(c.x, c.y, c.z - 2.6);
+      } else {
+        // DeepJEB: top / plan view — camera straight overhead on +Z looking down at
+        // the XY plane, distance scaled to the bracket radius so it fills the frame.
+        const radius = (geom.boundingSphere && geom.boundingSphere.radius) || 1;
+        camera.position.set(c.x, c.y, c.z + 2.8 * radius);
+      }
       controls.update();
     })
     .catch(() => {
@@ -2378,6 +2390,15 @@ function _f2dImageToGray(img) {
   for (let i = 0; i < gray.length; i++) gray[i] = data[i * 4] / 255;
   return { gray, W, H };
 }
+// Rotate a row-major W×H buffer 90° clockwise ((x,y) → (H-1-y, x)); W/H swapped.
+// Brings DeepJEB's 2D-field tiles into the canonical landscape orientation.
+function _f2dRot90CW(buf, W, H) {
+  const out = new Float32Array(buf.length);
+  for (let y = 0; y < H; y++)
+    for (let x = 0; x < W; x++)
+      out[x * H + (H - 1 - y)] = buf[y * W + x];
+  return { gray: out, W: H, H: W };
+}
 function _f2dPaintGrayscale(canvas, gray, W, H, vmin, vmax) {
   canvas.width = W; canvas.height = H;
   const ctx = canvas.getContext('2d');
@@ -2417,8 +2438,14 @@ async function _f2dPaintCell(cell) {
     cell.querySelector('.f2d-mae').textContent = 'N/A';
     return;
   }
-  const { gray: pGray, W, H } = _f2dImageToGray(predImg);
-  const { gray: gGray }       = _f2dImageToGray(gtImg);
+  let { gray: pGray, W, H } = _f2dImageToGray(predImg);
+  let { gray: gGray }       = _f2dImageToGray(gtImg);
+  // DeepJEB geometry is stored 90° off the canonical 2D-gen orientation (the
+  // scalar-shape gallery already rotates it CW); rotate the 2D-field tiles to match.
+  if (/deepjeb/i.test(cell.dataset.pred || '')) {
+    const rp = _f2dRot90CW(pGray, W, H), rg = _f2dRot90CW(gGray, W, H);
+    pGray = rp.gray; gGray = rg.gray; W = rp.W; H = rp.H;
+  }
   let lo = Infinity, hi = -Infinity;
   for (let i = 0; i < pGray.length; i++) {
     if (pGray[i] < lo) lo = pGray[i]; if (pGray[i] > hi) hi = pGray[i];
@@ -2674,13 +2701,28 @@ function cmpCategory() {
 function cmpHasLevel3Filter() {
   // Target row shows for every prediction task (mirrors benchmark.html): the
   // umbrella's discriminator is scenario (3D field/scalar) or channel (airfrans
-  // u/v/p/nu_t, 2D structural stress/disp). 1-channel 2D-field (depth, darcy)
+  // u/v/p/nu_t, 2D structural stress/displacement). 1-channel 2D-field (depth, darcy)
   // simply renders a single pill.
   return cmpState.task === 'prediction';
 }
 
 function cmpHasComponentFilter() {
-  return cmpState.task === 'prediction' && cmpState.dim === '3d' && cmpState.outputType === 'field';
+  // Data-driven (mirrors benchmark.html hasComponentFilter): the Component
+  // drill-down exists whenever the pinned (dataset, targetKey) carries ≥1 real
+  // Component value — covers coupled structural/modal in EVERY prediction
+  // category (2D field deepjeb_structural, 2D/3D scalar deepjeb_structural +
+  // deepwheel modal, and 3D field as before), not just 3D field. Blank-Component
+  // problems (mass, depth, darcy) fall to 0 → no drill-down, as intended.
+  // AirfRANS is handled by a SEPARATE mechanism (NOT this predicate): its channels
+  // (u/v/p_over_rho/nu_t) are Target Keys with a BLANK Component column, so it can't
+  // be a data-Component filter. Instead cmpRenderLevel3 lifts velocity/pressure/
+  // turbulence onto the Target row and puts velocity's axis on a relabeled "Axis"
+  // row, then cmpApplyFilters resolves (target, axis) → channel Target Key via
+  // airfransChannel(). Returning false here keeps the blank Component column from
+  // being used as a row filter (it would match nothing). See cmpTargetsForUmbrella.
+  if (cmpState.task !== 'prediction' || !cmpState.dataset || !cmpState.targetKey) return false;
+  if (isAirfransLike(cmpState.dataset)) return false;
+  return getDimensionsForTargetKey(cmpAllSummary, cmpState.dataset, cmpState.targetKey).length >= 1;
 }
 
 async function showComparisons(mode) {
@@ -2840,25 +2882,42 @@ function cmpRenderLevel3() {
   // Target = the umbrella's per-problem discriminator (scenario or channel),
   // friendly-labeled — no glued tokens. A/B compares a concrete problem, so no
   // "All". Order follows SCENARIO_ORDER (via getTargetsForUmbrella).
-  const tgts = cmpState.umbrella ? getTargetsForUmbrella(cmpAllSummary, cmpState.umbrella) : [];
+  const tgts = cmpState.umbrella ? cmpTargetsForUmbrella(cmpState.umbrella) : [];
   if (!cmpState.target || !tgts.some(o => o.key === cmpState.target)) {
     if (tgts.length) cmpSelectTarget(tgts[0].key, tgts);
   }
   cmpMakePills('cmp-tk-pills', tgts.map(o => ({ value: o.key, label: o.label })), cmpState.target, 'cmpSetTarget');
 
-  // Component filter — friendly labels (von_mises/stress → "Stress", mode_shape_1
-  // → "Mode Shape 1"). No "only component" caption (caption chips were rejected —
-  // a single auto-selected pill speaks for itself).
   const dimGroup = document.getElementById('cmp-dimfilter-pills').parentElement;
-  if (cmpHasComponentFilter() && cmpState.dataset && cmpState.targetKey) {
+  const dimLabel = document.getElementById('cmp-dimfilter-label');
+  if (isAirfransLike(cmpState.dataset)) {
+    // AirfRANS: the Target row IS the physical component; the Component row here
+    // holds velocity's AXIS (x/y) — shown only for the Velocity target (u/v),
+    // since Pressure/Turbulence are single-channel. Relabel the row "Axis" so it
+    // reads correctly. (target, dimension) → channel Target Key in cmpApplyFilters.
+    const axes = (cmpState.target === 'velocity')
+      ? getAxesFor(cmpAllSummary, cmpState.dataset, null, 'velocity') : [];
+    if (axes.length) {
+      if (dimLabel) dimLabel.textContent = 'Axis';
+      dimGroup.style.display = '';
+      if (!cmpState.dimension || !axes.includes(cmpState.dimension)) cmpState.dimension = axes[0];
+      cmpMakePills('cmp-dimfilter-pills', axes.map(a => ({ value: a, label: a })), cmpState.dimension, 'cmpSetDimFilter');
+    } else {
+      cmpState.dimension = null;
+      dimGroup.style.display = 'none';
+      document.getElementById('cmp-dimfilter-pills').innerHTML = '';
+    }
+  } else if (cmpHasComponentFilter() && cmpState.dataset && cmpState.targetKey) {
+    // Component filter — friendly labels (stress → "Stress", mode_shape_1 →
+    // "Mode Shape 1"). No "only component" caption — a single auto-selected pill
+    // speaks for itself.
+    if (dimLabel) dimLabel.textContent = 'Component';
     dimGroup.style.display = '';
     const dims = getDimensionsForTargetKey(cmpAllSummary, cmpState.dataset, cmpState.targetKey);
     if (!cmpState.dimension || !dims.includes(cmpState.dimension)) cmpState.dimension = dims[0] || null;
-    // Friendly component labels (von_mises/stress → "Stress", mode_shape_1 →
-    // "Mode Shape 1", …). No "only component" caption — caption chips were
-    // rejected; a single auto-selected pill speaks for itself.
     cmpMakePills('cmp-dimfilter-pills', dims.map(d => ({ value: d, label: componentLabel(d) })), cmpState.dimension, 'cmpSetDimFilter');
   } else {
+    if (dimLabel) dimLabel.textContent = 'Component';
     cmpState.dimension = null;
     dimGroup.style.display = 'none';
     document.getElementById('cmp-dimfilter-pills').innerHTML = '';
@@ -2898,6 +2957,25 @@ window.cmpSetSize = function(v, btn) {
   btn.classList.add('active');
   cmpApplyFilters();
 };
+// analysis.html presents AirfRANS with the physical component on the Target row
+// and velocity's axis on the Component row (this page has no Axis level, so the
+// chosen mapping lifts benchmark's Component→Target and Axis→Component). The
+// shared getTargetsForUmbrella returns a single "Flow" target (targetKey=null)
+// because benchmark.html layers Component{velocity/pressure/turbulence}+Axis{x,y}
+// on top — so expand it to the 3 physical components here. The concrete channel
+// Target Key (u/v/p_over_rho/nu_t) is resolved from (target, dimension) via the
+// shared airfransChannel() in cmpApplyFilters. All other umbrellas pass through.
+function cmpTargetsForUmbrella(u) {
+  const base = getTargetsForUmbrella(cmpAllSummary, u);
+  if (base.length === 1 && isAirfransLike(base[0].datasetId)) {
+    const ds = base[0].datasetId;
+    return AIRFRANS_COMPONENTS.map(comp => ({
+      key: comp, label: componentLabel(comp), datasetId: ds, targetKey: null, kind: 'airfrans-component',
+    }));
+  }
+  return base;
+}
+
 // (umbrella, target) → resolved (dataset, targetKey). A/B is a concrete
 // head-to-head, so target defaults to the first option (no "All").
 function cmpSelectUmbrella(u) {
@@ -2907,11 +2985,11 @@ function cmpSelectUmbrella(u) {
     cmpState.dataset = (umbrellasInData(cmpAllSummary).byUmbrella[u] || [])[0] || null;
     return;
   }
-  const tgts = getTargetsForUmbrella(cmpAllSummary, u);
+  const tgts = cmpTargetsForUmbrella(u);
   if (tgts.length) cmpSelectTarget(tgts[0].key, tgts);
 }
 function cmpSelectTarget(key, tgts) {
-  tgts = tgts || (cmpState.umbrella ? getTargetsForUmbrella(cmpAllSummary, cmpState.umbrella) : []);
+  tgts = tgts || (cmpState.umbrella ? cmpTargetsForUmbrella(cmpState.umbrella) : []);
   cmpState.dimension = null;
   const opt = tgts.find(o => o.key === key) || tgts[0];
   if (!opt) return;
@@ -2922,7 +3000,17 @@ function cmpSelectTarget(key, tgts) {
 function cmpSyncUmbrellaFromDataset() {
   if (!cmpState.dataset) return;
   cmpState.umbrella = datasetUmbrella(cmpState.dataset);
-  const tg = getTargetsForUmbrella(cmpAllSummary, cmpState.umbrella)
+  if (isAirfransLike(cmpState.dataset)) {
+    // targetKey carries the concrete channel (u/v/p_over_rho/nu_t); reverse it to
+    // (component target, axis) so the Target + Axis pills match on URL restore /
+    // cross-mode seeding. Inverse of the shared airfransChannel() map.
+    const CH2CA = { u: ['velocity', 'x'], v: ['velocity', 'y'], p_over_rho: ['pressure', null], nu_t: ['turbulence', null] };
+    const ca = CH2CA[cmpState.targetKey];
+    if (ca) { cmpState.target = ca[0]; cmpState.dimension = ca[1]; }
+    else if (!cmpState.target) { cmpState.target = 'velocity'; cmpState.dimension = cmpState.dimension || 'x'; }
+    return;
+  }
+  const tg = cmpTargetsForUmbrella(cmpState.umbrella)
     .find(o => o.datasetId === cmpState.dataset && (o.targetKey === cmpState.targetKey || !cmpState.targetKey));
   if (tg) { cmpState.target = tg.key; if (!cmpState.targetKey) cmpState.targetKey = tg.targetKey; }
 }
@@ -2946,6 +3034,17 @@ window.cmpSetDimFilter = function(v, btn) {
 };
 
 async function cmpApplyFilters() {
+  // AirfRANS: the Target pill is the physical component (velocity/pressure/
+  // turbulence) and the Axis pill is velocity's axis (x/y). Resolve them to the
+  // concrete channel Target Key (u/v/p_over_rho/nu_t) via the shared
+  // airfransChannel() map so every downstream consumer (row filter, gallery, MAE
+  // decode, leaderboard) keys the existing per-channel rows/artifacts unchanged.
+  // AirfRANS rows carry a BLANK Component column, so we filter on targetKey only
+  // (cmpHasComponentFilter() stays false for it → no dimension filter applied).
+  if (isAirfransLike(cmpState.dataset)) {
+    const ch = airfransChannel(cmpState.target, cmpState.dimension);
+    if (ch) cmpState.targetKey = ch;
+  }
   const filters = { dataset: cmpState.dataset, dataScale: cmpState.dataScale };
   if (cmpState.task === 'prediction') {
     // Mirror benchmark.html: targetKey applies to any prediction view that
@@ -3229,8 +3328,17 @@ function cmpRenderMetricTable(rowA, rowB, metrics, groups, ranges) {
   const parts = [];
   if (cmpState.dataset) parts.push(displayDataset(cmpState.dataset));
   if (cmpState.dataScale) parts.push('Size ' + SCALE_MAP[cmpState.dataScale]);
-  if (cmpState.targetKey) parts.push(cmpState.targetKey);
-  if (cmpState.dimension) parts.push(componentLabel(cmpState.dimension));
+  if (isAirfransLike(cmpState.dataset)) {
+    // AirfRANS: the Target row is the physical component (velocity/pressure/
+    // turbulence) and the Component row is velocity's axis (x/y). Show those,
+    // not the raw resolved channel (u/v/p_over_rho/nu_t), so the caption reads
+    // "Velocity / Axis x" rather than the redundant "u / x".
+    if (cmpState.target) parts.push(componentLabel(cmpState.target));
+    if (cmpState.dimension) parts.push('Axis ' + cmpState.dimension);
+  } else {
+    if (cmpState.targetKey) parts.push(cmpState.targetKey);
+    if (cmpState.dimension) parts.push(componentLabel(cmpState.dimension));
+  }
   document.getElementById('cmp-metrics-info').textContent = parts.join(' / ');
 }
 
@@ -3343,7 +3451,14 @@ function cmpRender2DPred(container) {
   // the target-key segment is mandatory (defined before the base paths so it
   // isn't omitted, which 404'd every pred PNG for multi-target datasets like
   // deepjeb_2d_2d_structural/stress).
-  const tk = rowA['Target Key'] || rowB['Target Key'] || 'depth';
+  // Coupled fields (deepjeb structural) carry a Component column and publish per-COMPONENT
+  // image dirs (.../displacement/, .../stress/); key by the selected Component
+  // (cmpState.dimension), defaulting to the row's Component. Per-target fields (AirfRANS
+  // u/v/p/nu_t; depth/darcy) have a BLANK Component → key by Target Key exactly as before.
+  const hasComp = !!(rowA['Component'] || rowB['Component']);
+  const tk = hasComp
+    ? (cmpState.dimension || rowA['Component'] || rowB['Component'])
+    : (rowA['Target Key'] || rowB['Target Key'] || 'depth');
   const bA = `output/pred2d_field/${cmpState.modelA}/${ds}/${tk}/${sA}`;
   const bB = `output/pred2d_field/${cmpState.modelB}/${ds}/${tk}/${sB}`;
   const gt = `output/pred2d_field/_gt/${ds}/${tk}`;
@@ -3409,9 +3524,11 @@ async function cmpRenderScalar(container) {
   const sA = Math.round(rowA['Data Size']), sB = Math.round(rowB['Data Size']);
   const nA = displayModelName(cmpState.modelA), nB = displayModelName(cmpState.modelB);
   // Scalar visual assets (shapes manifest + per-model pred JSON + shape thumbnails)
-  // are published under the UMBRELLA dataset name (deepwheel_{2,3}d_1d); the
-  // summary/filter carries the split analysis name (..._mass / ..._modal). Strip
-  // the suffix so the asset paths resolve (otherwise every fetch 404s → blank view).
+  // are published under the UMBRELLA dataset name (deepwheel_{2,3}d_1d, deepjeb_{2,3}d_1d);
+  // the summary/filter carries the split analysis name (DeepWheel ..._mass / ..._modal;
+  // DeepJEB ..._displacement / ..._stress). Strip the trailing scenario token so the asset
+  // paths resolve (otherwise every fetch 404s → blank view). Do NOT add 1D-only tokens
+  // (strength/noise/rul) — those datasets publish under their full name.
   const assetDs = ds.replace(/_(mass|modal)$/, '');
   // The manifest/JSON target ranges + sample GT + predictions are keyed by the
   // per-COMPONENT label (modal → mode_freq_7/11), NOT the coupled summary Target
@@ -3629,7 +3746,7 @@ function cmpRender3DPred(container) {
   const ds = cmpState.dataset, tk = cmpState.targetKey, dim = cmpState.dimension;
   if (!ds||!tk) { container.innerHTML='<div style="text-align:center;padding:20px;color:var(--text-muted);">Select dataset and target key</div>'; return; }
   // milestone9.x canonical: keyed by split dataset id → { bin_target_key → channels }.
-  // The summary Target Key `tk` is the coupled label (e.g. displacement+von_mises) and
+  // The summary Target Key `tk` is the coupled label (e.g. displacement+stress) and
   // does NOT key the bins — derive the bin token from the dataset's channel map instead.
   const CHS = EVAL3D_CHANNELS;  // shared/viz-common.js (loaded above)
   const binTk = Object.keys(CHS[ds] || {})[0];   // dataset's primary bin token (modal → mode_shape_1)
@@ -4458,10 +4575,11 @@ async function analysisRenderDistribution() {
 
   const ma = cmpState.modelA, mb = cmpState.modelB;
   const ds = cmpState.dataset, tk = cmpState.targetKey;
-  // Scalar pred JSON is published under the UMBRELLA dataset name (deepwheel_{2,3}d_1d);
-  // the filter carries the split analysis name (..._mass / ..._modal). Strip the suffix
-  // so the fetch resolves (otherwise it 404s → "Couldn't load data"). The JSON target key
-  // is the Component (modal → mode_freq_7/11) when present, else the Target Key (mass).
+  // Scalar pred JSON is published under the UMBRELLA dataset name (deepwheel_{2,3}d_1d,
+  // deepjeb_{2,3}d_1d); the filter carries the split analysis name (DeepWheel ..._mass /
+  // ..._modal; DeepJEB ..._displacement / ..._stress). Strip the trailing scenario token so
+  // the fetch resolves (otherwise it 404s → "Couldn't load data"). The JSON target key is
+  // the Component (modal → mode_freq_7/11) when present, else the Target Key (mass).
   const assetDs = ds.replace(/_(mass|modal)$/, '');
   const tkKey = cmpState.dimension || tk;
   if (!ma || !mb) {
@@ -4690,9 +4808,11 @@ async function analysisRenderDisagreement() {
   }
   const ma = cmpState.modelA, mb = cmpState.modelB;
   const ds = cmpState.dataset, tk = cmpState.targetKey;
-  // Scalar pred JSON lives under the UMBRELLA dataset name (deepwheel_{2,3}d_1d); strip the
-  // ..._mass / ..._modal split suffix so the fetch resolves, and look the target up by the
-  // Component (modal → mode_freq_7/11) when present, else the Target Key (mass). See Distribution.
+  // Scalar pred JSON lives under the UMBRELLA dataset name (deepwheel_{2,3}d_1d,
+  // deepjeb_{2,3}d_1d); strip the trailing split scenario token (DeepWheel ..._mass /
+  // ..._modal; DeepJEB ..._displacement / ..._stress) so the fetch resolves, and look the
+  // target up by the Component (modal → mode_freq_7/11) when present, else the Target Key
+  // (mass). See Distribution.
   const assetDs = ds.replace(/_(mass|modal)$/, '');
   const tkKey = cmpState.dimension || tk;
   if (!ma || !mb) {
@@ -5292,8 +5412,8 @@ async function analysisRenderFrontier() {
       'Diversity ↑': ['MS-SSIM', 'LPIPS', 'Recall', 'Coverage'],
     },
     'dimension_3d/generation': {
-      'Fidelity ↑':  ['MV-FID', 'FPD', 'CD', 'EMD', 'F-Score', 'Precision', 'Density', 'Manifold-Δ', 'Uniformity-Δ'],
-      'Diversity ↑': ['MS-SSIM', 'Recall', 'Coverage'],
+      'Fidelity ↑':  ['MV-FID', 'FPD', 'MMD-CD', '1-NNA-CD', 'Precision', 'Density', 'Manifold-Δ', 'Uniformity-Δ'],
+      'Diversity ↑': ['MS-SSIM', 'COV-CD', 'Recall', 'Coverage'],
     },
   };
   const _stripArrow = (s) => s.replace(/\s*[↑↓]\s*$/, '').trim();
@@ -5725,6 +5845,12 @@ const _FAMILY_COLOR = {
   'SDF':          '#eab308',
   'FNO':          '#ec4899',
   'UPT':          '#6366f1',
+  'Neural Operator': '#fb7185',  /* rose — LinearNO / DoMINO on 3D-field charts */
+  'Classical':    '#2dd4bf',  /* teal — Random Forest / Gaussian Process / Ridge (1D tabular) */
+  'Tree':         '#f97316',  /* orange — XGBoost / LightGBM (1D tabular) */
+  'Tabular-DL':   '#a855f7',  /* purple — FT-Transformer / NODE / TabNet (1D tabular) */
+  'Foundation':   '#f43f5e',  /* red — TabPFN (1D tabular) */
+  'RNN':          '#a3e635',  /* lime — LSTM / BiLSTM (CMAPSS RUL) */
 };
 function _familyColor(fam) { return _FAMILY_COLOR[fam] || 'rgba(255,255,255,0.45)'; }
 
@@ -6088,7 +6214,7 @@ function analysisInitFromURL() {
   // Also accept query-string params so external entry points (Leaderboard's
   // "Analyze" links, deep-linked emails) can preselect Model A and filters
   // without crafting a hash:
-  //   analysis.html?dim=3d&task=prediction&output=field&ds=deepjeb_3d_2d&size=200&tk=mass&a=transolver_pp
+  //   analysis.html?dim=3d&task=prediction&output=field&ds=deepjeb_3d_2d_vertical&size=200&a=transolver_pp
   const qs = new URLSearchParams(window.location.search);
   ['dim','task','output','scale','ds','tk','d','ma','mb','a','b','cat','mode','size','model','fm','pxa','pm'].forEach(k => {
     if (h[k] === undefined && qs.has(k)) h[k] = qs.get(k);

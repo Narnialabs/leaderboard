@@ -1,6 +1,6 @@
 {
-  "generated": "2026-07-02T10:34:24.384112",
-  "total_samples": 2688,
+  "generated": "2026-07-09T14:42:37.229228",
+  "total_samples": 3072,
   "filters": {
     "models": [
       "attention_unet",
@@ -20,6 +20,7 @@
     ],
     "targets": [
       "depth",
+      "displacement",
       "nu_t",
       "p_over_rho",
       "pressure",
@@ -24226,6 +24227,3462 @@
       "target": "v",
       "sample": 11,
       "path": "unetpp/airfrans_2d_2d_flow/v/50/img_00011.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/100/img_00000.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/100/img_00001.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/100/img_00002.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/100/img_00003.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/100/img_00004.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/100/img_00005.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/100/img_00006.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/100/img_00007.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/100/img_00008.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/100/img_00009.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/100/img_00010.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/100/img_00011.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/200/img_00000.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/200/img_00001.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/200/img_00002.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/200/img_00003.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/200/img_00004.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/200/img_00005.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/200/img_00006.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/200/img_00007.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/200/img_00008.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/200/img_00009.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/200/img_00010.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/200/img_00011.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/20/img_00000.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/20/img_00001.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/20/img_00002.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/20/img_00003.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/20/img_00004.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/20/img_00005.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/20/img_00006.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/20/img_00007.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/20/img_00008.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/20/img_00009.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/20/img_00010.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/20/img_00011.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/50/img_00000.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/50/img_00001.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/50/img_00002.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/50/img_00003.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/50/img_00004.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/50/img_00005.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/50/img_00006.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/50/img_00007.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/50/img_00008.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/50/img_00009.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/50/img_00010.png"
+    },
+    {
+      "model": "attention_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "attention_unet/deepjeb_2d_2d_structural/displacement/50/img_00011.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/100/img_00000.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/100/img_00001.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/100/img_00002.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/100/img_00003.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/100/img_00004.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/100/img_00005.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/100/img_00006.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/100/img_00007.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/100/img_00008.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/100/img_00009.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/100/img_00010.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/100/img_00011.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/200/img_00000.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/200/img_00001.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/200/img_00002.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/200/img_00003.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/200/img_00004.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/200/img_00005.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/200/img_00006.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/200/img_00007.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/200/img_00008.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/200/img_00009.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/200/img_00010.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/200/img_00011.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/20/img_00000.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/20/img_00001.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/20/img_00002.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/20/img_00003.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/20/img_00004.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/20/img_00005.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/20/img_00006.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/20/img_00007.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/20/img_00008.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/20/img_00009.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/20/img_00010.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/20/img_00011.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/50/img_00000.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/50/img_00001.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/50/img_00002.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/50/img_00003.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/50/img_00004.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/50/img_00005.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/50/img_00006.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/50/img_00007.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/50/img_00008.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/50/img_00009.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/50/img_00010.png"
+    },
+    {
+      "model": "dpt_hybrid",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "dpt_hybrid/deepjeb_2d_2d_structural/displacement/50/img_00011.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/100/img_00000.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/100/img_00001.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/100/img_00002.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/100/img_00003.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/100/img_00004.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/100/img_00005.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/100/img_00006.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/100/img_00007.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/100/img_00008.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/100/img_00009.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/100/img_00010.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/100/img_00011.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/200/img_00000.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/200/img_00001.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/200/img_00002.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/200/img_00003.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/200/img_00004.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/200/img_00005.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/200/img_00006.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/200/img_00007.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/200/img_00008.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/200/img_00009.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/200/img_00010.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/200/img_00011.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/20/img_00000.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/20/img_00001.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/20/img_00002.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/20/img_00003.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/20/img_00004.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/20/img_00005.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/20/img_00006.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/20/img_00007.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/20/img_00008.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/20/img_00009.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/20/img_00010.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/20/img_00011.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/50/img_00000.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/50/img_00001.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/50/img_00002.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/50/img_00003.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/50/img_00004.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/50/img_00005.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/50/img_00006.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/50/img_00007.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/50/img_00008.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/50/img_00009.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/50/img_00010.png"
+    },
+    {
+      "model": "fpn_resnet18",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "fpn_resnet18/deepjeb_2d_2d_structural/displacement/50/img_00011.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/100/img_00000.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/100/img_00001.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/100/img_00002.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/100/img_00003.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/100/img_00004.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/100/img_00005.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/100/img_00006.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/100/img_00007.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/100/img_00008.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/100/img_00009.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/100/img_00010.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/100/img_00011.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/200/img_00000.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/200/img_00001.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/200/img_00002.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/200/img_00003.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/200/img_00004.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/200/img_00005.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/200/img_00006.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/200/img_00007.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/200/img_00008.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/200/img_00009.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/200/img_00010.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/200/img_00011.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/20/img_00000.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/20/img_00001.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/20/img_00002.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/20/img_00003.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/20/img_00004.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/20/img_00005.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/20/img_00006.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/20/img_00007.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/20/img_00008.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/20/img_00009.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/20/img_00010.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/20/img_00011.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/50/img_00000.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/50/img_00001.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/50/img_00002.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/50/img_00003.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/50/img_00004.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/50/img_00005.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/50/img_00006.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/50/img_00007.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/50/img_00008.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/50/img_00009.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/50/img_00010.png"
+    },
+    {
+      "model": "glpn",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "glpn/deepjeb_2d_2d_structural/displacement/50/img_00011.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/100/img_00000.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/100/img_00001.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/100/img_00002.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/100/img_00003.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/100/img_00004.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/100/img_00005.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/100/img_00006.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/100/img_00007.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/100/img_00008.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/100/img_00009.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/100/img_00010.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/100/img_00011.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/200/img_00000.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/200/img_00001.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/200/img_00002.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/200/img_00003.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/200/img_00004.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/200/img_00005.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/200/img_00006.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/200/img_00007.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/200/img_00008.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/200/img_00009.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/200/img_00010.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/200/img_00011.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/20/img_00000.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/20/img_00001.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/20/img_00002.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/20/img_00003.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/20/img_00004.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/20/img_00005.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/20/img_00006.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/20/img_00007.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/20/img_00008.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/20/img_00009.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/20/img_00010.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/20/img_00011.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/50/img_00000.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/50/img_00001.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/50/img_00002.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/50/img_00003.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/50/img_00004.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/50/img_00005.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/50/img_00006.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/50/img_00007.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/50/img_00008.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/50/img_00009.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/50/img_00010.png"
+    },
+    {
+      "model": "resnet_unet",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "resnet_unet/deepjeb_2d_2d_structural/displacement/50/img_00011.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/100/img_00000.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/100/img_00001.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/100/img_00002.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/100/img_00003.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/100/img_00004.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/100/img_00005.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/100/img_00006.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/100/img_00007.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/100/img_00008.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/100/img_00009.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/100/img_00010.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/100/img_00011.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/200/img_00000.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/200/img_00001.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/200/img_00002.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/200/img_00003.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/200/img_00004.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/200/img_00005.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/200/img_00006.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/200/img_00007.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/200/img_00008.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/200/img_00009.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/200/img_00010.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/200/img_00011.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/20/img_00000.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/20/img_00001.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/20/img_00002.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/20/img_00003.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/20/img_00004.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/20/img_00005.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/20/img_00006.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/20/img_00007.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/20/img_00008.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/20/img_00009.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/20/img_00010.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/20/img_00011.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/50/img_00000.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/50/img_00001.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/50/img_00002.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/50/img_00003.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/50/img_00004.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/50/img_00005.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/50/img_00006.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/50/img_00007.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/50/img_00008.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/50/img_00009.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/50/img_00010.png"
+    },
+    {
+      "model": "segformer_b0",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "segformer_b0/deepjeb_2d_2d_structural/displacement/50/img_00011.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/100/img_00000.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/100/img_00001.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/100/img_00002.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/100/img_00003.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/100/img_00004.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/100/img_00005.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/100/img_00006.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/100/img_00007.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/100/img_00008.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/100/img_00009.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/100/img_00010.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/100/img_00011.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/200/img_00000.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/200/img_00001.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/200/img_00002.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/200/img_00003.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/200/img_00004.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/200/img_00005.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/200/img_00006.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/200/img_00007.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/200/img_00008.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/200/img_00009.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/200/img_00010.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/200/img_00011.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/20/img_00000.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/20/img_00001.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/20/img_00002.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/20/img_00003.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/20/img_00004.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/20/img_00005.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/20/img_00006.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/20/img_00007.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/20/img_00008.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/20/img_00009.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/20/img_00010.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/20/img_00011.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/50/img_00000.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/50/img_00001.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/50/img_00002.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/50/img_00003.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/50/img_00004.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/50/img_00005.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/50/img_00006.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/50/img_00007.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/50/img_00008.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/50/img_00009.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/50/img_00010.png"
+    },
+    {
+      "model": "unet_simple",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "unet_simple/deepjeb_2d_2d_structural/displacement/50/img_00011.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/100/img_00000.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/100/img_00001.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/100/img_00002.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/100/img_00003.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/100/img_00004.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/100/img_00005.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/100/img_00006.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/100/img_00007.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/100/img_00008.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/100/img_00009.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/100/img_00010.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 100,
+      "size": "L",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/100/img_00011.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/200/img_00000.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/200/img_00001.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/200/img_00002.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/200/img_00003.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/200/img_00004.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/200/img_00005.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/200/img_00006.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/200/img_00007.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/200/img_00008.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/200/img_00009.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/200/img_00010.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 200,
+      "size": "XL",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/200/img_00011.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/20/img_00000.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/20/img_00001.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/20/img_00002.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/20/img_00003.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/20/img_00004.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/20/img_00005.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/20/img_00006.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/20/img_00007.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/20/img_00008.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/20/img_00009.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/20/img_00010.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 20,
+      "size": "S",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/20/img_00011.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 0,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/50/img_00000.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 1,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/50/img_00001.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 2,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/50/img_00002.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 3,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/50/img_00003.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 4,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/50/img_00004.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 5,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/50/img_00005.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 6,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/50/img_00006.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 7,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/50/img_00007.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 8,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/50/img_00008.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 9,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/50/img_00009.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 10,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/50/img_00010.png"
+    },
+    {
+      "model": "unetpp",
+      "train_size": 50,
+      "size": "M",
+      "dataset": "deepjeb_2d_2d_structural",
+      "target": "displacement",
+      "sample": 11,
+      "path": "unetpp/deepjeb_2d_2d_structural/displacement/50/img_00011.png"
     }
   ]
 }

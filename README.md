@@ -19,11 +19,11 @@ This benchmark is intended solely for academic and research evaluation purposes.
 | Domain | Task | Description |
 |--------|------|-------------|
 | **3D Geometry Generation** | Generation | Evaluates generative models that produce 3D point cloud geometries for engineering components |
-| **3D Field Prediction** | Prediction (point cloud → field) | Per-point engineering fields — displacement, von Mises stress & mode shapes (DeepJEB), automotive aero surface/center-plane fields (DrivAerNet), and surface + volume CFD fields (DrivAerML) |
-| **3D Scalar Prediction** | Prediction (point cloud → scalar) | Evaluates models that estimate global engineering scalars from 3D geometries |
+| **3D Field Prediction** | Prediction (point cloud → field) | Per-point engineering fields — displacement, stress & mode shapes (DeepJEB), automotive aero surface/center-plane fields (DrivAerNet), and surface + volume CFD fields (DrivAerML) |
+| **3D Scalar Prediction** | Prediction (point cloud → scalar) | Global engineering scalars from 3D geometries — mass & modal frequencies (DeepWheel), peak stress & displacement (DeepJEB) |
 | **2D Image Generation** | Generation | Evaluates generative models on engineering image synthesis tasks |
-| **2D Field Prediction** | Prediction (image → image) | Per-pixel engineering fields from images — z-buffer depth (DeepWheel), FEA von Mises stress (DeepJEB), steady Darcy pressure (PDEBench), and RANS flow (AirfRANS) |
-| **2D Scalar Prediction** | Prediction (image → scalar) | Evaluates models that estimate global engineering scalars (mass, modal frequencies) from RGB renders |
+| **2D Field Prediction** | Prediction (image → image) | Per-pixel engineering fields from images — z-buffer depth (DeepWheel), FEA stress & displacement (DeepJEB), steady Darcy pressure (PDEBench), and RANS flow (AirfRANS) |
+| **2D Scalar Prediction** | Prediction (image → scalar) | Global engineering scalars from rendered views — mass & modal frequencies (DeepWheel), peak stress & displacement (DeepJEB) |
 | **1D Scalar Prediction** | Prediction (tabular / timeseries → scalar) | Tabular regression (UCI Concrete, Airfoil Self-Noise) and turbofan remaining-useful-life from timeseries (NASA C-MAPSS) |
 
 ## Evaluated Models
@@ -47,7 +47,7 @@ All models are benchmarked across four dataset sizes to assess data efficiency a
 
 | Domain | Metrics |
 |--------|---------|
-| **3D Geometry Generation** | MV-FID, FPD, CD, EMD, F-Score, MS-SSIM, Precision, Recall, Density, Coverage, Manifold-Δ, Uniformity-Δ, Train Time, Infer Time |
+| **3D Geometry Generation** | MV-FID, FPD, MMD-CD, COV-CD, 1-NNA-CD, MS-SSIM, Precision, Recall, Density, Coverage, Manifold-Δ, Uniformity-Δ, Train Time, Infer Time |
 | **3D Field Prediction** | MAE, RMSE, MAPE, R², Rel-L2, MAC, Sign Agree, Extremal Agree, Train Time, Infer Time |
 | **3D Scalar Prediction** | MAE, RMSE, MAPE, R², Rel-L2, MaxAE, Pearson, Spearman, Train Time, Infer Time |
 | **2D Image Generation** | IS, FID, LPIPS, PSNR, MS-SSIM, Precision, Density, Recall, Coverage, Train Time, Infer Time |
@@ -65,11 +65,13 @@ All models follow a standardized 3-step pipeline to ensure fair comparison:
 
 | Step | Name | Description |
 |------|------|-------------|
-| **A** | Train & Infer | Train each model under identical conditions (same dataset, scale, epochs) with early stopping, then generate 500 standardized samples from the best checkpoint |
-| **B** | Calc Metrics | Compare 500 generated vs 500 real samples across quality, diversity, and efficiency metrics with ↑/↓ direction indicators |
+| **A** | Train & Infer | Train each model under identical conditions (same dataset, scale, epochs) with early stopping, then generate up to 500 samples (capped at the test-split size) from the best checkpoint |
+| **B** | Calc Metrics | Compare up to 500 generated vs 500 real samples (capped at the split size) across quality, diversity, and efficiency metrics with ↑/↓ direction indicators |
 | **C** | Rank Models | Debias correlated metrics → build head-to-head dominance graph → PageRank scoring → one Total Score per model |
 
 Rankings are generated per dataset size (S/M/L/XL), with a switchable quality-only and quality+efficiency view.
+
+> All reported Train/Infer Time figures are standardized to the NVIDIA RTX PRO 6000 platform for cross-model comparability.
 
 ## Build & Data Pipeline
 

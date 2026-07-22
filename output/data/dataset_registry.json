@@ -102,6 +102,33 @@
     "task": "scalar_regression",
     "vector_groups": []
   },
+  "deepjeb_2d_1d_structural": {
+    "components": [
+      {
+        "axis": null,
+        "component": "displacement",
+        "index": 0
+      },
+      {
+        "axis": null,
+        "component": "stress",
+        "index": 1
+      }
+    ],
+    "coupling": "coupled",
+    "discipline": "structural",
+    "input_dim": "2d",
+    "modality": "image",
+    "nas_dir": "DeepJEB_2D_1D_Structural",
+    "out_dim": 2,
+    "output_dim": "1d",
+    "output_support": "scalar",
+    "scenario": "structural",
+    "source": "DeepJEB",
+    "target_label": "displacement+stress",
+    "task": "scalar_regression",
+    "vector_groups": []
+  },
   "deepjeb_2d_2d": {
     "components": [],
     "coupling": "none",
@@ -122,22 +149,54 @@
     "components": [
       {
         "axis": null,
-        "component": "von_mises",
+        "component": "displacement",
         "index": 0
+      },
+      {
+        "axis": null,
+        "component": "stress",
+        "index": 1
       }
     ],
-    "coupling": "single",
+    "coupling": "coupled",
     "discipline": "structural",
     "input_dim": "2d",
     "modality": "image",
     "nas_dir": "DeepJEB_2D_2D_Structural",
-    "out_dim": 1,
+    "out_dim": 2,
     "output_dim": "2d",
     "output_support": "image",
     "scenario": "structural",
     "source": "DeepJEB",
-    "target_label": "von_mises|displacement",
+    "target_label": "displacement+stress",
     "task": "field_prediction",
+    "vector_groups": []
+  },
+  "deepjeb_3d_1d_structural": {
+    "components": [
+      {
+        "axis": null,
+        "component": "displacement",
+        "index": 0
+      },
+      {
+        "axis": null,
+        "component": "stress",
+        "index": 1
+      }
+    ],
+    "coupling": "coupled",
+    "discipline": "structural",
+    "input_dim": "3d",
+    "modality": "point_cloud",
+    "nas_dir": "DeepJEB_3D_1D_Structural",
+    "out_dim": 2,
+    "output_dim": "1d",
+    "output_support": "scalar",
+    "scenario": "structural",
+    "source": "DeepJEB",
+    "target_label": "displacement+stress",
+    "task": "scalar_regression",
     "vector_groups": []
   },
   "deepjeb_3d_2d_diagonal": {
@@ -159,7 +218,7 @@
       },
       {
         "axis": null,
-        "component": "von_mises",
+        "component": "stress",
         "index": 3
       }
     ],
@@ -173,7 +232,7 @@
     "output_support": "surface",
     "scenario": "diagonal",
     "source": "DeepJEB",
-    "target_label": "displacement+von_mises",
+    "target_label": "displacement+stress",
     "task": "field_prediction",
     "vector_groups": [
       [
@@ -202,7 +261,7 @@
       },
       {
         "axis": null,
-        "component": "von_mises",
+        "component": "stress",
         "index": 3
       }
     ],
@@ -216,7 +275,7 @@
     "output_support": "surface",
     "scenario": "horizontal",
     "source": "DeepJEB",
-    "target_label": "displacement+von_mises",
+    "target_label": "displacement+stress",
     "task": "field_prediction",
     "vector_groups": [
       [
@@ -303,7 +362,7 @@
       },
       {
         "axis": null,
-        "component": "von_mises",
+        "component": "stress",
         "index": 3
       }
     ],
@@ -317,7 +376,7 @@
     "output_support": "surface",
     "scenario": "torsion",
     "source": "DeepJEB",
-    "target_label": "displacement+von_mises",
+    "target_label": "displacement+stress",
     "task": "field_prediction",
     "vector_groups": [
       [
@@ -346,7 +405,7 @@
       },
       {
         "axis": null,
-        "component": "von_mises",
+        "component": "stress",
         "index": 3
       }
     ],
@@ -360,7 +419,7 @@
     "output_support": "surface",
     "scenario": "vertical",
     "source": "DeepJEB",
-    "target_label": "displacement+von_mises",
+    "target_label": "displacement+stress",
     "task": "field_prediction",
     "vector_groups": [
       [

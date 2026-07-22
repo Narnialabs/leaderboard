@@ -19,13 +19,13 @@
 // ── 3D Pred Channel Config ──
 // Keyed by split dataset id → { bin_target_key → channels }. The bin target_key is the
 // fine-grained token (load case / mode shape / coupled variant) the bins are stored
-// under — NOT the summary `Target Key` (a coupled label like displacement+von_mises that
+// under — NOT the summary `Target Key` (a coupled label like displacement+stress that
 // cannot distinguish mode_shape_1/2). Viewer groups derive the token from these keys.
 const EVAL3D_CHANNELS = {
-  'deepjeb_3d_2d_vertical':   { 'vertical':   ['disp_x', 'disp_y', 'disp_z', 'stress'] },
-  'deepjeb_3d_2d_horizontal': { 'horizontal': ['disp_x', 'disp_y', 'disp_z', 'stress'] },
-  'deepjeb_3d_2d_diagonal':   { 'diagonal':   ['disp_x', 'disp_y', 'disp_z', 'stress'] },
-  'deepjeb_3d_2d_torsion':    { 'torsion':    ['disp_x', 'disp_y', 'disp_z', 'stress'] },
+  'deepjeb_3d_2d_vertical':   { 'vertical':   ['displacement_x', 'displacement_y', 'displacement_z', 'stress'] },
+  'deepjeb_3d_2d_horizontal': { 'horizontal': ['displacement_x', 'displacement_y', 'displacement_z', 'stress'] },
+  'deepjeb_3d_2d_diagonal':   { 'diagonal':   ['displacement_x', 'displacement_y', 'displacement_z', 'stress'] },
+  'deepjeb_3d_2d_torsion':    { 'torsion':    ['displacement_x', 'displacement_y', 'displacement_z', 'stress'] },
   'deepjeb_3d_2d_modal':      { 'mode_shape_1': ['mode_x', 'mode_y', 'mode_z'],
                                 'mode_shape_2': ['mode_x', 'mode_y', 'mode_z'] },
   'drivaernet_3d_2d_centerplane': { 'pv_coupled': ['pressure', 'velocity_x', 'velocity_y', 'velocity_z'] },

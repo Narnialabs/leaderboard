@@ -4,7 +4,7 @@
  */
 
 const DATA_BASE = 'output/data';
-const DATA_BUILD = '20260616-1';
+const DATA_BUILD = '20260710-2';
 
 /**
  * Display labels and metadata for target keys, keyed by dataset.
@@ -29,10 +29,10 @@ const TARGET_KEY_META = {
   // milestone9.x canonical 3D-field split datasets — keyed by the coupled summary
   // Target Key the leaderboard/summary actually carries (the per-load-case umbrella
   // entry above stays for the explorer's bin-token labels).
-  'deepjeb_3d_2d_vertical':   { 'displacement+von_mises': { label: 'Displacement + von Mises (Vertical Load)',   category: 'Structural (FEA)', unit: null } },
-  'deepjeb_3d_2d_horizontal': { 'displacement+von_mises': { label: 'Displacement + von Mises (Horizontal Load)', category: 'Structural (FEA)', unit: null } },
-  'deepjeb_3d_2d_torsion':    { 'displacement+von_mises': { label: 'Displacement + von Mises (Torsional Load)',  category: 'Structural (FEA)', unit: null } },
-  'deepjeb_3d_2d_diagonal':   { 'displacement+von_mises': { label: 'Displacement + von Mises (Diagonal Load)',   category: 'Structural (FEA)', unit: null } },
+  'deepjeb_3d_2d_vertical':   { 'displacement+stress': { label: 'Displacement + Stress (Vertical Load)',   category: 'Structural (FEA)', unit: null } },
+  'deepjeb_3d_2d_horizontal': { 'displacement+stress': { label: 'Displacement + Stress (Horizontal Load)', category: 'Structural (FEA)', unit: null } },
+  'deepjeb_3d_2d_torsion':    { 'displacement+stress': { label: 'Displacement + Stress (Torsional Load)',  category: 'Structural (FEA)', unit: null } },
+  'deepjeb_3d_2d_diagonal':   { 'displacement+stress': { label: 'Displacement + Stress (Diagonal Load)',   category: 'Structural (FEA)', unit: null } },
   'deepjeb_3d_2d_modal':      { 'mode_shapes': { label: 'Mode Shapes (Modal FEM)', category: 'Modal (FEM)', unit: null } },
   // NOTE: drivaernet/drivaerml surface + volume coupled-summary keys are merged
   // into their full entries below (was a duplicate-object-key shadow that silently
@@ -54,6 +54,14 @@ const TARGET_KEY_META = {
   'deepwheel_2d_1d_mass':  { 'mass': { label: 'Mass', category: 'Structural', unit: 'kg' } },
   'deepwheel_3d_1d_modal': { 'natural_frequencies': { label: 'Natural Frequencies (Modes 7 & 11)', category: 'Modal (FEM)', unit: 'Hz' } },
   'deepwheel_2d_1d_modal': { 'natural_frequencies': { label: 'Natural Frequencies (Modes 7 & 11)', category: 'Modal (FEM)', unit: 'Hz' } },
+  // DeepJEB 2D/3D → scalar: ONE vertical-load solve → coupled peak displacement +
+  // peak stress (out_dim=2). Keyed by the coupled Target Key `displacement+stress`;
+  // the per-quantity split lives in the `Component` column (displacement / stress).
+  // Target pill reads the SCENARIO ("Structural") — the coupled solve — while the
+  // two co-produced quantities live in the Component drill-down (All / Peak
+  // Displacement / Peak Stress), mirroring DeepWheel's Modal (Mode 7 / Mode 11).
+  'deepjeb_3d_1d_structural': { 'displacement+stress': { label: 'Structural', category: 'Structural', unit: null } },
+  'deepjeb_2d_1d_structural': { 'displacement+stress': { label: 'Structural', category: 'Structural', unit: null } },
   'deepwheel_2d_2d': {
     'depth':  { label: 'Depth Map',                     category: 'Geometry',    unit: null },
   },
@@ -71,10 +79,16 @@ const TARGET_KEY_META = {
     'depth':  { label: 'Depth Map',                     category: 'Geometry',    unit: null },
   },
   'deepjeb_2d_2d_structural': {
-    // "Stress" (not "Von Mises Stress") to match the 3D-field Component label —
-    // both are von Mises equivalent stress (unified per the filter redesign).
+    // Coupled: ONE vertical-load FEA solve → displacement + stress fields (out_dim=2),
+    // published under Target Key `displacement+stress` (mirrors the 2D/3D scalar structural
+    // sibling + the 3D-field vertical load case). The Target pill reads the SCENARIO
+    // ("Structural"); the two co-produced fields live in the Component drill-down.
+    'displacement+stress': { label: 'Structural',       category: 'Structural (FEA)', unit: null  },
+    // Per-component labels (Component drill-down + per-strip gallery labels). "Stress" =
+    // the signed FEA stress field; same `stress`/`displacement` Component names as every
+    // other DeepJEB structural track (2D/3D × field/scalar).
     'stress': { label: 'Stress',                        category: 'Structural (FEA)', unit: 'MPa' },
-    'disp':   { label: 'Displacement',                  category: 'Structural (FEA)', unit: 'mm'  },
+    'displacement':   { label: 'Displacement',          category: 'Structural (FEA)', unit: 'mm'  },
   },
   'pdebenchdarcy_2d_2d_pressure': {
     'pressure': { label: 'Darcy Pressure',              category: 'PDE (operator)',   unit: null },
@@ -259,7 +273,7 @@ function datasetToLeaderboardKey(datasetId) {
  * @param {string} size - 'S', 'M', 'L', or 'XL'
  * @param {string} [dataset] - optional dataset id, e.g. 'deepjeb_2d_2d'
  * @param {string} [targetKey] - optional target key
- * @param {string} [component] - optional component (e.g. 'disp_x'); only honored when dataset+targetKey are set
+ * @param {string} [component] - optional component (e.g. 'displacement_x'); only honored when dataset+targetKey are set
  * @param {string} [branch='quality'] - 'quality' or 'quality_efficiency'
  */
 async function loadLeaderboard(category, size, dataset, targetKey, component, branch = BRANCH_QUALITY) {
@@ -289,7 +303,7 @@ async function loadLeaderboard(category, size, dataset, targetKey, component, br
 /**
  * Load metric rankings for a specific dimension/task/size (and optionally dataset/targetKey/component)
  * @param {string} [dataset] - optional dataset id, e.g. 'deepjeb_2d_2d'
- * @param {string} [component] - optional component (e.g. 'disp_x'); only honored when dataset+targetKey are set
+ * @param {string} [component] - optional component (e.g. 'displacement_x'); only honored when dataset+targetKey are set
  * @param {string} [branch='quality'] - 'quality' or 'quality_efficiency'
  */
 async function loadMetricsRanking(category, size, dataset, targetKey, component, branch = BRANCH_QUALITY) {
@@ -527,7 +541,17 @@ const TARGET_KEY_ORDER = {
   // transitional dual state (e.g. pwss_coupled vs pressure+wall_shear_stress, mode7_mode11 vs
   // natural_frequencies) pending the full regen, so a hardcoded order risks an empty filter.
   // They fall back to getTargetKeysForDataset()'s unique.sort(), which is robust to either label.
-  'deepjeb_2d_2d_structural': ['stress', 'disp'],
+  // Coupled: a single Target Key `displacement+stress` (mirrors the scalar structural
+  // sibling + 3D-field vertical). The per-quantity split lives in Component (ordered
+  // displacement→stress by DIMENSION_ORDER). MUST stay in sync with the coupled summary
+  // Target Key — the pre-coupling ['displacement','stress'] here yields an EMPTY Target
+  // filter (getTargetKeysForDataset intersects order with the summary's single
+  // 'displacement+stress'), so both this line and the TARGET_KEY_META entry move together.
+  'deepjeb_2d_2d_structural': ['displacement+stress'],
+  // Coupled scalar: a single Target Key `displacement+stress`; the per-quantity split
+  // lives in Component (ordered displacement→stress by DIMENSION_ORDER).
+  'deepjeb_3d_1d_structural': ['displacement+stress'],
+  'deepjeb_2d_1d_structural': ['displacement+stress'],
   'pdebenchdarcy_2d_2d_pressure': ['pressure'],
   'airfrans_2d_2d_flow': ['u', 'v', 'p_over_rho', 'nu_t'],
   'deepwheel_3d_1d': ['mass', 'mode7', 'mode11'],
@@ -546,7 +570,7 @@ const TARGET_KEY_ORDER = {
 const DIMENSION_ORDER = [
   // milestone9.x summary `Component` vocabulary (physical quantity; the x/y/z
   // split now lives in the separate `Axis` column, so components are axis-free).
-  'displacement', 'von_mises',
+  'displacement', 'stress',
   'mode_shape_1', 'mode_shape_2',
   'pressure', 'wall_shear_stress', 'body_pressure',
   'totalpcoeff', 'velocity', 'vorticity',
@@ -554,9 +578,9 @@ const DIMENSION_ORDER = [
   // so the Target=All scalar gallery strips order as mass → mode7 → mode11 (filter order).
   'mass',
   'mode_freq_7', 'mode_freq_11',
-  // legacy explorer channel tokens (axis baked into the name) — kept so any
-  // pre-migration Component values still sort ahead of the alphabetic fallback.
-  'disp_x', 'disp_y', 'disp_z', 'stress',
+  // explorer channel tokens (axis baked into the name) — kept so any such
+  // Component values still sort ahead of the alphabetic fallback.
+  'displacement_x', 'displacement_y', 'displacement_z', 'stress',
   'mode_x', 'mode_y', 'mode_z',
   'velocity_x', 'velocity_y', 'velocity_z',
 ];
@@ -689,6 +713,11 @@ const DATASET_DISPLAY = {
   'deepjeb_3d_2d_torsion': 'DeepJEB',
   'deepjeb_3d_2d_diagonal': 'DeepJEB',
   'deepjeb_3d_2d_modal': 'DeepJEB',
+  // DeepJEB 2D/3D → scalar: ONE vertical-load solve → coupled peak displacement +
+  // peak stress (out_dim=2, Target Key `displacement+stress`). The coupled ids are
+  // both the summary Dataset column and the explorer / visual-asset JSON keys.
+  'deepjeb_2d_1d_structural': 'DeepJEB',
+  'deepjeb_3d_1d_structural': 'DeepJEB',
   'drivaernet_3d_2d_centerplane': 'DrivAerNet',
   'drivaernet_3d_2d_surface': 'DrivAerNet',   // milestone9.x: re-derived from retired drivaernet_pressure_3d_3d
   'drivaernet_3d_3d_surface': 'DrivAerNet',   // pre-rename id still used by the published inference tree
@@ -769,7 +798,7 @@ function displayResolution(res, dim) {
 //   · scenario-type — the umbrella spans >1 dataset id; each Target option IS a
 //     dataset (load case / region / analysis). label = scenario token.
 //   · channel-type  — the umbrella is a single dataset with >1 Target Key
-//     column value (airfrans u/v/p/nu_t, 2D-structural stress/disp). label = TK.
+//     column value (airfrans u/v/p/nu_t, 2D-structural stress/displacement). label = TK.
 // Component (physical quantity) and Axis (x/y/z) are the canonical summary
 // columns; Axis drives the per-sample viewer + metrics table only (BenchRank is
 // per-component/vector). Everything degrades gracefully for unregistered data.
@@ -806,21 +835,34 @@ function scenarioRank(tok) {
   return i === -1 ? SCENARIO_ORDER.length : i;
 }
 
-// Friendly Component labels. NOTE: both `von_mises` (3D field) and `stress` (2D
-// structural) are the SAME quantity (von Mises equivalent stress) → unified to
-// "Stress" with a precise hover; data tokens are untouched.
+// Friendly Component labels. DeepJEB structural stress is the `stress` Component
+// everywhere (2D/3D × field/scalar); the raw channel is SIGNED FEA stress, not von
+// Mises (which is ≥0), so it is never labelled von_mises.
 const COMPONENT_DISPLAY = {
-  displacement: 'Displacement', disp: 'Displacement',
-  von_mises: 'Stress', stress: 'Stress',
+  displacement: 'Displacement',
+  stress: 'Stress',
   mode_shape_1: 'Mode Shape 1', mode_shape_2: 'Mode Shape 2',
   pressure: 'Pressure', velocity: 'Velocity', turbulence: 'Turbulence', wall_shear_stress: 'Wall Shear Stress',
   totalpcoeff: 'Total-p Coeff.', vorticity: 'Vorticity', body_pressure: 'Surface Pressure',
   mode_freq_7: 'Mode 7', mode_freq_11: 'Mode 11', mass: 'Mass',
 };
 const COMPONENT_TOOLTIP = {
-  von_mises: 'von Mises equivalent stress', stress: 'von Mises equivalent stress',
+  stress: 'FEA stress field (signed: tension +, compression −)',
 };
-function componentLabel(tok) { return COMPONENT_DISPLAY[tok] || tok; }
+// Dataset-scoped Component label overrides (Q4: "Peak" is a UI adornment, not part of
+// the pure quantity name). The DeepJEB scalar tracks reduce a field to its PEAK value,
+// so their pills read "Peak Displacement"/"Peak Stress" while the global map stays
+// "Displacement"/"Stress" (the field tracks keep the bare names).
+const DATASET_COMPONENT_LABEL = {
+  'deepjeb_3d_1d_structural': { displacement: 'Peak Displacement', stress: 'Peak Stress' },
+  'deepjeb_2d_1d_structural': { displacement: 'Peak Displacement', stress: 'Peak Stress' },
+};
+function componentLabel(tok, dataset) {
+  if (dataset && DATASET_COMPONENT_LABEL[dataset] && DATASET_COMPONENT_LABEL[dataset][tok]) {
+    return DATASET_COMPONENT_LABEL[dataset][tok];
+  }
+  return COMPONENT_DISPLAY[tok] || tok;
+}
 function componentTooltip(tok) { return COMPONENT_TOOLTIP[tok] || ''; }
 
 // Group the dataset ids present in `data` by umbrella, preserving the canonical
@@ -877,10 +919,10 @@ function umbrellaLeaderboardKey(data, umbrella) {
 }
 
 // (Component, Axis) → EVAL3D per-sample viewer channel token (axis-baked vocab:
-// disp_x / stress / velocity_y / wss_z …). Returns null for unmapped components.
+// displacement_x / stress / velocity_y / wss_z …). Returns null for unmapped components.
 const _COMPONENT_AXIS_CHANNEL = {
-  displacement: a => `disp_${a}`,
-  von_mises: () => 'stress',
+  displacement: a => `displacement_${a}`,
+  stress: () => 'stress',
   mode_shape_1: a => `mode_${a}`,
   mode_shape_2: a => `mode_${a}`,
   pressure: () => 'pressure',
@@ -906,7 +948,7 @@ function componentBinToken(datasetId, component) {
 
 // The viewer channels that belong to a Component (the subset of its bin token's
 // channels). Lets the per-sample viewer cycle within e.g. displacement's
-// disp_x/y/z without leaking into the sibling stress channel. Falls back to the
+// displacement_x/y/z without leaking into the sibling stress channel. Falls back to the
 // full channel list when the (Component, Axis) vocabulary can't be mapped.
 function componentChannels(datasetId, component, axis) {
   const binTk = componentBinToken(datasetId, component);
@@ -998,8 +1040,8 @@ function getMetricCategory(metricName, dim, task) {
   const clean = metricName.replace(/\s*[↑↓]\s*$/,'').trim();
   if (['Parameters (M)','Training Time (s)','Inference Time (s)'].includes(clean)) return 'Efficiency';
   if (task === 'generation') {
-    if (['IS','FID','MV-FID','FPD','CD','EMD','PSNR','Precision','Density'].includes(clean)) return 'Fidelity';
-    if (['LPIPS','MS-SSIM','F-Score','Recall','Coverage'].includes(clean)) return 'Diversity';
+    if (['IS','FID','MV-FID','FPD','MMD-CD','1-NNA-CD','PSNR','Precision','Density'].includes(clean)) return 'Fidelity';
+    if (['LPIPS','MS-SSIM','COV-CD','Recall','Coverage'].includes(clean)) return 'Diversity';
     if (['Manifold-Δ','Uniformity-Δ'].includes(clean)) return 'Structural Quality';
   } else {
     // Prediction (2D field/scalar, 3D field/scalar) shares the regression metric taxonomy

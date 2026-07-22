@@ -289,14 +289,14 @@
             <span class="exp-strip-num" style="color:#22c55e;">9</span> 2D Gen
           </button>
           <button class="exp-strip-chip" data-stat="2d-pred" onclick="explorerToggleStat('2d-pred')">
-            <span class="exp-strip-num" style="color:#38bdf8;">9</span> 2D Pred
+            <span class="exp-strip-num" style="color:#38bdf8;">15</span> 2D Pred
           </button>
           <button class="exp-strip-chip" data-stat="1d-pred" onclick="explorerToggleStat('1d-pred')">
             <span class="exp-strip-num" style="color:#38bdf8;">16</span> 1D Pred
           </button>
           <span class="exp-strip-sep">·</span>
           <button class="exp-strip-chip" data-stat="datasets" onclick="explorerToggleStat('datasets')">
-            <span class="exp-strip-num" style="color:#f472b6;">6</span> Datasets
+            <span class="exp-strip-num" style="color:#f472b6;">9</span> Datasets
           </button>
           <button class="exp-strip-chip" data-stat="sizes" onclick="explorerToggleStat('sizes')">
             <span class="exp-strip-num" style="color:#f59e0b;">4</span> Sizes
@@ -712,7 +712,7 @@ const EXPERIMENTS = {
       { name: 'ddpm', sizes: [50, 100, 200, 500] },
       { name: 'vqvae', sizes: [50, 100, 200, 500] },
     ],
-    datasets: ['deepjeb_2d_2d', 'drivaernet_2d_2d'],
+    datasets: ['deepjeb_2d_2d', 'deepwheel_2d_2d', 'drivaernet_2d_2d'],
     type: '2d',
   },
   '3d-pred-field': {
@@ -774,7 +774,7 @@ const EXPERIMENTS = {
     type: '2d-pred',
     variantsByDataset: {
       'deepwheel_2d_2d_depth':        ['depth'],
-      'deepjeb_2d_2d_structural':     ['stress'],
+      'deepjeb_2d_2d_structural':     ['displacement', 'stress'],
       'pdebenchdarcy_2d_2d_pressure': ['pressure'],
       'airfrans_2d_2d_flow':          ['u', 'v', 'p_over_rho', 'nu_t'],
     },
@@ -790,9 +790,13 @@ const EXPERIMENTS = {
       { name: 'simplecnn',         sizes: [20, 50, 100, 200] },
       { name: 'vit_tiny',          sizes: [20, 50, 100, 200] },
     ],
-    datasets: ['deepwheel_2d_1d'],
+    datasets: ['deepwheel_2d_1d', 'deepjeb_2d_1d_structural'],
     type: 'scalar',
     variants: ['mass', 'mode_freq_7', 'mode_freq_11'],
+    variantsByDataset: {
+      deepwheel_2d_1d: ['mass', 'mode_freq_7', 'mode_freq_11'],
+      deepjeb_2d_1d_structural: ['displacement', 'stress'],
+    },
     scalarBase: 'output/pred2d_scalar',
   },
   '3d-pred-scalar': {
@@ -809,9 +813,13 @@ const EXPERIMENTS = {
       { name: 'pointmlp_scalar',                sizes: [20, 50, 100, 200] },
       { name: 'pointmlp_elite_scalar',          sizes: [20, 50, 100, 200] },
     ],
-    datasets: ['deepwheel_3d_1d'],
+    datasets: ['deepwheel_3d_1d', 'deepjeb_3d_1d_structural'],
     type: 'scalar',
     variants: ['mass', 'mode_freq_7', 'mode_freq_11'],
+    variantsByDataset: {
+      deepwheel_3d_1d: ['mass', 'mode_freq_7', 'mode_freq_11'],
+      deepjeb_3d_1d_structural: ['displacement', 'stress'],
+    },
     scalarBase: 'output/pred3d_scalar',
   },
   '1d-pred-scalar': {
@@ -862,7 +870,7 @@ const EXPERIMENTS = {
 
 // Publication-excluded models (license) — defense-in-depth guard so explorer never
 // surfaces them even if an inference artifact slips into the published tree.
-const EXPLORER_EXCLUDE_MODELS = new Set(['narnia_sdf', 'narnia_abupt', 'svmoe_abupt', 'abupt']);
+const EXPLORER_EXCLUDE_MODELS = new Set(['narnia_sdf', 'narnia_abupt', 'svmoe_abupt', 'abupt', 'abupt_joint']);
 for (const _exp of Object.values(EXPERIMENTS)) {
   if (Array.isArray(_exp.models)) _exp.models = _exp.models.filter(m => !EXPLORER_EXCLUDE_MODELS.has(m.name));
 }
@@ -1115,29 +1123,19 @@ async function selectExperiment(key) {
     imagesHtml += '</div>';
     contentDiv.innerHTML = imagesHtml;
   } else if (exp.type === '2d-pred') {
-    // 2D field prediction (depth) — GT / pred / |error| triptych per sample
+    // 2D field prediction — GT / pred / |error| triptych per sample. Coupled
+    // datasets (deepjeb_2d_2d_structural → displacement/stress) and AirfRANS
+    // (u/v/p_over_rho/nu_t) publish more than one field; a component switcher —
+    // mirroring the scalar viewer's target buttons — lets the user browse each
+    // published field, not just the first variant.
     const PRED_2D_GRID_COUNT = 12;
     const _v2d = (exp.variantsByDataset ? exp.variantsByDataset[dataset] : exp.variants) || ['depth'];
-    const tk = _v2d[0] || 'depth';
-    const predPath = `output/pred2d_field/${model}/${dataset}/${tk}/${size}`;
-    const gtPath = `output/pred2d_field/_gt/${dataset}/${tk}`;
-    let html = `<div class="section-label" style="color:#38bdf8; margin-bottom:12px;">2D Field Prediction — ${tk} (GT · Pred · |Error|, first ${PRED_2D_GRID_COUNT})</div>`;
-    html += '<div class="f2d-samples" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(420px, 1fr)); gap:12px;">';
-    for (let i = 0; i < PRED_2D_GRID_COUNT; i++) {
-      const idx = String(i).padStart(5, '0');
-      html += `<div class="f2d-cell"
-        data-pred="${predPath}/img_${idx}.png"
-        data-gt="${gtPath}/img_${idx}.png">
-        <div class="f2d-triptych">
-          <div class="f2d-panel"><canvas class="f2d-gt-cv"></canvas><div class="f2d-tag">GT</div></div>
-          <div class="f2d-panel"><canvas class="f2d-pred-cv"></canvas><div class="f2d-tag">pred</div></div>
-          <div class="f2d-panel"><canvas class="f2d-err-cv"></canvas><div class="f2d-tag">|err|</div></div>
-        </div>
-        <div class="f2d-caption"><span class="f2d-idx">#${i}</span><span class="f2d-mae">—</span></div>
-      </div>`;
-    }
-    html += '</div>';
-    html += `<div class="f2d-legend" style="margin-top:14px;">
+    // Friendly variant label: pure components (displacement/stress/pressure)
+    // resolve via componentLabel; channel Target Keys (AirfRANS u/v/…) aren't
+    // components, so fall back to getTargetKeyLabel ("Velocity x"). Both are
+    // classic-global data-loader helpers reachable from this script.
+    const _f2dLabel = (v) => { const c = componentLabel(v, dataset); return c !== v ? c : getTargetKeyLabel(dataset, v); };
+    const _F2D_LEGEND = `<div class="f2d-legend" style="margin-top:14px;">
       <div class="f2d-legend-row">
         <span class="f2d-legend-title">Field (GT &amp; Pred)</span>
         <div class="f2d-legend-bar f2d-legend-turbo"></div>
@@ -1150,8 +1148,54 @@ async function selectExperiment(key) {
       </div>
       <div class="f2d-legend-note">Rendered with the turbo colormap over the GT/Pred union range (unified with the 3D-field viewer); error capped at the 95th-percentile |Δ|.</div>
     </div>`;
+    // Build the triptych grid + legend for one variant (component / channel).
+    const renderF2DGrid = (tk) => {
+      const predPath = `output/pred2d_field/${model}/${dataset}/${tk}/${size}`;
+      const gtPath = `output/pred2d_field/_gt/${dataset}/${tk}`;
+      let g = '<div class="f2d-samples" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(420px, 1fr)); gap:12px;">';
+      for (let i = 0; i < PRED_2D_GRID_COUNT; i++) {
+        const idx = String(i).padStart(5, '0');
+        g += `<div class="f2d-cell"
+        data-pred="${predPath}/img_${idx}.png"
+        data-gt="${gtPath}/img_${idx}.png">
+        <div class="f2d-triptych">
+          <div class="f2d-panel"><canvas class="f2d-gt-cv"></canvas><div class="f2d-tag">GT</div></div>
+          <div class="f2d-panel"><canvas class="f2d-pred-cv"></canvas><div class="f2d-tag">pred</div></div>
+          <div class="f2d-panel"><canvas class="f2d-err-cv"></canvas><div class="f2d-tag">|err|</div></div>
+        </div>
+        <div class="f2d-caption"><span class="f2d-idx">#${i}</span><span class="f2d-mae">—</span></div>
+      </div>`;
+      }
+      g += '</div>';
+      return g + _F2D_LEGEND;
+    };
+    const _tk0 = _v2d[0] || 'depth';
+    let html = `<div class="section-label" id="f2d-section-label" style="color:#38bdf8; margin-bottom:12px;">2D Field Prediction — ${_f2dLabel(_tk0)} (GT · Pred · |Error|, first ${PRED_2D_GRID_COUNT})</div>`;
+    if (_v2d.length > 1) {
+      html += '<div id="f2d-target-btns" style="margin-bottom:12px; display:flex; gap:6px; flex-wrap:wrap;">';
+      _v2d.forEach((v, i) => {
+        html += `<button class="filter-pill ${i === 0 ? 'active' : ''}"
+          data-target="${v}" onclick="window._f2dSelectTarget('${v}', this)">${_f2dLabel(v)}</button>`;
+      });
+      html += '</div>';
+    }
+    html += `<div id="f2d-grid-content">${renderF2DGrid(_tk0)}</div>`;
     contentDiv.innerHTML = html;
     initField2DCells(contentDiv);
+    // Switch component/channel without a refetch: re-render just the grid. The
+    // handler closes over the current model/size/dataset (via renderF2DGrid) and
+    // is reassigned on every detail render, so no stale binding leaks across
+    // selections. Resets to the first variant when model/size/dataset changes
+    // (matches the scalar viewer).
+    window._f2dSelectTarget = function(v, btn) {
+      document.querySelectorAll('#f2d-target-btns .filter-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const lbl = document.getElementById('f2d-section-label');
+      if (lbl) lbl.textContent = `2D Field Prediction — ${_f2dLabel(v)} (GT · Pred · |Error|, first ${PRED_2D_GRID_COUNT})`;
+      const gc = document.getElementById('f2d-grid-content');
+      gc.innerHTML = renderF2DGrid(v);
+      initField2DCells(gc);
+    };
   } else if (exp.type === 'scalar') {
     // 2D / 3D / 1D scalar prediction — Chart.js scatter pred vs GT, target switcher,
     // and a per-sample gallery (matches the per-sample convention used by every
@@ -1163,7 +1207,7 @@ async function selectExperiment(key) {
     html += '<div id="scalar-target-btns" style="margin-bottom:12px; display:flex; gap:6px; flex-wrap:wrap;">';
     variants.forEach((v, i) => {
       html += `<button class="filter-pill ${i === 0 ? 'active' : ''}"
-        data-target="${v}" onclick="window._scalarSelectTarget('${v}', this)">${v}</button>`;
+        data-target="${v}" onclick="window._scalarSelectTarget('${v}', this)">${componentLabel(v, dataset)}</button>`;
     });
     html += '</div>';
     html += '<div style="position:relative; height:380px; background:rgba(0,0,0,0.25); border-radius:0; padding:8px;"><canvas id="scalar-scatter"></canvas></div>';
@@ -1352,6 +1396,15 @@ function _f2dImageToGray(img) {
   for (let i = 0; i < gray.length; i++) gray[i] = data[i * 4] / 255;
   return { gray, W, H };
 }
+// Rotate a row-major W×H buffer 90° clockwise ((x,y) → (H-1-y, x)); W/H swapped.
+// Brings DeepJEB's 2D-field tiles into the canonical landscape orientation.
+function _f2dRot90CW(buf, W, H) {
+  const out = new Float32Array(buf.length);
+  for (let y = 0; y < H; y++)
+    for (let x = 0; x < W; x++)
+      out[x * H + (H - 1 - y)] = buf[y * W + x];
+  return { gray: out, W: H, H: W };
+}
 function _f2dPaintGrayscale(canvas, gray, W, H, vmin, vmax) {
   canvas.width = W; canvas.height = H;
   const ctx = canvas.getContext('2d');
@@ -1391,8 +1444,14 @@ async function _f2dPaintCell(cell) {
     cell.querySelector('.f2d-mae').textContent = 'N/A';
     return;
   }
-  const { gray: pGray, W, H } = _f2dImageToGray(predImg);
-  const { gray: gGray }       = _f2dImageToGray(gtImg);
+  let { gray: pGray, W, H } = _f2dImageToGray(predImg);
+  let { gray: gGray }       = _f2dImageToGray(gtImg);
+  // DeepJEB geometry is stored 90° off the canonical 2D-gen orientation (the
+  // scalar-shape gallery already rotates it CW); rotate the 2D-field tiles to match.
+  if (/deepjeb/i.test(cell.dataset.pred || '')) {
+    const rp = _f2dRot90CW(pGray, W, H), rg = _f2dRot90CW(gGray, W, H);
+    pGray = rp.gray; gGray = rg.gray; W = rp.W; H = rp.H;
+  }
   let lo = Infinity, hi = -Infinity;
   for (let i = 0; i < pGray.length; i++) {
     if (pGray[i] < lo) lo = pGray[i]; if (pGray[i] > hi) hi = pGray[i];
@@ -1716,6 +1775,10 @@ function buildPerfSummary() {
   const models3dField = [
     { name: 'transolver_pp', label: 'Transolver++' },
     { name: 'transolver', label: 'Transolver' },
+    { name: 'geotransolver', label: 'GeoTransolver' },
+    { name: 'domino', label: 'DoMINO' },
+    { name: 'linearno', label: 'LinearNO' },
+    { name: 'linearno_big', label: 'LinearNO-Big' },
     { name: 'pointnet', label: 'PointNet' },
     { name: 'regdgcnn', label: 'RegDGCNN' },
     { name: 'geofno', label: 'GeoFNO' },
@@ -3078,7 +3141,7 @@ window.initEvalViewer = async function(model, size, dataset, targetKey, channels
       btn.classList.add('active');
     }
     // Re-arm auto-rotate when the user switches to a different component.
-    // Rationale: switching component (disp_x → stress, etc.) is effectively
+    // Rationale: switching component (displacement_x → stress, etc.) is effectively
     // a new field — the previous "stopped" state belongs to the previous
     // view. Same idea is applied to target switches (those go through
     // selectExperiment which already resets `evalAutoRotate = true`).
@@ -3401,15 +3464,17 @@ window.initCmpPCViewer = function(el, model, size, dataset, sampleIdx, side) {
 window.initScalarShapeViewer3D = function(el, dataset, slot) {
   const w = el.clientWidth || 160;
   const h = el.clientHeight || 160;
+  // Both shapes spin around their own Z axis, viewed from opposite sides: DeepWheel
+  // rolls on its axle (camera face-on on −Z); the DeepJEB bracket is a flat CAD plate
+  // shown from directly overhead on +Z (top / plan view) so its XY outline reads —
+  // matching the canonical DeepJEB orientation elsewhere.
+  const isDeepWheel = (dataset || '').toLowerCase().includes('deepwheel');
 
   el.innerHTML = '';
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0C0C0C);
   const camera = new THREE.PerspectiveCamera(45, w / h, 0.01, 100);
-  // DeepWheel point clouds have their rotation axis along Z (verified: Z range
-  // ~[-0.46, 0.33], std 0.25 vs X/Y std ~0.52). Camera placed on -Z (back view)
-  // looking toward origin → wheel's inner face visible head-on.
-  camera.position.set(0, 0, -2.6);
+  camera.position.set(0, 0, -2.6);   // DeepWheel default; DeepJEB reframed after load
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(w, h);
@@ -3420,9 +3485,9 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
   controls.enableDamping = true;
   controls.dampingFactor = 0.08;
   controls.enableZoom = false;
-  // Disable OrbitControls.autoRotate (azimuthal around Y) — instead we spin the
-  // point cloud itself around its own Z axis to mimic a wheel rolling. Camera
-  // stays on the wheel's axis so the spin reads as "wheel turning in place".
+  // Both shapes spin the cloud around its own Z axis (below): DeepWheel rolls on its
+  // axle (camera on −Z), the DeepJEB bracket turns in place under a top-down +Z
+  // camera. OrbitControls.autoRotate stays off — the object spins, not the camera.
   controls.autoRotate = false;
   controls.minDistance = 0.5;
   controls.maxDistance = 8;
@@ -3441,12 +3506,12 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
     const now = performance.now();
     const dt = Math.min(0.05, (now - lastT) / 1000);
     lastT = now;
-    if (pts && rollEnabled) pts.rotation.z += ROLL_SPEED * dt;
+    if (pts && rollEnabled) pts.rotation.z += ROLL_SPEED * dt;   // Z-axis spin (wheel axle / bracket top-down)
     controls.update();
     renderer.render(scene, camera);
   }
   animate();
-  // Pause rolling while dragging so the user can inspect a static pose; resume
+  // Pause rotation while dragging so the user can inspect a static pose; resume
   // on release to match the autoRotate-on-'end' convention used by the rest
   // of the 3D viewers (3D gen / field pred).
   controls.addEventListener('start', () => { rollEnabled = false; });
@@ -3493,29 +3558,35 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
     .then(resp => resp.ok ? resp.arrayBuffer() : Promise.reject(new Error(`HTTP ${resp.status}`)))
     .then(buf => {
       const positions = new Float32Array(buf);
-      // No Y/Z swap for DeepWheel: original Z is already the wheel's rotation axis,
-      // so we keep it as-is and place the camera on +Z (see camera.position above).
+      // Keep raw CAD coords (Z-up) for both — DeepWheel spins on its Z axle, the
+      // DeepJEB bracket is viewed straight down its vertical Z axis (top / plan view)
+      // and turned in place around it. No Y-up swap.
       const geom = new THREE.BufferGeometry();
       geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-      // Soft monochrome shading uses radial distance from the wheel axis (XY plane
-      // distance from origin) — emphasizes spokes/rim structure that a viewer of
-      // a rolling wheel naturally focuses on, rather than vertical luminance.
       const N = positions.length / 3;
       const colors = new Float32Array(N * 3);
-      let rMax = 0;
-      for (let i = 0; i < N; i++) {
-        const x = positions[i * 3], y = positions[i * 3 + 1];
-        const r = Math.hypot(x, y);
-        if (r > rMax) rMax = r;
-      }
-      rMax = rMax || 1;
-      for (let i = 0; i < N; i++) {
-        const x = positions[i * 3], y = positions[i * 3 + 1];
-        const t = Math.hypot(x, y) / rMax;                    // 0 (hub) → 1 (rim)
-        const lum = 0.30 + 0.60 * t;                          // [0.30, 0.90]
-        colors[i * 3]     = lum * 0.78;                       // mild cool tint
-        colors[i * 3 + 1] = lum * 0.82;
-        colors[i * 3 + 2] = lum * 1.00;
+      if (isDeepWheel) {
+        // Radial (hub→rim) shading emphasizes spokes/rim while the wheel rolls.
+        let rMax = 0;
+        for (let i = 0; i < N; i++) { const x = positions[i*3], y = positions[i*3+1]; const r = Math.hypot(x, y); if (r > rMax) rMax = r; }
+        rMax = rMax || 1;
+        for (let i = 0; i < N; i++) {
+          const x = positions[i*3], y = positions[i*3+1];
+          const t = Math.hypot(x, y) / rMax;
+          const lum = 0.30 + 0.60 * t;
+          colors[i*3] = lum*0.78; colors[i*3+1] = lum*0.82; colors[i*3+2] = lum*1.00;
+        }
+      } else {
+        // DeepJEB top view: shade by Z (bracket height/thickness, now facing the
+        // camera) so raised features read against the base plate.
+        let zMin = Infinity, zMax = -Infinity;
+        for (let i = 0; i < N; i++) { const z = positions[i*3+2]; if (z < zMin) zMin = z; if (z > zMax) zMax = z; }
+        const zr = (zMax - zMin) || 1;
+        for (let i = 0; i < N; i++) {
+          const t = (positions[i*3+2] - zMin) / zr;
+          const lum = 0.32 + 0.58 * t;
+          colors[i*3] = lum*0.78; colors[i*3+1] = lum*0.82; colors[i*3+2] = lum*1.00;
+        }
       }
       geom.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
       pts = new THREE.Points(geom, new THREE.PointsMaterial({
@@ -3523,14 +3594,20 @@ window.initScalarShapeViewer3D = function(el, dataset, slot) {
       }));
       scene.add(pts);
       geom.computeBoundingBox();
+      geom.computeBoundingSphere();
       const c = new THREE.Vector3();
       geom.boundingBox.getCenter(c);
       controls.target.copy(c);
-      // Dead-on back view: camera on -Z looking head-on at the wheel's INNER face
-      // (no elevation tilt) — synced with the benchmark scalar viewer. VIEW_ELEV_SIN/
-      // COS stay in use by the field/gen viewers; only this scalar wheel is face-on.
-      camera.position.set(c.x, c.y, c.z - 2.6);
       camera.up.set(0, 1, 0);
+      if (isDeepWheel) {
+        // Dead-on back view (-Z): wheel inner face head-on, no elevation tilt.
+        camera.position.set(c.x, c.y, c.z - 2.6);
+      } else {
+        // DeepJEB: top / plan view — camera straight overhead on +Z looking down at
+        // the XY plane, distance scaled to the bracket radius so it fills the frame.
+        const radius = (geom.boundingSphere && geom.boundingSphere.radius) || 1;
+        camera.position.set(c.x, c.y, c.z + 2.8 * radius);
+      }
       controls.update();
     })
     .catch(() => {

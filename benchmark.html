@@ -720,7 +720,7 @@ function setUmbrella(u, btn) {
 function hasLevel3Filter() { return state.task === 'prediction'; }
 
 // Component drill-down exists when the current (dataset, targetKey) carries ≥2
-// physical quantities (data-driven — covers 3D field displacement/von_mises AND
+// physical quantities (data-driven — covers 3D field displacement/stress AND
 // scalar modal mode_freq_7/11, not just 3D field as before).
 function hasComponentFilter() {
   // ≥1 (not ≥2): even a single-component problem shows its Component pill so the
@@ -755,7 +755,7 @@ function renderLevel3Filters() {
       onclick="setTarget('${o.key}',this)">${o.label}</button>`).join('')}
   `;
 
-  // ── Component row: friendly labels (von_mises/stress → "Stress"). "All" only
+  // ── Component row: friendly labels (stress → "Stress"). "All" only
   //    when ≥2 (no redundant All on a single quantity); a single-component
   //    problem auto-selects its one pill so the user still sees WHAT was measured
   //    (e.g. drivaernet surface → "Pressure"). Hidden only for aggregate
@@ -780,7 +780,7 @@ function renderLevel3Filters() {
         const tip = componentTooltip(d);
         const title = tip ? ` title="${tip}"` : '';
         return `<button class="filter-pill ${d===state.dimension?'active':''}"${title}
-          onclick="setComponent('${d}',this)">${componentLabel(d)}</button>`;
+          onclick="setComponent('${d}',this)">${componentLabel(d, state.dataset)}</button>`;
       }).join('')}
     `;
     dimFilter.style.display = '';
@@ -1152,7 +1152,7 @@ function renderMetricsTable(data) {
     if (hasComponentFilter() && !state.dimension && !isAirfransLike(state.dataset)) infoCols.splice(infoCols.indexOf('Parameters (M)'), 0, 'Component');
     // Axis (x/y/z) disambiguates vector components — e.g. displacement/velocity/mode_shape
     // each split into x/y/z rows. Shown only when the data actually carries an axis so the
-    // 3 per-axis rows don't look identical (scalars like von_mises keep a blank axis).
+    // 3 per-axis rows don't look identical (scalars like stress keep a blank axis).
     if (hasComponentFilter() && data.some(r => r['Axis'])) infoCols.splice(infoCols.indexOf('Parameters (M)'), 0, 'Axis');
   }
   // Ordered metric columns
@@ -1220,7 +1220,7 @@ function renderMetricsTable(data) {
   else metricsTitleParts.push('All Datasets');
   if (state.task === 'prediction') {
     if (state.targetKey) metricsTitleParts.push(state.targetKey);
-    if (state.dimension) metricsTitleParts.push(componentLabel(state.dimension));
+    if (state.dimension) metricsTitleParts.push(componentLabel(state.dimension, state.dataset));
   }
   document.getElementById('metrics-section-label').textContent =
     `Dataset Metrics — ${metricsTitleParts.join(' / ')}`;
@@ -1229,7 +1229,7 @@ function renderMetricsTable(data) {
   const resStr = uniqueRes.join(', ');
   const parts = [ds, sz, resStr].filter(Boolean);
   const info = state.dim === '3d'
-    ? [...parts, state.targetKey, componentLabel(state.dimension)].filter(Boolean).join(' / ')
+    ? [...parts, state.targetKey, componentLabel(state.dimension, state.dataset)].filter(Boolean).join(' / ')
     : parts.join(' / ');
   document.getElementById('metrics-info').textContent = `${info} · ${data.length} rows`;
 
@@ -1503,7 +1503,7 @@ function renderVisualSection(data, rankOrder) {
   const visualParts = [state.dataset ? displayDataset(state.dataset) : 'All Datasets'];
   if (state.task === 'prediction') {
     if (state.targetKey) visualParts.push(state.targetKey);
-    if (state.dimension) visualParts.push(componentLabel(state.dimension));
+    if (state.dimension) visualParts.push(componentLabel(state.dimension, state.dataset));
   }
   const labelEl = document.getElementById('visual-section-label');
   labelEl.textContent = `${resultLabel} — ${visualParts.join(' / ')}`;
@@ -1827,6 +1827,17 @@ function imageToGrayFloat(img) {
   return { gray, W, H };
 }
 
+// Rotate a row-major W×H buffer 90° clockwise; returns the rotated buffer with
+// W/H swapped ((x,y) → (H-1-y, x)). Used to bring DeepJEB's 2D-field tiles into
+// the canonical landscape orientation (see paintField2DCell).
+function rotate90CW(buf, W, H) {
+  const out = new Float32Array(buf.length);
+  for (let y = 0; y < H; y++)
+    for (let x = 0; x < W; x++)
+      out[x * H + (H - 1 - y)] = buf[y * W + x];
+  return { gray: out, W: H, H: W };
+}
+
 // The 2D field panels are 100%-filled opaque images, so the same turbo ramp reads
 // a touch hotter than on the 3D point cloud (which is 0.85-opacity specks over a
 // near-black bg, so every point already blends ~15% toward dark). Blend each turbo
@@ -1913,9 +1924,14 @@ function renderScalarPredictionAllModels(container, data, rankOrder) {
 
   const models = sortModelsByRank([...new Set(data.map(r => r['Model Name']))], rankOrder || {});
   const dataSize = Math.round(data[0]['Data Size']);
-  // Visual scalar assets (pred JSON + _shapes manifest) are published under the UMBRELLA
-  // dataset name (deepwheel_{2,3}d_1d); the summary carries the split analysis name
-  // (…_mass / …_modal). Map back so the gallery paths resolve.
+  // Visual scalar assets (pred JSON + _shapes manifest) publish per dataset. DeepWheel has
+  // two analyses under one umbrella (…_mass / …_modal), so its assets live under the STRIPPED
+  // umbrella name (deepwheel_{2,3}d_1d) and the summary's mass/modal token must be stripped to
+  // resolve the gallery path (else every fetch 404s → the "Per-sample shapes not exported yet"
+  // placeholder). DeepJEB scalar is a single COUPLED dataset published under its FULL name
+  // (deepjeb_{2,3}d_1d_structural) — so strip ONLY mass|modal here; do NOT add `structural`
+  // (stripping it would 404 the whole DeepJEB scalar gallery). 1D-only tokens (strength/
+  // noise/rul) must NOT be added either.
   const dataset = (data[0]?.['Dataset'] || '').replace(/_(mass|modal)$/, '');
   // Per-target keys must match the JSON `targets` keys, which are per-component labels
   // (mass; mode_freq_7 / mode_freq_11) — NOT the coupled summary Target Key
@@ -1950,7 +1966,7 @@ function renderScalarPredictionAllModels(container, data, rankOrder) {
   if (orderedTks.length) {
     // Single-quantity view → name it in the row sub-label (like the field gallery's
     // `· {target}`); multi-quantity (All) → the per-strip labels carry the names.
-    const subTk = orderedTks.length === 1 ? ` · ${componentLabel(orderedTks[0])}` : '';
+    const subTk = orderedTks.length === 1 ? ` · ${componentLabel(orderedTks[0], dataset)}` : '';
     const modelRows = models.map(model => {
       const rowKey = `sc-gal-${model}-${dataset}-${dataSize}`;
       const dataUrl = `${scalarBase}/${model}_${dataSize}/${dataset}.json`;
@@ -2197,7 +2213,7 @@ function lbDrawScalarGalleryRow(row) {
     // Neutral quantity label (matches the field gallery's muted caption chrome);
     // suppressed when there's only one quantity (the panel title + row sub name it).
     const stripLabel = single ? '' :
-      `<div class="sp-strip-label" style="font-size:10px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; color:var(--text-tertiary); margin-bottom:3px;">${componentLabel(tk)}</div>`;
+      `<div class="sp-strip-label" style="font-size:10px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; color:var(--text-tertiary); margin-bottom:3px;">${componentLabel(tk, ctx.dataset)}</div>`;
     return `<div class="sp-quantity-strip">${stripLabel}
       <div class="sp-gallery-cards" style="display:grid; gap:6px; grid-template-columns:repeat(${cardsPerRow}, minmax(0, 1fr));">${cards.join('')}</div>
     </div>`;
@@ -2493,11 +2509,23 @@ function render2DFieldPredictionAllModels(container, data, rankOrder) {
       if (!rows.length) return;
       // Every Target Key present for this (model, ds), in canonical filter order.
       // A coupled / multi-channel field (AirfRANS Flow → velocity-x/y, pressure,
-      // turbulence; 2D-structural → stress / disp) resolves to >1 → stack ONE
+      // turbulence; 2D-structural → stress / displacement) resolves to >1 → stack ONE
       // labeled sub-strip per channel (mirrors the scalar gallery's per-quantity
       // strips). Single-target datasets (depth, darcy) keep the original single
       // strip with the channel named in the row label, NOT a per-strip label.
-      let tks = getTargetKeysForDataset(rows, ds);
+      // Per-strip token = Component when present (coupled deepjeb structural →
+      // displacement / stress, which are the per-component image dirs), else Target Key
+      // (AirfRANS u/v/p/nu_t; depth/darcy single). Mirrors renderScalarPredictionAllModels
+      // so a coupled field stacks one sub-strip per component instead of a single dead
+      // `displacement+stress` strip that 404s. Deduped + ordered via DIMENSION_ORDER.
+      let tks = [...new Set(rows.map(r => r['Component'] || r['Target Key']).filter(Boolean))].sort((a, b) => {
+        const ord = (typeof DIMENSION_ORDER !== 'undefined') ? DIMENSION_ORDER : [];
+        const ai = ord.indexOf(a), bi = ord.indexOf(b);
+        if (ai !== -1 && bi !== -1) return ai - bi;
+        if (ai !== -1) return -1;
+        if (bi !== -1) return 1;
+        return String(a).localeCompare(String(b));
+      });
       if (!tks.length) tks = [rows[0]['Target Key'] || 'depth'];
       const friendly = displayModelName(model);
       const type = displayModelType(model);
@@ -2562,8 +2590,17 @@ async function paintField2DCell(cell) {
     cell.querySelector('.f2d-mae').textContent = 'N/A';
     return;
   }
-  const { gray: pGray, W, H } = imageToGrayFloat(predImg);
-  const { gray: gGray }       = imageToGrayFloat(gtImg);
+  let { gray: pGray, W, H } = imageToGrayFloat(predImg);
+  let { gray: gGray }       = imageToGrayFloat(gtImg);
+
+  // DeepJEB's bracket geometry is stored 90° off the canonical 2D-gen orientation.
+  // The scalar-shape gallery already rotates it CW (convert_pred_scalar_shapes.py's
+  // img_rot90_cw); the 2D-field triptych was the last DeepJEB view left un-rotated,
+  // so turn both GT and pred 90° CW here to keep every DeepJEB view landscape-aligned.
+  if (/deepjeb/i.test(cell.dataset.pred || '')) {
+    const rp = rotate90CW(pGray, W, H), rg = rotate90CW(gGray, W, H);
+    pGray = rp.gray; gGray = rg.gray; W = rp.W; H = rp.H;
+  }
 
   // Colormap range from the GT ONLY (not the pred∪GT union). The GT for a given
   // sample is SHARED across every model, so deriving the range from GT alone makes
@@ -2623,7 +2660,7 @@ function render3DEvalAllModels(container, data, rankOrder) {
   const models = sortModelsByRank([...new Set(data.map(r => r['Model Name']))], rankOrder || {});
   const dataset = state.dataset;
   // The summary Target Key (coupled label) and Component (axis-free quantity)
-  // don't match the viewer's axis-baked channel vocab (disp_x / stress / …), so
+  // don't match the viewer's axis-baked channel vocab (displacement_x / stress / …), so
   // bridge them: when a specific Component is pinned, the viewer locks to that
   // component's bin token + channel subset; Axis picks a single channel within it.
   const fixedBinTk = (dataset && state.dimension) ? componentBinToken(dataset, state.dimension) : null;
@@ -2655,7 +2692,7 @@ function render3DEvalAllModels(container, data, rankOrder) {
     Object.keys(binTks).forEach(binTk => {
       let chs = binTks[binTk];
       // Restrict to the pinned Component's channels (so cycling/Axis stays within
-      // e.g. displacement's disp_x/y/z, not the sibling stress channel).
+      // e.g. displacement's displacement_x/y/z, not the sibling stress channel).
       if (dataset && ds === dataset && state.dimension && binTk === fixedBinTk) {
         chs = componentChannels(ds, state.dimension, state.axis);
       }
@@ -3021,13 +3058,23 @@ function sortTable(tableId, colIdx) {
 // ══════════════════════════════════════════
 function syncURL() {
   const defaultSamples = getDefaultSampleCount();
+  // Single-target umbrellas (e.g. DeepJEB scalar → the lone coupled
+  // displacement+stress) offer no Target choice, so collapse the URL to the clean
+  // canonical `t=all` — the whole-umbrella view — instead of leaking the specific
+  // target key. Round-trips: on restore selectTarget('all') re-resolves the lone
+  // target (benchmark_C's tgts.length===1 collapse), so state is unchanged.
+  let targetParam = state.target;
+  if (state.task === 'prediction' && state.umbrella && targetParam && targetParam !== 'all') {
+    const tgts = getTargetsForUmbrella(allSummaryData, state.umbrella);
+    if (tgts.length === 1) targetParam = 'all';
+  }
   pushHashState({
     dim: state.dim !== '3d' ? state.dim : null,
     task: state.task !== 'generation' ? state.task : null,
     ot: (state.task === 'prediction' && state.outputType !== 'field') ? state.outputType : null,
     scale: state.dataScale !== 'Extra Large' ? state.dataScale : null,
     u: state.umbrella,
-    t: state.target,
+    t: targetParam,
     d: state.dimension,
     x: state.axis,
     samples: (state.sampleCount && state.sampleCount !== defaultSamples) ? state.sampleCount : null,
@@ -4086,6 +4133,11 @@ window.initLeaderboardScalarShapeViewer = async function(el) {
   await ensureThree();
   const dataset = el.dataset.dataset;
   const slot = parseInt(el.dataset.slot);
+  // Both shapes spin around their own Z axis, viewed from opposite sides of it:
+  // DeepWheel is a rolling wheel (camera face-on on −Z), the DeepJEB bracket is a
+  // flat CAD plate shown from directly overhead on +Z (top / plan view) so its XY
+  // outline reads — matching the canonical DeepJEB orientation elsewhere. Branch on it.
+  const isDeepWheel = (dataset || '').toLowerCase().includes('deepwheel');
   const w = el.clientWidth || 78;
   const h = el.clientHeight || 78;
 
@@ -4117,9 +4169,18 @@ window.initLeaderboardScalarShapeViewer = async function(el) {
   // smoothly from where the user left it.
   let rollEnabled = true;
   let rollOffset = 0;
+  // Per-dataset roll factor off the shared global roll phase: DeepWheel reads too
+  // fast → set to 0.4 (≈61% of the original 0.66); the DeepJEB bracket plate under the
+  // overhead +Z camera reads faster still → 33%, and spins the opposite way (negative)
+  // to read right.
+  const rollMult = isDeepWheel ? 0.4 : -0.33;
   function animate() {
     animId = requestAnimationFrame(animate);
-    if (pts && rollEnabled) pts.rotation.z = globalRollAngle() + rollOffset;
+    // Both shapes spin around the world-Z axis off the shared global roll phase:
+    // DeepWheel rolls on its axle (camera face-on on −Z); the DeepJEB bracket turns
+    // in place under a straight-overhead +Z camera (top / plan view). Same motion,
+    // opposite camera side — one roll drives both.
+    if (pts && rollEnabled) pts.rotation.z = globalRollAngle() * rollMult + rollOffset;
     controls.update();
     renderer.render(scene, camera);
   }
@@ -4128,7 +4189,7 @@ window.initLeaderboardScalarShapeViewer = async function(el) {
   // pause rotation while the user is dragging, resume the moment they release.
   controls.addEventListener('start', () => { rollEnabled = false; });
   controls.addEventListener('end', () => {
-    if (pts) rollOffset = pts.rotation.z - globalRollAngle();
+    if (pts) rollOffset = pts.rotation.z - globalRollAngle() * rollMult;   // resume from where the drag left off
     rollEnabled = true;
   });
 
@@ -4182,25 +4243,35 @@ window.initLeaderboardScalarShapeViewer = async function(el) {
     .then(resp => resp.ok ? resp.arrayBuffer() : Promise.reject(new Error(`HTTP ${resp.status}`)))
     .then(buf => {
       const positions = new Float32Array(buf);
+      // Keep raw CAD coords (Z-up) for both shapes — DeepWheel spins on its Z axle,
+      // and the DeepJEB bracket is viewed straight down its vertical Z axis (top /
+      // plan view) and turned in place around it, so no Y-up swap is wanted here.
       const geom = new THREE.BufferGeometry();
       geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-      // Radial coloring (hub→rim) makes spokes pop and reads cleanly while spinning.
       const N = positions.length / 3;
       const colors = new Float32Array(N * 3);
-      let rMax = 0;
-      for (let i = 0; i < N; i++) {
-        const x = positions[i * 3], y = positions[i * 3 + 1];
-        const r = Math.hypot(x, y);
-        if (r > rMax) rMax = r;
-      }
-      rMax = rMax || 1;
-      for (let i = 0; i < N; i++) {
-        const x = positions[i * 3], y = positions[i * 3 + 1];
-        const t = Math.hypot(x, y) / rMax;
-        const lum = 0.30 + 0.60 * t;
-        colors[i * 3]     = lum * 0.78;
-        colors[i * 3 + 1] = lum * 0.82;
-        colors[i * 3 + 2] = lum * 1.00;
+      if (isDeepWheel) {
+        // Radial (hub→rim) coloring makes spokes pop while the wheel rolls.
+        let rMax = 0;
+        for (let i = 0; i < N; i++) { const x = positions[i*3], y = positions[i*3+1]; const r = Math.hypot(x, y); if (r > rMax) rMax = r; }
+        rMax = rMax || 1;
+        for (let i = 0; i < N; i++) {
+          const x = positions[i*3], y = positions[i*3+1];
+          const t = Math.hypot(x, y) / rMax;
+          const lum = 0.30 + 0.60 * t;
+          colors[i*3] = lum*0.78; colors[i*3+1] = lum*0.82; colors[i*3+2] = lum*1.00;
+        }
+      } else {
+        // DeepJEB top view: shade by Z (bracket height/thickness, now facing the
+        // camera) so raised features read against the base plate.
+        let zMin = Infinity, zMax = -Infinity;
+        for (let i = 0; i < N; i++) { const z = positions[i*3+2]; if (z < zMin) zMin = z; if (z > zMax) zMax = z; }
+        const zr = (zMax - zMin) || 1;
+        for (let i = 0; i < N; i++) {
+          const t = (positions[i*3+2] - zMin) / zr;
+          const lum = 0.32 + 0.58 * t;
+          colors[i*3] = lum*0.78; colors[i*3+1] = lum*0.82; colors[i*3+2] = lum*1.00;
+        }
       }
       geom.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
       pts = new THREE.Points(geom, new THREE.PointsMaterial({
@@ -4208,15 +4279,23 @@ window.initLeaderboardScalarShapeViewer = async function(el) {
       }));
       scene.add(pts);
       geom.computeBoundingBox();
+      geom.computeBoundingSphere();
       const c = new THREE.Vector3();
       geom.boundingBox.getCenter(c);
       controls.target.copy(c);
-      // Dead-on back view: camera on -Z looking at the wheel's INNER face head-on
-      // (no elevation tilt). (Was the shared VIEW_ELEV_DEG three-quarter elevation —
-      // kept for the field/gen viewers, but the scalar wheel reads best perfectly
-      // face-on; -Z shows the inner/back face.)
-      camera.position.set(c.x, c.y, c.z - 2.6);
       camera.up.set(0, 1, 0);
+      if (isDeepWheel) {
+        // Dead-on back view: camera on -Z, wheel's inner face head-on (no tilt).
+        camera.position.set(c.x, c.y, c.z - 2.6);
+      } else {
+        // DeepJEB: top / plan view — camera straight overhead on +Z looking down at the
+        // XY plane. Distance = DEEPJEB_TOPVIEW_K × radius; SMALLER = more zoomed-in (bracket
+        // fills more of the panel). Tuned to fill without clipping: 2.8 read too small, 1.7
+        // clipped the bracket ends, so 2.2 (their midpoint). Lower to zoom in, raise for margin.
+        const radius = (geom.boundingSphere && geom.boundingSphere.radius) || 1;
+        const DEEPJEB_TOPVIEW_K = 2.2;
+        camera.position.set(c.x, c.y, c.z + DEEPJEB_TOPVIEW_K * radius);
+      }
       controls.update();
     })
     .catch(() => {
