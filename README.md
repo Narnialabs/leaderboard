@@ -73,20 +73,6 @@ Rankings are generated per dataset size (S/M/L/XL), with a switchable quality-on
 
 > All reported Train/Infer Time figures are standardized to the NVIDIA RTX PRO 6000 platform for cross-model comparability.
 
-## Build & Data Pipeline
-
-The dashboard is a fully static site — every page fetches pre-built JSON / `.bin` / PNG artifacts from `output/` (via `shared/data-loader.js`); there is no backend. The artifacts are regenerated from the benchmark's committed `results/` fragments and per-run inference outputs by the scripts in `scripts/`:
-
-| Script | Produces | Notes |
-|--------|----------|-------|
-| `copy_csv_data.py` | `output/data/` — leaderboard CSVs, `summary_metrics.csv`, `performance.json` | Re-ranks the DeepJEB 3D-field boards with the AB-UPT family (`abupt`, `narnia_abupt`, `svmoe_abupt`) license-excluded; applies the publication toggles |
-| `convert_gen_image.py` / `convert_gen_pointcloud.py` | `output/gen2d/`, `output/gen3d/` | 2D PNGs copied verbatim; 3D `.npy → .bin` (Float32Array). Both use farthest-point sampling so the displayed subset spans the visual/shape distribution |
-| `convert_pred_image.py` | `output/pred2d_field/` | Field-prediction PNGs + a shared `_gt/` tree for pred ↔ GT pairs |
-| `convert_pred_pointcloud.py` + `convert_pred_coupled.py` | `output/pred3d_field/` | Per-channel `.bin` + merged `manifest.json` (coupled DrivAerML/DrivAerNet surface & volume merge into the existing manifest) |
-| `convert_pred_scalar.py` + `convert_pred_scalar_shapes.py` | `output/pred{1,2,3}d_scalar/` | Per-target `pred`/`gt` arrays for the scatter & error-diagnostics views, plus per-sample input-shape thumbnails |
-
-After a benchmark re-run, the publish pass is **Step C → `copy_csv_data.py` → the relevant `convert_*` scripts**.
-
 ## Features
 
 - **Leaderboard Rankings** — Ranked model tables with multi-metric evaluation and visual heatmaps across dataset sizes (S/M/L/XL)
