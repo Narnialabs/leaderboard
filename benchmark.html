@@ -523,7 +523,9 @@ async function loadAllData() {
   if (_initialLoad) {
     _initialLoad = false;
     prefetched = {
-      key: `${cat}|XL||||${state.branch}`,
+      // cat|size|dataset|targetKey|component|axis|branch — must stay in lock-step
+      // with the cacheKey applyFilters() builds, or the prefetch silently misses.
+      key: `${cat}|XL|||||${state.branch}`,
       lb: loadLeaderboard(cat, 'XL', null, null, null, state.branch).catch(() => null),
       mr: loadMetricsRanking(cat, 'XL', null, null, null, state.branch).catch(() => null),
     };
@@ -791,7 +793,10 @@ function renderLevel3Filters() {
 // Axis (x/y/z) for the selected vector Component. Lives INLINE in the Component
 // row (level3) — toggling the group itself (not a separate row) avoids pushing the
 // page down on PC; on mobile the row stacks so Axis falls under Component. Drives
-// the per-sample viewer + metrics table only; BenchRank ranking stays per-component.
+// the BenchRank ranking, the metrics table AND the per-sample viewer: each channel
+// is scored independently (a cross-flow velocity component is a different, harder
+// problem than the streamwise one), so Axis=x and Axis=z order models differently.
+// Axis=All keeps the axis-averaged component board.
 function renderLevel4Filters() {
   const c = document.getElementById('axis-filter');
   if (!hasAxisFilter()) { state.axis = null; c.style.display = 'none'; return; }
@@ -871,20 +876,24 @@ async function applyFilters(prefetched = null) {
   // Load BenchRank leaderboard + metrics CSV (per-size, per-dataset, per-targetkey when available).
   // First-load fast path: loadAllData may have started these fetches in parallel
   // with the summary fetch; reuse them when the resolved filter state still matches.
-  // Component is only honored when both dataset and targetKey are pinned (matches Step C output layout).
-  // Axis never enters the path — BenchRank ranks per-component (vector); a scenario-type
-  // Target=All resolves to the per-umbrella roll-up leaderboard key.
+  // Component is only honored when both dataset and targetKey are pinned, and Axis only
+  // when a Component is pinned too (matches Step C's output layout). BenchRank scores each
+  // x/y/z channel independently, so a pinned Axis loads its own board; Axis=All keeps the
+  // axis-averaged component board. AirfRANS resolves its axis through the Target Key
+  // (u/v) instead, so it never takes the axis path. A scenario-type Target=All resolves
+  // to the per-umbrella roll-up leaderboard key.
   let pathDataset = state.dataset;
   if (!pathDataset && state.umbrella && state.task === 'prediction') {
     pathDataset = umbrellaLeaderboardKey(allSummaryData, state.umbrella);
   }
   const compForPath = (!isAirfransLike(state.dataset) && state.dataset && state.targetKey && hasComponentFilter() && state.dimension) ? state.dimension : '';
-  const cacheKey = `${cat}|${sc}|${pathDataset || ''}|${state.targetKey || ''}|${compForPath}|${state.branch}`;
+  const axisForPath = (compForPath && hasAxisFilter() && state.axis) ? state.axis : '';
+  const cacheKey = `${cat}|${sc}|${pathDataset || ''}|${state.targetKey || ''}|${compForPath}|${axisForPath}|${state.branch}`;
   let leaderboardData = [], metricsData = [];
   try {
     const usePrefetch = prefetched && prefetched.key === cacheKey;
-    const lbP = usePrefetch ? prefetched.lb : loadLeaderboard(cat, sc, pathDataset, state.targetKey, compForPath || undefined, state.branch);
-    const mrP = usePrefetch ? prefetched.mr : loadMetricsRanking(cat, sc, pathDataset, state.targetKey, compForPath || undefined, state.branch);
+    const lbP = usePrefetch ? prefetched.lb : loadLeaderboard(cat, sc, pathDataset, state.targetKey, compForPath || undefined, state.branch, axisForPath || undefined);
+    const mrP = usePrefetch ? prefetched.mr : loadMetricsRanking(cat, sc, pathDataset, state.targetKey, compForPath || undefined, state.branch, axisForPath || undefined);
     const [lb, mr] = await Promise.all([lbP, mrP]);
     leaderboardData = lb || [];
     metricsData = mr || [];
@@ -987,6 +996,13 @@ function renderRankingTable(data) {
   const rkParts = [`dimension_${state.dim}`, state.task, `Size ${getSizeCode()}`];
   if (state.dataset) rkParts.push(displayDataset(state.dataset));
   if (state.targetKey) rkParts.push(state.targetKey);
+  // Name the Component and Axis the board was actually ranked on. Both are ranking
+  // levels, so without them two different boards read as the same caption — which is
+  // exactly what made a switched Axis look like a no-op.
+  if (state.dimension) rkParts.push(componentLabel(state.dimension, state.dataset));
+  if (hasAxisFilter() && !isAirfransLike(state.dataset)) {
+    rkParts.push(state.axis ? `axis ${state.axis}` : 'all axes');
+  }
   document.getElementById('ranking-info').textContent =
     `${rkParts.join(' / ')} · ${data.length} models`;
 }

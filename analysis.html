@@ -350,6 +350,15 @@
       <span class="filter-label" id="cmp-dimfilter-label">Component</span>
       <div id="cmp-dimfilter-pills" style="display:inline-flex; gap:4px; margin-left:6px;"></div>
     </div>
+    <!-- Axis (x/y/z) of the selected vector Component. A separate group from
+         Component because BenchRank scores each channel independently, so this is
+         its own scope level — not a relabel of the Component row (which is what
+         AirfRANS does, since its axis IS a Target Key). Inline like
+         benchmark.html's #axis-filter so PC layout doesn't gain a row. -->
+    <div class="filter-group" id="cmp-axisfilter-group" style="display:none; border-left:1px solid rgba(255,255,255,0.12); padding-left:16px;">
+      <span class="filter-label">Axis</span>
+      <div id="cmp-axisfilter-pills" style="display:inline-flex; gap:4px; margin-left:6px;"></div>
+    </div>
   </div>
 </div>
 
@@ -2661,7 +2670,14 @@ const cmpState = {
   // concrete head-to-head, so there is no "All" target (always a specific problem).
   umbrella: null, target: null,
   dataset: null,
-  targetKey: null, dimension: null, modelA: null, modelB: null, sortedModels: [], sampleIndex: 0,
+  targetKey: null, dimension: null,
+  // Axis (x/y/z) within a vector Component. null = "All" → the axis-averaged
+  // component view (cmpModelRow's mean) and the component-level board, matching
+  // benchmark.html. A pinned axis narrows rows to that channel and loads that
+  // channel's own BenchRank board. NOT used for AirfRANS, whose axis rides on
+  // `dimension` because there it resolves to a Target Key (u/v).
+  axis: null,
+  modelA: null, modelB: null, sortedModels: [], sampleIndex: 0,
   mode: 'qualitative',
 };
 let cmpAllSummary = [];
@@ -2723,6 +2739,15 @@ function cmpHasComponentFilter() {
   if (cmpState.task !== 'prediction' || !cmpState.dataset || !cmpState.targetKey) return false;
   if (isAirfransLike(cmpState.dataset)) return false;
   return getDimensionsForTargetKey(cmpAllSummary, cmpState.dataset, cmpState.targetKey).length >= 1;
+}
+
+// Axis row exists when a vector Component is pinned and it spans ≥2 axes (mirrors
+// benchmark.html hasAxisFilter). AirfRANS is excluded on purpose: its x/y already
+// live on the Component row because they resolve to Target Keys (u/v), so adding a
+// second axis control there would be two pills for one choice.
+function cmpHasAxisFilter() {
+  return cmpHasComponentFilter() && !!cmpState.dimension
+      && getAxesFor(cmpAllSummary, cmpState.dataset, cmpState.targetKey, cmpState.dimension).length >= 2;
 }
 
 async function showComparisons(mode) {
@@ -2922,6 +2947,27 @@ function cmpRenderLevel3() {
     dimGroup.style.display = 'none';
     document.getElementById('cmp-dimfilter-pills').innerHTML = '';
   }
+  cmpRenderAxisFilter();
+}
+
+// Axis pills for the selected vector Component. "All" (axis = null) keeps the
+// axis-averaged component view, so the default matches the pre-Axis behaviour and
+// per-channel scoping is opt-in.
+function cmpRenderAxisFilter() {
+  const group = document.getElementById('cmp-axisfilter-group');
+  if (!group) return;
+  if (!cmpHasAxisFilter()) {
+    cmpState.axis = null;
+    group.style.display = 'none';
+    document.getElementById('cmp-axisfilter-pills').innerHTML = '';
+    return;
+  }
+  const axes = getAxesFor(cmpAllSummary, cmpState.dataset, cmpState.targetKey, cmpState.dimension);
+  if (cmpState.axis && !axes.includes(cmpState.axis)) cmpState.axis = null;
+  group.style.display = '';
+  cmpMakePills('cmp-axisfilter-pills',
+    [{ value: '', label: 'All' }].concat(axes.map(a => ({ value: a, label: a }))),
+    cmpState.axis || '', 'cmpSetAxisFilter');
 }
 
 // Filter setters
@@ -2933,21 +2979,21 @@ window.cmpSetDim = function(v, btn) {
   if (v === '1d') { cmpState.task = 'prediction'; cmpState.outputType = 'scalar'; }
   else { cmpState.task = 'generation'; cmpState.outputType = 'field'; }
   cmpState.dataScale = null; cmpState.umbrella = null; cmpState.target = null;
-  cmpState.dataset = null; cmpState.targetKey = null; cmpState.dimension = null;
+  cmpState.dataset = null; cmpState.targetKey = null; cmpState.dimension = null; cmpState.axis = null;
   cmpState.modelA = null; cmpState.modelB = null;
   cmpLoadData();
 };
 window.cmpSetTask = function(v, btn) {
   cmpState.task = v; cmpState.outputType = 'field';
   cmpState.dataScale = null; cmpState.umbrella = null; cmpState.target = null;
-  cmpState.dataset = null; cmpState.targetKey = null; cmpState.dimension = null;
+  cmpState.dataset = null; cmpState.targetKey = null; cmpState.dimension = null; cmpState.axis = null;
   cmpState.modelA = null; cmpState.modelB = null;
   cmpLoadData();
 };
 window.cmpSetOutput = function(v, btn) {
   cmpState.outputType = v;
   cmpState.dataScale = null; cmpState.umbrella = null; cmpState.target = null;
-  cmpState.dataset = null; cmpState.targetKey = null; cmpState.dimension = null;
+  cmpState.dataset = null; cmpState.targetKey = null; cmpState.dimension = null; cmpState.axis = null;
   cmpState.modelA = null; cmpState.modelB = null;
   cmpLoadData();
 };
@@ -2980,7 +3026,7 @@ function cmpTargetsForUmbrella(u) {
 // head-to-head, so target defaults to the first option (no "All").
 function cmpSelectUmbrella(u) {
   cmpState.umbrella = u; cmpState.target = null;
-  cmpState.dataset = null; cmpState.targetKey = null; cmpState.dimension = null;
+  cmpState.dataset = null; cmpState.targetKey = null; cmpState.dimension = null; cmpState.axis = null;
   if (cmpState.task !== 'prediction') {
     cmpState.dataset = (umbrellasInData(cmpAllSummary).byUmbrella[u] || [])[0] || null;
     return;
@@ -2990,7 +3036,7 @@ function cmpSelectUmbrella(u) {
 }
 function cmpSelectTarget(key, tgts) {
   tgts = tgts || (cmpState.umbrella ? cmpTargetsForUmbrella(cmpState.umbrella) : []);
-  cmpState.dimension = null;
+  cmpState.dimension = null; cmpState.axis = null;
   const opt = tgts.find(o => o.key === key) || tgts[0];
   if (!opt) return;
   cmpState.target = opt.key; cmpState.dataset = opt.datasetId; cmpState.targetKey = opt.targetKey;
@@ -3028,10 +3074,54 @@ window.cmpSetTarget = function(v, btn) {
 };
 window.cmpSetDimFilter = function(v, btn) {
   cmpState.dimension = v;
+  cmpState.axis = null;              // a new Component has its own axes — reset to All
+  btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  cmpRenderAxisFilter();             // show/hide + repopulate Axis for the new Component
+  cmpApplyFilters();
+};
+window.cmpSetAxisFilter = function(v, btn) {
+  cmpState.axis = v || null;         // '' → All (axis-averaged component view)
   btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   cmpApplyFilters();
 };
+
+// The BenchRank board matching the current scope, as (dataset, targetKey, component,
+// axis). Mirrors benchmark.html's applyFilters path resolution: Component only counts
+// once dataset+targetKey are pinned, Axis only once a Component is, and AirfRANS takes
+// neither because its channel already IS the Target Key.
+function cmpBoardScope() {
+  const ds = cmpState.dataset || undefined;
+  const tk = (cmpHasLevel3Filter() && cmpState.targetKey) ? cmpState.targetKey : undefined;
+  const comp = (!isAirfransLike(cmpState.dataset) && ds && tk
+                && cmpHasComponentFilter() && cmpState.dimension) ? cmpState.dimension : undefined;
+  const ax = (comp && cmpHasAxisFilter() && cmpState.axis) ? cmpState.axis : undefined;
+  return [ds, tk, comp, ax];
+}
+
+// Load the most specific board this scope has, widening on miss. loadLeaderboard
+// already degrades axis→component internally; the extra steps here cover scopes whose
+// deeper board was never generated, so a ranking is still returned instead of nothing
+// (the callers' fallback is an alphabetical model list / no Total Score).
+async function cmpLoadScopedLeaderboard(size) {
+  const cat = cmpCategory();
+  const [ds, tk, comp, ax] = cmpBoardScope();
+  const attempts = [[ds, tk, comp, ax], [ds, tk, comp, undefined],
+                    [ds, tk, undefined, undefined], [ds, undefined, undefined, undefined],
+                    [undefined, undefined, undefined, undefined]];
+  const tried = new Set();
+  for (const [d, t, c, a] of attempts) {
+    const key = `${d}|${t}|${c}|${a}`;
+    if (tried.has(key)) continue;
+    tried.add(key);
+    try {
+      const lb = await loadLeaderboard(cat, size, d, t, c, BRANCH_QUALITY, a);
+      if (lb && lb.length) return lb;
+    } catch (e) { /* widen the scope and retry */ }
+  }
+  return null;
+}
 
 async function cmpApplyFilters() {
   // AirfRANS: the Target pill is the physical component (velocity/pressure/
@@ -3053,15 +3143,18 @@ async function cmpApplyFilters() {
     // (whatever Target Key sorts first) regardless of pill selection.
     if (cmpHasLevel3Filter()) filters.targetKey = cmpState.targetKey;
     if (cmpHasComponentFilter()) filters.dimension = cmpState.dimension;
+    // A pinned Axis narrows to that channel's row; "All" leaves all three in
+    // cmpFiltered so cmpModelRow averages them into the component-level view.
+    if (cmpHasAxisFilter() && cmpState.axis) filters.axis = cmpState.axis;
   }
   cmpFiltered = filterSummaryData(cmpAllSummary, filters);
   let models = [...new Set(cmpFiltered.map(r => r['Model Name']))];
 
-  // Sort models by leaderboard ranking (XL size, default dataset)
+  // Sort models by BenchRank rank for the CURRENT scope (XL size), so the model pill
+  // order — and with it the default widest-gap A/B pick — reflects the axis/component
+  // actually selected rather than one category-wide ordering.
   try {
-    const cat = cmpCategory();
-    const tk = (cmpState.dim === '3d' && cmpState.task === 'prediction') ? cmpState.targetKey : undefined;
-    const lb = await loadLeaderboard(cat, 'XL', undefined, tk);
+    const lb = await cmpLoadScopedLeaderboard('XL');
     if (lb && lb.length) {
       const rankMap = {};
       lb.forEach(r => { rankMap[r['Model']] = parseInt(r['Rank']) || 999; });
@@ -3338,6 +3431,9 @@ function cmpRenderMetricTable(rowA, rowB, metrics, groups, ranges) {
   } else {
     if (cmpState.targetKey) parts.push(cmpState.targetKey);
     if (cmpState.dimension) parts.push(componentLabel(cmpState.dimension));
+    // Name the axis scope — the values shown are one channel's or the mean of all
+    // three, and those are different numbers under an otherwise identical caption.
+    if (cmpHasAxisFilter()) parts.push(cmpState.axis ? 'Axis ' + cmpState.axis : 'all axes');
   }
   document.getElementById('cmp-metrics-info').textContent = parts.join(' / ');
 }
@@ -3749,9 +3845,21 @@ function cmpRender3DPred(container) {
   // The summary Target Key `tk` is the coupled label (e.g. displacement+stress) and
   // does NOT key the bins — derive the bin token from the dataset's channel map instead.
   const CHS = EVAL3D_CHANNELS;  // shared/viz-common.js (loaded above)
-  const binTk = Object.keys(CHS[ds] || {})[0];   // dataset's primary bin token (modal → mode_shape_1)
-  const channels = (binTk && CHS[ds][binTk]) || [];
-  const chIdx = dim ? Math.max(0,channels.indexOf(dim)) : 0;
+  // Resolve the bin + channel through the shared (Component, Axis) → channel map, the
+  // same way benchmark.html does. The previous `channels.indexOf(dim)` compared a
+  // Component name against the AXIS-BAKED channel vocab (displacement vs
+  // displacement_x/y/z), so it never matched and every selection fell back to index 0
+  // — the viewer was pinned to the first channel of the first bin regardless of which
+  // Component or Axis was picked. componentBinToken also fixes modal, where
+  // Mode Shape 2 previously rendered mode_shape_1's bin.
+  const binTk = componentBinToken(ds, dim) || Object.keys(CHS[ds] || {})[0];
+  const allChannels = (binTk && (CHS[ds] || {})[binTk]) || [];
+  // A pinned Axis narrows to that one channel; "All" gives the Component's channels so
+  // the viewer's own channel cycling stays inside the selected quantity.
+  const scoped = dim ? componentChannels(ds, dim, cmpHasAxisFilter() ? cmpState.axis : null) : allChannels;
+  const channels = (scoped && scoped.length) ? scoped : allChannels;
+  const wantCh = dim ? componentAxisToChannel(dim, cmpHasAxisFilter() ? cmpState.axis : null) : null;
+  const chIdx = wantCh ? Math.max(0, channels.indexOf(wantCh)) : 0;
   const dataSize = Math.round((cmpFiltered[0]||{})['Data Size']||0);
   const sizeCode = getEval3DSizeCode(dataSize);
   const nA=displayModelName(cmpState.modelA), nB=displayModelName(cmpState.modelB);
@@ -4374,10 +4482,14 @@ function analysisRenderTrajectory() {
   // matching `filterSummaryData` so Trajectory respects the same scope as the
   // rest of the page. Without this, switching Component changes the filter
   // panel but the chart keeps plotting every component's row.
+  // A pinned Axis tracks that one channel across N; "All" (axisFilter null) keeps every
+  // axis row so the per-size averaging below still yields the component-level curve.
+  const axisFilter = cmpHasAxisFilter() ? cmpState.axis : null;
   const matchTrajectory = r =>
     r['Model Name'] && r['Dataset'] === ds &&
     (!tk || !r['Target Key'] || r['Target Key'] === tk) &&
-    (!dimFilter || !r['Component'] || r['Component'] === dimFilter);
+    (!dimFilter || !r['Component'] || r['Component'] === dimFilter) &&
+    (!axisFilter || !r['Axis'] || r['Axis'] === axisFilter);
   const rowsA = cmpAllSummary.filter(r => r['Model Name'] === ma && matchTrajectory(r));
   const rowsB = cmpAllSummary.filter(r => r['Model Name'] === mb && matchTrajectory(r));
 
@@ -5387,7 +5499,9 @@ async function analysisRenderFrontier() {
   let totalScoreMap = null;
   try {
     const sc = SCALE_MAP[cmpState.dataScale] || cmpState.dataScale;
-    const lb = await loadLeaderboard(cmpCategory(), sc, cmpState.dataset, cmpState.targetKey);
+    // Scope-matched board (component + axis when pinned), widening on miss — the
+    // Total Score offered here must be the score of the selection on screen.
+    const lb = await cmpLoadScopedLeaderboard(sc);
     if (lb && lb.length && (TOTAL_SCORE in (lb[0] || {}))) {
       totalScoreMap = {};
       lb.forEach(r => { totalScoreMap[r['Model']] = +r[TOTAL_SCORE]; });
@@ -5893,7 +6007,9 @@ async function analysisRenderProgression() {
   let totalScoreMap = null;
   try {
     const sc = SCALE_MAP[cmpState.dataScale] || cmpState.dataScale;
-    const lb = await loadLeaderboard(cmpCategory(), sc, cmpState.dataset, cmpState.targetKey);
+    // Scope-matched board (component + axis when pinned), widening on miss — the
+    // Total Score offered here must be the score of the selection on screen.
+    const lb = await cmpLoadScopedLeaderboard(sc);
     if (lb && lb.length && (TOTAL_SCORE in (lb[0] || {}))) {
       totalScoreMap = {};
       lb.forEach(r => { totalScoreMap[r['Model']] = +r[TOTAL_SCORE]; });
@@ -6197,7 +6313,7 @@ function ieSync() {
     // and a refresh/back silently drops a Scalar selection to the Field default.
     output: cmpState.outputType,
     scale: cmpState.dataScale, ds: cmpState.dataset,
-    tk: cmpState.targetKey, d: cmpState.dimension,
+    tk: cmpState.targetKey, d: cmpState.dimension, x: cmpState.axis,
     ma: cmpState.modelA, mb: cmpState.modelB,
     // Per-tab dropdown state (Frontier metric, Progression x-axis & metric).
     // Without these the back button drops the dropdown selection — the user
@@ -6234,6 +6350,7 @@ function analysisInitFromURL() {
   if (h.ds) cmpState.dataset = h.ds;
   if (h.tk) cmpState.targetKey = h.tk;
   if (h.d) cmpState.dimension = h.d;
+  if (h.x) cmpState.axis = h.x;
   if (h.ma || h.a) cmpState.modelA = h.ma || h.a;
   if (h.mb || h.b) cmpState.modelB = h.mb || h.b;
   // Per-tab dropdown state — must be seeded before the first analysisShowCategory

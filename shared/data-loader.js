@@ -267,16 +267,30 @@ function datasetToLeaderboardKey(datasetId) {
   return parts.length ? parts.join('_') : String(datasetId);
 }
 
+// Per-axis boards (Step C section 4-6) are newer than the per-component ones, so a
+// deployment whose data predates them must degrade to the axis-averaged component
+// board rather than render an empty ranking table. Warn once per missing path so the
+// silent-drift case ("the pills switch but nothing changes") stays diagnosable.
+const _axisFallbackWarned = new Set();
+function warnAxisBoardFallback(path) {
+  if (_axisFallbackWarned.has(path)) return;
+  _axisFallbackWarned.add(path);
+  console.warn(`No per-axis leaderboard at ${path} — falling back to the component board. `
+    + 'Re-run benchmark_C + copy_csv_data.py to publish per-axis rankings.');
+}
+
 /**
  * Load leaderboard CSV for a specific dimension/task/size (and optionally dataset/targetKey/component)
  * @param {string} category - e.g. 'dimension_2d/generation'
  * @param {string} size - 'S', 'M', 'L', or 'XL'
  * @param {string} [dataset] - optional dataset id, e.g. 'deepjeb_2d_2d'
  * @param {string} [targetKey] - optional target key
- * @param {string} [component] - optional component (e.g. 'displacement_x'); only honored when dataset+targetKey are set
+ * @param {string} [component] - optional component (e.g. 'displacement'); only honored when dataset+targetKey are set
  * @param {string} [branch='quality'] - 'quality' or 'quality_efficiency'
+ * @param {string} [axis] - optional axis ('x'|'y'|'z'); only honored when dataset+targetKey+component are set.
+ *   Falls back to the axis-averaged component board when that axis has no board published.
  */
-async function loadLeaderboard(category, size, dataset, targetKey, component, branch = BRANCH_QUALITY) {
+async function loadLeaderboard(category, size, dataset, targetKey, component, branch = BRANCH_QUALITY, axis = null) {
   const dsKey = datasetToLeaderboardKey(dataset);
   const prefix = branchPrefix(branch);
   // Step C sanitizes targetKey/component for its dirs+filenames (sanitizeForPath),
@@ -284,6 +298,11 @@ async function loadLeaderboard(category, size, dataset, targetKey, component, br
   // ".../mode_shape_1_mode_shape_2/". Sanitize here too; identity for single-token keys.
   const tkS = targetKey ? sanitizeForPath(targetKey) : targetKey;
   const cmpS = component ? sanitizeForPath(component) : component;
+  if (dsKey && targetKey && component && axis) {
+    const axS = sanitizeForPath(axis);
+    const path = `${DATA_BASE}/leaderboard/${category}/${branch}/${dsKey}/${tkS}/${cmpS}/${axS}/${prefix}Leaderboard_${size}_${dsKey}_${tkS}_${cmpS}_${axS}.csv`;
+    try { return await loadCSV(path); } catch (e) { warnAxisBoardFallback(path); }
+  }
   if (dsKey && targetKey && component) {
     const path = `${DATA_BASE}/leaderboard/${category}/${branch}/${dsKey}/${tkS}/${cmpS}/${prefix}Leaderboard_${size}_${dsKey}_${tkS}_${cmpS}.csv`;
     return loadCSV(path);
@@ -303,14 +322,20 @@ async function loadLeaderboard(category, size, dataset, targetKey, component, br
 /**
  * Load metric rankings for a specific dimension/task/size (and optionally dataset/targetKey/component)
  * @param {string} [dataset] - optional dataset id, e.g. 'deepjeb_2d_2d'
- * @param {string} [component] - optional component (e.g. 'displacement_x'); only honored when dataset+targetKey are set
+ * @param {string} [component] - optional component (e.g. 'displacement'); only honored when dataset+targetKey are set
  * @param {string} [branch='quality'] - 'quality' or 'quality_efficiency'
+ * @param {string} [axis] - optional axis ('x'|'y'|'z'); see loadLeaderboard (same fallback)
  */
-async function loadMetricsRanking(category, size, dataset, targetKey, component, branch = BRANCH_QUALITY) {
+async function loadMetricsRanking(category, size, dataset, targetKey, component, branch = BRANCH_QUALITY, axis = null) {
   const dsKey = datasetToLeaderboardKey(dataset);
   const prefix = branchPrefix(branch);
   const tkS = targetKey ? sanitizeForPath(targetKey) : targetKey;
   const cmpS = component ? sanitizeForPath(component) : component;
+  if (dsKey && targetKey && component && axis) {
+    const axS = sanitizeForPath(axis);
+    const path = `${DATA_BASE}/leaderboard/${category}/${branch}/${dsKey}/${tkS}/${cmpS}/${axS}/${prefix}Leaderboard_${size}_${dsKey}_${tkS}_${cmpS}_${axS}_metrics.csv`;
+    try { return await loadCSV(path); } catch (e) { warnAxisBoardFallback(path); }
+  }
   if (dsKey && targetKey && component) {
     const path = `${DATA_BASE}/leaderboard/${category}/${branch}/${dsKey}/${tkS}/${cmpS}/${prefix}Leaderboard_${size}_${dsKey}_${tkS}_${cmpS}_metrics.csv`;
     return loadCSV(path);
@@ -800,8 +825,10 @@ function displayResolution(res, dim) {
 //   · channel-type  — the umbrella is a single dataset with >1 Target Key
 //     column value (airfrans u/v/p/nu_t, 2D-structural stress/displacement). label = TK.
 // Component (physical quantity) and Axis (x/y/z) are the canonical summary
-// columns; Axis drives the per-sample viewer + metrics table only (BenchRank is
-// per-component/vector). Everything degrades gracefully for unregistered data.
+// columns. Axis is a full ranking level: BenchRank scores each x/y/z channel
+// independently, so Axis drives the leaderboard as well as the per-sample viewer
+// and metrics table (Axis=All → the axis-averaged component board).
+// Everything degrades gracefully for unregistered data.
 
 // Friendly umbrella label (reuse the academic display map).
 function datasetUmbrella(id) { return displayDataset(id); }
