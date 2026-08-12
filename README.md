@@ -31,7 +31,7 @@ This benchmark is intended solely for academic and research evaluation purposes.
 | Domain | Models |
 |--------|--------|
 | **3D Geometry Generation** | 3D-GAN, DeepSDF, PointFlow, ShapeGF, AtlasNet, Diffusion3D |
-| **3D Field Prediction** | Transolver++, Transolver, LinearNO, LinearNO-Big, GeoFNO, GeoTransolver, DoMINO, PointNet, RegDGCNN |
+| **3D Field Prediction** | Transolver++, Transolver, LinearNO, LinearNO-Big, GeoFNO, GeoTransolver, GeoFLARE, DoMINO, PointNet, RegDGCNN |
 | **3D Scalar Prediction** | PointNet, PointNet++, PointNet++ Lite, DGCNN, PCT, PCT-Small, Point Transformer, Point Transformer-Small, PointMLP, PointMLP-Elite |
 | **2D Image Generation** | GAN, VAE, DCGAN, LSGAN, WGAN-CP, WGAN-GP, R1GAN, DDPM, VQVAE |
 | **2D Field Prediction** | U-Net, ResNet-U-Net, Attention U-Net, U-Net++, SegFormer-B0, FPN-ResNet18, GLPN, DPT-Hybrid |

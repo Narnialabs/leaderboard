@@ -600,10 +600,10 @@ const _STAT_DETAIL = {
   },
   '3d-pred': {
     color: '#38bdf8',
-    title: '19 × 3D Prediction models',
-    body: '9 field-prediction networks (point-cloud → per-point displacement / pressure / velocity; DrivAerML/DrivAerNet-surface entries are metrics-only) + 10 scalar-prediction networks (point-cloud → mass / natural frequency).',
+    title: '20 × 3D Prediction models',
+    body: '10 field-prediction networks (point-cloud → per-point displacement / pressure / velocity; DrivAerML/DrivAerNet-surface entries are metrics-only) + 10 scalar-prediction networks (point-cloud → mass / natural frequency).',
     groups: [
-      { label: 'Field', sub: 'point-cloud → per-point', chips: ['Transolver++', 'Transolver', 'GeoTransolver', 'DoMINO', 'LinearNO', 'LinearNO-Big', 'PointNet', 'RegDGCNN', 'GeoFNO'] },
+      { label: 'Field', sub: 'point-cloud → per-point', chips: ['Transolver++', 'Transolver', 'GeoTransolver', 'GeoFLARE', 'DoMINO', 'LinearNO', 'LinearNO-Big', 'PointNet', 'RegDGCNN', 'GeoFNO'] },
       { label: 'Scalar', sub: 'point-cloud → 1 value', chips: ['PointNet', 'PointNet++', 'PointNet++ Lite', 'DGCNN', 'PCT', 'PCT-Small', 'Point Transformer', 'PT-Small', 'PointMLP', 'PointMLP-Elite'] },
     ],
   },
@@ -735,6 +735,9 @@ const EXPERIMENTS = {
       { name: 'linearno',      sizes: [20, 50, 100, 200], datasets: ['drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
       { name: 'linearno_big',  sizes: [20, 50, 100, 200], datasets: ['drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
       { name: 'geotransolver', sizes: [20, 50, 100, 200], datasets: ['drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume'] },
+      // geoflare = geotransolver with FLARE self-attention; same vendored repo, so
+      // same DrivAerML-only coverage and the same 528 published bins as its sibling.
+      { name: 'geoflare',      sizes: [20, 50, 100, 200], datasets: ['drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume'] },
       { name: 'domino',        sizes: [20, 50, 100, 200], datasets: ['drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume'] },
     ],
     datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'],
@@ -778,6 +781,12 @@ const EXPERIMENTS = {
       'pdebenchdarcy_2d_2d_pressure': ['pressure'],
       'airfrans_2d_2d_flow':          ['u', 'v', 'p_over_rho', 'nu_t'],
     },
+    // deepjeb structural is COUPLED (one out_dim=2 checkpoint emits displacement +
+    // stress), so its run-name is tokenless like the 3d-field datasets and its two
+    // variants above are components of that one run, not separate runs. Without this
+    // the perf path became {model}_{size}_displacement/... and 404'd on all 32 cells.
+    // The other three keep their token — depth/pressure/u/v/... ARE the run tokens.
+    noRunVariant: ['deepjeb_2d_2d_structural'],
   },
   '2d-pred-scalar': {
     basePath: 'output/data/inference/dimension_2d/prediction/scalar',
@@ -796,6 +805,24 @@ const EXPERIMENTS = {
     variantsByDataset: {
       deepwheel_2d_1d: ['mass', 'mode_freq_7', 'mode_freq_11'],
       deepjeb_2d_1d_structural: ['displacement', 'stress'],
+    },
+    // milestone10.0 coupled deepjeb scalar into one out_dim=2 checkpoint → tokenless
+    // run-name; its variants are components of that run. deepwheel stays out: its
+    // `mass` run really is {model}_{size}_mass/deepwheel_2d_1d.
+    noRunVariant: ['deepjeb_2d_1d_structural'],
+    // The deepwheel umbrella is the one place where the variant→run mapping is not
+    // "token == variant": milestone9.x split the analyses into separate datasets, and
+    // `deepwheel_2d_1d` is kept here only as the ASSET-layer umbrella (see the
+    // `_(mass|modal)$` strip in benchmark/analysis). Its mass rows come from the
+    // tokened mass run, but mode_freq_7/11 are two components of ONE tokenless modal
+    // run under a different dataset dir. Without this the perf card silently showed
+    // mass's numbers for both modal components.
+    perfRunByVariant: {
+      deepwheel_2d_1d: {
+        mass:          { token: 'mass' },
+        mode_freq_7:   { token: null, dataset: 'deepwheel_2d_1d_modal' },
+        mode_freq_11:  { token: null, dataset: 'deepwheel_2d_1d_modal' },
+      },
     },
     scalarBase: 'output/pred2d_scalar',
   },
@@ -819,6 +846,17 @@ const EXPERIMENTS = {
     variantsByDataset: {
       deepwheel_3d_1d: ['mass', 'mode_freq_7', 'mode_freq_11'],
       deepjeb_3d_1d_structural: ['displacement', 'stress'],
+    },
+    // See the 2d-pred-scalar note: coupled → tokenless run-name, deepwheel excluded.
+    noRunVariant: ['deepjeb_3d_1d_structural'],
+    // See the 2d-pred-scalar note: mass is tokened, the two modal components share one
+    // tokenless run under the `_modal` dataset dir.
+    perfRunByVariant: {
+      deepwheel_3d_1d: {
+        mass:          { token: 'mass' },
+        mode_freq_7:   { token: null, dataset: 'deepwheel_3d_1d_modal' },
+        mode_freq_11:  { token: null, dataset: 'deepwheel_3d_1d_modal' },
+      },
     },
     scalarBase: 'output/pred3d_scalar',
   },
@@ -1012,6 +1050,78 @@ window._detailSwitchDataset = function(treeId, modelName, newDataset) {
   selectExperiment(`${treeId}|${modelName}|${curSize}|${newDataset}`);
 };
 
+// ── Performance card ──────────────────────────────────────────────────────────
+// A published run is identified by ({model}_{size}[_{token}], {dataset}); the pill a
+// user clicks is a VARIANT, and the two only coincide by convention. Three shapes
+// exist, so resolve rather than assume:
+//   • variant IS the run token   — AirfRANS u/v/p_over_rho/nu_t, depth, pressure, …
+//   • no token at all            — coupled runs (one out_dim=N checkpoint emits every
+//                                  variant as a component)  → exp.noRunVariant
+//   • neither                    — the deepwheel asset-layer umbrella, whose modal
+//                                  variants live under a different dataset dir
+//                                  → exp.perfRunByVariant
+// Getting this wrong is silent: the fetch either 404s (blank card) or, worse, returns
+// a DIFFERENT run's numbers, which reads as real data.
+function resolveRunPath(exp, model, size, dataset, variant) {
+  const override = (exp.perfRunByVariant || {})[dataset];
+  const spec = override && variant != null ? override[variant] : null;
+  if (spec) {
+    const run = spec.token ? `${model}_${size}_${spec.token}` : `${model}_${size}`;
+    return `${exp.basePath}/${run}/${spec.dataset || dataset}`;
+  }
+  const tokenless = (exp.noRunVariant || []).includes(dataset) || variant == null;
+  return tokenless
+    ? `${exp.basePath}/${model}_${size}/${dataset}`
+    : `${exp.basePath}/${model}_${size}_${variant}/${dataset}`;
+}
+
+// Render (or re-render) the perf card for the currently bound detail view. Reads
+// window._detailPerfCtx, set by selectExperiment, so the variant handlers can call it
+// with just the new variant. No-ops when nothing is bound.
+async function renderDetailPerf(variant) {
+  const ctx = window._detailPerfCtx;
+  const perfDiv = document.getElementById('detail-perf');
+  if (!ctx || !perfDiv) return;
+  const exp = EXPERIMENTS[ctx.treeId];
+  if (!exp) return;
+  const base = resolveRunPath(exp, ctx.model, ctx.size, ctx.dataset, variant);
+  try {
+    const resp = await fetch(`${base}/performance.json?t=${PAGE_CACHE_BUST}`);
+    if (!resp.ok) {
+      perfDiv.innerHTML = `<div style="font-size:13px; color:rgba(255,255,255,0.3);">performance.json not found</div>`;
+      return;
+    }
+    const perf = await resp.json();
+    perfDiv.innerHTML = `
+      <div class="section-label" style="color:#9961FF; margin-bottom:12px;">Performance — ${displayModelName(ctx.model)} · ${ctx.sizeCode}</div>
+      <div class="flex gap-12">
+        <div class="glass perf-card flex-1">
+          <div class="perf-value" style="color:#9961FF; font-size:20px;">${(perf.model_parameters / 1e6).toFixed(2)}M</div>
+          <div class="perf-label">Parameters</div>
+        </div>
+        <div class="glass perf-card flex-1">
+          <div class="perf-value" style="color:#34d399; font-size:20px;">${perf.training_time_sec.toFixed(1)}s</div>
+          <div class="perf-label">Training Time</div>
+        </div>
+        <div class="glass perf-card flex-1">
+          <div class="perf-value" style="color:#38bdf8; font-size:20px;">${perf.inference_time_sec.toFixed(2)}s</div>
+          <div class="perf-label">Inference Time</div>
+        </div>
+        <div class="glass perf-card flex-1">
+          <div class="perf-value" style="color:#f59e0b; font-size:20px;">${perf.total_generated}</div>
+          <div class="perf-label">${ctx.treeId.includes('pred') ? 'Predicted' : 'Generated'} Samples</div>
+        </div>
+      </div>
+    `;
+  } catch {
+    perfDiv.innerHTML = `<div style="font-size:13px; color:rgba(255,255,255,0.3);">Could not load performance data</div>`;
+  }
+}
+// Explicit export: _scalarSelectTarget lives in the <script type="module"> block below,
+// and this file's convention is to reach across that boundary through window (a classic
+// top-level declaration does land on window, but stating it keeps the contract visible).
+window.renderDetailPerf = renderDetailPerf;
+
 // ── Select Experiment ──
 async function selectExperiment(key) {
   const [treeId, model, size, dataset] = key.split('|');
@@ -1061,47 +1171,18 @@ async function selectExperiment(key) {
   // any await — otherwise the switcher stays stale during the fetch.
   buildDetailSwitcher(treeId, model, size, dataset);
 
-  // Try to load performance.json
+  // Performance card. A variant can be its OWN training run (AirfRANS publishes four
+  // per-channel runs; the deepwheel umbrella splits mass vs modal), so the card is
+  // bound to the current selection and re-resolved whenever the variant changes —
+  // see window._detailPerfCtx and the _*SelectTarget handlers below.
   const datasetVariants = exp.variantsByDataset ? exp.variantsByDataset[dataset] : exp.variants;
-  const _noRunVar = (exp.noRunVariant || []).includes(dataset);
-  const basePath = (datasetVariants && !_noRunVar)
-    ? `${exp.basePath}/${model}_${size}_${datasetVariants[0]}/${dataset}`
-    : `${exp.basePath}/${model}_${size}/${dataset}`;
 
   const perfDiv = document.getElementById('detail-perf');
   const contentDiv = document.getElementById('detail-content');
 
-  try {
-    const resp = await fetch(`${basePath}/performance.json?t=${PAGE_CACHE_BUST}`);
-    if (resp.ok) {
-      const perf = await resp.json();
-      perfDiv.innerHTML = `
-        <div class="section-label" style="color:#9961FF; margin-bottom:12px;">Performance — ${displayModelName(model)} · ${sizeCode}</div>
-        <div class="flex gap-12">
-          <div class="glass perf-card flex-1">
-            <div class="perf-value" style="color:#9961FF; font-size:20px;">${(perf.model_parameters / 1e6).toFixed(2)}M</div>
-            <div class="perf-label">Parameters</div>
-          </div>
-          <div class="glass perf-card flex-1">
-            <div class="perf-value" style="color:#34d399; font-size:20px;">${perf.training_time_sec.toFixed(1)}s</div>
-            <div class="perf-label">Training Time</div>
-          </div>
-          <div class="glass perf-card flex-1">
-            <div class="perf-value" style="color:#38bdf8; font-size:20px;">${perf.inference_time_sec.toFixed(2)}s</div>
-            <div class="perf-label">Inference Time</div>
-          </div>
-          <div class="glass perf-card flex-1">
-            <div class="perf-value" style="color:#f59e0b; font-size:20px;">${perf.total_generated}</div>
-            <div class="perf-label">${treeId.includes('pred') ? 'Predicted' : 'Generated'} Samples</div>
-          </div>
-        </div>
-      `;
-    } else {
-      perfDiv.innerHTML = `<div style="font-size:13px; color:rgba(255,255,255,0.3);">performance.json not found</div>`;
-    }
-  } catch {
-    perfDiv.innerHTML = `<div style="font-size:13px; color:rgba(255,255,255,0.3);">Could not load performance data</div>`;
-  }
+  // Reassigned on every detail render, so no stale binding leaks across selections.
+  window._detailPerfCtx = { treeId, model, size, dataset, sizeCode };
+  await renderDetailPerf(datasetVariants && datasetVariants[0]);
 
   // Show images for 2D or info for 3D
   if (exp.type === '2d') {
@@ -1195,6 +1276,9 @@ async function selectExperiment(key) {
       const gc = document.getElementById('f2d-grid-content');
       gc.innerHTML = renderF2DGrid(v);
       initField2DCells(gc);
+      // AirfRANS publishes one training run PER channel (u/v/p_over_rho/nu_t have
+      // different training times), so the perf card follows the channel too.
+      if (window.renderDetailPerf && window._detailPerfCtx) window.renderDetailPerf(v);
     };
   } else if (exp.type === 'scalar') {
     // 2D / 3D / 1D scalar prediction — Chart.js scatter pred vs GT, target switcher,
@@ -1776,6 +1860,7 @@ function buildPerfSummary() {
     { name: 'transolver_pp', label: 'Transolver++' },
     { name: 'transolver', label: 'Transolver' },
     { name: 'geotransolver', label: 'GeoTransolver' },
+    { name: 'geoflare', label: 'GeoFLARE' },
     { name: 'domino', label: 'DoMINO' },
     { name: 'linearno', label: 'LinearNO' },
     { name: 'linearno_big', label: 'LinearNO-Big' },
@@ -2773,6 +2858,9 @@ window._scalarSelectTarget = function(targetKey, btn) {
   if (window.renderDetailScalarGallery && window._detailScalarCtx) {
     window.renderDetailScalarGallery(targetKey);
   }
+  // …and the perf card: on the deepwheel umbrella, mass and the two modal components
+  // are DIFFERENT training runs, so the card must follow the target (see resolveRunPath).
+  if (window.renderDetailPerf && window._detailPerfCtx) window.renderDetailPerf(targetKey);
 };
 
 // Detail-view per-sample gallery for scalar prediction. Renders a 12-card grid

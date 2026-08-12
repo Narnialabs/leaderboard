@@ -4,7 +4,7 @@
  */
 
 const DATA_BASE = 'output/data';
-const DATA_BUILD = '20260710-2';
+const DATA_BUILD = '20260812-1';
 
 /**
  * Display labels and metadata for target keys, keyed by dataset.
@@ -674,6 +674,7 @@ const MODEL_DISPLAY = {
   'linearno':        { name: 'LinearNO',     type: 'Neural Operator (Linear Attn)' },
   'linearno_big':    { name: 'LinearNO-Big', type: 'Neural Operator (Linear Attn)' },
   'geotransolver':   { name: 'GeoTransolver', type: 'Transformer (Geo)' },
+  'geoflare':        { name: 'GeoFLARE',     type: 'Transformer (Geo)' },
   'domino':          { name: 'DoMINO',       type: 'Neural Operator' },
 
   // 3D scalar prediction (DeepWheel · mass/mode7/mode11) — paper-default + small variants

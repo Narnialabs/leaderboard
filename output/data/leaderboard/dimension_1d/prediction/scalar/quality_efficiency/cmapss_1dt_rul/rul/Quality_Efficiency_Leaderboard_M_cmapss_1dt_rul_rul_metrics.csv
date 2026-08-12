@@ -1,12 +1,12 @@
 ﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6
-1,Parameters (M),0.1779,dcnn_rul,tcn,cnn_lstm,lstm_rul,dast,bilstm_rul
-2,Inference Time (s),0.1038,bilstm_rul,dcnn_rul,cnn_lstm,tcn,dast,lstm_rul
-3,MaxAE,0.0926,cnn_lstm,lstm_rul,bilstm_rul,dcnn_rul,tcn,dast
-4,MAPE (%),0.0809,dast,tcn,bilstm_rul,lstm_rul,dcnn_rul,cnn_lstm
-5,Training Time (s),0.0796,cnn_lstm,bilstm_rul,dcnn_rul,lstm_rul,dast,tcn
-6,R²,0.079,dast,tcn,cnn_lstm,lstm_rul,bilstm_rul,dcnn_rul
-7,RMSE,0.079,dast,tcn,cnn_lstm,lstm_rul,bilstm_rul,dcnn_rul
-8,Rel-L2,0.079,dast,tcn,cnn_lstm,lstm_rul,bilstm_rul,dcnn_rul
-9,Pearson,0.0778,dast,tcn,dcnn_rul,lstm_rul,cnn_lstm,bilstm_rul
-10,Spearman,0.0778,dast,tcn,dcnn_rul,lstm_rul,cnn_lstm,bilstm_rul
-11,MAE,0.0728,dast,tcn,lstm_rul,bilstm_rul,cnn_lstm,dcnn_rul
+1,Inference Time (s),0.1487,bilstm_rul,dcnn_rul,cnn_lstm,tcn,dast,lstm_rul
+2,MAPE (%),0.1475,bilstm_rul,tcn,lstm_rul,cnn_lstm,dcnn_rul,dast
+3,Parameters (M),0.1136,dcnn_rul,tcn,cnn_lstm,lstm_rul,dast,bilstm_rul
+4,Training Time (s),0.0815,cnn_lstm,lstm_rul,bilstm_rul,dcnn_rul,dast,tcn
+5,MaxAE,0.0732,lstm_rul,cnn_lstm,bilstm_rul,dcnn_rul,tcn,dast
+6,MAE,0.0728,dast,tcn,bilstm_rul,lstm_rul,dcnn_rul,cnn_lstm
+7,RMSE,0.0725,dast,tcn,bilstm_rul,cnn_lstm,lstm_rul,dcnn_rul
+8,R²,0.0725,dast,tcn,bilstm_rul,cnn_lstm,lstm_rul,dcnn_rul
+9,Rel-L2,0.0725,dast,tcn,bilstm_rul,cnn_lstm,lstm_rul,dcnn_rul
+10,Pearson,0.0725,dast,tcn,dcnn_rul,cnn_lstm,lstm_rul,bilstm_rul
+11,Spearman,0.0725,dast,tcn,dcnn_rul,cnn_lstm,lstm_rul,bilstm_rul

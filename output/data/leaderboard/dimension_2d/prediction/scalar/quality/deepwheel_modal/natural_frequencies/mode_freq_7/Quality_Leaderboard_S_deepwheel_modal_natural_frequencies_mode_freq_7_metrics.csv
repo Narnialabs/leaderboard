@@ -1,12 +1,12 @@
 ﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7
-1,MaxAE,0.1721,simplecnn,convnext_tiny,vit_tiny,resnet18,densenet121,efficientnet_b0,resnet34
-2,Pearson,0.1205,convnext_tiny,simplecnn,densenet121,resnet18,resnet34,vit_tiny,efficientnet_b0
-3,Spearman,0.1199,convnext_tiny,simplecnn,densenet121,resnet18,resnet34,efficientnet_b0,vit_tiny
-4,R²,0.1176,convnext_tiny,simplecnn,resnet18,densenet121,resnet34,efficientnet_b0,vit_tiny
-5,MAPE (%),0.1176,convnext_tiny,simplecnn,resnet18,densenet121,resnet34,efficientnet_b0,vit_tiny
-6,RMSE,0.1176,convnext_tiny,simplecnn,resnet18,densenet121,resnet34,efficientnet_b0,vit_tiny
-7,MAE,0.1176,convnext_tiny,simplecnn,resnet18,densenet121,resnet34,efficientnet_b0,vit_tiny
-8,Rel-L2,0.1169,convnext_tiny,simplecnn,resnet18,densenet121,resnet34,efficientnet_b0,vit_tiny
-9,Inference Time (s),0.0,convnext_tiny,resnet18,resnet34,densenet121,efficientnet_b0,vit_tiny,simplecnn
+1,MaxAE,0.2016,simplecnn,vit_tiny,convnext_tiny,resnet18,densenet121,resnet34,efficientnet_b0
+2,MAE,0.118,convnext_tiny,simplecnn,resnet34,densenet121,resnet18,efficientnet_b0,vit_tiny
+3,MAPE (%),0.118,convnext_tiny,simplecnn,resnet34,densenet121,resnet18,efficientnet_b0,vit_tiny
+4,Spearman,0.1167,simplecnn,convnext_tiny,densenet121,resnet18,resnet34,efficientnet_b0,vit_tiny
+5,Pearson,0.1131,simplecnn,convnext_tiny,densenet121,resnet18,resnet34,vit_tiny,efficientnet_b0
+6,R²,0.1109,convnext_tiny,simplecnn,densenet121,resnet34,resnet18,vit_tiny,efficientnet_b0
+7,RMSE,0.1109,convnext_tiny,simplecnn,densenet121,resnet34,resnet18,vit_tiny,efficientnet_b0
+8,Rel-L2,0.1109,convnext_tiny,simplecnn,densenet121,resnet34,resnet18,vit_tiny,efficientnet_b0
+9,Inference Time (s),0.0,resnet34,vit_tiny,efficientnet_b0,densenet121,resnet18,simplecnn,convnext_tiny
 10,Parameters (M),0.0,simplecnn,efficientnet_b0,vit_tiny,densenet121,resnet18,resnet34,convnext_tiny
-11,Training Time (s),0.0,simplecnn,convnext_tiny,vit_tiny,resnet34,efficientnet_b0,resnet18,densenet121
+11,Training Time (s),0.0,simplecnn,vit_tiny,convnext_tiny,efficientnet_b0,densenet121,resnet18,resnet34

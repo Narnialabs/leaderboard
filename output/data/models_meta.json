@@ -20,6 +20,7 @@
     "linearno":                        { "year": 2026, "venue": "AAAI",     "family": "Neural Operator", "paper_url": "https://arxiv.org/abs/2511.06294" },
     "linearno_big":                    { "year": 2026, "venue": "AAAI",     "family": "Neural Operator", "paper_url": "https://arxiv.org/abs/2511.06294" },
     "geotransolver":                   { "year": 2025, "venue": "arXiv",    "family": "Transformer", "paper_url": "https://arxiv.org/abs/2512.20399" },
+    "geoflare":                        { "year": 2026, "venue": "arXiv",    "family": "Transformer", "paper_url": "https://arxiv.org/abs/2605.27758" },
     "domino":                          { "year": 2025, "venue": "arXiv",    "family": "Neural Operator", "paper_url": "https://arxiv.org/abs/2501.13350" },
 
     "unet_simple":                     { "year": 2015, "venue": "MICCAI",   "family": "U-Net",        "paper_url": "https://arxiv.org/abs/1505.04597" },

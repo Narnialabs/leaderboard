@@ -1,13 +1,13 @@
 ﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7,Rank 8,Rank 9
-1,Precision,0.1627,vae,ddpm,dcgan,gan,lsgan,r1gan,vqvae,wgan_cp,wgan_gp
-2,Density,0.1627,vae,ddpm,dcgan,gan,lsgan,r1gan,vqvae,wgan_cp,wgan_gp
-3,Coverage,0.1624,ddpm,vae,dcgan,gan,lsgan,r1gan,vqvae,wgan_cp,wgan_gp
-4,PSNR,0.0919,vae,vqvae,dcgan,wgan_gp,wgan_cp,r1gan,gan,ddpm,lsgan
-5,FID,0.0884,vae,dcgan,r1gan,vqvae,gan,ddpm,wgan_gp,wgan_cp,lsgan
-6,Recall,0.0854,ddpm,vae,dcgan,gan,lsgan,r1gan,vqvae,wgan_cp,wgan_gp
-7,LPIPS,0.0836,ddpm,gan,r1gan,vqvae,wgan_gp,vae,wgan_cp,dcgan,lsgan
-8,MS-SSIM,0.0815,ddpm,gan,vqvae,r1gan,wgan_gp,vae,dcgan,wgan_cp,lsgan
-9,IS,0.0815,ddpm,vqvae,gan,r1gan,vae,wgan_gp,dcgan,wgan_cp,lsgan
-10,Inference Time (s),0.0,r1gan,wgan_gp,vae,wgan_cp,dcgan,lsgan,vqvae,gan,ddpm
+1,Precision,0.1273,vae,ddpm,dcgan,gan,lsgan,r1gan,vqvae,wgan_cp,wgan_gp
+2,Density,0.1273,vae,ddpm,dcgan,gan,lsgan,r1gan,vqvae,wgan_cp,wgan_gp
+3,Coverage,0.1245,ddpm,vae,dcgan,gan,lsgan,r1gan,vqvae,wgan_cp,wgan_gp
+4,IS,0.1162,ddpm,vqvae,gan,r1gan,vae,dcgan,wgan_gp,wgan_cp,lsgan
+5,PSNR,0.1125,vae,vqvae,dcgan,wgan_gp,r1gan,wgan_cp,gan,ddpm,lsgan
+6,FID,0.1099,vae,dcgan,r1gan,gan,ddpm,vqvae,wgan_gp,wgan_cp,lsgan
+7,MS-SSIM,0.0954,ddpm,gan,vqvae,r1gan,vae,wgan_gp,dcgan,wgan_cp,lsgan
+8,LPIPS,0.0954,ddpm,gan,r1gan,vqvae,vae,wgan_gp,wgan_cp,dcgan,lsgan
+9,Recall,0.0915,ddpm,vae,dcgan,gan,lsgan,r1gan,vqvae,wgan_cp,wgan_gp
+10,Inference Time (s),0.0,r1gan,wgan_gp,vae,wgan_cp,dcgan,lsgan,gan,vqvae,ddpm
 11,Parameters (M),0.0,vqvae,wgan_cp,wgan_gp,dcgan,r1gan,lsgan,vae,ddpm,gan
-12,Training Time (s),0.0,wgan_gp,r1gan,wgan_cp,vqvae,lsgan,dcgan,ddpm,vae,gan
+12,Training Time (s),0.0,vqvae,wgan_cp,wgan_gp,lsgan,dcgan,r1gan,vae,ddpm,gan

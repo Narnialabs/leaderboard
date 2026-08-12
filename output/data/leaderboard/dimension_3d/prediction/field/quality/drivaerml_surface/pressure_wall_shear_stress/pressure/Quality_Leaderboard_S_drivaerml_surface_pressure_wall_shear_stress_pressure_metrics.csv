@@ -1,12 +1,12 @@
-﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7,Rank 8,Rank 9
-1,Extremal Agree,0.1469,geotransolver,domino,linearno_big,transolver,linearno,geofno,transolver_pp,regdgcnn,pointnet
-2,MAE,0.1432,geotransolver,domino,linearno_big,transolver,transolver_pp,linearno,geofno,pointnet,regdgcnn
-3,MAPE (%),0.1432,geotransolver,domino,linearno_big,transolver,transolver_pp,linearno,geofno,pointnet,regdgcnn
-4,Sign Agree,0.1423,geotransolver,linearno_big,transolver,domino,transolver_pp,linearno,geofno,pointnet,regdgcnn
-5,R²,0.1415,geotransolver,linearno_big,transolver,domino,linearno,transolver_pp,geofno,pointnet,regdgcnn
-6,Rel-L2,0.1415,geotransolver,linearno_big,transolver,domino,linearno,transolver_pp,geofno,pointnet,regdgcnn
-7,RMSE,0.1415,geotransolver,linearno_big,transolver,domino,linearno,transolver_pp,geofno,pointnet,regdgcnn
-8,Inference Time (s),0.0,geofno,transolver_pp,pointnet,linearno,linearno_big,regdgcnn,transolver,geotransolver,domino
-9,Training Time (s),0.0,regdgcnn,linearno,geofno,transolver_pp,pointnet,transolver,linearno_big,geotransolver,domino
-10,Parameters (M),0.0,regdgcnn,geofno,transolver_pp,linearno,pointnet,transolver,linearno_big,domino,geotransolver
-11,MAC,0.0,domino,geofno,geotransolver,linearno,linearno_big,pointnet,regdgcnn,transolver,transolver_pp
+﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7,Rank 8,Rank 9,Rank 10
+1,Extremal Agree,0.1457,geoflare,geotransolver,domino,linearno_big,transolver,linearno,geofno,transolver_pp,regdgcnn,pointnet
+2,MAE,0.1431,geoflare,geotransolver,domino,linearno_big,transolver,transolver_pp,linearno,geofno,pointnet,regdgcnn
+3,MAPE (%),0.1431,geoflare,geotransolver,domino,linearno_big,transolver,transolver_pp,linearno,geofno,pointnet,regdgcnn
+4,Sign Agree,0.1424,geoflare,geotransolver,linearno_big,transolver,domino,transolver_pp,linearno,geofno,pointnet,regdgcnn
+5,R²,0.1419,geoflare,geotransolver,linearno_big,transolver,domino,linearno,transolver_pp,geofno,pointnet,regdgcnn
+6,Rel-L2,0.1419,geoflare,geotransolver,linearno_big,transolver,domino,linearno,transolver_pp,geofno,pointnet,regdgcnn
+7,RMSE,0.1419,geoflare,geotransolver,linearno_big,transolver,domino,linearno,transolver_pp,geofno,pointnet,regdgcnn
+8,Inference Time (s),0.0,geofno,transolver_pp,pointnet,linearno,linearno_big,regdgcnn,transolver,geotransolver,geoflare,domino
+9,Training Time (s),0.0,regdgcnn,linearno,geofno,transolver_pp,pointnet,transolver,linearno_big,geoflare,geotransolver,domino
+10,Parameters (M),0.0,regdgcnn,geofno,transolver_pp,linearno,pointnet,transolver,linearno_big,domino,geoflare,geotransolver
+11,MAC,0.0,domino,geoflare,geofno,geotransolver,linearno,linearno_big,pointnet,regdgcnn,transolver,transolver_pp

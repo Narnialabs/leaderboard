@@ -514,7 +514,13 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 /* ── Card Variants ── */
 /* Domain cards are anchors — entire card navigates to its leaderboard. */
 .domain-card {
-  display: block;
+  /* Column flex (not block) so the winner strip can be pinned to the card's
+     bottom. Grid stretches every card in a row to the tallest, and the model
+     list wraps to a second line on some tasks (3D field carries ten models), so
+     under block flow that card's .best-box sat a line lower than its neighbours'
+     while theirs left slack underneath. */
+  display: flex;
+  flex-direction: column;
   padding: 16px 18px 18px;
   color: inherit;
   text-decoration: none;
@@ -523,6 +529,12 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
               border-color 0.25s ease,
               box-shadow 0.45s var(--ease-snappy);
 }
+/* .best-box is the last child of every domain card; the element before it soaks
+   up the leftover height. Putting the auto margin here rather than on .best-box
+   keeps that element's own 8px top margin intact, so the tallest card in a row
+   still has a gap above its winner strip instead of the strip butting against
+   the progress bar. Flex margins do not collapse, so the two simply add. */
+.domain-card > :nth-last-child(2) { margin-bottom: auto; }
 .domain-card:hover {
   transform: translateY(-6px);
   border-color: rgba(255,255,255,0.18);

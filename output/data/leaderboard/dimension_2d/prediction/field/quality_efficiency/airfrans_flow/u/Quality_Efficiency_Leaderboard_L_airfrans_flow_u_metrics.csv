@@ -1,14 +1,14 @@
 ﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7,Rank 8
-1,Inference Time (s),0.1557,fpn_resnet18,resnet_unet,unet_simple,attention_unet,glpn,segformer_b0,unetpp,dpt_hybrid
-2,Parameters (M),0.1344,segformer_b0,unet_simple,attention_unet,unetpp,resnet_unet,fpn_resnet18,glpn,dpt_hybrid
-3,Training Time (s),0.1191,resnet_unet,unet_simple,fpn_resnet18,attention_unet,segformer_b0,unetpp,glpn,dpt_hybrid
-4,SSIM,0.1055,unetpp,fpn_resnet18,attention_unet,unet_simple,resnet_unet,dpt_hybrid,glpn,segformer_b0
-5,PSNR,0.0809,unetpp,attention_unet,unet_simple,resnet_unet,fpn_resnet18,segformer_b0,glpn,dpt_hybrid
-6,RMSE,0.0809,unetpp,attention_unet,unet_simple,resnet_unet,fpn_resnet18,segformer_b0,glpn,dpt_hybrid
-7,R²,0.0809,unetpp,attention_unet,unet_simple,resnet_unet,fpn_resnet18,segformer_b0,glpn,dpt_hybrid
-8,MAPE (%),0.0809,unetpp,attention_unet,unet_simple,resnet_unet,fpn_resnet18,segformer_b0,glpn,dpt_hybrid
-9,Rel-L2,0.0809,unetpp,attention_unet,unet_simple,resnet_unet,fpn_resnet18,segformer_b0,glpn,dpt_hybrid
-10,MAE,0.0807,unetpp,attention_unet,unet_simple,resnet_unet,fpn_resnet18,segformer_b0,glpn,dpt_hybrid
+1,Training Time (s),0.136,segformer_b0,unet_simple,attention_unet,resnet_unet,unetpp,fpn_resnet18,glpn,dpt_hybrid
+2,Inference Time (s),0.1277,fpn_resnet18,attention_unet,unet_simple,unetpp,glpn,segformer_b0,resnet_unet,dpt_hybrid
+3,Parameters (M),0.125,segformer_b0,unet_simple,attention_unet,unetpp,resnet_unet,fpn_resnet18,glpn,dpt_hybrid
+4,SSIM,0.1099,unetpp,fpn_resnet18,attention_unet,unet_simple,resnet_unet,dpt_hybrid,glpn,segformer_b0
+5,PSNR,0.0836,unetpp,attention_unet,unet_simple,resnet_unet,fpn_resnet18,segformer_b0,glpn,dpt_hybrid
+6,MAE,0.0836,unetpp,attention_unet,unet_simple,resnet_unet,fpn_resnet18,segformer_b0,glpn,dpt_hybrid
+7,RMSE,0.0836,unetpp,attention_unet,unet_simple,resnet_unet,fpn_resnet18,segformer_b0,glpn,dpt_hybrid
+8,MAPE (%),0.0836,unetpp,attention_unet,unet_simple,resnet_unet,fpn_resnet18,segformer_b0,glpn,dpt_hybrid
+9,R²,0.0836,unetpp,attention_unet,unet_simple,resnet_unet,fpn_resnet18,segformer_b0,glpn,dpt_hybrid
+10,Rel-L2,0.0836,unetpp,attention_unet,unet_simple,resnet_unet,fpn_resnet18,segformer_b0,glpn,dpt_hybrid
 11,AbsRel,,attention_unet,dpt_hybrid,fpn_resnet18,glpn,resnet_unet,segformer_b0,unet_simple,unetpp
 12,sqRel,,attention_unet,dpt_hybrid,fpn_resnet18,glpn,resnet_unet,segformer_b0,unet_simple,unetpp
 13,δ<1.25,,attention_unet,dpt_hybrid,fpn_resnet18,glpn,resnet_unet,segformer_b0,unet_simple,unetpp
