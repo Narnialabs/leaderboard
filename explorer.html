@@ -3,8 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Narnia Labs - Explorer</title>
+<title>Explorer · Engineering AI Leaderboard</title>
 <link rel="icon" type="image/png" href="favicon.png">
+<!-- Discovery / social metadata. `Engineering AI Leaderboard` is the public product brand and
+     belongs in every title; `PhysicsBench` is the citeable benchmark handle the paper
+     leads with, so it is named in the description rather than the title (a title
+     carrying two names reads as noise). No og:image: the text unfurl renders fine
+     without one, and a wrong-sized card is worse than none. -->
+<link rel="canonical" href="https://leaderboard.narnia.ai/explorer.html">
+<meta name="description" content="Browse per-model inference results in detail: generated geometry, predicted fields, and scalar predictions against ground truth, at every data scale.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Engineering AI Leaderboard">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://leaderboard.narnia.ai/explorer.html">
+<meta property="og:title" content="Explorer · Engineering AI Leaderboard">
+<meta property="og:description" content="Browse per-model inference results in detail: generated geometry, predicted fields, and scalar predictions against ground truth, at every data scale.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Explorer · Engineering AI Leaderboard">
+<meta name="twitter:description" content="Browse per-model inference results in detail: generated geometry, predicted fields, and scalar predictions against ground truth, at every data scale.">
 <!-- three.js is self-hosted in shared/lib/ (same-origin, like papaparse/chart.umd).
      Page init runs on DOMContentLoaded, which waits for the deferred 3D-viewer module
      block, and that module imports three.js. The module sits near the bottom of the

@@ -10,7 +10,7 @@ Developed by [Narnia Labs](https://www.narnia.ai/), this leaderboard provides tr
 
 ## About
 
-The Narnia Labs AI Benchmark Leaderboard is an open, non-commercial research platform designed to objectively evaluate generative and predictive AI models. Models are assessed on standardized datasets derived from real-world manufacturing and engineering applications, and ranked using a composite scoring methodology that balances output quality, distributional fidelity, and resource efficiency.
+PhysicsBench, the benchmark behind this leaderboard, is an open, non-commercial research platform designed to objectively evaluate generative and predictive AI models. Models are assessed on standardized datasets derived from real-world manufacturing and engineering applications, and ranked using a composite scoring methodology that balances output quality, distributional fidelity, and resource efficiency.
 
 This benchmark is intended solely for academic and research evaluation purposes.
 
