@@ -1,4 +1,4 @@
-# PhysicsBench — Narnia Labs Engineering AI Leaderboard
+# PhysicsBench · Narnia Labs Engineering AI Leaderboard
 
 **A non-commercial research benchmark for evaluating and ranking AI models in manufacturing and engineering domains.**
 

@@ -840,9 +840,8 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   color: var(--text-faint);
   letter-spacing: 1px;
 }
-/* index.html hero. The handle sits directly under the product wordmark, bound to its
-   disambiguating apposition; the generic facet triad is demoted beneath it. Classes,
-   not inline styles, so mobile.css can retune the sizes. */
+/* index.html hero. One line under the product wordmark naming the benchmark behind it.
+   A class, not an inline style, so mobile.css can retune the size. */
 .hero-bench {
   font-size: 16px;
   color: rgba(255,255,255,0.4);
@@ -850,11 +849,6 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   line-height: 1.45;
 }
 .hero-bench strong { color: rgba(255,255,255,0.78); font-weight: 600; }
-.hero-facets {
-  font-size: 13px;
-  color: rgba(255,255,255,0.28);
-  margin-top: 3px;
-}
 
 /* Research identity line. The site is branded "Engineering AI Leaderboard"; this names
    the citeable benchmark behind it on every page, always bound to its disambiguating
