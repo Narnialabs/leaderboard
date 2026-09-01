@@ -2,7 +2,7 @@
 
 **A non-commercial research benchmark for evaluating and ranking AI models in manufacturing and engineering domains.**
 
-**PhysicsBench** is the engineering-design benchmark behind this leaderboard. Developed by [Narnia Labs](https://www.narnia.ai/), it provides transparent, standardized performance benchmarks to objectively assess AI models across seven engineering tasks: 3D geometry generation, 3D field prediction, 3D scalar prediction, 2D image generation, 2D field prediction, 2D scalar prediction, and 1D scalar prediction. It is deployed publicly as the Engineering AI Leaderboard.
+**PhysicsBench** is the engineering-design benchmark behind this leaderboard, deployed publicly as the **Engineering AI Leaderboard**. Developed by [Narnia Labs](https://www.narnia.ai/), it provides transparent, standardized performance benchmarks to objectively assess AI models across seven engineering tasks: 3D geometry generation, 3D field prediction, 3D scalar prediction, 2D image generation, 2D field prediction, 2D scalar prediction, and 1D scalar prediction.
 
 > **Live Dashboard:** [http://leaderboard.narnia.ai/](http://leaderboard.narnia.ai/)
 
@@ -154,9 +154,9 @@ Learn more at [narnia.ai](https://www.narnia.ai/).
 
 ## License
 
-This project's source code is proprietary and owned by Narnia Labs.
+This project's **source code** is proprietary and owned by Narnia Labs.
 
-The datasets used in this benchmark retain their original licenses as specified by their respective authors. Please refer to the [Datasets & Attribution](#datasets--attribution) section for details.
+The **datasets** used in this benchmark retain their original licenses as specified by their respective authors. Please refer to the [Datasets & Attribution](#datasets--attribution) section for details.
 
 This benchmark is provided for non-commercial research and academic evaluation only.
 
