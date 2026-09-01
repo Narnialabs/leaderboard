@@ -7,20 +7,23 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <!-- Discovery / social metadata. `Engineering AI Leaderboard` is the public product brand and
      belongs in every title; `PhysicsBench` is the citeable benchmark handle the paper
-     leads with, so it is named in the description rather than the title (a title
-     carrying two names reads as noise). No og:image: the text unfurl renders fine
-     without one, and a wrong-sized card is worse than none. -->
+     leads with, so it is carried in the description and in visible body text, but not in
+     the title (a title carrying two names reads as noise). The handle is never surfaced
+     bare: `PhysicsBench` already names an unrelated physics-simulation benchmark and sits
+     in a crowded Phys*Bench namespace, so each mention binds it to a disambiguating
+     apposition ("the engineering-design benchmark behind this leaderboard"). No og:image:
+     the text unfurl renders fine without one, and a wrong-sized card is worse than none. -->
 <link rel="canonical" href="https://leaderboard.narnia.ai/analysis.html">
-<meta name="description" content="Compare any two models across dataset, data scale, and target, with metric radars, trajectories, error distributions, and accuracy-cost frontiers.">
+<meta name="description" content="Compare any two PhysicsBench models across dataset, data scale, and target, with metric radars, trajectories, error distributions, and accuracy-cost frontiers.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Engineering AI Leaderboard">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://leaderboard.narnia.ai/analysis.html">
 <meta property="og:title" content="Analysis · Engineering AI Leaderboard">
-<meta property="og:description" content="Compare any two models across dataset, data scale, and target, with metric radars, trajectories, error distributions, and accuracy-cost frontiers.">
+<meta property="og:description" content="Compare any two PhysicsBench models across dataset, data scale, and target, with metric radars, trajectories, error distributions, and accuracy-cost frontiers.">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Analysis · Engineering AI Leaderboard">
-<meta name="twitter:description" content="Compare any two models across dataset, data scale, and target, with metric radars, trajectories, error distributions, and accuracy-cost frontiers.">
+<meta name="twitter:description" content="Compare any two PhysicsBench models across dataset, data scale, and target, with metric radars, trajectories, error distributions, and accuracy-cost frontiers.">
 <!-- three.js is self-hosted in shared/lib/ (same-origin, like papaparse/chart.umd).
      Page init runs on DOMContentLoaded, which waits for the deferred 3D-viewer module
      block, and that module imports three.js. The module sits near the bottom of the
@@ -552,6 +555,7 @@
 <div class="page-footer">
   <div class="divider"></div>
   <div class="text">NARNIA LABS · Engineering AI Leaderboard</div>
+  <div class="bench-line"><strong>PhysicsBench</strong> — the engineering-design benchmark behind this leaderboard · <a href="https://arxiv.org/abs/2608.24056" target="_blank" rel="noopener" class="footer-link">arXiv:2608.24056</a></div>
   <div class="footer-links">
     <a href="https://www.narnia.ai/" target="_blank" class="footer-link">narnia.ai</a>
     <span class="footer-sep">|</span>

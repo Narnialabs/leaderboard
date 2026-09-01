@@ -1,8 +1,8 @@
-# Narnia Labs Engineering AI Leaderboard
+# PhysicsBench — Narnia Labs Engineering AI Leaderboard
 
 **A non-commercial research benchmark for evaluating and ranking AI models in manufacturing and engineering domains.**
 
-Developed by [Narnia Labs](https://www.narnia.ai/), this leaderboard provides transparent, standardized performance benchmarks to objectively assess AI models across seven engineering tasks: 3D geometry generation, 3D field prediction, 3D scalar prediction, 2D image generation, 2D field prediction, 2D scalar prediction, and 1D scalar prediction.
+**PhysicsBench** is the engineering-design benchmark behind this leaderboard. Developed by [Narnia Labs](https://www.narnia.ai/), it provides transparent, standardized performance benchmarks to objectively assess AI models across seven engineering tasks: 3D geometry generation, 3D field prediction, 3D scalar prediction, 2D image generation, 2D field prediction, 2D scalar prediction, and 1D scalar prediction. It is deployed publicly as the **Engineering AI Leaderboard**.
 
 > **Live Dashboard:** [http://leaderboard.narnia.ai/](http://leaderboard.narnia.ai/)
 
@@ -10,9 +10,28 @@ Developed by [Narnia Labs](https://www.narnia.ai/), this leaderboard provides tr
 
 ## About
 
-PhysicsBench, the benchmark behind this leaderboard, is an open, non-commercial research platform designed to objectively evaluate generative and predictive AI models. Models are assessed on standardized datasets derived from real-world manufacturing and engineering applications, and ranked using a composite scoring methodology that balances output quality, distributional fidelity, and resource efficiency.
+PhysicsBench is an open, non-commercial research platform designed to objectively evaluate generative and predictive AI models. Models are assessed on standardized datasets derived from real-world manufacturing and engineering applications, and ranked using a composite scoring methodology that balances output quality, distributional fidelity, and resource efficiency.
 
 This benchmark is intended solely for academic and research evaluation purposes.
+
+## Citation
+
+If you use PhysicsBench, its rankings, or its released per-run results in your research, please cite:
+
+> Sang Won Lee, Hyogu Jeong, Namwoo Kang. *PhysicsBench: A Unified Leaderboard for Generative and Predictive Models in Engineering Design and Simulation.* arXiv:2608.24056, 2026. [[abs]](https://arxiv.org/abs/2608.24056)
+
+```bibtex
+@misc{lee2026physicsbench,
+  title         = {PhysicsBench: A Unified Leaderboard for Generative and Predictive
+                   Models in Engineering Design and Simulation},
+  author        = {Lee, Sang Won and Jeong, Hyogu and Kang, Namwoo},
+  year          = {2026},
+  eprint        = {2608.24056},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  url           = {https://arxiv.org/abs/2608.24056}
+}
+```
 
 ## Benchmark Domains
 
