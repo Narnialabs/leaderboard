@@ -2,7 +2,7 @@
 
 **A non-commercial research benchmark for evaluating and ranking AI models in manufacturing and engineering domains.**
 
-**PhysicsBench** is the engineering-design benchmark behind this leaderboard. Developed by [Narnia Labs](https://www.narnia.ai/), it provides transparent, standardized performance benchmarks to objectively assess AI models across seven engineering tasks: 3D geometry generation, 3D field prediction, 3D scalar prediction, 2D image generation, 2D field prediction, 2D scalar prediction, and 1D scalar prediction. It is deployed publicly as the **Engineering AI Leaderboard**.
+**PhysicsBench** is the engineering-design benchmark behind this leaderboard. Developed by [Narnia Labs](https://www.narnia.ai/), it provides transparent, standardized performance benchmarks to objectively assess AI models across seven engineering tasks: 3D geometry generation, 3D field prediction, 3D scalar prediction, 2D image generation, 2D field prediction, 2D scalar prediction, and 1D scalar prediction. It is deployed publicly as the Engineering AI Leaderboard.
 
 > **Live Dashboard:** [http://leaderboard.narnia.ai/](http://leaderboard.narnia.ai/)
 
@@ -74,7 +74,9 @@ All models are benchmarked across four dataset sizes to assess data efficiency a
 | **2D Scalar Prediction** | MAE, RMSE, MAPE, R², Rel-L2, MaxAE, Pearson, Spearman, Train Time, Infer Time |
 | **1D Scalar Prediction** | MAE, RMSE, MAPE, R², Rel-L2, MaxAE, Pearson, Spearman, Train Time, Infer Time |
 
-Every metric a task lists is both **computed and ranked** — what the leaderboard shows is exactly what BenchRank ranks on, with no display-only "reference" columns. Two field-specific choices keep the ranking faithful to quality: **MaxAE is not computed for field tasks** (the single worst-pixel error rewards blurry, under-confident "mean" predictions, so it is anti-correlated with field quality — it stays a ranked metric for **scalar** tasks, where one error per sample makes it well-behaved), and the monocular-depth metrics (**AbsRel / sqRel / δ<1.25**) are computed only for the depth dataset, where they are meaningful. Everything else — MAPE included — is ranked wherever it is computed.
+Every metric a task lists is both computed and ranked. What the leaderboard shows is exactly what BenchRank ranks on, with no display-only "reference" columns.
+
+Two field-specific choices keep the ranking faithful to quality. MaxAE is not computed for field tasks, because the single worst-pixel error rewards blurry, under-confident "mean" predictions and is therefore anti-correlated with field quality. It stays a ranked metric for scalar tasks, where one error per sample makes it well-behaved. The monocular-depth metrics (AbsRel, sqRel, δ<1.25) are computed only for the depth dataset, where they are meaningful. Everything else, MAPE included, is ranked wherever it is computed.
 
 Models are ranked using **BenchRank**, a graph-based ranking system combining Spearman debiasing with PageRank over a head-to-head dominance graph, plus a viability gate that floors catastrophic-failure outliers and a geometric-mean cross-dataset aggregate.
 
@@ -139,7 +141,7 @@ This benchmark utilizes the following research datasets. All datasets are used s
 
 ## About Narnia Labs
 
-Narnia Labs is an AI technology company revolutionizing the product development process. Our no-code AI platform, **AslanX**, empowers manufacturers with generative and predictive AI capabilities — from design generation to performance evaluation and optimization.
+Narnia Labs is an AI technology company revolutionizing the product development process. Our no-code AI platform, **AslanX**, empowers manufacturers with generative and predictive AI capabilities, from design generation to performance evaluation and optimization.
 
 Learn more at [narnia.ai](https://www.narnia.ai/).
 
@@ -152,9 +154,9 @@ Learn more at [narnia.ai](https://www.narnia.ai/).
 
 ## License
 
-This project's **source code** is proprietary and owned by Narnia Labs.
+This project's source code is proprietary and owned by Narnia Labs.
 
-The **datasets** used in this benchmark retain their original licenses as specified by their respective authors. Please refer to the [Datasets & Attribution](#datasets--attribution) section for details.
+The datasets used in this benchmark retain their original licenses as specified by their respective authors. Please refer to the [Datasets & Attribution](#datasets--attribution) section for details.
 
 This benchmark is provided for non-commercial research and academic evaluation only.
 
