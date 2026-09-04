@@ -848,7 +848,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   margin-top: 5px;
   line-height: 1.45;
 }
-.hero-bench strong { color: rgba(255,255,255,0.78); font-weight: 600; }
+.hero-bench strong { color: rgba(255,255,255,0.65); font-weight: 600; }
 
 /* Research identity line. The site is branded "Engineering AI Leaderboard"; this names
    the citeable benchmark behind it on every page, always bound to its disambiguating
