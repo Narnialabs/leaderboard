@@ -850,18 +850,20 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
 }
 .hero-bench strong { color: rgba(255,255,255,0.65); font-weight: 600; }
 
-/* Research identity line. The site is branded "Engineering AI Leaderboard"; this names
-   the citeable benchmark behind it on every page, always bound to its disambiguating
-   apposition (see the naming note in each page head), and carries the arXiv link so every
-   page answers "what do I cite" without a trip to the README. */
+/* Research identity line. The site is branded "Engineering AI Leaderboard"; this names the
+   citeable benchmark behind it on every page and carries the arXiv link, so every page
+   answers "what do I cite" without a trip to the README. No `opacity` here: it multiplies
+   into every child, and on this faint colour token it drove the body under the legibility
+   floor and made the citation the dimmest link in the footer. Set colours per element so
+   the ordering stays deliberate --- the link is the brightest thing, being the only
+   actionable one, and the benchmark name sits with the brand line above it. */
 .page-footer .bench-line {
   font-size: 11px;
   color: var(--text-faint);
-  opacity: 0.72;
   margin-top: 5px;
   line-height: 1.5;
 }
-.page-footer .bench-line strong { color: rgba(255,255,255,0.55); font-weight: 600; }
+.page-footer .bench-line strong { color: rgba(255,255,255,0.34); font-weight: 600; }
 
 /* ── Pill Wrap (inline group inside filter-group) ── */
 .pill-wrap {
