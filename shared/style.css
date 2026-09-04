@@ -863,7 +863,7 @@ svg circle.ring-progress { transition: stroke-dashoffset 1.4s var(--ease-snappy)
   margin-top: 5px;
   line-height: 1.5;
 }
-.page-footer .bench-line strong { color: rgba(255,255,255,0.34); font-weight: 600; }
+.page-footer .bench-line strong { font-weight: 600; }  /* weight only: inherits the line's 0.22 so it sits level with the brand line above */
 
 /* ── Pill Wrap (inline group inside filter-group) ── */
 .pill-wrap {
