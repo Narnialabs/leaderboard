@@ -623,7 +623,7 @@ const _STAT_DETAIL = {
   '3d-pred': {
     color: '#38bdf8',
     title: '22 × 3D Prediction models',
-    body: '12 field-prediction networks (point-cloud → per-point displacement / pressure / velocity; DrivAerML/DrivAerNet-surface entries are metrics-only) + 10 scalar-prediction networks (point-cloud → mass / natural frequency).',
+    body: '12 field-prediction networks (point-cloud → per-point displacement / pressure / velocity) + 10 scalar-prediction networks (point-cloud → mass / natural frequency).',
     groups: [
       { label: 'Field', sub: 'point-cloud → per-point', chips: ['Transolver++', 'Transolver', 'Transolver-3', 'HNO', 'GeoTransolver', 'GeoFLARE', 'DoMINO', 'LinearNO', 'LinearNO-Big', 'PointNet', 'RegDGCNN', 'GeoFNO'] },
       { label: 'Scalar', sub: 'point-cloud → 1 value', chips: ['PointNet', 'PointNet++', 'PointNet++ Lite', 'DGCNN', 'PCT', 'PCT-Small', 'Point Transformer', 'PT-Small', 'PointMLP', 'PointMLP-Elite'] },
