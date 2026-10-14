@@ -1,6 +1,26 @@
 {
-    "model_parameters": 1441417,
-    "training_time_sec": 1707.7734284295043,
-    "inference_time_sec": 0.1177006615033882,
-    "total_generated": 500
+    "model_parameters": 1440649,
+    "training_time_sec": 1745.5855994224548,
+    "inference_time_sec": 75.74037599563599,
+    "total_generated": 500,
+    "max_epochs": 500,
+    "run_config": {
+        "schema_version": 1,
+        "identity": "regdgcnn",
+        "identity_version": 3,
+        "identity_fields": {
+            "recipe": "drivaernet_surfacefields",
+            "lr": 0.001,
+            "scheduler": "plateau",
+            "clip": null,
+            "input": "metres on DrivAerML (loader affine undone), loader coordinates elsewhere"
+        },
+        "effective_cli": {
+            "train_batch_size": 8,
+            "resample_per_epoch": false,
+            "num_mesh_points": 1024
+        },
+        "config_hash": "45a1508018",
+        "explicit_cli": []
+    }
 }

@@ -1,0 +1,28 @@
+{
+    "model_parameters": 3862084,
+    "training_time_sec": 3480.5419738292694,
+    "inference_time_sec": 140.64846277236938,
+    "total_generated": 500,
+    "max_epochs": 500,
+    "run_config": {
+        "schema_version": 1,
+        "identity": "hno",
+        "identity_version": 2,
+        "identity_fields": {
+            "family": "hno",
+            "recipe": "tuned_c04_clip_wd05_resamp",
+            "overrides": {
+                "gradient_clip_val": 1.0,
+                "optimizer": "adamw",
+                "weight_decay": 0.05
+            }
+        },
+        "effective_cli": {
+            "train_batch_size": 8,
+            "resample_per_epoch": true,
+            "num_mesh_points": 1024
+        },
+        "config_hash": "9f4b8f9147",
+        "explicit_cli": []
+    }
+}

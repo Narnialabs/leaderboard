@@ -1,0 +1,42 @@
+{
+    "model_parameters": 11334340,
+    "training_time_sec": 12095.646204948425,
+    "inference_time_sec": 144.20702838897705,
+    "total_generated": 500,
+    "max_epochs": 500,
+    "run_config": {
+        "schema_version": 1,
+        "identity": "transolver3",
+        "identity_version": 1,
+        "identity_fields": {
+            "family": "transolver3",
+            "recipe": "paper_table9_a3_v1",
+            "model_defaults": {
+                "n_layers": 24,
+                "n_hidden": 256,
+                "n_head": 8,
+                "mlp_ratio": 2,
+                "slice_num": 64,
+                "dropout": 0.0
+            },
+            "recipe_defaults": {
+                "optimizer": "adamw",
+                "lr": 0.001,
+                "weight_decay": 0.05,
+                "schedule": "cosine_warmup",
+                "warmup_frac": 0.05,
+                "lr_min": 1e-06,
+                "precision": "bf16-mixed",
+                "loss": "mse",
+                "gradient_clip_val": 1.0
+            }
+        },
+        "effective_cli": {
+            "train_batch_size": 8,
+            "resample_per_epoch": true,
+            "num_mesh_points": 1024
+        },
+        "config_hash": "29d81b46da",
+        "explicit_cli": []
+    }
+}

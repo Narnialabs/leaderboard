@@ -4,7 +4,7 @@
  */
 
 const DATA_BASE = 'output/data';
-const DATA_BUILD = '20260812-1';
+const DATA_BUILD = '20261006-1';
 
 /**
  * Display labels and metadata for target keys, keyed by dataset.
@@ -670,6 +670,8 @@ const MODEL_DISPLAY = {
   'pointnet':        { name: 'PointNet',     type: 'PointNet' },
   'regdgcnn':        { name: 'RegDGCNN',     type: 'GNN (DGCNN)' },
   'transolver':      { name: 'Transolver',   type: 'Transformer' },
+  'transolver3':     { name: 'Transolver-3', type: 'Transformer' },
+  'hno':             { name: 'HNO',          type: 'Neural Operator (Hyperbolic)' },
   'geofno':          { name: 'GeoFNO',       type: 'Fourier Neural Operator' },
   'linearno':        { name: 'LinearNO',     type: 'Neural Operator (Linear Attn)' },
   'linearno_big':    { name: 'LinearNO-Big', type: 'Neural Operator (Linear Attn)' },

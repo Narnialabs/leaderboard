@@ -1,12 +1,12 @@
-﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7
-1,Extremal Agree,0.1538,transolver,linearno_big,linearno,regdgcnn,transolver_pp,pointnet,geofno
-2,MAE,0.1211,regdgcnn,linearno_big,linearno,transolver,transolver_pp,pointnet,geofno
-3,R²,0.1211,regdgcnn,linearno_big,linearno,transolver,transolver_pp,pointnet,geofno
-4,Rel-L2,0.1211,regdgcnn,linearno_big,linearno,transolver,transolver_pp,pointnet,geofno
-5,RMSE,0.1211,regdgcnn,linearno_big,linearno,transolver,transolver_pp,pointnet,geofno
-6,MAC,0.1206,linearno_big,regdgcnn,linearno,transolver,transolver_pp,pointnet,geofno
-7,MAPE (%),0.1206,linearno_big,regdgcnn,linearno,transolver,transolver_pp,pointnet,geofno
-8,Sign Agree,0.1206,linearno_big,regdgcnn,linearno,transolver,transolver_pp,pointnet,geofno
-9,Inference Time (s),0.0,regdgcnn,transolver,linearno_big,geofno,pointnet,transolver_pp,linearno
-10,Parameters (M),0.0,regdgcnn,geofno,transolver_pp,linearno,pointnet,transolver,linearno_big
-11,Training Time (s),0.0,pointnet,geofno,transolver,transolver_pp,linearno,linearno_big,regdgcnn
+﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7,Rank 8,Rank 9
+1,Extremal Agree,0.1354,transolver,linearno_big,transolver3,linearno,transolver_pp,regdgcnn,hno,pointnet,geofno
+2,Sign Agree,0.1279,linearno_big,linearno,transolver,hno,transolver3,regdgcnn,transolver_pp,pointnet,geofno
+3,MAPE (%),0.1234,linearno_big,linearno,transolver,transolver3,hno,transolver_pp,regdgcnn,pointnet,geofno
+4,Rel-L2,0.123,transolver3,linearno_big,linearno,transolver,hno,regdgcnn,transolver_pp,pointnet,geofno
+5,R²,0.123,transolver3,linearno_big,linearno,transolver,hno,regdgcnn,transolver_pp,pointnet,geofno
+6,RMSE,0.123,transolver3,linearno_big,linearno,transolver,hno,regdgcnn,transolver_pp,pointnet,geofno
+7,MAE,0.1223,linearno_big,linearno,transolver,transolver3,hno,regdgcnn,transolver_pp,pointnet,geofno
+8,MAC,0.1219,linearno_big,transolver3,linearno,hno,transolver,regdgcnn,transolver_pp,pointnet,geofno
+9,Inference Time (s),0.0,transolver,linearno_big,geofno,pointnet,transolver_pp,linearno,hno,transolver3,regdgcnn
+10,Parameters (M),0.0,regdgcnn,geofno,transolver_pp,linearno,pointnet,transolver,hno,linearno_big,transolver3
+11,Training Time (s),0.0,pointnet,geofno,transolver,transolver_pp,linearno,linearno_big,hno,transolver3,regdgcnn

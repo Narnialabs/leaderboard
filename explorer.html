@@ -441,7 +441,7 @@ function copyEmail(el) {
 // Stable across page loads so the browser cache is actually used for the
 // hundreds of PNG/bin/JSON assets each session touches. Bump on deploy when
 // the underlying data regenerates (kept in sync across explorer/benchmark/analysis).
-const PAGE_CACHE_BUST = 'v20260617a';
+const PAGE_CACHE_BUST = 'v20261014a';
 
 // ── Sticky filter strip — narrows the gallery to a Task / Dim / Dataset
 // subset and sets the default Size used when opening a card.
@@ -622,10 +622,10 @@ const _STAT_DETAIL = {
   },
   '3d-pred': {
     color: '#38bdf8',
-    title: '20 × 3D Prediction models',
-    body: '10 field-prediction networks (point-cloud → per-point displacement / pressure / velocity; DrivAerML/DrivAerNet-surface entries are metrics-only) + 10 scalar-prediction networks (point-cloud → mass / natural frequency).',
+    title: '22 × 3D Prediction models',
+    body: '12 field-prediction networks (point-cloud → per-point displacement / pressure / velocity; DrivAerML/DrivAerNet-surface entries are metrics-only) + 10 scalar-prediction networks (point-cloud → mass / natural frequency).',
     groups: [
-      { label: 'Field', sub: 'point-cloud → per-point', chips: ['Transolver++', 'Transolver', 'GeoTransolver', 'GeoFLARE', 'DoMINO', 'LinearNO', 'LinearNO-Big', 'PointNet', 'RegDGCNN', 'GeoFNO'] },
+      { label: 'Field', sub: 'point-cloud → per-point', chips: ['Transolver++', 'Transolver', 'Transolver-3', 'HNO', 'GeoTransolver', 'GeoFLARE', 'DoMINO', 'LinearNO', 'LinearNO-Big', 'PointNet', 'RegDGCNN', 'GeoFNO'] },
       { label: 'Scalar', sub: 'point-cloud → 1 value', chips: ['PointNet', 'PointNet++', 'PointNet++ Lite', 'DGCNN', 'PCT', 'PCT-Small', 'Point Transformer', 'PT-Small', 'PointMLP', 'PointMLP-Elite'] },
     ],
   },
@@ -751,8 +751,13 @@ const EXPERIMENTS = {
     models: [
       { name: 'transolver_pp', sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
       { name: 'transolver',    sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
+      // transolver3 / hno / regdgcnn (v3) skip drivaerml_3d_2d_surface: they are ranked there, but
+      // their seed-42 runs on it were made in another clone, so no performance.json, residuals or
+      // viewer bins were published for that cell and the explorer would open onto an empty page.
+      { name: 'transolver3',   sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
+      { name: 'hno',           sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
       { name: 'pointnet',      sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
-      { name: 'regdgcnn',      sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
+      { name: 'regdgcnn',      sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
       { name: 'geofno',        sizes: [20, 50, 100, 200], datasets: ['deepjeb_3d_2d_vertical', 'deepjeb_3d_2d_horizontal', 'deepjeb_3d_2d_torsion', 'deepjeb_3d_2d_diagonal', 'deepjeb_3d_2d_modal', 'drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
       { name: 'linearno',      sizes: [20, 50, 100, 200], datasets: ['drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
       { name: 'linearno_big',  sizes: [20, 50, 100, 200], datasets: ['drivaernet_3d_2d_centerplane', 'drivaerml_3d_2d_surface', 'drivaerml_3d_3d_volume', 'drivaernet_3d_2d_surface'] },
@@ -1881,6 +1886,8 @@ function buildPerfSummary() {
   const models3dField = [
     { name: 'transolver_pp', label: 'Transolver++' },
     { name: 'transolver', label: 'Transolver' },
+    { name: 'transolver3', label: 'Transolver-3' },
+    { name: 'hno', label: 'HNO' },
     { name: 'geotransolver', label: 'GeoTransolver' },
     { name: 'geoflare', label: 'GeoFLARE' },
     { name: 'domino', label: 'DoMINO' },
