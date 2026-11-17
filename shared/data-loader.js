@@ -4,7 +4,7 @@
  */
 
 const DATA_BASE = 'output/data';
-const DATA_BUILD = '20261006-1';
+const DATA_BUILD = '20261116-1';
 
 /**
  * Display labels and metadata for target keys, keyed by dataset.
@@ -674,7 +674,6 @@ const MODEL_DISPLAY = {
   'hno':             { name: 'HNO',          type: 'Neural Operator (Hyperbolic)' },
   'geofno':          { name: 'GeoFNO',       type: 'Fourier Neural Operator' },
   'linearno':        { name: 'LinearNO',     type: 'Neural Operator (Linear Attn)' },
-  'linearno_big':    { name: 'LinearNO-Big', type: 'Neural Operator (Linear Attn)' },
   'geotransolver':   { name: 'GeoTransolver', type: 'Transformer (Geo)' },
   'geoflare':        { name: 'GeoFLARE',     type: 'Transformer (Geo)' },
   'domino':          { name: 'DoMINO',       type: 'Neural Operator' },

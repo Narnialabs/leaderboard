@@ -1,12 +1,12 @@
-﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7,Rank 8,Rank 9,Rank 10,Rank 11,Rank 12
-1,Parameters (M),0.127,regdgcnn,geofno,transolver_pp,linearno,pointnet,transolver,hno,linearno_big,transolver3,domino,geoflare,geotransolver
-2,Training Time (s),0.1092,linearno,linearno_big,geofno,regdgcnn,transolver_pp,transolver,pointnet,hno,transolver3,geoflare,geotransolver,domino
-3,Inference Time (s),0.1039,geotransolver,geoflare,geofno,pointnet,transolver_pp,linearno_big,linearno,transolver,hno,transolver3,regdgcnn,domino
-4,Extremal Agree,0.0885,geoflare,geotransolver,hno,transolver,transolver_pp,domino,regdgcnn,transolver3,linearno,linearno_big,geofno,pointnet
-5,Rel-L2,0.0885,geoflare,geotransolver,hno,transolver,transolver_pp,regdgcnn,transolver3,domino,linearno,linearno_big,geofno,pointnet
-6,RMSE,0.0885,geoflare,geotransolver,linearno,linearno_big,domino,hno,transolver,transolver_pp,transolver3,regdgcnn,geofno,pointnet
-7,R²,0.0885,geoflare,geotransolver,hno,transolver,regdgcnn,transolver_pp,domino,transolver3,linearno,linearno_big,geofno,pointnet
-8,Sign Agree,0.0871,geoflare,geotransolver,hno,transolver,transolver_pp,regdgcnn,domino,transolver3,linearno,linearno_big,geofno,pointnet
-9,MAE,0.0866,geoflare,geotransolver,domino,linearno,linearno_big,hno,transolver3,transolver_pp,transolver,regdgcnn,geofno,pointnet
-10,MAPE (%),0.0865,geoflare,geotransolver,hno,transolver,transolver_pp,domino,regdgcnn,transolver3,linearno,linearno_big,geofno,pointnet
-11,MAC,0.0457,geoflare,geotransolver,hno,regdgcnn,transolver,transolver_pp,transolver3,geofno,linearno,linearno_big,domino,pointnet
+﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7,Rank 8,Rank 9,Rank 10,Rank 11
+1,Inference Time (s),0.1719,pointnet,linearno,hno,regdgcnn,transolver,transolver3,transolver_pp,geotransolver,geoflare,domino,geofno
+2,Training Time (s),0.128,geofno,pointnet,regdgcnn,hno,linearno,transolver,transolver_pp,transolver3,geotransolver,geoflare,domino
+3,Parameters (M),0.0866,pointnet,regdgcnn,geofno,transolver_pp,linearno,transolver,hno,transolver3,domino,geoflare,geotransolver
+4,R²,0.0815,geoflare,geotransolver,hno,transolver,linearno,transolver_pp,transolver3,regdgcnn,domino,pointnet,geofno
+5,Rel-L2,0.0815,geoflare,geotransolver,hno,transolver,linearno,transolver_pp,transolver3,regdgcnn,geofno,domino,pointnet
+6,RMSE,0.0815,geoflare,geotransolver,geofno,domino,hno,transolver,transolver3,transolver_pp,linearno,regdgcnn,pointnet
+7,Sign Agree,0.0796,hno,geoflare,geotransolver,transolver,transolver_pp,linearno,transolver3,regdgcnn,domino,pointnet,geofno
+8,Extremal Agree,0.0796,geoflare,geotransolver,hno,transolver,linearno,transolver_pp,transolver3,domino,regdgcnn,geofno,pointnet
+9,MAPE (%),0.0781,geoflare,geotransolver,hno,transolver,linearno,transolver_pp,transolver3,domino,geofno,regdgcnn,pointnet
+10,MAE,0.0768,geoflare,geotransolver,geofno,domino,hno,transolver3,transolver,transolver_pp,linearno,regdgcnn,pointnet
+11,MAC,0.0562,hno,geoflare,transolver,geotransolver,transolver_pp,linearno,geofno,transolver3,regdgcnn,pointnet,domino

@@ -1,12 +1,12 @@
 ﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7
-1,Sign Agree,0.1386,hno,regdgcnn,transolver3,transolver,transolver_pp,geofno,pointnet
-2,Extremal Agree,0.1269,hno,transolver,transolver3,transolver_pp,regdgcnn,geofno,pointnet
-3,RMSE,0.123,transolver3,hno,transolver,regdgcnn,transolver_pp,geofno,pointnet
-4,Rel-L2,0.123,transolver3,hno,transolver,regdgcnn,transolver_pp,geofno,pointnet
-5,R²,0.123,transolver3,hno,transolver,regdgcnn,transolver_pp,geofno,pointnet
-6,MAC,0.1221,hno,transolver3,transolver,transolver_pp,regdgcnn,geofno,pointnet
-7,MAPE (%),0.1221,hno,transolver3,transolver,transolver_pp,regdgcnn,geofno,pointnet
-8,MAE,0.1213,hno,transolver,transolver3,regdgcnn,transolver_pp,geofno,pointnet
-9,Inference Time (s),0.0,geofno,transolver_pp,transolver,pointnet,hno,transolver3,regdgcnn
-10,Parameters (M),0.0,regdgcnn,geofno,transolver_pp,pointnet,transolver,hno,transolver3
-11,Training Time (s),0.0,geofno,transolver_pp,regdgcnn,pointnet,transolver,hno,transolver3
+1,MAPE (%),0.1378,transolver3,hno,transolver_pp,linearno,transolver,regdgcnn,pointnet
+2,Sign Agree,0.129,transolver3,hno,regdgcnn,transolver_pp,linearno,transolver,pointnet
+3,R²,0.1257,hno,regdgcnn,transolver,transolver3,transolver_pp,linearno,pointnet
+4,Extremal Agree,0.1257,transolver3,hno,transolver,linearno,transolver_pp,regdgcnn,pointnet
+5,Rel-L2,0.1257,hno,regdgcnn,transolver,transolver3,transolver_pp,linearno,pointnet
+6,RMSE,0.1257,hno,regdgcnn,transolver,transolver3,transolver_pp,linearno,pointnet
+7,MAC,0.1198,hno,transolver3,transolver,linearno,transolver_pp,regdgcnn,pointnet
+8,MAE,0.1105,hno,transolver3,transolver,transolver_pp,regdgcnn,linearno,pointnet
+9,Inference Time (s),0.0,linearno,transolver,transolver_pp,hno,pointnet,regdgcnn,transolver3
+10,Parameters (M),0.0,pointnet,regdgcnn,transolver_pp,linearno,transolver,hno,transolver3
+11,Training Time (s),0.0,pointnet,regdgcnn,hno,transolver_pp,linearno,transolver,transolver3

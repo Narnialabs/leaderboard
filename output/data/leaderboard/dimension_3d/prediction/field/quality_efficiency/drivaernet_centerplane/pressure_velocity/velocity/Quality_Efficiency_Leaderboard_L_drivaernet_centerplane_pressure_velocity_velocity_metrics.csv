@@ -1,12 +1,12 @@
-﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7,Rank 8,Rank 9
-1,Inference Time (s),0.1951,transolver,linearno_big,geofno,pointnet,transolver_pp,linearno,hno,transolver3,regdgcnn
-2,Training Time (s),0.1029,pointnet,geofno,transolver,transolver_pp,linearno,linearno_big,hno,transolver3,regdgcnn
-3,Parameters (M),0.096,regdgcnn,geofno,transolver_pp,linearno,pointnet,transolver,hno,linearno_big,transolver3
-4,MAPE (%),0.0889,transolver,linearno_big,transolver_pp,transolver3,linearno,hno,regdgcnn,pointnet,geofno
-5,Sign Agree,0.0856,linearno_big,linearno,transolver,regdgcnn,hno,transolver3,transolver_pp,pointnet,geofno
-6,Extremal Agree,0.0751,linearno_big,transolver,linearno,transolver3,hno,transolver_pp,regdgcnn,pointnet,geofno
-7,MAC,0.0728,linearno_big,transolver3,linearno,hno,transolver,regdgcnn,transolver_pp,pointnet,geofno
-8,MAE,0.0723,linearno_big,linearno,transolver,transolver3,hno,transolver_pp,regdgcnn,pointnet,geofno
-9,RMSE,0.0705,linearno_big,transolver3,linearno,hno,transolver,regdgcnn,transolver_pp,pointnet,geofno
-10,R²,0.0705,linearno_big,linearno,hno,transolver3,transolver,transolver_pp,regdgcnn,pointnet,geofno
-11,Rel-L2,0.0705,linearno_big,linearno,hno,transolver3,transolver,transolver_pp,regdgcnn,pointnet,geofno
+﻿Rank,Metric,Weight,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5,Rank 6,Rank 7,Rank 8
+1,Training Time (s),0.2304,geofno,linearno,hno,regdgcnn,transolver3,transolver_pp,transolver,pointnet
+2,Inference Time (s),0.1076,linearno,pointnet,regdgcnn,hno,geofno,transolver,transolver_pp,transolver3
+3,Parameters (M),0.0863,pointnet,regdgcnn,geofno,transolver_pp,linearno,transolver,hno,transolver3
+4,Sign Agree,0.0846,transolver,regdgcnn,hno,transolver_pp,transolver3,linearno,pointnet,geofno
+5,MAPE (%),0.0774,transolver,hno,transolver_pp,regdgcnn,linearno,transolver3,pointnet,geofno
+6,Extremal Agree,0.0732,transolver_pp,transolver,hno,transolver3,linearno,regdgcnn,geofno,pointnet
+7,MAC,0.0702,transolver_pp,hno,transolver,transolver3,linearno,regdgcnn,geofno,pointnet
+8,MAE,0.0686,transolver_pp,hno,transolver,transolver3,linearno,regdgcnn,geofno,pointnet
+9,RMSE,0.0672,transolver_pp,hno,transolver,linearno,transolver3,regdgcnn,geofno,pointnet
+10,R²,0.0672,transolver,hno,transolver_pp,transolver3,linearno,regdgcnn,pointnet,geofno
+11,Rel-L2,0.0672,transolver,hno,transolver_pp,transolver3,linearno,regdgcnn,geofno,pointnet
